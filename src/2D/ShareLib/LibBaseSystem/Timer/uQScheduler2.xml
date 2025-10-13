@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uQScheduler2">
+  <class name="TTaskItem">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <field name="FTickToLaunch" type="Cardinal" visibility="protected" />
+      <field name="Delay" type="Cardinal" visibility="public" />
+      <field name="IntData" type="Integer" visibility="public" />
+      <field name="StrTaskType" type="string" visibility="public" />
+      <field name="StrTaskParam" type="string" visibility="public" />
+    </members>
+  </class>
+  <class name="TQueueScheduler">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <field name="FCounterTick" type="Cardinal" visibility="protected" />
+      <field name="FTaskQueue" type="TThreadList" visibility="protected" />
+      <field name="FEmptyList" type="Boolean" visibility="protected" />
+      <field name="FCurrentTask" type="TTaskItem" visibility="protected" />
+      <field name="FOnSchedule" type="TNotifyEvent" visibility="protected" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="AddTask" visibility="public">
+        <parameters>
+          <parameter name="aTask" type="TTaskItem" paramflags="var" />
+        </parameters>
+      </procedure>
+      <procedure name="ClearAllTask" visibility="public">
+      </procedure>
+      <procedure name="Run" visibility="public">
+        <parameters>
+          <parameter name="aMsIncrease" type="Cardinal" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="ResetCounter" visibility="public">
+        <parameters>
+          <parameter name="aCounter" type="Cardinal" paramflags="const">
+            <value>
+              $0
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <event name="OnSchedule" visibility="public" read="FOnSchedule" write="FOnSchedule" type="TNotifyEvent" />
+      <property name="CounterTick" visibility="public" read="FCounterTick" type="Cardinal" />
+    </members>
+  </class>
+</namespace>

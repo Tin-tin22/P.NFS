@@ -1,0 +1,16 @@
+unit ulibSettings;
+
+interface
+
+type
+  TSymbolSetting = record
+    ImgPath: string;
+    DefaultSymbol: string;
+    MissileSeekerVisible : Boolean;
+  end;
+
+  function LoadFF_PathImageSetting(const fName: string; var imgSet: TSymbolSetting): boolean;
+
+implementation
+
+end.

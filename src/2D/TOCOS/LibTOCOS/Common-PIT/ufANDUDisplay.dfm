@@ -1,0 +1,255 @@
+object frmANDUDisplay: TfrmANDUDisplay
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Alpha Numerik Display'
+  ClientHeight = 394
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesigned
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 4
+    Top = 4
+    Width = 629
+    Height = 385
+    BevelOuter = bvLowered
+    Color = clGray
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -15
+    Font.Name = 'ANDU Console'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+    object AnduTDC15: TEdit
+      Left = 13
+      Top = 324
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 0
+    end
+    object AnduTDC13: TEdit
+      Left = 13
+      Top = 280
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 1
+    end
+    object AnduTDC14: TEdit
+      Left = 13
+      Top = 302
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 2
+    end
+    object AnduTDC09: TEdit
+      Left = 13
+      Top = 192
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 3
+    end
+    object AnduTDC10: TEdit
+      Left = 13
+      Top = 214
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 4
+    end
+    object AnduTDC11: TEdit
+      Left = 13
+      Top = 236
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 5
+    end
+    object AnduTDC12: TEdit
+      Left = 13
+      Top = 258
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 6
+    end
+    object AnduTDC02: TEdit
+      Left = 13
+      Top = 38
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -15
+      Font.Name = 'Lucida Console'
+      Font.Style = []
+      MaxLength = 64
+      ParentCtl3D = False
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 7
+    end
+    object AnduTDC03: TEdit
+      Left = 13
+      Top = 60
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 8
+    end
+    object AnduTDC04: TEdit
+      Left = 13
+      Top = 82
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 9
+    end
+    object AnduTDC05: TEdit
+      Left = 13
+      Top = 104
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 10
+    end
+    object AnduTDC06: TEdit
+      Left = 13
+      Top = 126
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 11
+    end
+    object AnduTDC07: TEdit
+      Left = 13
+      Top = 148
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 12
+    end
+    object AnduTDC08: TEdit
+      Left = 13
+      Top = 170
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      MaxLength = 64
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 13
+    end
+    object AnduTDC16: TEdit
+      Left = 13
+      Top = 346
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      HideSelection = False
+      MaxLength = 64
+      TabOrder = 14
+      OnKeyPress = AnduTDC16KeyPress
+    end
+    object AnduTDC01: TEdit
+      Left = 13
+      Top = 16
+      Width = 600
+      Height = 20
+      BorderStyle = bsNone
+      Color = clGray
+      Ctl3D = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -15
+      Font.Name = 'Lucida Console'
+      Font.Style = []
+      MaxLength = 64
+      ParentCtl3D = False
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 15
+    end
+  end
+end

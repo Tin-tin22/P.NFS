@@ -1,0 +1,1 @@
+SPS115.exe -192.168.1.122 -2120 -192.168.1.122 -mysql -dbNSuFs_Armabar -root -admin -29 -1

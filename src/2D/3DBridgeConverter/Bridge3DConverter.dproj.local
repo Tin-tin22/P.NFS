@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899/12/30 00:00:00.000.778,=D:\MyProject\NFS-e2540p\src\2D\3DBridgeConverter\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.409,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibBaseSystem\uBaseDataType.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.520,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\Grijjy\Grijjy.DateUtils.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.897,D:\MyProject\NFS-e2540p\src\2D\3DBridgeConverter\Unit1.pas=D:\MyProject\NFS-e2540p\src\2D\3DBridgeConverter\Data\uData3DConverter.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.737,D:\MyProject\NFS-e2540p\src\2D\3DBridgeConverter\Unit1.pas=D:\MyProject\NFS-e2540p\src\2D\3DBridgeConverter\uManagerBridge.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.165,=D:\MyProject\NFS-e2540p\src\2D\3DBridgeConverter\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.961,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\NetLinkComp\UPacketProtocol.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.944,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\NetLinkComp\uHelper.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.920,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\NetLinkComp\uDataType.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.427,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\Grijjy\Grijjy.Bson.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.503,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\Grijjy\Grijjy.Collections.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.052,C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit1.dfm=D:\MyProject\NFS-e2540p\src\2D\3DBridgeConverter\uFrmMain3DBridgeConverter.dfm</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.463,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\Grijjy\Grijjy.Bson.Serialization.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.554,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\Grijjy\Grijjy.SysUtils.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.220,C:\Users\user\Documents\Embarcadero\Studio\Projects\Project1.dproj=D:\MyProject\NFS-e2540p\src\2D\3DBridgeConverter\Bridge3DConverter.dproj</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.887,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\NetLinkComp\uBuffer.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.331,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\Grijjy\Grijjy.BinaryCoding.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.383,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\Grijjy\Grijjy.Bson.IO.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.052,C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit1.pas=D:\MyProject\NFS-e2540p\src\2D\3DBridgeConverter\uFrmMain3DBridgeConverter.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.509,=C:\Users\user\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.905,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\NetLinkComp\uDataManager.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.113,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\NetLinkComp\uThreadSafeQueue.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.846,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetworks\uTCPDatatype.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.378,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibSetting\uCodecBase64.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.323,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetsJSON\NetLinkComp\uNetLinkServer.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.487,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibSetting\uBridgeSet.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.120,=D:\MyProject\NFS-e2540p\src\2D\ShareLib\LibNetworks\uTCPServer.pas</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="..\..\2D"/>
+    <File Path="..\ShareLib"/>
+    <File Path="..\ShareLib\LibBaseSystem"/>
+    <File Path="..\ShareLib\LibBaseSystem\uBaseDataType.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON"/>
+    <File Path="..\ShareLib\LibNetsJSON\Grijjy"/>
+    <File Path="..\ShareLib\LibNetsJSON\Grijjy\Grijjy.BinaryCoding.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\Grijjy\Grijjy.Bson.IO.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\Grijjy\Grijjy.Bson.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\Grijjy\Grijjy.Bson.Serialization.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\Grijjy\Grijjy.Collections.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\Grijjy\Grijjy.DateUtils.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\Grijjy\Grijjy.SysUtils.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\NetLinkComp"/>
+    <File Path="..\ShareLib\LibNetsJSON\NetLinkComp\uBuffer.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\NetLinkComp\uDataManager.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\NetLinkComp\uDataType.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\NetLinkComp\uHelper.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\NetLinkComp\uNetLinkServer.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\NetLinkComp\UPacketProtocol.pas"/>
+    <File Path="..\ShareLib\LibNetsJSON\NetLinkComp\uThreadSafeQueue.pas"/>
+    <File Path="..\ShareLib\LibNetworks"/>
+    <File Path="..\ShareLib\LibNetworks\uTCPDatatype.pas"/>
+    <File Path="..\ShareLib\LibNetworks\uTCPServer.pas"/>
+    <File Path="..\ShareLib\LibSetting"/>
+    <File Path="..\ShareLib\LibSetting\uBridgeSet.pas"/>
+    <File Path="..\ShareLib\LibSetting\uCodecBase64.pas"/>
+    <File Path="Data"/>
+    <File Path="Data\uData3DConverter.pas"/>
+    <File Path="uFrmMain3DBridgeConverter.pas"/>
+    <File Path="uFrmMain3DBridgeConverter.dfm"/>
+    <File Path="uManagerBridge.pas"/>
+  </ProjectSortOrder>
+</BorlandProject>

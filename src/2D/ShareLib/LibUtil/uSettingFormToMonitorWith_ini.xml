@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uSettingFormToMonitorWith_ini">
+  <const name="c_idx" type="string">
+    <value>
+      IDX
+    </value>
+  </const>
+  <const name="c_Align" type="string">
+    <value>
+      ALIGN
+    </value>
+  </const>
+  <const name="c_OffX" type="string">
+    <value>
+      OFFX
+    </value>
+  </const>
+  <const name="c_OffY" type="string">
+    <value>
+      OFFY
+    </value>
+  </const>
+  <const name="T_Def" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <procedure name="Getsettingform" visibility="public">
+    <parameters>
+      <parameter name="pth" type="string" paramflags="const" />
+      <parameter name="cform" type="string" paramflags="const" />
+      <parameter name="Idx" type="Integer" paramflags="var" />
+      <parameter name="Align" type="Integer" paramflags="var" />
+      <parameter name="OffX" type="Integer" paramflags="var" />
+      <parameter name="OffY" type="Integer" paramflags="var" />
+    </parameters>
+  </procedure>
+  <function name="LoadSet_LayOut" visibility="public">
+    <parameters>
+      <parameter name="pth" type="string" paramflags="const" />
+      <parameter name="iniSect" type="string" paramflags="const" />
+      <parameter name="iniVal" type="string" paramflags="const" />
+      <parameter name="iniDeflt" type="Integer" paramflags="const" />
+      <retval type="Integer" />
+    </parameters>
+  </function>
+  <function name="PrepareInif" visibility="public">
+    <parameters>
+      <parameter name="iPath" type="string" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="ForceReadInt" visibility="public">
+    <parameters>
+      <parameter name="ini" type="TIniFile" paramflags="var" />
+      <parameter name="sSect" type="string" paramflags="const" />
+      <parameter name="sKey" type="string" paramflags="const" />
+      <parameter name="iDefault" type="Integer" />
+      <retval type="Integer" />
+    </parameters>
+  </function>
+</namespace>

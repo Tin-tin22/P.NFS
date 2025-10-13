@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uCodecBase64">
+  <function name="Base64Encode" visibility="public">
+    <parameters>
+      <parameter name="Input" type="string" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="Base64Decode" visibility="public">
+    <parameters>
+      <parameter name="Input" type="string" />
+      <retval type="string" />
+    </parameters>
+  </function>
+</namespace>

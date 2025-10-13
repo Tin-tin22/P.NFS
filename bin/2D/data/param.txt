@@ -1,0 +1,1 @@
+-192.168.1.141 -2120 -192.168.1.141 -mysql -dbNSuFs -usrNSUFS -admin -6 -1

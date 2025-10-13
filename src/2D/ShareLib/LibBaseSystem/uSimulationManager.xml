@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uSimulationManager">
+  <const name="playStatusStop" type="TPlayingStatus">
+    <value>
+      playStatusStop
+    </value>
+  </const>
+  <const name="playStatusRun" type="TPlayingStatus">
+    <value>
+      playStatusRun
+    </value>
+  </const>
+  <const name="playStatusPause" type="TPlayingStatus">
+    <value>
+      playStatusPause
+    </value>
+  </const>
+  <const name="pmStandAlone" type="TPlayMode">
+    <value>
+      pmStandAlone
+    </value>
+  </const>
+  <const name="pmModeClient" type="TPlayMode">
+    <value>
+      pmModeClient
+    </value>
+  </const>
+  <const name="gpmScenario" type="TGamePlayType">
+    <value>
+      gpmScenario
+    </value>
+  </const>
+  <const name="gpmScenAndRecord" type="TGamePlayType">
+    <value>
+      gpmScenAndRecord
+    </value>
+  </const>
+  <const name="gpmReplay" type="TGamePlayType">
+    <value>
+      gpmReplay
+    </value>
+  </const>
+  <enum name="TPlayingStatus">
+    <element name="playStatusStop" />
+    <element name="playStatusRun" />
+    <element name="playStatusPause" />
+  </enum>
+  <enum name="TPlayMode">
+    <element name="pmStandAlone" />
+    <element name="pmModeClient" />
+  </enum>
+  <enum name="TGamePlayType">
+    <element name="gpmScenario" />
+    <element name="gpmScenAndRecord" />
+    <element name="gpmReplay" />
+  </enum>
+  <class name="TSimulationManager">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <function name="IsRunning" visibility="private">
+        <parameters>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="setRunStatus" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <field name="FSpeedMultiplier" type="Word" visibility="protected" />
+      <field name="FGameDelayInterval" type="Word" visibility="protected" />
+      <field name="FRunQIL" type="tInterleave" visibility="protected" />
+      <field name="FRepaintIL" type="tInterleave" visibility="protected" />
+      <field name="FFormUpdateIL" type="tInterleave" visibility="protected" />
+      <field name="FOnFormNeedUpdate" type="TNotifyEvent" visibility="protected" />
+      <field name="FPlayStatus" type="TPlayingStatus" visibility="protected" />
+      <field name="FLyrDraw" type="CMapXLayer" visibility="protected" />
+      <field name="FUniqueIdFactory" type="Integer" visibility="protected" />
+      <field name="rr" type="CMapXRectangle" visibility="protected" />
+      <procedure name="UpdateMember" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="MoveMember" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="aDt" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="DrawMember" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="ShowMemberData" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="CleanUpMember" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="EventOnMainTimer" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="dt" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <field name="FMap" type="TMap" visibility="public" />
+      <field name="Data_dir" type="string" visibility="public" />
+      <field name="MainThread" type="TMSTimer" visibility="public" />
+      <field name="MainGameTimer" type="TVirtualTime" visibility="public" />
+      <field name="MainObjList" type="TObjectContainer" visibility="public" />
+      <field name="MainViewList" type="TViewContainer" visibility="public" />
+      <field name="NetComm" type="TTCPClient" visibility="public" />
+      <field name="TCPClient" type="TTCPClient" visibility="public" />
+      <field name="LogMemo" type="TStrings" visibility="public" />
+      <field name="ServerIp" type="string" visibility="public" />
+      <field name="ServerPort" type="string" visibility="public" />
+      <field name="GamePlayMode" type="TPlayMode" visibility="public" />
+      <field name="ShouldConnect" type="Boolean" visibility="public" />
+      <field name="tmpNewObj" type="TSimulationClass" visibility="public" />
+      <field name="tmpNewView" type="TSimulationView" visibility="public" />
+      <field name="tmpActiveClickMap" type="Integer" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="InitializeSimulation" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="FinalizeSimulation" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="DrawAllOnMapXCanvas" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <procedure name="LoadScenario" visibility="public" procflags="abstract virtual">
+      </procedure>
+      <procedure name="UnLoadScenario" visibility="public" procflags="abstract virtual">
+      </procedure>
+      <function name="LoadScenarioFromIniFile" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="fIni" type="string" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <procedure name="StartSimulation" visibility="public">
+      </procedure>
+      <procedure name="EndSimulation" visibility="public">
+      </procedure>
+      <procedure name="PauseSimulation" visibility="public">
+      </procedure>
+      <procedure name="ResumeSimulation" visibility="public">
+      </procedure>
+      <procedure name="LoadGeoset" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="aGst" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="Get3DMapHeight" visibility="public">
+        <parameters>
+          <parameter name="xLong" type="Double" paramflags="const" />
+          <parameter name="yLatt" type="Double" paramflags="const" />
+          <parameter name="aValue" type="Double" paramflags="var" />
+          <parameter name="aType" type="string" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="SetMapVisible" visibility="public">
+        <parameters>
+          <parameter name="v" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GenerateUniqueID" visibility="public">
+        <parameters>
+          <retval type="string" />
+        </parameters>
+      </function>
+      <procedure name="AddToMemoLog" visibility="public">
+        <parameters>
+          <parameter name="str" type="string" paramflags="const" />
+          <parameter name="space" type="Byte" paramflags="const">
+            <value>
+              $2
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="Net_Connect" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="Net_DisConnect" visibility="public">
+      </procedure>
+      <property name="SpeedMultiplier" visibility="public" read="FSpeedMultiplier" write="FSpeedMultiplier" type="Word" />
+      <event name="OnFormNeedUpdate" visibility="public" read="FOnFormNeedUpdate" write="FOnFormNeedUpdate" type="TNotifyEvent" />
+      <property name="Running" visibility="public" read="IsRunning" write="setRunStatus" type="Boolean" />
+    </members>
+  </class>
+  <variable name="SimCenter" type="TSimulationManager" />
+</namespace>

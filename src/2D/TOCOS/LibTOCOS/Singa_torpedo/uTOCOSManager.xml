@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uTOCOSManager">
+  <class name="TTOCOSMan">
+    <ancestor name="TTDCManager" namespace="uTDCmanager">
+      <methodref name="GetRepaintCycle" visibility="private" />
+      <methodref name="SetRepaintCycle" visibility="private" />
+      <methodref name="EventOnMainTimer" visibility="public" />
+      <methodref name="Handle_init_datum" visibility="protected" />
+      <methodref name="Handle_FOC_plus" visibility="protected" />
+      <methodref name="Handle_FOC_minus" visibility="protected" />
+      <methodref name="Handle_Change_Ident" visibility="protected" />
+      <methodref name="Handle_select_radar_type" visibility="protected" />
+      <methodref name="Handle_start_ICM" visibility="protected" />
+      <methodref name="Handle_update_ICM" visibility="protected" />
+      <methodref name="Handle_end_ICM" visibility="protected" />
+      <methodref name="Handle_assign_tor" visibility="protected" />
+      <methodref name="Handle_deassign_tor" visibility="protected" />
+      <methodref name="Handle_assign_torpedoSUT" visibility="protected" />
+      <methodref name="Handle_deassign_torpedoSUT" visibility="protected" />
+      <methodref name="Handle_assign_asrl" visibility="protected" />
+      <methodref name="Handle_deassign_asrl" visibility="protected" />
+      <methodref name="Handle_WIPE" visibility="protected" />
+      <methodref name="Handle_init_ram" visibility="protected" />
+      <methodref name="Handle_init_auto" visibility="protected" />
+      <methodref name="Handle_init_dr" visibility="protected" />
+      <methodref name="Handle_assign_ram" visibility="protected" />
+      <methodref name="Handle_assign_FC" visibility="protected" />
+      <methodref name="Handle_deassign_FC" visibility="protected" />
+      <methodref name="Handle_assign_SSM" visibility="protected" />
+      <methodref name="Handle_deassign_SSM" visibility="protected" />
+      <methodref name="Handle_init_esm_fix" visibility="protected" />
+      <methodref name="Handle_Synch_timebase" visibility="protected" />
+      <methodref name="SendSynchTimeBase" visibility="protected" />
+      <methodref name="Handle_CorrectRam" visibility="protected" />
+      <methodref name="Handle_UpdateTrackPosition" visibility="protected" />
+      <methodref name="Handle_assign_gun_WCC" visibility="protected" />
+      <methodref name="Handle_deassign_gun_WCC" visibility="protected" />
+      <methodref name="Handle_assign_FC_OCC" visibility="protected" />
+      <methodref name="Handle_Fire_Torpedo_SUT" visibility="protected" />
+      <methodref name="EventOnReceiveDataPosition" visibility="protected" />
+      <methodref name="Event_OrderRecognizer" visibility="protected" />
+      <methodref name="Event_AssignHandler" visibility="protected" />
+      <methodref name="EventOnReceiveTechnicalStatus" visibility="protected">
+        <devnotes>
+           <summary>
+           Receive from server to update technical display status
+           </summary>
+           <param name="apRec"></param>
+           <param name="aSize"></param>
+        </devnotes>
+      </methodref>
+      <methodref name="EventonRecMissilePosAvailable" visibility="protected" />
+      <methodref name="Event_RecDBOrderAvailable" visibility="protected" />
+      <methodref name="Event_OnRecv_TorpDetecTarget" visibility="protected" />
+      <methodref name="CreateShipForms" visibility="public" />
+      <methodref name="CreateMinimalForms" visibility="protected" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="InitializeSimulation" visibility="public" />
+      <methodref name="FinalizeSimulation" visibility="public" />
+      <methodref name="LoadScenarioFromIniFile" visibility="public" />
+      <methodref name="LoadObjectSetting" visibility="public">
+        <devnotes>
+          LoadGrid(readStr);
+        </devnotes>
+      </methodref>
+      <methodref name="LoadTarget" visibility="public" />
+      <methodref name="LoadScenario" visibility="public" />
+      <methodref name="UnLoadScenario" visibility="public" />
+      <methodref name="UpdateMember" visibility="public">
+        <devnotes>
+          LoadGrid('');
+        </devnotes>
+      </methodref>
+      <methodref name="DrawMember" visibility="public" />
+      <methodref name="DrawAllOnMapXCanvas" visibility="public" />
+      <methodref name="CleanUpMember" visibility="public" />
+      <methodref name="GetUniqueId" visibility="public" />
+      <methodref name="AddToMemoLog" visibility="public" />
+      <methodref name="TurnOnOffRadar" visibility="public" />
+      <propertyref name="RepaintCycle" visibility="published" />
+      <ancestor name="TSimulationManager" namespace="uSimulationManager">
+        <methodref name="IsRunning" visibility="private" />
+        <methodref name="setRunStatus" visibility="private" />
+        <methodref name="UpdateMember" visibility="public" />
+        <methodref name="MoveMember" visibility="public" />
+        <methodref name="DrawMember" visibility="public" />
+        <methodref name="ShowMemberData" visibility="public" />
+        <methodref name="CleanUpMember" visibility="public" />
+        <methodref name="EventOnMainTimer" visibility="public" />
+        <methodref name="Create" visibility="public" />
+        <methodref name="Destroy" visibility="public" />
+        <methodref name="InitializeSimulation" visibility="public" />
+        <methodref name="FinalizeSimulation" visibility="public" />
+        <methodref name="DrawAllOnMapXCanvas" visibility="public" />
+        <methodref name="LoadScenario" visibility="public" />
+        <methodref name="UnLoadScenario" visibility="public" />
+        <methodref name="LoadScenarioFromIniFile" visibility="public" />
+        <methodref name="StartSimulation" visibility="public" />
+        <methodref name="EndSimulation" visibility="public" />
+        <methodref name="PauseSimulation" visibility="public" />
+        <methodref name="ResumeSimulation" visibility="public" />
+        <methodref name="LoadGeoset" visibility="public" />
+        <methodref name="Get3DMapHeight" visibility="public" />
+        <methodref name="SetMapVisible" visibility="public" />
+        <methodref name="GenerateUniqueID" visibility="public" />
+        <methodref name="AddToMemoLog" visibility="public" />
+        <methodref name="Net_Connect" visibility="public" />
+        <methodref name="Net_DisConnect" visibility="public" />
+        <propertyref name="SpeedMultiplier" visibility="public" />
+        <eventref name="OnFormNeedUpdate" visibility="public" />
+        <propertyref name="Running" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <procedure name="CreateShipForms" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aShipClassID" type="Integer" paramflags="const" />
+          <parameter name="aTDCNumber" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <variable name="TOCOSSimCenter" type="TTOCOSMan" />
+  <procedure name="BeginSimulation" visibility="public">
+  </procedure>
+  <procedure name="EndSimulation" visibility="public">
+  </procedure>
+</namespace>

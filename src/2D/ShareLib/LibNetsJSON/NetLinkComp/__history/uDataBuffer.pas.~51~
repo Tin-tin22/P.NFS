@@ -1,0 +1,123 @@
+unit uDataBuffer;
+
+interface
+
+uses
+  System.Classes,
+  System.SysUtils,
+
+  uTCPDatatype,
+  uPacketRegister,
+  UThreadSafeQueue,
+  UHelper;
+
+type
+  TDataBuffer = class
+  private
+    pLocBuff: PAnsiChar;
+    FQueue: TThreadSafeQueue;
+    FRegProcs: TRegisterPacket;
+    FLogRecv: TGetStrProc;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure Clear;
+
+    // procedure PutPacket(aP: PAnsiChar; const aSize: integer;
+    // const ipSender: string);
+    //
+    procedure PutPacket(aData: TBytes);
+
+    procedure PacketRecognizer(aData: TBytes);
+
+    // function GetPacket(): Boolean;
+    function GetPacket(): Boolean;
+
+    property RegProcs: TRegisterPacket read FRegProcs write FRegProcs;
+    property LogRecv: TGetStrProc read FLogRecv write FLogRecv;
+  end;
+
+implementation
+
+// uses
+// Windows;
+
+{ TDataBuffer }
+
+constructor TDataBuffer.Create;
+begin
+  FQueue := TThreadSafeQueue.Create;
+end;
+
+destructor TDataBuffer.Destroy;
+begin
+  FQueue.DisposeOf;
+  inherited;
+end;
+
+procedure TDataBuffer.Clear;
+begin
+  FQueue.Clear
+end;
+
+function TDataBuffer.GetPacket(): Boolean;
+var
+  Data: TBytes;
+begin
+  Result:= False;
+  if FQueue.IsEmpty then
+    Exit;
+
+  if Assigned(FLogRecv) then
+    FLogRecv(TimeStr + ' : Queue Size = ' + IntToStr(FQueue.Count));
+
+  Data:= FQueue.Dequeue;
+  if Data<>nil then
+  begin
+    if Assigned(FLogRecv) then
+    FLogRecv(TimeStr + ' : Queue Size = ' + IntToStr(FQueue.Count));
+    PacketRecognizer(Data);
+    Result:= True;
+  end;
+end;
+
+procedure TDataBuffer.PacketRecognizer(AData: TBytes);
+var
+  Header: TPacketHeader;
+  Content: TBytes;
+begin
+
+  TComposer.DecomposePacket(AData, Header, Content);
+  if FRegProcs.IsHandled(Header.PacketID) then
+  begin
+    if Assigned(FLogRecv) then
+      FLogRecv(TimeStr + ' : Data ' + FRegProcs[Header.PacketID].recName);
+    FRegProcs[Header.PacketID].theProc(Content);
+  end
+  else
+  begin
+    if Assigned(FLogRecv) then
+      FLogRecv(TimeStr + ' : ' + 'UnRegistered ID ' + IntToStr(Header.PacketID));
+  end;
+end;
+
+procedure TDataBuffer.PutPacket(aData: TBytes);
+begin
+  if Length(AData)<=0 then
+    Exit;
+
+  if Assigned(FLogRecv) then
+      FLogRecv(TimeStr + ' : Queue Size = ' + IntToStr(FQueue.Count));
+
+  FQueue.Enqueue(aData);
+
+  if FQueue.Count > 0 then
+  begin
+    if Assigned(FLogRecv) then
+      FLogRecv(TimeStr + ' : Queue Size = ' + IntToStr(FQueue.Count));
+  end;
+
+end;
+
+end.

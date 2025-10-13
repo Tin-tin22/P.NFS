@@ -1,0 +1,41 @@
+---yang ada di kapal----
+
+switch: SwitchWeapon
+
+
+DOF_TorpedoL1
+DOF_TorpedoL2
+DOF_TorpedoL3
+DOF_TorpedoR1
+DOF_TorpedoR2
+DOF_TorpedoR3
+
+DOF Meriam76Base
+
+DOF_TetralBase1
+DOF_TetralBase2
+
+---------------------------
+
+Meriam76Base.ive
+DOF_Meriam76Launcher
+
+---------------------------
+
+Meriam76Launcher.ive
+DOF_Meriam76Camera1
+DOF_Meriam76Camera2
+DOF_Meriam76Missile
+
+---------------------------
+
+TetralBase.ive
+DOF_TetralLauncher
+
+---------------------------
+
+TetralLauncher.ive
+DOF_TetralMissile1
+DOF_TetralMissile2
+DOF_TetralMissile3
+DOF_TetralMissile4

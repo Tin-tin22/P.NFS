@@ -1,0 +1,1 @@
+didLauncher.exe didGameServer --port 7000 --fullscreen "true" --standalone "true" --vehicle 18 --weapon 12 --launcher 2 --useSerialCom "true" --scPort 3 --scBoud 9600 --scData 8 --scFirstPitch 15 --scFirstHeading 180 --scFire 254 --scLock 251

@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uTrackFunction">
+  <function name="IsValidTrackNumber" visibility="public">
+    <parameters>
+      <parameter name="str" type="string" paramflags="const" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="SplitTrackNumber" visibility="public">
+    <parameters>
+      <parameter name="tnStr" type="string" paramflags="const" />
+      <parameter name="sId" type="Byte" paramflags="var" />
+      <parameter name="tNum" type="Byte" paramflags="var" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="MergeTrackNumber" visibility="public">
+    <parameters>
+      <parameter name="sId" type="Byte" paramflags="const" />
+      <parameter name="tNum" type="Byte" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="trackDomainToChar" visibility="public">
+    <parameters>
+      <parameter name="td" type="TTrackDomain" />
+      <retval type="Char" />
+    </parameters>
+  </function>
+  <function name="CharToDomain" visibility="public">
+    <parameters>
+      <parameter name="c" type="Char" />
+      <retval type="TTrackDomain" />
+    </parameters>
+  </function>
+  <function name="IdentTambahanToChar" visibility="public">
+    <parameters>
+      <parameter name="id" type="Char" />
+      <retval type="Char" />
+    </parameters>
+  </function>
+  <function name="GetTrackDomainFromIDENT" visibility="public">
+    <parameters>
+      <parameter name="ID" type="Char" paramflags="const" />
+      <retval type="TTrackDomain" />
+    </parameters>
+  </function>
+  <function name="ChangeTrackIdentByIDA" visibility="public">
+    <parameters>
+      <parameter name="ident" type="Char" paramflags="const" />
+      <parameter name="ida" type="Char" paramflags="const" />
+      <retval type="Char" />
+    </parameters>
+  </function>
+  <function name="IsValidPlatformID" visibility="public">
+    <parameters>
+      <parameter name="c" type="Char" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="IsValidTwoLetterIndication" visibility="public">
+    <parameters>
+      <parameter name="str" type="string" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="IsValidIdentAmplification" visibility="public">
+    <parameters>
+      <parameter name="C" type="Char" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="IsValidIdentSource" visibility="public">
+    <parameters>
+      <parameter name="c" type="Char" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="USubclassToChar" visibility="public">
+    <parameters>
+      <parameter name="scl" type="string" />
+      <retval type="Char" />
+    </parameters>
+  </function>
+  <function name="formatSCR_track_AS" visibility="public">
+    <parameters>
+      <parameter name="mTrack" type="TManualTrack" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatSCR_track_U" visibility="public">
+    <parameters>
+      <parameter name="mTrack" type="TManualTrack" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatSCR_datum" visibility="public">
+    <parameters>
+      <parameter name="dt" type="TDatumTrack" />
+      <parameter name="lTime" type="TDateTime" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatSCR_ESMBear" visibility="public">
+    <parameters>
+      <parameter name="trck" type="TTDCTrack" />
+      <parameter name="lTime" type="TDateTime" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatSCR_ESMFix" visibility="public">
+    <parameters>
+      <parameter name="trck" type="TTDCTrack" />
+      <parameter name="lTime" type="TDateTime" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatSCR_RP" visibility="public">
+    <parameters>
+      <parameter name="trck" type="TTDCTrack" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatSLL" visibility="public">
+    <parameters>
+      <parameter name="aAir" type="Byte" paramflags="const" />
+      <parameter name="bSurf" type="Byte" paramflags="const" />
+      <parameter name="cSubSurf" type="Byte" paramflags="const" />
+      <parameter name="dDatum" type="Byte" paramflags="const" />
+      <parameter name="eESMFix" type="Byte" paramflags="const" />
+      <parameter name="fRP" type="Byte" paramflags="const" />
+      <parameter name="gAreaCurs" type="Byte" paramflags="const" />
+      <parameter name="hTime" type="TDateTime" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatGeoCoord" visibility="public">
+    <parameters>
+      <parameter name="x" type="Double" paramflags="const" />
+      <parameter name="y" type="Double" paramflags="const" />
+      <parameter name="lt" type="TDateTime" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatGridCoord" visibility="public">
+    <parameters>
+      <parameter name="bObm" type="Double" paramflags="const" />
+      <parameter name="rOBM" type="Double" paramflags="const" />
+      <parameter name="xGrid" type="Double" paramflags="const" />
+      <parameter name="yGrid" type="Double" paramflags="const" />
+      <parameter name="c" type="Char" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="IsValidDatumSource" visibility="public">
+    <parameters>
+      <parameter name="str" type="string" paramflags="var" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="IsValidSubClassif" visibility="public">
+    <parameters>
+      <parameter name="str" type="string" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="formatQueryTW" visibility="public">
+    <parameters>
+      <parameter name="twCourse" type="Double" paramflags="const" />
+      <parameter name="twSpeed" type="Double" paramflags="const" />
+      <parameter name="rwCourse" type="Double" paramflags="const" />
+      <parameter name="rwSpeed" type="Double" paramflags="const" />
+      <parameter name="cCourse" type="Double" paramflags="const" />
+      <parameter name="cSpeed" type="Double" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatParS1" visibility="public">
+    <parameters>
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatParS2" visibility="public">
+    <parameters>
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatParC1" visibility="public">
+    <parameters>
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatParC2" visibility="public">
+    <parameters>
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatParT1" visibility="public">
+    <parameters>
+      <parameter name="tns" type="string" paramflags="const" />
+      <parameter name="rangeSas" type="Double" paramflags="const" />
+      <parameter name="bearingSas" type="Double" paramflags="const" />
+      <parameter name="speedSas" type="Double" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatParT2" visibility="public">
+    <parameters>
+      <parameter name="rPHP" type="Double" paramflags="const" />
+      <parameter name="bPHP" type="Double" paramflags="const" />
+      <parameter name="tPHP" type="Double" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatParV1" visibility="public">
+    <parameters>
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatParV2" visibility="public">
+    <parameters>
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatOWA_SCR" visibility="public">
+    <devnotes>
+      /////////////////////////////////////////////////////////////////////////////
+       -- owa function --------------------------------------------
+    </devnotes>
+    <parameters>
+      <parameter name="mTrack" type="TManualTrack" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatOWA_ACR_IFF" visibility="public">
+    <parameters>
+      <parameter name="mTrack" type="TManualTrack" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatOWA_ACR_ESM" visibility="public">
+    <parameters>
+      <parameter name="mTrack" type="TManualTrack" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatOWA_ACR_PVC" visibility="public">
+    <parameters>
+      <parameter name="mTrack" type="TManualTrack" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatOWA_SCR_bearing" visibility="public">
+    <parameters>
+      <parameter name="mTrack" type="TESMBearingTrack" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatOWA_PVC_bearing" visibility="public">
+    <parameters>
+      <parameter name="mTrack" type="TESMBearingTrack" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatDR_OBM" visibility="public">
+    <parameters>
+      <parameter name="pX" type="Double" />
+      <parameter name="pY" type="Double" />
+      <parameter name="cIdent" type="Char" />
+      <parameter name="dX" type="Double" />
+      <parameter name="dY" type="Double" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="formatDR_OCM" visibility="public">
+    <parameters>
+      <parameter name="head" type="Double" />
+      <parameter name="dist" type="Double" />
+      <retval type="string" />
+    </parameters>
+  </function>
+</namespace>

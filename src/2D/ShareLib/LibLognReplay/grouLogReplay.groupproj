@@ -1,0 +1,48 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{8D9AD634-B449-4475-B4F0-6D28B86A40E4}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="simpleLog 02\simpleLog.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="NewLogEditor\NewLogEditor.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="simpleLog">
+			<MSBuild Projects="simpleLog 02\simpleLog.dproj"/>
+		</Target>
+		<Target Name="simpleLog:Clean">
+			<MSBuild Targets="Clean" Projects="simpleLog 02\simpleLog.dproj"/>
+		</Target>
+		<Target Name="simpleLog:Make">
+			<MSBuild Targets="Make" Projects="simpleLog 02\simpleLog.dproj"/>
+		</Target>
+		<Target Name="NewLogEditor">
+			<MSBuild Projects="NewLogEditor\NewLogEditor.dproj"/>
+		</Target>
+		<Target Name="NewLogEditor:Clean">
+			<MSBuild Targets="Clean" Projects="NewLogEditor\NewLogEditor.dproj"/>
+		</Target>
+		<Target Name="NewLogEditor:Make">
+			<MSBuild Targets="Make" Projects="NewLogEditor\NewLogEditor.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="simpleLog;NewLogEditor"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="simpleLog:Clean;NewLogEditor:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="simpleLog:Make;NewLogEditor:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>

@@ -1,0 +1,1 @@
+didLauncherd.exe didGameServer --port 7000 --fullscreen "false" --useDB "true" --DBAddress "192.168.1.122" --DBUser "root" --DBPassword "admin" --DBName "dbNSuFs_Armabar" --ScenarioID 1

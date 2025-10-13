@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uTorpedoView">
+  <class name="TTorpedoView">
+    <ancestor name="TSimViewOnMapX" namespace="uMapXSim">
+      <methodref name="ConvertDataPosition" visibility="public" />
+      <methodref name="DrawView" visibility="public" />
+      <methodref name="CreateOnMapX" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <propertyref name="Parent" visibility="public" />
+      <ancestor name="TSimulationView" namespace="uBaseSimulationObject">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Destroy" visibility="public" />
+        <methodref name="MarkAs_NeedToBeFree" visibility="public" />
+        <methodref name="ConvertDataPosition" visibility="public" />
+        <methodref name="DrawView" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="CharSymbol" type="Char" visibility="private" />
+      <field name="ptHit" type="t2DComboPoint" visibility="public" />
+      <field name="ptMaxWire" type="t2DComboPoint" visibility="public" />
+      <field name="ptMaxBatt" type="t2DComboPoint" visibility="public" />
+      <field name="ptSafeDist" type="t2DComboPoint" visibility="public" />
+      <field name="ptEndis" type="t2DComboPoint" visibility="public" />
+      <field name="TubeInfo" type="string" visibility="public" />
+      <field name="TempcenterX" type="Integer" visibility="public" />
+      <field name="TempcenterY" type="Integer" visibility="public" />
+      <field name="Status" type="Integer" visibility="public" />
+      <field name="visiblePHP" type="Boolean" visibility="public" />
+      <field name="Show_Endist" type="Boolean" visibility="public" />
+      <field name="Smbl_Endis" type="Double" visibility="public" />
+      <field name="Smbl_MaxWire" type="Double" visibility="public" />
+      <field name="Smbl_MaxBat" type="Double" visibility="public" />
+      <constructor name="CreateOnMapX" visibility="public">
+        <parameters>
+          <parameter name="aParent" type="TSimulationClass" />
+          <parameter name="aMap" type="TMap" />
+        </parameters>
+      </constructor>
+      <procedure name="ConvertDataPosition" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="DrawView" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRange_Symbol" visibility="public">
+        <parameters>
+          <parameter name="Val_Endis" type="Double" />
+          <parameter name="Val_MaxWire" type="Double" />
+          <parameter name="Val_MaxBat" type="Double" />
+        </parameters>
+      </procedure>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+    </members>
+  </class>
+</namespace>

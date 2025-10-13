@@ -1,0 +1,72 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{462CA33A-2114-4DEB-93F9-22ABCFD3A90E}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="Yakhont_A_1.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Yakhont_A_2.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Yakhont_B.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Yakhont.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="Yakhont_A_1">
+			<MSBuild Projects="Yakhont_A_1.dproj"/>
+		</Target>
+		<Target Name="Yakhont_A_1:Clean">
+			<MSBuild Targets="Clean" Projects="Yakhont_A_1.dproj"/>
+		</Target>
+		<Target Name="Yakhont_A_1:Make">
+			<MSBuild Targets="Make" Projects="Yakhont_A_1.dproj"/>
+		</Target>
+		<Target Name="Yakhont_A_2">
+			<MSBuild Projects="Yakhont_A_2.dproj"/>
+		</Target>
+		<Target Name="Yakhont_A_2:Clean">
+			<MSBuild Targets="Clean" Projects="Yakhont_A_2.dproj"/>
+		</Target>
+		<Target Name="Yakhont_A_2:Make">
+			<MSBuild Targets="Make" Projects="Yakhont_A_2.dproj"/>
+		</Target>
+		<Target Name="Yakhont_B">
+			<MSBuild Projects="Yakhont_B.dproj"/>
+		</Target>
+		<Target Name="Yakhont_B:Clean">
+			<MSBuild Targets="Clean" Projects="Yakhont_B.dproj"/>
+		</Target>
+		<Target Name="Yakhont_B:Make">
+			<MSBuild Targets="Make" Projects="Yakhont_B.dproj"/>
+		</Target>
+		<Target Name="Yakhont">
+			<MSBuild Projects="Yakhont.dproj"/>
+		</Target>
+		<Target Name="Yakhont:Clean">
+			<MSBuild Targets="Clean" Projects="Yakhont.dproj"/>
+		</Target>
+		<Target Name="Yakhont:Make">
+			<MSBuild Targets="Make" Projects="Yakhont.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="Yakhont_A_1;Yakhont_A_2;Yakhont_B;Yakhont"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="Yakhont_A_1:Clean;Yakhont_A_2:Clean;Yakhont_B:Clean;Yakhont:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="Yakhont_A_1:Make;Yakhont_A_2:Make;Yakhont_B:Make;Yakhont:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>

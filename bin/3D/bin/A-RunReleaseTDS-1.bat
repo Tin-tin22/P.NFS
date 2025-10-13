@@ -1,0 +1,1 @@
+didLauncher.exe didPlatform --host "192.168.5.55" --port 7000 --fullscreen "false" --login "TDS" --vehicle 10 --weapon 13 --launcher 2 --useSerialCom "TRUE" --scPort 5 --scBoud 9600 --scData 8 --scFirstPitch 0 --scFirstHeading 180 --scFire 254 --scLock 251

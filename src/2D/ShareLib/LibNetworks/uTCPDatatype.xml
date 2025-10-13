@@ -1,0 +1,5787 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uTCPDatatype">
+  <const name="A244MOD3" type="TTPOType">
+    <value>
+      A244MOD3
+    </value>
+  </const>
+  <const name="A244MOD1" type="TTPOType">
+    <value>
+      A244MOD1
+    </value>
+  </const>
+  <const name="MU90" type="TTPOType">
+    <value>
+      MU90
+    </value>
+  </const>
+  <const name="EMPTY" type="TTPOType">
+    <value>
+      EMPTY
+    </value>
+  </const>
+  <const name="SH" type="TWTRType">
+    <value>
+      SH
+    </value>
+  </const>
+  <const name="DP" type="TWTRType">
+    <value>
+      DP
+    </value>
+  </const>
+  <const name="HE" type="TPRGType">
+    <value>
+      HE
+    </value>
+  </const>
+  <const name="SP" type="TPRGType">
+    <value>
+      SP
+    </value>
+  </const>
+  <const name="CW" type="TDOPType">
+    <value>
+      CW
+    </value>
+  </const>
+  <const name="FM" type="TDOPType">
+    <value>
+      FM
+    </value>
+  </const>
+  <const name="ACT" type="TACMType">
+    <value>
+      ACT
+    </value>
+  </const>
+  <const name="PAS" type="TACMType">
+    <value>
+      PAS
+    </value>
+  </const>
+  <const name="MIX" type="TACMType">
+    <value>
+      MIX
+    </value>
+  </const>
+  <struct name="tDouble3DPoint">
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+    <field name="Z" type="Double" visibility="public" />
+  </struct>
+  <struct name="tSingle3DPoint">
+    <field name="X" type="Single" visibility="public" />
+    <field name="Y" type="Single" visibility="public" />
+    <field name="Z" type="Single" visibility="public" />
+  </struct>
+  <struct name="TPacketCheck">
+    <field name="ID" type="Byte" visibility="public" />
+    <field name="Pass" visibility="public">
+      <array name="Pass" low="0" high="2">
+        <element type="AnsiChar" />
+      </array>
+    </field>
+  </struct>
+  <struct name="TError">
+    <field name="Gyro_n" type="Integer" visibility="public" />
+    <field name="Barrel_n" type="Integer" visibility="public" />
+    <field name="SelfTest" type="Boolean" visibility="public" />
+    <field name="Power_Signal" type="Boolean" visibility="public" />
+    <field name="Link_NDS" type="Boolean" visibility="public" />
+  </struct>
+  <enum name="TTPOType">
+    <element name="A244MOD3" />
+    <element name="A244MOD1" />
+    <element name="MU90" />
+    <element name="EMPTY" />
+  </enum>
+  <enum name="TWTRType">
+    <element name="SH" />
+    <element name="DP" />
+  </enum>
+  <enum name="TPRGType">
+    <element name="HE" />
+    <element name="SP" />
+  </enum>
+  <enum name="TDOPType">
+    <element name="CW" />
+    <element name="FM" />
+  </enum>
+  <enum name="TACMType">
+    <element name="ACT" />
+    <element name="PAS" />
+    <element name="MIX" />
+  </enum>
+  <struct name="TRecDataTorperdo">
+    <field name="Pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="ISC" type="Single" visibility="public" />
+    <field name="ISR" type="Word" visibility="public" />
+    <field name="WTR" type="Word" visibility="public" />
+    <field name="CEI" type="Word" visibility="public" />
+    <field name="PRG" type="Word" visibility="public" />
+    <field name="DOP" type="Word" visibility="public" />
+    <field name="ACE" type="Word" visibility="public" />
+    <field name="FLO" type="Word" visibility="public" />
+    <field name="ISD" type="Word" visibility="public" />
+    <field name="ACM" type="Word" visibility="public" />
+  </struct>
+  <struct name="TPanelPortStbd">
+    <field name="TIU" type="Integer" visibility="public" />
+    <field name="_45Deg" type="Boolean" visibility="public" />
+    <field name="Temp" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TTorpData">
+    <field name="Torp" type="TTPOType" visibility="public" />
+    <field name="Wtr" type="string" visibility="public" />
+    <field name="Prg" type="string" visibility="public" />
+    <field name="Dop" type="string" visibility="public" />
+    <field name="Acm" type="string" visibility="public" />
+    <field name="Isc" type="Integer" visibility="public" />
+    <field name="Isr" type="Integer" visibility="public" />
+    <field name="Ace" type="Integer" visibility="public" />
+    <field name="Cei" type="Integer" visibility="public" />
+    <field name="Flo" type="Integer" visibility="public" />
+    <field name="Isd" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TBarrel">
+    <field name="BrlNum" type="Integer" visibility="public" />
+    <field name="Tpo" type="TTorpData" visibility="public" />
+  </struct>
+  <struct name="TgtDataRec">
+    <field name="Tn" type="Double" visibility="public" />
+    <field name="Rng" type="Double" visibility="public" />
+    <field name="Brg" type="Double" visibility="public" />
+    <field name="Crs" type="Double" visibility="public" />
+    <field name="Spd" type="Double" visibility="public" />
+  </struct>
+  <struct name="TShipData">
+    <field name="Source" type="string" visibility="public" />
+    <field name="Heading" type="Integer" visibility="public" />
+    <field name="Speed" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TTacticalData">
+    <field name="MHP" type="Integer" visibility="public" />
+    <field name="OptCrs" type="Integer" visibility="public" />
+    <field name="TimeDrop" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TFire">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="Barrel" type="TBarrel" visibility="public" />
+    <field name="Target" type="TgtDataRec" visibility="public" />
+    <field name="Ship" type="TShipData" visibility="public" />
+    <field name="TctData" type="TTacticalData" visibility="public" />
+  </struct>
+  <struct name="tTesq">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="Stg" visibility="public">
+      <type name="Stg" type="ShortString" />
+    </field>
+    <field name="Itg" type="Integer" visibility="public" />
+    <field name="Sgl" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecData3DPosition">
+    <field name="Pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+    <field name="Z" type="Double" visibility="public" />
+    <field name="Heading" type="Single" visibility="public" />
+    <field name="Speed" type="Single" visibility="public" />
+    <field name="pitch" type="Single" visibility="public" />
+    <field name="roll" type="Single" visibility="public" />
+    <field name="rudder" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecDataAll3DPosition">
+    <field name="Pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="WeaponID" type="Word" visibility="public" />
+    <field name="launcherID" type="Word" visibility="public" />
+    <field name="missileID" type="Word" visibility="public" />
+    <field name="MissileNumber" type="Word" visibility="public" />
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+    <field name="Z" type="Double" visibility="public" />
+    <field name="Heading" type="Single" visibility="public" />
+    <field name="Speed" type="Single" visibility="public" />
+    <field name="pitch" type="Single" visibility="public" />
+    <field name="roll" type="Single" visibility="public" />
+    <field name="rudder" type="Single" visibility="public" />
+    <field name="ObjType" type="Byte" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+  </struct>
+  <struct name="spPosition" alias="uTCPDatatype.TRecData3DPosition">
+    <field name="Pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+    <field name="Z" type="Double" visibility="public" />
+    <field name="Heading" type="Single" visibility="public" />
+    <field name="Speed" type="Single" visibility="public" />
+    <field name="pitch" type="Single" visibility="public" />
+    <field name="roll" type="Single" visibility="public" />
+    <field name="rudder" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecDataPosition">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="UID" visibility="public">
+      <type name="UID" type="ShortString" />
+    </field>
+    <field name="position" type="tDouble3DPoint" visibility="public" />
+    <field name="heading" type="Single" visibility="public" />
+    <field name="speed" type="Single" visibility="public" />
+    <field name="pitch" type="Single" visibility="public" />
+    <field name="roll" type="Single" visibility="public" />
+    <field name="rudder" type="Single" visibility="public" />
+    <field name="fuel" type="Single" visibility="public" />
+    <field name="status" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecData3DOrder">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="shipID" type="Word" visibility="public" />
+    <field name="sOrder" type="Byte" visibility="public" />
+    <field name="mValue" type="Single" visibility="public" />
+    <field name="ModeMove" type="Byte" visibility="public" />
+    <field name="coordinatX" type="Single" visibility="public" />
+    <field name="coordinatY" type="Single" visibility="public" />
+    <field name="coordinatZ" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRec3DSetExocet">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="shipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="sOrder" type="Byte" visibility="public" />
+    <field name="mProxFuze" type="Single" visibility="public" />
+    <field name="mAltitude" type="Single" visibility="public" />
+    <field name="mSearchArea" type="Single" visibility="public" />
+    <field name="mRTG" type="Single" visibility="public" />
+    <field name="mManualWidth" type="Single" visibility="public" />
+    <field name="mSelecDepth" type="Single" visibility="public" />
+    <field name="mTBearing" type="Single" visibility="public" />
+    <field name="mTRange" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecSetExocet" alias="uTCPDatatype.TRec3DSetExocet">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="shipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="sOrder" type="Byte" visibility="public" />
+    <field name="mProxFuze" type="Single" visibility="public" />
+    <field name="mAltitude" type="Single" visibility="public" />
+    <field name="mSearchArea" type="Single" visibility="public" />
+    <field name="mRTG" type="Single" visibility="public" />
+    <field name="mManualWidth" type="Single" visibility="public" />
+    <field name="mSelecDepth" type="Single" visibility="public" />
+    <field name="mTBearing" type="Single" visibility="public" />
+    <field name="mTRange" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRec3DSetChaff">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mDegreeRate" type="Single" visibility="public" />
+    <field name="mPart" type="Integer" visibility="public" />
+    <field name="mPartNo" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TRecSetChaff" alias="uTCPDatatype.TRec3DSetChaff">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mDegreeRate" type="Single" visibility="public" />
+    <field name="mPart" type="Integer" visibility="public" />
+    <field name="mPartNo" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TRec3DSetAsrock">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="mMissile_Type" type="Word" visibility="public" />
+    <field name="mTargetID" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mTargetBearing" type="Single" visibility="public" />
+    <field name="mTargetRange" type="Single" visibility="public" />
+    <field name="mTargetDepth" type="Single" visibility="public" />
+    <field name="mFuzeType" type="Word" visibility="public" />
+    <field name="mCorrRange" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecSetAsrock" alias="uTCPDatatype.TRec3DSetAsrock">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="mMissile_Type" type="Word" visibility="public" />
+    <field name="mTargetID" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mTargetBearing" type="Single" visibility="public" />
+    <field name="mTargetRange" type="Single" visibility="public" />
+    <field name="mTargetDepth" type="Single" visibility="public" />
+    <field name="mFuzeType" type="Word" visibility="public" />
+    <field name="mCorrRange" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecMeriam">
+    <field name="PC" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="Gun_number" type="Integer" visibility="public" />
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+    <field name="Z" type="Double" visibility="public" />
+    <field name="TOF" type="Double" visibility="public" />
+  </struct>
+  <struct name="TRecTorpedoMK44Order">
+    <field name="PC" type="TPacketCheck" visibility="public" />
+    <field name="shipID" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mID" type="Word" visibility="public" />
+    <field name="mISD" type="Single" visibility="public" />
+    <field name="mFloor" type="Single" visibility="public" />
+    <field name="mGyroRunOut" type="Boolean" visibility="public" />
+  </struct>
+  <struct name="TRecSetTorpedoSUT">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="mT_ID" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mTorpedoCourse" type="Single" visibility="public" />
+    <field name="mTorpedoSpeed" type="Single" visibility="public" />
+    <field name="mTorpedoDepth" type="Single" visibility="public" />
+    <field name="mTorpedoSafeDistance" type="Single" visibility="public" />
+    <field name="mTorpedoEnDis" type="Single" visibility="public" />
+    <field name="mpredm" type="Word" visibility="public" />
+    <field name="mTargetType" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecOrder">
+    <field name="PC" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" visibility="public">
+      <type name="ShipID" type="ShortString" />
+    </field>
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="OrderByteParam" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecOrderXY">
+    <field name="PC" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" visibility="public">
+      <type name="ShipID" type="ShortString" />
+    </field>
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="OrderType" type="Byte" visibility="public" />
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+  </struct>
+  <struct name="TRecTrackOrder">
+    <field name="PC" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" visibility="public">
+      <type name="ShipID" type="ShortString" />
+    </field>
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="OrderType" type="Byte" visibility="public" />
+    <field name="Ship_TID" type="Byte" visibility="public" />
+    <field name="TrackNumber" type="Byte" visibility="public" />
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+  </struct>
+  <struct name="TRecOrderAssignment">
+    <field name="PC" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" visibility="public">
+      <type name="ShipID" type="ShortString" />
+    </field>
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="DetectedUID" visibility="public">
+      <type name="DetectedUID" type="ShortString" />
+    </field>
+    <field name="Ship_TID" type="Byte" visibility="public" />
+    <field name="TrackNumber" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecSetTrackNumber">
+    <field name="PC" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" visibility="public">
+      <type name="ShipID" type="ShortString" />
+    </field>
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="ShipTID" type="Byte" visibility="public" />
+    <field name="TrackNumber" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecFireControlOrder">
+    <field name="PC" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" visibility="public">
+      <type name="ShipID" type="ShortString" />
+    </field>
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="FC_number" type="Byte" visibility="public" />
+    <field name="FC_command" type="Byte" visibility="public" />
+    <field name="TrackUID" visibility="public">
+      <type name="TrackUID" type="ShortString" />
+    </field>
+    <field name="Ship_TID" type="Byte" visibility="public" />
+    <field name="TrackNumber" type="Byte" visibility="public" />
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+  </struct>
+  <struct name="TRecGunControl">
+    <field name="PC" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" visibility="public">
+      <type name="ShipID" type="ShortString" />
+    </field>
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="TrackUID" visibility="public">
+      <type name="TrackUID" type="ShortString" />
+    </field>
+    <field name="Ship_TID" type="Byte" visibility="public" />
+    <field name="TrackNumber" type="Byte" visibility="public" />
+    <field name="Gun_number" type="Byte" visibility="public" />
+    <field name="AssignedTo" type="Byte" visibility="public" />
+    <field name="FireMode" type="Byte" visibility="public" />
+    <field name="Bullet1" type="Byte" visibility="public" />
+    <field name="Bullet2" type="Byte" visibility="public" />
+    <field name="ControlMode" type="Byte" visibility="public" />
+    <field name="IsSync" type="Boolean" visibility="public" />
+  </struct>
+  <struct name="TRecXXXOrder">
+    <field name="PC" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" visibility="public">
+      <type name="ShipID" type="ShortString" />
+    </field>
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="TrackUID" visibility="public">
+      <type name="TrackUID" type="ShortString" />
+    </field>
+    <field name="Ship_TID" type="Byte" visibility="public" />
+    <field name="TrackNumber" type="Byte" visibility="public" />
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+    <field name="temp1" type="Byte" visibility="public" />
+    <field name="temp2" type="Byte" visibility="public" />
+    <field name="temp3" type="Byte" visibility="public" />
+    <field name="temp4" type="Byte" visibility="public" />
+    <field name="temp5" type="Double" visibility="public" />
+    <field name="temp6" type="Double" visibility="public" />
+    <field name="temp7" visibility="public">
+      <type name="temp7" type="ShortString" />
+    </field>
+  </struct>
+  <struct name="TRecLinkOrder">
+    <field name="PC" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" visibility="public">
+      <type name="ShipID" type="ShortString" />
+    </field>
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="SenderID" visibility="public">
+      <type name="SenderID" type="ShortString" />
+    </field>
+    <field name="TrackUID" visibility="public">
+      <type name="TrackUID" type="ShortString" />
+    </field>
+    <field name="TrackSymbol" type="Byte" visibility="public" />
+    <field name="TrackAmp1" type="Byte" visibility="public" />
+    <field name="TrackAmp2" type="Byte" visibility="public" />
+    <field name="PrivCode" visibility="public">
+      <type name="PrivCode" type="ShortString" />
+    </field>
+    <field name="Ship_TID" type="Byte" visibility="public" />
+    <field name="TrackNumber" type="Byte" visibility="public" />
+    <field name="Speed" type="Double" visibility="public" />
+    <field name="Course" type="Double" visibility="public" />
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+    <field name="Z" type="Double" visibility="public" />
+    <field name="Frekwensi" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRec3DSetRBU">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="mCount" type="Word" visibility="public" />
+    <field name="mMissileType" type="Word" visibility="public" />
+    <field name="mTargetID" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mLncrBearing" type="Single" visibility="public" />
+    <field name="mLncRange" type="Single" visibility="public" />
+    <field name="mTargetDepth" type="Single" visibility="public" />
+    <field name="mCorrBearing" type="Single" visibility="public" />
+    <field name="mCorrElev" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecSetRBU" alias="uTCPDatatype.TRec3DSetRBU">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="mCount" type="Word" visibility="public" />
+    <field name="mMissileType" type="Word" visibility="public" />
+    <field name="mTargetID" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mLncrBearing" type="Single" visibility="public" />
+    <field name="mLncRange" type="Single" visibility="public" />
+    <field name="mTargetDepth" type="Single" visibility="public" />
+    <field name="mCorrBearing" type="Single" visibility="public" />
+    <field name="mCorrElev" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecDBEffect">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="ModulID" type="Byte" visibility="public" />
+    <field name="CompID" type="Byte" visibility="public" />
+    <field name="StatusID" type="Byte" visibility="public" />
+    <field name="StatusVal" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecHarpoonPanelSetting">
+    <field name="PC" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" visibility="public">
+      <type name="ShipID" type="ShortString" />
+    </field>
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="OrderData" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecDataEnvironment">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="windVelocity" type="Double" visibility="public" />
+    <field name="windHeading" type="Double" visibility="public" />
+    <field name="seaCurrentVelocity" type="Double" visibility="public" />
+    <field name="seaCurrentHeading" type="Double" visibility="public" />
+    <field name="temperature" type="Double" visibility="public" />
+    <field name="humidity" type="Double" visibility="public" />
+    <field name="surfacePressure" type="Double" visibility="public" />
+  </struct>
+  <struct name="TRecMissilePos">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="shipID" type="Word" visibility="public" />
+    <field name="WeaponID" type="Word" visibility="public" />
+    <field name="launcherID" type="Word" visibility="public" />
+    <field name="missileID" type="Word" visibility="public" />
+    <field name="MissileNumber" type="Word" visibility="public" />
+    <field name="status" type="Byte" visibility="public" />
+    <field name="x" type="Double" visibility="public" />
+    <field name="y" type="Double" visibility="public" />
+    <field name="z" type="Double" visibility="public" />
+    <field name="heading" type="Single" visibility="public" />
+    <field name="speed" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRec3DMissilePos" alias="uTCPDatatype.TRecMissilePos">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="shipID" type="Word" visibility="public" />
+    <field name="WeaponID" type="Word" visibility="public" />
+    <field name="launcherID" type="Word" visibility="public" />
+    <field name="missileID" type="Word" visibility="public" />
+    <field name="MissileNumber" type="Word" visibility="public" />
+    <field name="status" type="Byte" visibility="public" />
+    <field name="x" type="Double" visibility="public" />
+    <field name="y" type="Double" visibility="public" />
+    <field name="z" type="Double" visibility="public" />
+    <field name="heading" type="Single" visibility="public" />
+    <field name="speed" type="Single" visibility="public" />
+  </struct>
+  <struct name="spActorsController">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="TypeID" type="Word" visibility="public" />
+    <field name="ActorRuntimeID1" type="Word" visibility="public" />
+    <field name="ActorRuntimeID2" type="Word" visibility="public" />
+    <field name="ActorRuntimeID3" type="Word" visibility="public" />
+    <field name="ActorRuntimeID4" type="Word" visibility="public" />
+    <field name="OrderID" type="Word" visibility="public" />
+    <field name="x" type="Double" visibility="public" />
+    <field name="y" type="Double" visibility="public" />
+    <field name="z" type="Double" visibility="public" />
+    <field name="h" type="Double" visibility="public" />
+    <field name="p" type="Double" visibility="public" />
+    <field name="r" type="Double" visibility="public" />
+  </struct>
+  <struct name="TRecDataTextureCamera">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="LiodID" type="Word" visibility="public" />
+    <field name="ShaderID" type="Word" visibility="public" />
+  </struct>
+  <struct name="TRecTextureCamera" alias="uTCPDatatype.TRecDataTextureCamera">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="LiodID" type="Word" visibility="public" />
+    <field name="ShaderID" type="Word" visibility="public" />
+  </struct>
+  <struct name="spUtilityTools">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="OrderID" type="Word" visibility="public" />
+    <field name="c0" type="Word" visibility="public" />
+    <field name="c1" type="Word" visibility="public" />
+    <field name="c2" type="Word" visibility="public" />
+    <field name="c3" type="Word" visibility="public" />
+    <field name="c4" type="Word" visibility="public" />
+    <field name="c5" type="Double" visibility="public" />
+    <field name="c6" type="Double" visibility="public" />
+  </struct>
+  <struct name="TRecDataOrder_noval">
+    <field name="ID" type="Byte" visibility="public" />
+    <field name="Pass" visibility="public">
+      <array name="Pass" low="0" high="2">
+        <element type="Char" />
+      </array>
+    </field>
+    <field name="order" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecData2DOrder">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="orderID" type="Byte" visibility="public" />
+    <field name="numValue" type="Integer" visibility="public" />
+    <field name="strValue" visibility="public">
+      <type name="strValue" type="ShortString" />
+    </field>
+    <field name="strValue2" visibility="public">
+      <type name="strValue2" type="ShortString" />
+    </field>
+    <field name="strValue3" visibility="public">
+      <type name="strValue3" type="ShortString" />
+    </field>
+    <field name="ipConsole" visibility="public">
+      <type name="ipConsole" type="ShortString" />
+    </field>
+  </struct>
+  <struct name="TRecDataControl">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="orderID" type="Byte" visibility="public" />
+    <field name="numValue" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TRec3DSetWCC">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="mOrderID" type="Byte" visibility="public" />
+    <field name="mTargetID" type="Word" visibility="public" />
+    <field name="mModeID" type="Word" visibility="public" />
+    <field name="mUpDown" type="Single" visibility="public" />
+    <field name="mAutoCorrectElev" type="Single" visibility="public" />
+    <field name="mAutoCorrectBearing" type="Single" visibility="public" />
+    <field name="mBalistikID" type="Word" visibility="public" />
+    <field name="mSalvoRate" type="Word" visibility="public" />
+  </struct>
+  <struct name="TRecSplashCannon">
+    <field name="Pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="WeaponID" type="Word" visibility="public" />
+    <field name="LauncherID" type="Word" visibility="public" />
+    <field name="PosX" type="Double" visibility="public" />
+    <field name="PosY" type="Double" visibility="public" />
+    <field name="PosZ" type="Double" visibility="public" />
+  </struct>
+  <struct name="TRecMessageHandling">
+    <field name="Pc" type="TPacketCheck" visibility="public" />
+    <field name="MessageID" type="Word" visibility="public" />
+    <field name="Cmd1" type="Double" visibility="public" />
+    <field name="Cmd2" type="Double" visibility="public" />
+    <field name="Cmd3" type="Double" visibility="public" />
+    <field name="Cmd4" type="Double" visibility="public" />
+  </struct>
+  <struct name="TRecStatus_Console">
+    <field name="Pc" type="TPacketCheck" visibility="public" />
+    <field name="OWN_SHIP_UID" visibility="public">
+      <type name="OWN_SHIP_UID" type="ShortString" />
+    </field>
+    <field name="WeaponID" type="Word" visibility="public" />
+    <field name="ErrorID" type="Word" visibility="public" />
+    <field name="ParamError" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecStatus_Console_C802">
+    <field name="Pc" type="TPacketCheck" visibility="public" />
+    <field name="OWN_SHIP_UID" visibility="public">
+      <type name="OWN_SHIP_UID" type="ShortString" />
+    </field>
+    <field name="ErrorID" type="Word" visibility="public" />
+    <field name="ParamError" type="Byte" visibility="public" />
+    <field name="LauncherNum" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecStatus_Console_Yakhont">
+    <field name="Pc" type="TPacketCheck" visibility="public" />
+    <field name="OWN_SHIP_UID" visibility="public">
+      <type name="OWN_SHIP_UID" type="ShortString" />
+    </field>
+    <field name="ErrorID" type="Word" visibility="public" />
+    <field name="ParamError" type="Byte" visibility="public" />
+    <field name="LauncherNum" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecRBU_SonarMode">
+    <field name="Pc" type="TPacketCheck" visibility="public" />
+    <field name="OWN_SHIP_UID" visibility="public">
+      <type name="OWN_SHIP_UID" type="ShortString" />
+    </field>
+    <field name="TARGET_SHIP_UID" visibility="public">
+      <type name="TARGET_SHIP_UID" type="ShortString" />
+    </field>
+    <field name="Mode" type="Boolean" visibility="public" />
+  </struct>
+  <struct name="TRecCMD_C802">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="cmd" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TRecData_C802">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mTargetBearing" type="Single" visibility="public" />
+    <field name="mTargetRange" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecCMD_Yakhont">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="cmd" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TRecData_Yakhont">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="mMissile1" type="Byte" visibility="public" />
+    <field name="mMissile2" type="Byte" visibility="public" />
+    <field name="mMissile3" type="Byte" visibility="public" />
+    <field name="mMissile4" type="Byte" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mTargetBearing" type="Single" visibility="public" />
+    <field name="mTargetRange" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecEventLog">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="consoleID" type="Word" visibility="public" />
+    <field name="eventID" type="Word" visibility="public" />
+    <field name="param1" type="Double" visibility="public" />
+    <field name="param2" type="Double" visibility="public" />
+    <field name="param3" type="Double" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+  </struct>
+  <struct name="TRecGameName">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="GameName" visibility="public">
+      <type name="GameName" type="ShortString" />
+    </field>
+  </struct>
+  <struct name="TRecStatusGame">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ScenarioID" type="Word" visibility="public" />
+    <field name="StatusConnect" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecEnableWeapon">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="Shipid" type="Integer" visibility="public" />
+    <field name="WeaponID" type="Byte" visibility="public" />
+    <field name="Value" type="Single" visibility="public" />
+    <field name="Launcher" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecAsrocMissileType">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipId" type="Byte" visibility="public" />
+    <field name="WeaponID" type="Byte" visibility="public" />
+    <field name="MissileID" type="Byte" visibility="public" />
+    <field name="LauncherID" type="Byte" visibility="public" />
+    <field name="MissileType" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRecComConsole">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="OrderID" type="Integer" visibility="public" />
+    <field name="ShipID" type="Integer" visibility="public" />
+    <field name="launcherID" type="Integer" visibility="public" />
+    <field name="ShipName" visibility="public">
+      <type name="ShipName" type="ShortString" />
+    </field>
+    <field name="IpSender" visibility="public">
+      <type name="IpSender" type="ShortString" />
+    </field>
+  </struct>
+  <struct name="TRec3DSetExocet_40">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="shipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="sOrder" type="Byte" visibility="public" />
+    <field name="mTRange" type="Single" visibility="public" />
+    <field name="mTBearing" type="Single" visibility="public" />
+    <field name="mAngular_Mode" type="Byte" visibility="public" />
+    <field name="mAgility_Mode" type="Byte" visibility="public" />
+    <field name="mInitialStep_Mode" type="Byte" visibility="public" />
+    <field name="mObstacle_Alt" type="Single" visibility="public" />
+    <field name="mObstacle_Range" type="Single" visibility="public" />
+    <field name="mApproach_Range" type="Single" visibility="public" />
+    <field name="mTerminal_Range" type="Single" visibility="public" />
+    <field name="mLeft_Angle" type="Single" visibility="public" />
+    <field name="mRight_Angle" type="Single" visibility="public" />
+    <field name="mFar_Range" type="Single" visibility="public" />
+    <field name="mNear_Range" type="Single" visibility="public" />
+    <field name="mMasking1" type="Byte" visibility="public" />
+    <field name="mMasking2" type="Byte" visibility="public" />
+    <field name="mMasking3" type="Byte" visibility="public" />
+    <field name="mMasking4" type="Byte" visibility="public" />
+    <field name="mMasking5" type="Byte" visibility="public" />
+    <field name="mMasking6" type="Byte" visibility="public" />
+    <field name="mMasking7" type="Byte" visibility="public" />
+    <field name="mMasking8" type="Byte" visibility="public" />
+    <field name="mMasking9" type="Byte" visibility="public" />
+    <field name="mMasking10" type="Byte" visibility="public" />
+    <field name="mMasking11" type="Byte" visibility="public" />
+    <field name="mMasking12" type="Byte" visibility="public" />
+    <field name="mMasking13" type="Byte" visibility="public" />
+    <field name="mMasking14" type="Byte" visibility="public" />
+    <field name="mMasking15" type="Byte" visibility="public" />
+    <field name="mMasking16" type="Byte" visibility="public" />
+    <field name="mSeekerOpenPosX" type="Double" visibility="public" />
+    <field name="mSeekerOpenPosY" type="Double" visibility="public" />
+    <field name="mSeekerOpenHeading" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecSetExocet_40" alias="uTCPDatatype.TRec3DSetExocet_40">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="shipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="sOrder" type="Byte" visibility="public" />
+    <field name="mTRange" type="Single" visibility="public" />
+    <field name="mTBearing" type="Single" visibility="public" />
+    <field name="mAngular_Mode" type="Byte" visibility="public" />
+    <field name="mAgility_Mode" type="Byte" visibility="public" />
+    <field name="mInitialStep_Mode" type="Byte" visibility="public" />
+    <field name="mObstacle_Alt" type="Single" visibility="public" />
+    <field name="mObstacle_Range" type="Single" visibility="public" />
+    <field name="mApproach_Range" type="Single" visibility="public" />
+    <field name="mTerminal_Range" type="Single" visibility="public" />
+    <field name="mLeft_Angle" type="Single" visibility="public" />
+    <field name="mRight_Angle" type="Single" visibility="public" />
+    <field name="mFar_Range" type="Single" visibility="public" />
+    <field name="mNear_Range" type="Single" visibility="public" />
+    <field name="mMasking1" type="Byte" visibility="public" />
+    <field name="mMasking2" type="Byte" visibility="public" />
+    <field name="mMasking3" type="Byte" visibility="public" />
+    <field name="mMasking4" type="Byte" visibility="public" />
+    <field name="mMasking5" type="Byte" visibility="public" />
+    <field name="mMasking6" type="Byte" visibility="public" />
+    <field name="mMasking7" type="Byte" visibility="public" />
+    <field name="mMasking8" type="Byte" visibility="public" />
+    <field name="mMasking9" type="Byte" visibility="public" />
+    <field name="mMasking10" type="Byte" visibility="public" />
+    <field name="mMasking11" type="Byte" visibility="public" />
+    <field name="mMasking12" type="Byte" visibility="public" />
+    <field name="mMasking13" type="Byte" visibility="public" />
+    <field name="mMasking14" type="Byte" visibility="public" />
+    <field name="mMasking15" type="Byte" visibility="public" />
+    <field name="mMasking16" type="Byte" visibility="public" />
+    <field name="mSeekerOpenPosX" type="Double" visibility="public" />
+    <field name="mSeekerOpenPosY" type="Double" visibility="public" />
+    <field name="mSeekerOpenHeading" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRec3DSetTetral">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mTargetBearing" type="Single" visibility="public" />
+    <field name="mTargetRange" type="Single" visibility="public" />
+    <field name="mTargetElev" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecSetTetral" alias="uTCPDatatype.TRec3DSetTetral">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mTargetBearing" type="Single" visibility="public" />
+    <field name="mTargetRange" type="Single" visibility="public" />
+    <field name="mTargetElev" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRec3DSetMistral">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mTargetBearing" type="Single" visibility="public" />
+    <field name="mTargetRange" type="Single" visibility="public" />
+    <field name="mTargetElev" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecSetMistral" alias="uTCPDatatype.TRec3DSetMistral">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mTargetBearing" type="Single" visibility="public" />
+    <field name="mTargetRange" type="Single" visibility="public" />
+    <field name="mTargetElev" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRec3DSetStrella">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mTargetBearing" type="Single" visibility="public" />
+    <field name="mTargetRange" type="Single" visibility="public" />
+    <field name="mTargetElev" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecSetStrella" alias="uTCPDatatype.TRec3DSetStrella">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="OrderID" type="Byte" visibility="public" />
+    <field name="mTargetBearing" type="Single" visibility="public" />
+    <field name="mTargetRange" type="Single" visibility="public" />
+    <field name="mTargetElev" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRecObjectAssigned">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Integer" visibility="public" />
+    <field name="ObjectAssign" type="Integer" visibility="public" />
+    <field name="OrderID" type="Integer" visibility="public" />
+    <field name="mode" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TRecMapCommand">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="OrderID" type="Integer" visibility="public" />
+    <field name="ToolID" type="Integer" visibility="public" />
+    <field name="MapID" type="Integer" visibility="public" />
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+    <field name="Scale" type="Double" visibility="public" />
+    <field name="ShipID" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TRecWeaponShowRange">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="Order" type="Byte" visibility="public" />
+    <field name="wName" visibility="public">
+      <type name="wName" type="ShortString" />
+    </field>
+    <field name="wLauncher" visibility="public">
+      <type name="wLauncher" type="ShortString" />
+    </field>
+    <field name="wDetail" visibility="public">
+      <type name="wDetail" type="ShortString" />
+    </field>
+    <field name="ShipID" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TRecGuidance">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="GuidanceID" type="Word" visibility="public" />
+    <field name="param0" type="Single" visibility="public" />
+    <field name="param1" type="Single" visibility="public" />
+    <field name="param2" type="Single" visibility="public" />
+    <field name="param3" type="Single" visibility="public" />
+    <field name="param4" type="Single" visibility="public" />
+    <field name="param5" type="Single" visibility="public" />
+    <field name="param6" type="Single" visibility="public" />
+  </struct>
+  <struct name="TRec_Command_YakhontPLP">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="Mode" type="Integer" visibility="public" />
+    <field name="CommandID" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TRec_TorpStatus">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="isFind" type="Byte" visibility="public" />
+    <field name="TargetID" type="Word" visibility="public" />
+  </struct>
+  <struct name="TRec_StatusLoading">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="ShipID" type="Word" visibility="public" />
+    <field name="mWeaponID" type="Word" visibility="public" />
+    <field name="mLauncherID" type="Word" visibility="public" />
+    <field name="mMissileID" type="Word" visibility="public" />
+    <field name="mMissileNumber" type="Word" visibility="public" />
+    <field name="Status" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRec_Replay">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="OrderID" type="Integer" visibility="public" />
+    <field name="ReplayName" visibility="public">
+      <type name="ReplayName" type="ShortString" />
+    </field>
+    <field name="ReplayControl" type="Byte" visibility="public" />
+    <field name="ReplaySpeed" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRec_Trajectory_View">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="WeaponLabel" type="Byte" visibility="public" />
+    <field name="Status" type="Byte" visibility="public" />
+  </struct>
+  <struct name="TRec_View_Range_Weapon">
+    <field name="pc" type="TPacketCheck" visibility="public" />
+    <field name="aID" visibility="public">
+      <type name="aID" type="ShortString" />
+    </field>
+    <field name="WeaponName" visibility="public">
+      <type name="WeaponName" type="ShortString" />
+    </field>
+    <field name="LauncherName" visibility="public">
+      <type name="LauncherName" type="ShortString" />
+    </field>
+    <field name="WeaponType" visibility="public">
+      <type name="WeaponType" type="ShortString" />
+    </field>
+    <field name="Status" type="Boolean" visibility="public" />
+  </struct>
+  <const name="OID_MAP" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="OID_OBJ_Center" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="OID_OBJ_Focused" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="OID_OBJ_Select" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="OID_VIEW_SELECT" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="OID_MAP_OFFSETT" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="OID_MAP_CENTER" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="VG_StraightLine" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="VG_Helm" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="VG_Circle" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="VG_Station" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="VG_Zigzag" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="VG_Sinuation" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="VG_Formation" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="VG_Evasion" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="VG_Waypoint" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="VG_Outrun" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="VG_Engagement" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="VG_Shadow" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="VG_WaypointMove" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="VG_WaypointStop" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="TIU_OP" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="TIU_Faulty" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="TIU_LowVoltage" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="TIU_NoLink" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="max_TIUTemp" type="Integer">
+    <value>
+      $64
+    </value>
+  </const>
+  <const name="Gyro_Normal" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="Too_Long_Gyro_caging_Time" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="Gyro_starting_Overload" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="Too_long_gyro_starting" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="No_link_with_TIU_portstbd" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="Barrel_Normal" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="Untimely_starting_time" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="Barrel_noLongger_ready" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="Absence_of_gyro" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="Error_writing_Torpedo" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="Exercise_head_not_start" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="Torpedo_not_leave_barrel_in_fire" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="BUFFER_SIZE" type="Integer">
+    <value>
+      $1400000
+    </value>
+  </const>
+  <const name="PACKET_PASS" type="string">
+    <value>
+      SKL
+    </value>
+  </const>
+  <const name="REC_3D_POSITION" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="REC_POSITION" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="REC_3D_ORDER" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="REC_3D_EXOCET" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="REC_SET_EXOCET" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="__ORD_EXOCET_FIRE" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="REC_3D_CHAFF" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="REC_SET_CHAFF" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="REC_3D_ASROCK" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="REC_SET_ASROCK" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="__ORD_ASROCK_ASSIGNED" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__ORD_ASROCK_DEASSIGNED" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__ORD_ASROCK_FIRE" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__ORD_ASROCK_LOADING" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="__ORD_ASROCK_ON" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="__ORD_ASROCK_OFF" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="C_REC_CANNON" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="REC_SET_CANNON" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="__ORD_CANNON_LR" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__ORD_CANNON_UD" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__ORD_CANNON_F" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__ORD_CANNON_DIRECT_LR" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="__ORD_CANNON_DIRECT_UD" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="__ORD_CANNON_DIRECT_F" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="__ORD_CANNON_START_F" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="__ORD_CANNON_STOP_F" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="__ORD_CANNON_ASSIGNED" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="__ORD_CANNON_DEASSIGNED" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="__ORD_CANNON_AUTOCORRECT" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="__ORD_CANNON_ON" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="__ORD_CANNON_OFF" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="__ORD_CANNON_UNLOCK" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="__ORD_CANNON_LOCK" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="M_DirBomb" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="M_IndBomb_BlindBomb" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="M_AirTarget" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="REC_3D_TORPEDO_MK44" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="REC_3D_TORPEDO_SUT" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="__ORD_TORPEDOSUT_FIRED" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__ORD_TORPEDOSUT_NAVIGATE" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__ORD_TORPEDOSUT_HOMING" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__ORD_TORPEDOSUT_SEARCH" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="__ORD_TORPEDOSUT_MANUAL" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="__ORD_TORPEDOSUT_SHUTDOWN" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="__ORD_TORPEDOSUT_LOADING" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="__ORD_TORPEDOSUT_ON" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="__ORD_TORPEDOSUT_OFF" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="__ORD_TORPEDOSUT_DELETE" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="__ORD_TORPEDOSUT_TARGETSEARCHPROGRAM" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="__TORPEDOSUT_TARGET_SURFACE" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__TORPEDOSUT_TARGET_SUBSURFACE" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="C_REC_ORDER" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="C_REC_ORDER_XY" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="C_REC_TRACK_ORDER" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="C_REC_ORDER_ASSIGNMENT" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="C_REC_SET_TRACKNUM" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="C_REC_FIRE_CONTROL" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="C_REC_GUN_CONTROL" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="C_REC_XXX_ORDER" type="Integer">
+    <value>
+      $11
+    </value>
+  </const>
+  <const name="C_REC_LINK_ORDER" type="Integer">
+    <value>
+      $12
+    </value>
+  </const>
+  <const name="REC_3D_RBU" type="Integer">
+    <value>
+      $13
+    </value>
+  </const>
+  <const name="REC_SET_RBU" type="Integer">
+    <value>
+      $13
+    </value>
+  </const>
+  <const name="__ORD_RBU_ASSIGNED" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__ORD_RBU_DEASSIGNED" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__ORD_RBU_FIRE" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__ORD_RBU_LOADING" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="__ORD_RBU_AUTO" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="__ORD_RBU_STARTF" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="__ORD_RBU_STOPF" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="__ORD_RBU_FIRE_SALVO" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="__ORD_RBU_ON" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="__ORD_RBU_OFF" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="C_REC_HARPOON_SETTING" type="Integer">
+    <value>
+      $1E
+    </value>
+  </const>
+  <const name="REC_DB_ORDER" type="Integer">
+    <value>
+      $1F
+    </value>
+  </const>
+  <const name="REC_DATA_C802" type="Integer">
+    <value>
+      $14
+    </value>
+  </const>
+  <const name="__ORD_C802_FIRE" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__ORD_C802_RADAR_ASSIGN" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__ORD_C802_LOADING" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__ORD_C802_ON" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="__ORD_C802_OFF" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="REC_CMD_C802" type="Integer">
+    <value>
+      $19
+    </value>
+  </const>
+  <const name="CMD_C802_Combat" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="CMD_C802_Simulate" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="CMD_C802_Check" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="CMD_C802_LogOff" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="CMD_C802_Status" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="CMD_C802_MControl" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="CMD_C802_ParSetting" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="CMD_C802_RecordData" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="CMD_C802_Tab" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="CMD_C802_Esc" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="CMD_C802_BackSpace" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="CMD_C802_Enter" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="CMD_C802_OnOff" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="CMD_C802_Up" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="CMD_C802_Down" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="CMD_C802_Left" type="Integer">
+    <value>
+      $11
+    </value>
+  </const>
+  <const name="CMD_C802_Right" type="Integer">
+    <value>
+      $12
+    </value>
+  </const>
+  <const name="CMD_C802_Dash" type="Integer">
+    <value>
+      $13
+    </value>
+  </const>
+  <const name="CMD_C802_Dot" type="Integer">
+    <value>
+      $14
+    </value>
+  </const>
+  <const name="CMD_C802_1" type="Integer">
+    <value>
+      $15
+    </value>
+  </const>
+  <const name="CMD_C802_2" type="Integer">
+    <value>
+      $16
+    </value>
+  </const>
+  <const name="CMD_C802_3" type="Integer">
+    <value>
+      $17
+    </value>
+  </const>
+  <const name="CMD_C802_4" type="Integer">
+    <value>
+      $18
+    </value>
+  </const>
+  <const name="CMD_C802_5" type="Integer">
+    <value>
+      $19
+    </value>
+  </const>
+  <const name="CMD_C802_6" type="Integer">
+    <value>
+      $1A
+    </value>
+  </const>
+  <const name="CMD_C802_7" type="Integer">
+    <value>
+      $1B
+    </value>
+  </const>
+  <const name="CMD_C802_8" type="Integer">
+    <value>
+      $1C
+    </value>
+  </const>
+  <const name="CMD_C802_9" type="Integer">
+    <value>
+      $1D
+    </value>
+  </const>
+  <const name="CMD_C802_0" type="Integer">
+    <value>
+      $1E
+    </value>
+  </const>
+  <const name="CMD_C802Archos_Exit" type="Integer">
+    <value>
+      $64
+    </value>
+  </const>
+  <const name="CMD_C802Archos_Start" type="Integer">
+    <value>
+      $C8
+    </value>
+  </const>
+  <const name="OrdID_C802_launch" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="REC_CMD_TETRAL" type="Integer">
+    <value>
+      $15
+    </value>
+  </const>
+  <const name="__ORD_TETRAL_FIRE" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__ORD_TETRAL_ASSIGN" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__ORD_TETRAL_LOADING" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="__ORD_TETRAL_ON" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="__ORD_TETRAL_OFF" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="REC_CMD_MISTRAL" type="Integer">
+    <value>
+      $16
+    </value>
+  </const>
+  <const name="__ORD_MISTRAL_FIRE" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__ORD_MISTRAL_ASSIGN" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__ORD_MISTRAL_LOADING" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="__ORD_MISTRAL_ON" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="__ORD_MISTRAL_OFF" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="__ORD_MISTRAL_UNLOCK" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="__ORD_MISTRAL_LOCK" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="REC_CMD_STRELLA" type="Integer">
+    <value>
+      $17
+    </value>
+  </const>
+  <const name="__ORD_STRELLA_FIRE" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__ORD_STRELLA_ASSIGN" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__ORD_STRELLA_LOADING" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="__ORD_STRELA_ON" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="__ORD_STRELA_OFF" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="__ORD_STRELA_UNLOCK" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="__ORD_STRELA_LOCK" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="REC_DATA_Yakhont" type="Integer">
+    <value>
+      $18
+    </value>
+  </const>
+  <const name="__ORD_Yahkont_FIRE" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__ORD_Yahkont_RELEASE" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__ORD_Yahkont_LOADING" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__ORD_YAKHONT_ON" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="__ORD_YAKHONT_OFF" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="REC_STAT_ORDER_YAKHONT" type="Integer">
+    <value>
+      $19
+    </value>
+  </const>
+  <const name="REC_CMD_Yakhont" type="Integer">
+    <value>
+      $1A
+    </value>
+  </const>
+  <const name="CMD_Yakhont_Cancel" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="CMD_Yakhont_Backlight" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="CMD_Yakhont_Key" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="CMD_Yakhont_Start" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="CMD_Yakhont_OpenKey" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="CMD_Yakhont_SCOn" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="CMD_Yakhont_SCOff" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="CMD_Yakhont_ReadyToFire" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="CMD_Yakhont_Terminate" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="REC_CMD_EXOCET_40" type="Integer">
+    <value>
+      $1B
+    </value>
+  </const>
+  <const name="__ORD_EXOCET_40_FIRE" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__ORD_EXOCET_40_LOADING" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__ORD_EXOCET_40_ON" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__ORD_EXOCET_40_OFF" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="REC_ENVI" type="Integer">
+    <value>
+      $22
+    </value>
+  </const>
+  <const name="REC_ENVIRONMENT" type="Integer">
+    <value>
+      $22
+    </value>
+  </const>
+  <const name="REC_ORD_NOVAL" type="Integer">
+    <value>
+      $28
+    </value>
+  </const>
+  <const name="REC_ORDER_NOVAL" type="Integer">
+    <value>
+      $28
+    </value>
+  </const>
+  <const name="REC_MISSILEPOS" type="Integer">
+    <value>
+      $32
+    </value>
+  </const>
+  <const name="REC_3D_MISSILEPOS" type="Integer">
+    <value>
+      $32
+    </value>
+  </const>
+  <const name="REC_3D_SETCONTROL" type="Integer">
+    <value>
+      $33
+    </value>
+  </const>
+  <const name="REC_TEXTURE_CAMERA" type="Integer">
+    <value>
+      $34
+    </value>
+  </const>
+  <const name="REC_3D_UTIL_TOOLS" type="Integer">
+    <value>
+      $35
+    </value>
+  </const>
+  <const name="REC_2D_ORDER" type="Integer">
+    <value>
+      $36
+    </value>
+  </const>
+  <const name="REC_STAT_ORDER_CONSOLE" type="Integer">
+    <value>
+      $37
+    </value>
+  </const>
+  <const name="REC_ERROR_SPS115" type="Integer">
+    <value>
+      $38
+    </value>
+  </const>
+  <const name="REC_SPSS_ORDER" type="Integer">
+    <value>
+      $39
+    </value>
+  </const>
+  <const name="_ORD_SPS_FIRE" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="_ORD_SPS_LOADING" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__ORD_SPS_ON" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="__ORD_SPS_OFF" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="REC_SET_TIU_Port" type="Integer">
+    <value>
+      $3A
+    </value>
+  </const>
+  <const name="REC_SET_TIU_Stbd" type="Integer">
+    <value>
+      $3B
+    </value>
+  </const>
+  <const name="REC_ASRL_PANEL_SETTING" type="Integer">
+    <value>
+      $3E
+    </value>
+  </const>
+  <const name="REC_3D_WCC" type="Integer">
+    <value>
+      $3F
+    </value>
+  </const>
+  <const name="REC_SET_WCC" type="Integer">
+    <value>
+      $3F
+    </value>
+  </const>
+  <const name="REC_STAT_CANNON_SPLASH" type="Integer">
+    <value>
+      $40
+    </value>
+  </const>
+  <const name="REC_RBU_SONARMODE" type="Integer">
+    <value>
+      $41
+    </value>
+  </const>
+  <const name="RecRBU_SonarMode_ORDER" type="Integer">
+    <value>
+      $42
+    </value>
+  </const>
+  <const name="REC_CMD_COM_CONSOLE" type="Integer">
+    <value>
+      $47
+    </value>
+  </const>
+  <const name="REC_STAT_ORDER_CONSOLE_C802" type="Integer">
+    <value>
+      $48
+    </value>
+  </const>
+  <const name="REC_STAT_ASSIGN_OBJECT" type="Integer">
+    <value>
+      $49
+    </value>
+  </const>
+  <const name="__ORD_ID_C802" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__ORD_ID_YAKHONT" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="REC_MAP_COMMAND" type="Integer">
+    <value>
+      $4A
+    </value>
+  </const>
+  <const name="REC_WEAPON_SHOW_RANGE" type="Integer">
+    <value>
+      $4B
+    </value>
+  </const>
+  <const name="REC_STATUS_C802" type="Integer">
+    <value>
+      $4C
+    </value>
+  </const>
+  <const name="REC_GUIDANCE" type="Integer">
+    <value>
+      $4D
+    </value>
+  </const>
+  <const name="REC_STATUS_YAKHONT" type="Integer">
+    <value>
+      $4E
+    </value>
+  </const>
+  <const name="REC_EVENT_LOG" type="Integer">
+    <value>
+      $4F
+    </value>
+  </const>
+  <const name="REC_GAME_NAME" type="Integer">
+    <value>
+      $50
+    </value>
+  </const>
+  <const name="REC_COMMAND_YAKHONTPLP" type="Integer">
+    <value>
+      $51
+    </value>
+  </const>
+  <const name="REC_RECV_TORP_STATE" type="Integer">
+    <value>
+      $52
+    </value>
+  </const>
+  <const name="REC_DATA_CONTROL" type="Integer">
+    <value>
+      $53
+    </value>
+  </const>
+  <const name="REC_STATUS_GAME" type="Integer">
+    <value>
+      $54
+    </value>
+  </const>
+  <const name="REC_ENABLE_WEAPON" type="Integer">
+    <value>
+      $55
+    </value>
+  </const>
+  <const name="REC_STATUS_LOADING" type="Integer">
+    <value>
+      $56
+    </value>
+  </const>
+  <const name="REC_STATUS_MESSAGE" type="Integer">
+    <value>
+      $57
+    </value>
+  </const>
+  <const name="REC_REPLAY" type="Integer">
+    <value>
+      $58
+    </value>
+  </const>
+  <const name="REC_ASROC_TYPE_MISSILE" type="Integer">
+    <value>
+      $59
+    </value>
+  </const>
+  <const name="REC_TRAJECTORY_VIEW" type="Integer">
+    <value>
+      $5A
+    </value>
+  </const>
+  <const name="REC_VIEW_RANGE_WEAPON" type="Integer">
+    <value>
+      $5B
+    </value>
+  </const>
+  <const name="__STAT_SPS_115V" type="Integer">
+    <value>
+      $65
+    </value>
+  </const>
+  <const name="__PARAM_115V_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_115V_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_SPS_NDS" type="Integer">
+    <value>
+      $66
+    </value>
+  </const>
+  <const name="__PARAM_NDS_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_NDS_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_SPS_TIU_PORT" type="Integer">
+    <value>
+      $67
+    </value>
+  </const>
+  <const name="__STAT_SPS_TIU_STARBOARD" type="Integer">
+    <value>
+      $68
+    </value>
+  </const>
+  <const name="__PARAM_TIU_NORMAL" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="__PARAM_TIU_FAULTY" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_TIU_LOWVOLTAGE" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__PARAM_TIU_NOLINK" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__STAT_SPS_TEMP_PORT" type="Integer">
+    <value>
+      $69
+    </value>
+  </const>
+  <const name="__STAT_SPS_TEMP_STARBOARD" type="Integer">
+    <value>
+      $6A
+    </value>
+  </const>
+  <const name="__PARAM_TEMP_NORMAL" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_TEMP_OVERHEAD" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_SPS_45_DEG_PORT" type="Integer">
+    <value>
+      $6B
+    </value>
+  </const>
+  <const name="__STAT_SPS_45_DEG_STARBOARD" type="Integer">
+    <value>
+      $6C
+    </value>
+  </const>
+  <const name="__PARAM_45_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_45_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_SPS_GYRO_1" type="Integer">
+    <value>
+      $6D
+    </value>
+  </const>
+  <const name="__STAT_SPS_GYRO_2" type="Integer">
+    <value>
+      $6E
+    </value>
+  </const>
+  <const name="__STAT_SPS_GYRO_3" type="Integer">
+    <value>
+      $6F
+    </value>
+  </const>
+  <const name="__STAT_SPS_GYRO_4" type="Integer">
+    <value>
+      $70
+    </value>
+  </const>
+  <const name="__STAT_SPS_GYRO_5" type="Integer">
+    <value>
+      $71
+    </value>
+  </const>
+  <const name="__STAT_SPS_GYRO_6" type="Integer">
+    <value>
+      $72
+    </value>
+  </const>
+  <const name="__PARAM_GYRO_NORMAL" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_GYRO_LONG_CAGING" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__PARAM_GYRO_OVERLOAD" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__PARAM_GYRO_LONG_STARTING" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="__PARAM_GYRO_NOLINK_TIU" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="__STAT_SPS_BARREL_1" type="Integer">
+    <value>
+      $73
+    </value>
+  </const>
+  <const name="__STAT_SPS_BARREL_2" type="Integer">
+    <value>
+      $74
+    </value>
+  </const>
+  <const name="__STAT_SPS_BARREL_3" type="Integer">
+    <value>
+      $75
+    </value>
+  </const>
+  <const name="__STAT_SPS_BARREL_4" type="Integer">
+    <value>
+      $76
+    </value>
+  </const>
+  <const name="__STAT_SPS_BARREL_5" type="Integer">
+    <value>
+      $77
+    </value>
+  </const>
+  <const name="__STAT_SPS_BARREL_6" type="Integer">
+    <value>
+      $78
+    </value>
+  </const>
+  <const name="__PARAM_BARREL_NORMAL" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_BARREL_UNTIMESTART" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__PARAM_BARREL_NOREADY" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__PARAM_BARREL_NOGYRO" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="__PARAM_BARREL_WRITINGTRP" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="__PARAM_BARREL_HEADERROR" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="__PARAM_BARREL_FIREERROR" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="__STAT_SPS_SELFTEST" type="Integer">
+    <value>
+      $79
+    </value>
+  </const>
+  <const name="__PARAM_SELFTEST_OK" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_SELFTEST_FAIL" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_ASROCK_HYDR" type="Integer">
+    <value>
+      $C9
+    </value>
+  </const>
+  <const name="__PARAM_HYDR_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_HYDR_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_ASROCK_LAUNCHER" type="Integer">
+    <value>
+      $CA
+    </value>
+  </const>
+  <const name="__PARAM_LNCHR_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_LNCHR_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_ASROCK_LAUNCHER_SYNC" type="Integer">
+    <value>
+      $CB
+    </value>
+  </const>
+  <const name="__PARAM_LNCHR_S_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_LNCHR_S_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_ASROCK_ROCKET1_READY" type="Integer">
+    <value>
+      $CC
+    </value>
+  </const>
+  <const name="__PARAM_ROCKET1_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_ROCKET1_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_ASROCK_ROCKET2_READY" type="Integer">
+    <value>
+      $CD
+    </value>
+  </const>
+  <const name="__PARAM_ROCKET2_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_ROCKET2_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_ASROCK_AVAILABLE_ERIKA" type="Integer">
+    <value>
+      $CE
+    </value>
+  </const>
+  <const name="__STAT_ASROCK_SPEED_ERIKA" type="Integer">
+    <value>
+      $CF
+    </value>
+  </const>
+  <const name="__STAT_ASROCK_FUZE_ERIKA" type="Integer">
+    <value>
+      $D0
+    </value>
+  </const>
+  <const name="__STAT_ASROCK_AVAILABLE_NELLY" type="Integer">
+    <value>
+      $D1
+    </value>
+  </const>
+  <const name="__STAT_ASROCK_SPEED_NELLY" type="Integer">
+    <value>
+      $D2
+    </value>
+  </const>
+  <const name="__STAT_ASROCK_FUZE_NELLY" type="Integer">
+    <value>
+      $D3
+    </value>
+  </const>
+  <const name="__STAT_RBU_BALISTIK12" type="Integer">
+    <value>
+      $12D
+    </value>
+  </const>
+  <const name="__STAT_RBU_PERUBAHAN_HALU" type="Integer">
+    <value>
+      $12E
+    </value>
+  </const>
+  <const name="__STAT_RBU_BAHAYA_TPO" type="Integer">
+    <value>
+      $12F
+    </value>
+  </const>
+  <const name="__STAT_RBU_KONTAK_HILANG" type="Integer">
+    <value>
+      $130
+    </value>
+  </const>
+  <const name="__STAT_RBU_ALIRAN_KAPAL" type="Integer">
+    <value>
+      $131
+    </value>
+  </const>
+  <const name="__STAT_RBU_UNFORMER_I_LEFT" type="Integer">
+    <value>
+      $132
+    </value>
+  </const>
+  <const name="__STAT_RBU_UNFORMER_II_LEFT" type="Integer">
+    <value>
+      $133
+    </value>
+  </const>
+  <const name="__STAT_RBU_UNFORMER_I_RIGHT" type="Integer">
+    <value>
+      $134
+    </value>
+  </const>
+  <const name="__STAT_RBU_UNFORMER_II_RIGHT" type="Integer">
+    <value>
+      $135
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER1_MISSILE1_FAULT" type="Integer">
+    <value>
+      $137
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER1_MISSILE2_FAULT" type="Integer">
+    <value>
+      $138
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER1_MISSILE3_FAULT" type="Integer">
+    <value>
+      $139
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER1_MISSILE4_FAULT" type="Integer">
+    <value>
+      $13A
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER1_MISSILE5_FAULT" type="Integer">
+    <value>
+      $13B
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER1_MISSILE6_FAULT" type="Integer">
+    <value>
+      $13C
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER1_MISSILE7_FAULT" type="Integer">
+    <value>
+      $13D
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER1_MISSILE8_FAULT" type="Integer">
+    <value>
+      $13E
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER1_MISSILE9_FAULT" type="Integer">
+    <value>
+      $13F
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER1_MISSILE10_FAULT" type="Integer">
+    <value>
+      $140
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER1_MISSILE11_FAULT" type="Integer">
+    <value>
+      $141
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER1_MISSILE12_FAULT" type="Integer">
+    <value>
+      $142
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER2_MISSILE1_FAULT" type="Integer">
+    <value>
+      $14B
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER2_MISSILE2_FAULT" type="Integer">
+    <value>
+      $14C
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER2_MISSILE3_FAULT" type="Integer">
+    <value>
+      $14D
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER2_MISSILE4_FAULT" type="Integer">
+    <value>
+      $14E
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER2_MISSILE5_FAULT" type="Integer">
+    <value>
+      $14F
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER2_MISSILE6_FAULT" type="Integer">
+    <value>
+      $150
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER2_MISSILE7_FAULT" type="Integer">
+    <value>
+      $151
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER2_MISSILE8_FAULT" type="Integer">
+    <value>
+      $152
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER2_MISSILE9_FAULT" type="Integer">
+    <value>
+      $153
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER2_MISSILE10_FAULT" type="Integer">
+    <value>
+      $154
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER2_MISSILE11_FAULT" type="Integer">
+    <value>
+      $155
+    </value>
+  </const>
+  <const name="__STAT_RBU_LAUNCHER2_MISSILE12_FAULT" type="Integer">
+    <value>
+      $156
+    </value>
+  </const>
+  <const name="__PARAM_RBU_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_RBU_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_TempWEC" type="Integer">
+    <value>
+      $191
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_TempTCC" type="Integer">
+    <value>
+      $192
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_FuseWEC" type="Integer">
+    <value>
+      $193
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_FuseTCC" type="Integer">
+    <value>
+      $194
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_PowerResetWEC" type="Integer">
+    <value>
+      $195
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_PowerResetTCC" type="Integer">
+    <value>
+      $196
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_CMPTR" type="Integer">
+    <value>
+      $197
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_SOFTW" type="Integer">
+    <value>
+      $198
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_NUG_1" type="Integer">
+    <value>
+      $199
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_NUG_2" type="Integer">
+    <value>
+      $19A
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_AntiCondensHeating" type="Integer">
+    <value>
+      $19B
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_LOADPROGR" type="Integer">
+    <value>
+      $19C
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_Port_Indikator_Port" type="Integer">
+    <value>
+      $19D
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_StbPort_Indikator_Port" type="Integer">
+    <value>
+      $19E
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_Port_ToSupply" type="Integer">
+    <value>
+      $19F
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_StbPort_ToSupply" type="Integer">
+    <value>
+      $1A0
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_Port_120_BAR" type="Integer">
+    <value>
+      $1A1
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_StbPort_120_BAR" type="Integer">
+    <value>
+      $1A2
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_Port_20_BAR" type="Integer">
+    <value>
+      $1A3
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_StbPort_20_BAR" type="Integer">
+    <value>
+      $1A4
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_Port_DOOR_Open" type="Integer">
+    <value>
+      $1A5
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_StbPort_DOOR_Open" type="Integer">
+    <value>
+      $1A6
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_Port_TORP_On" type="Integer">
+    <value>
+      $1A7
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_StbPort_TORP_On" type="Integer">
+    <value>
+      $1A8
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_Port_Ready_To_Fire" type="Integer">
+    <value>
+      $1A9
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_StbPort_Ready_To_Fire" type="Integer">
+    <value>
+      $1AA
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_EXTSTABAVL" type="Integer">
+    <value>
+      $1AB
+    </value>
+  </const>
+  <const name="__STAT_TOCOS_CASSTABAVL" type="Integer">
+    <value>
+      $1AC
+    </value>
+  </const>
+  <const name="__PARAM_TOCOS_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_TOCOS_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_RRNF" type="Integer">
+    <value>
+      $1F5
+    </value>
+  </const>
+  <const name="__PARAM_RRNF_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_RRNF_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_RPC_LPC" type="Integer">
+    <value>
+      $1F6
+    </value>
+  </const>
+  <const name="__PARAM_RPC_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_LPC_ON" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_RDY_RH_LH_MAG" type="Integer">
+    <value>
+      $1F7
+    </value>
+  </const>
+  <const name="__PARAM_RH_MAG_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_RH_MAG_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_RADAR_ERROR" type="Integer">
+    <value>
+      $1F8
+    </value>
+  </const>
+  <const name="__PARAM_RADAR_ERROR_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_RADAR_ERROR_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_COMPUTER" type="Integer">
+    <value>
+      $1F9
+    </value>
+  </const>
+  <const name="__PARAM_COMPUTER_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_COMPUTER_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_SYN_GUN2" type="Integer">
+    <value>
+      $1FA
+    </value>
+  </const>
+  <const name="__PARAM_SYN_GUN2_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_SYN_GUN2_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_SYN_GUN3" type="Integer">
+    <value>
+      $1FB
+    </value>
+  </const>
+  <const name="__PARAM_SYN_GUN3_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_SYN_GUN3_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_YAKHONT_PRINTER" type="Integer">
+    <value>
+      $259
+    </value>
+  </const>
+  <const name="__STAT_YAKHONT_CONSOLE_N1" type="Integer">
+    <value>
+      $25A
+    </value>
+  </const>
+  <const name="__STAT_YAKHONT_CONSOLE_N2" type="Integer">
+    <value>
+      $25B
+    </value>
+  </const>
+  <const name="__STAT_YAKHONT_RIGHT_1" type="Integer">
+    <value>
+      $25C
+    </value>
+  </const>
+  <const name="__STAT_YAKHONT_RIGHT_3" type="Integer">
+    <value>
+      $25D
+    </value>
+  </const>
+  <const name="__STAT_YAKHONT_LEFT_2" type="Integer">
+    <value>
+      $25E
+    </value>
+  </const>
+  <const name="__STAT_YAKHONT_LEFT_4" type="Integer">
+    <value>
+      $25F
+    </value>
+  </const>
+  <const name="__STAT_YAKHONT_KR231" type="Integer">
+    <value>
+      $260
+    </value>
+  </const>
+  <const name="__STAT_YAKHONT_GYRO" type="Integer">
+    <value>
+      $261
+    </value>
+  </const>
+  <const name="__STAT_YAKHONT_INS300V" type="Integer">
+    <value>
+      $262
+    </value>
+  </const>
+  <const name="__STAT_YAKHONT_INS27V" type="Integer">
+    <value>
+      $263
+    </value>
+  </const>
+  <const name="__YAKHONT_STATUS_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__YAKHONT_STATUS_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_C802_INITSTATE" type="Integer">
+    <value>
+      $2BD
+    </value>
+  </const>
+  <const name="__STAT_C802_POWERSUPPLY" type="Integer">
+    <value>
+      $2BE
+    </value>
+  </const>
+  <const name="__STAT_C802_TURNONEQUIP" type="Integer">
+    <value>
+      $2BF
+    </value>
+  </const>
+  <const name="__STAT_C802_CHECKSTAGE1" type="Integer">
+    <value>
+      $2C0
+    </value>
+  </const>
+  <const name="__STAT_C802_ANGLESET" type="Integer">
+    <value>
+      $2C1
+    </value>
+  </const>
+  <const name="__STAT_C802_COCHECK" type="Integer">
+    <value>
+      $2C2
+    </value>
+  </const>
+  <const name="__STAT_C802_TZKSETTING" type="Integer">
+    <value>
+      $2C3
+    </value>
+  </const>
+  <const name="__STAT_C802_COMMANDNO3" type="Integer">
+    <value>
+      $2C4
+    </value>
+  </const>
+  <const name="__STAT_C802_MISNORMAL" type="Integer">
+    <value>
+      $2C5
+    </value>
+  </const>
+  <const name="__STAT_C802_ACCURATECAL" type="Integer">
+    <value>
+      $2C6
+    </value>
+  </const>
+  <const name="__STAT_C802_INSIDESECTR" type="Integer">
+    <value>
+      $2C7
+    </value>
+  </const>
+  <const name="__STAT_C802_LIMITEROUT" type="Integer">
+    <value>
+      $2C8
+    </value>
+  </const>
+  <const name="__STAT_C802_RIGIDITYSTT" type="Integer">
+    <value>
+      $2C9
+    </value>
+  </const>
+  <const name="__STAT_C802_FULLOPEN" type="Integer">
+    <value>
+      $2CA
+    </value>
+  </const>
+  <const name="__STAT_C802_BOOSTERARM" type="Integer">
+    <value>
+      $2CB
+    </value>
+  </const>
+  <const name="__STAT_C802_LAUNCHREADY" type="Integer">
+    <value>
+      $2CC
+    </value>
+  </const>
+  <const name="__STAT_C802_LAUNCHBUTTON" type="Integer">
+    <value>
+      $2CD
+    </value>
+  </const>
+  <const name="__STAT_C802_BATTERYACT" type="Integer">
+    <value>
+      $2CE
+    </value>
+  </const>
+  <const name="__STAT_C802_POWERSWITCH" type="Integer">
+    <value>
+      $2CF
+    </value>
+  </const>
+  <const name="__STAT_C802_GYROUNCAGED" type="Integer">
+    <value>
+      $2D0
+    </value>
+  </const>
+  <const name="__STAT_C802_IGNITION" type="Integer">
+    <value>
+      $2D1
+    </value>
+  </const>
+  <const name="__STAT_C802_TAKEOFF" type="Integer">
+    <value>
+      $2D2
+    </value>
+  </const>
+  <const name="__STAT_C802_PRECHECK_LAUNCHER1" type="Integer">
+    <value>
+      $2BD
+    </value>
+  </const>
+  <const name="__STAT_C802_PRECHECK_LAUNCHER2" type="Integer">
+    <value>
+      $2BE
+    </value>
+  </const>
+  <const name="__STAT_C802_PRECHECK_LAUNCHER3" type="Integer">
+    <value>
+      $2BF
+    </value>
+  </const>
+  <const name="__STAT_C802_PRECHECK_LAUNCHER4" type="Integer">
+    <value>
+      $2C0
+    </value>
+  </const>
+  <const name="__STAT_C802_READYCONDITION_LAUNCHER1" type="Integer">
+    <value>
+      $2C1
+    </value>
+  </const>
+  <const name="__STAT_C802_READYCONDITION_LAUNCHER2" type="Integer">
+    <value>
+      $2C2
+    </value>
+  </const>
+  <const name="__STAT_C802_READYCONDITION_LAUNCHER3" type="Integer">
+    <value>
+      $2C3
+    </value>
+  </const>
+  <const name="__STAT_C802_READYCONDITION_LAUNCHER4" type="Integer">
+    <value>
+      $2C4
+    </value>
+  </const>
+  <const name="__STAT_C802_LAUNCH_LAUNCHER1" type="Integer">
+    <value>
+      $2C5
+    </value>
+  </const>
+  <const name="__STAT_C802_LAUNCH_LAUNCHER2" type="Integer">
+    <value>
+      $2C6
+    </value>
+  </const>
+  <const name="__STAT_C802_LAUNCH_LAUNCHER3" type="Integer">
+    <value>
+      $2C7
+    </value>
+  </const>
+  <const name="__STAT_C802_LAUNCH_LAUNCHER4" type="Integer">
+    <value>
+      $2C8
+    </value>
+  </const>
+  <const name="__PARAM_C802_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_C802_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_MOC_RadarARPA" type="Integer">
+    <value>
+      $321
+    </value>
+  </const>
+  <const name="__STAT_MOC_MW08" type="Integer">
+    <value>
+      $322
+    </value>
+  </const>
+  <const name="__STAT_MOC_LIROD_MK2" type="Integer">
+    <value>
+      $323
+    </value>
+  </const>
+  <const name="__STAT_MOC_Kingklip" type="Integer">
+    <value>
+      $324
+    </value>
+  </const>
+  <const name="__PARAM_MOC_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_MOC_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_TETRAL_FWD" type="Integer">
+    <value>
+      $385
+    </value>
+  </const>
+  <const name="__STAT_TETRAL_AFT" type="Integer">
+    <value>
+      $386
+    </value>
+  </const>
+  <const name="__PARAM_TETRAL_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_TETRAL_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_EXOCET40_ENABLE" type="Integer">
+    <value>
+      $3E9
+    </value>
+  </const>
+  <const name="__STAT_EXOCET40_SafetyFA" type="Integer">
+    <value>
+      $3EA
+    </value>
+  </const>
+  <const name="__STAT_EXOCET40_ControlFA" type="Integer">
+    <value>
+      $3EB
+    </value>
+  </const>
+  <const name="__STAT_EXOCET40_FIRING" type="Integer">
+    <value>
+      $3EC
+    </value>
+  </const>
+  <const name="__PARAM_EXOCET40_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_EXOCET40_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_CANNON76_ENABLE" type="Integer">
+    <value>
+      $44D
+    </value>
+  </const>
+  <const name="__PARAM_CANNON76_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_CANNON76_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_STRELA_LAUNCER1" type="Integer">
+    <value>
+      $4B1
+    </value>
+  </const>
+  <const name="__STAT_STRELA_LAUNCER2" type="Integer">
+    <value>
+      $4B2
+    </value>
+  </const>
+  <const name="__STAT_STRELA_LAUNCER3" type="Integer">
+    <value>
+      $4B3
+    </value>
+  </const>
+  <const name="__STAT_STRELA_LAUNCER4" type="Integer">
+    <value>
+      $4B4
+    </value>
+  </const>
+  <const name="__PARAM_STRELA_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_STRELA_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_MISTRAL_LAUNCER1" type="Integer">
+    <value>
+      $515
+    </value>
+  </const>
+  <const name="__STAT_MISTRAL_LAUNCER2" type="Integer">
+    <value>
+      $516
+    </value>
+  </const>
+  <const name="__PARAM_MISTRAL_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_MISTRAL_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_CANNON40_ENABLE" type="Integer">
+    <value>
+      $579
+    </value>
+  </const>
+  <const name="__PARAM_CANNON40_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_CANNON40_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__STAT_CANNON57_ENABLE" type="Integer">
+    <value>
+      $5DD
+    </value>
+  </const>
+  <const name="__PARAM_CANNON57_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__PARAM_CANNON57_OFF" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="C_REC_PACKETNAME" type=":1" visibility="public" />
+  <const name="OrdID_select_radar_type" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="OrdID_start_ICM" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="OrdID_update_ICM" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="OrdID_end_ICM" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="OrdID_init_datum" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="OrdID_FOC_plus" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="OrdID_FOC_minus" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="OrdID_change_ident" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="OrdID_ident_bawah_air" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="OrdID_ident_atas_air" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="OrdID_ident_udara" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="OrdID_assign_tor" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="OrdID_deassign_tor" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="OrdID_assign_asrl" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="OrdID_deassign_asrl" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="OrdID_WIPE" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="OrdID_init_ram" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="OrdID_init_ram_atas_air" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="OrdID_init_ram_udara" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="OrdID_assign_ram" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="OrdID_change_ampl_info" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="OrdID_init_track" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="OrdID_update_SSM" type="Integer">
+    <value>
+      $12
+    </value>
+  </const>
+  <const name="OrdID_assign_SSM" type="Integer">
+    <value>
+      $13
+    </value>
+  </const>
+  <const name="OrdID_deassign_SSM" type="Integer">
+    <value>
+      $14
+    </value>
+  </const>
+  <const name="OrdID_init_auto" type="Integer">
+    <value>
+      $15
+    </value>
+  </const>
+  <const name="OrdID_CorrectRAM" type="Integer">
+    <value>
+      $16
+    </value>
+  </const>
+  <const name="OrdID_init_DR" type="Integer">
+    <value>
+      $17
+    </value>
+  </const>
+  <const name="OrdID_init_esm_fix" type="Integer">
+    <value>
+      $18
+    </value>
+  </const>
+  <const name="OrdID_Synch_timebase" type="Integer">
+    <value>
+      $19
+    </value>
+  </const>
+  <const name="OrdID_UpdateTrackPos" type="Integer">
+    <value>
+      $1A
+    </value>
+  </const>
+  <const name="OrdID_assign_FC_WCC" type="Integer">
+    <value>
+      $1B
+    </value>
+  </const>
+  <const name="OrdID_deassign_FC_WCC" type="Integer">
+    <value>
+      $1C
+    </value>
+  </const>
+  <const name="OrdID_assign_FC" type="Integer">
+    <value>
+      $1B
+    </value>
+  </const>
+  <const name="OrdID_deassign_FC" type="Integer">
+    <value>
+      $1C
+    </value>
+  </const>
+  <const name="OrdID_BreakTrack" type="Integer">
+    <value>
+      $1C
+    </value>
+  </const>
+  <const name="OrdID_assignTrackSinbad" type="Integer">
+    <value>
+      $1D
+    </value>
+  </const>
+  <const name="OrdID_InputPeriskop" type="Integer">
+    <value>
+      $1E
+    </value>
+  </const>
+  <const name="OrdID_assign_engBox" type="Integer">
+    <value>
+      $1F
+    </value>
+  </const>
+  <const name="OrdID_assign_gun" type="Integer">
+    <value>
+      $20
+    </value>
+  </const>
+  <const name="OrdID_deassign_gun" type="Integer">
+    <value>
+      $21
+    </value>
+  </const>
+  <const name="OrdID_assign_FC_OCC" type="Integer">
+    <value>
+      $22
+    </value>
+  </const>
+  <const name="OrdID_deassign_FC_OCC" type="Integer">
+    <value>
+      $23
+    </value>
+  </const>
+  <const name="OrdID_SwitchPosition" type="Integer">
+    <value>
+      $25
+    </value>
+  </const>
+  <const name="OrdID_TrackLost" type="Integer">
+    <value>
+      $26
+    </value>
+  </const>
+  <const name="OrdID_init_point" type="Integer">
+    <value>
+      $27
+    </value>
+  </const>
+  <const name="OrdID_recv_sonar_owa" type="Integer">
+    <value>
+      $28
+    </value>
+  </const>
+  <const name="OrdID_send_link" type="Integer">
+    <value>
+      $29
+    </value>
+  </const>
+  <const name="OrdID_stop_send_link" type="Integer">
+    <value>
+      $2A
+    </value>
+  </const>
+  <const name="OrdID_correlate_track" type="Integer">
+    <value>
+      $2B
+    </value>
+  </const>
+  <const name="OrdID_decorrelate_track" type="Integer">
+    <value>
+      $2C
+    </value>
+  </const>
+  <const name="OrdID_UpdateTrackPos_Owa" type="Integer">
+    <value>
+      $2D
+    </value>
+  </const>
+  <const name="ORD_ASROCK_ASSIGNED" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_ASROCK_DEASSIGNED" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_ASROCK" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ORD_TORPEDOMK46_FIRED" type="Integer">
+    <value>
+      $36
+    </value>
+  </const>
+  <const name="ORD_3D_TORPEDO_SUT_FIRED" type="Integer">
+    <value>
+      $37
+    </value>
+  </const>
+  <const name="ORD_3D_TORPEDO_SUT_HANDLE" type="Integer">
+    <value>
+      $38
+    </value>
+  </const>
+  <const name="OrdID_assign_torpedoSUT" type="Integer">
+    <value>
+      $39
+    </value>
+  </const>
+  <const name="OrdID_deassign_torpedoSUT" type="Integer">
+    <value>
+      $3A
+    </value>
+  </const>
+  <const name="ORD_3D_TORPEDO_SUT_UPDATE_BEARING" type="Integer">
+    <value>
+      $3B
+    </value>
+  </const>
+  <const name="ORD_3D_TORPEDO_SUT_UPDATE_INTERCEPT" type="Integer">
+    <value>
+      $3C
+    </value>
+  </const>
+  <const name="C_Max_Order_ID" type="Integer">
+    <value>
+      $3C
+    </value>
+  </const>
+  <const name="C_ORDER_STR" type=":2" visibility="public" />
+  <const name="OrdHpn_None" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="OrdHpn_LaunchMode" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="OrdHpn_SearchMode" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="OrdHpn_SearchArea" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="OrdHpn_RecSearchArea" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="OrdHpn_LauncherTube" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="OrdHpn_Selected" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="OrdHpn_Sel_Area" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="C_OrdType_Torpedo_MK44" type="Byte" visibility="public" />
+  <const name="C_OrdType_Torpedo_A244" type="Byte" visibility="public" />
+  <const name="C_OrdType_RAM_atasair" type="Byte" visibility="public" />
+  <const name="C_OrdType_RAM_udara" type="Byte" visibility="public" />
+  <const name="CT_EXOCET" type="Integer">
+    <value>
+      $37
+    </value>
+  </const>
+  <const name="CT_TORPEDO_SUT" type="Integer">
+    <value>
+      $39
+    </value>
+  </const>
+  <const name="ORD_SHIP_DEL" type="Integer">
+    <devnotes>
+      //////////////////////////////////////////////////////////////////////
+       REC_3D_ORDER    = 3;
+    </devnotes>
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_NETWORK" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="ORD_SETPOS" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="ORD_THROTTLE" type="Integer">
+    <value>
+      $15
+    </value>
+  </const>
+  <const name="ORD_RUDDER" type="Integer">
+    <value>
+      $16
+    </value>
+  </const>
+  <const name="ORD_STOP" type="Integer">
+    <value>
+      $17
+    </value>
+  </const>
+  <const name="ORD_VERRUDDER" type="Integer">
+    <value>
+      $18
+    </value>
+  </const>
+  <const name="ORD_CAM_ANJUNGAN" type="Integer">
+    <value>
+      $1A
+    </value>
+  </const>
+  <const name="ORD_CAM_BLK" type="Integer">
+    <value>
+      $1B
+    </value>
+  </const>
+  <const name="ORD_ORD_ADDANGLE" type="Integer">
+    <value>
+      $45
+    </value>
+  </const>
+  <const name="ORD_BELL" type="Integer">
+    <value>
+      $1C
+    </value>
+  </const>
+  <const name="ORD_BELL0" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="ORD_BELL1" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_BELL2" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_BELL3" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ORD_BELL4" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="ORD_BELL5" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="ORD_BELL6" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="ORD_BELL7" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="ORD_BELL8" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="ORD_BELL9" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="ORD_ALT" type="Integer">
+    <value>
+      $1D
+    </value>
+  </const>
+  <const name="ORD_LAMP" type="Integer">
+    <value>
+      $1E
+    </value>
+  </const>
+  <const name="ORD_AnchorLight" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_AnchorLightOff" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_SternLight" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ORD_SternLightOff" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="ORD_MastheadLight" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="ORD_MastheadLightOff" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="ORD_MastheadLight2" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="ORD_MastheadLight2Off" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="ORD_PortLight" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="ORD_PortLightOff" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="ORD_StarboardLight" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="ORD_StarboardLightOff" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="ORD_SpecialLightL1Off" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="ORD_SpecialLightL1Red" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="ORD_SpecialLightL1White" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="ORD_SpecialLightL2Off" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="ORD_SpecialLightL2Red" type="Integer">
+    <value>
+      $11
+    </value>
+  </const>
+  <const name="ORD_SpecialLightL2White" type="Integer">
+    <value>
+      $12
+    </value>
+  </const>
+  <const name="ORD_SpecialLightL3Off" type="Integer">
+    <value>
+      $13
+    </value>
+  </const>
+  <const name="ORD_SpecialLightL3Red" type="Integer">
+    <value>
+      $14
+    </value>
+  </const>
+  <const name="ORD_SpecialLightL3White" type="Integer">
+    <value>
+      $15
+    </value>
+  </const>
+  <const name="ORD_SpecialLightR1Off" type="Integer">
+    <value>
+      $16
+    </value>
+  </const>
+  <const name="ORD_SpecialLightR1Red" type="Integer">
+    <value>
+      $17
+    </value>
+  </const>
+  <const name="ORD_SpecialLightR1White" type="Integer">
+    <value>
+      $18
+    </value>
+  </const>
+  <const name="ORD_SpecialLightR2Off" type="Integer">
+    <value>
+      $19
+    </value>
+  </const>
+  <const name="ORD_SpecialLightR2Red" type="Integer">
+    <value>
+      $1A
+    </value>
+  </const>
+  <const name="ORD_SpecialLightR2White" type="Integer">
+    <value>
+      $1B
+    </value>
+  </const>
+  <const name="ORD_SpecialLightR3Off" type="Integer">
+    <value>
+      $1C
+    </value>
+  </const>
+  <const name="ORD_SpecialLightR3Red" type="Integer">
+    <value>
+      $1D
+    </value>
+  </const>
+  <const name="ORD_SpecialLightR3White" type="Integer">
+    <value>
+      $1E
+    </value>
+  </const>
+  <const name="ORD_OpsDangerLightL" type="Integer">
+    <value>
+      $1F
+    </value>
+  </const>
+  <const name="ORD_OpsDangerLightLOff" type="Integer">
+    <value>
+      $20
+    </value>
+  </const>
+  <const name="ORD_OpsDangerLightR" type="Integer">
+    <value>
+      $21
+    </value>
+  </const>
+  <const name="ORD_OpsDangerLightROff" type="Integer">
+    <value>
+      $22
+    </value>
+  </const>
+  <const name="ORD_LIOD_LR" type="Integer">
+    <value>
+      $6E
+    </value>
+  </const>
+  <const name="ORD_LIOD_UD" type="Integer">
+    <value>
+      $6F
+    </value>
+  </const>
+  <const name="ORD_LIOD_Z" type="Integer">
+    <value>
+      $70
+    </value>
+  </const>
+  <const name="ORD_LIOD_SBO" type="Integer">
+    <value>
+      $71
+    </value>
+  </const>
+  <const name="ORD_LIOD_TSHOOT" type="Integer">
+    <value>
+      $72
+    </value>
+  </const>
+  <const name="ORD_LIOD_TFOLLOW" type="Integer">
+    <value>
+      $73
+    </value>
+  </const>
+  <const name="ORD_LIOD_LSR_FB" type="Integer">
+    <value>
+      $74
+    </value>
+  </const>
+  <const name="ORD_LIOD_SHADER" type="Integer">
+    <value>
+      $75
+    </value>
+  </const>
+  <const name="ORD_DB_RQ" type="Integer">
+    <value>
+      $D2
+    </value>
+  </const>
+  <const name="ORD_DB_RQ_STF" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="ORD_DB_RQ_STT" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_DB_SHIP" type="Integer">
+    <value>
+      $D3
+    </value>
+  </const>
+  <const name="ORD_DB_STT" type="Integer">
+    <value>
+      $DC
+    </value>
+  </const>
+  <const name="ORD_DB_STF" type="Integer">
+    <value>
+      $DD
+    </value>
+  </const>
+  <const name="ORD_DB_ST" type="Integer">
+    <devnotes>
+       modul ID from sonar
+    </devnotes>
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="STATE_AR_CLEAR" type="Integer">
+    <devnotes>
+       actor runtime
+    </devnotes>
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="STATE_AR_DEL" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="STATE_AR_CREATE" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ST_MISSILE_RUN" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ST_MISSILE_HIT" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ST_MISSILE_DEL" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ST_MISSILE_LOADED" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="ST_MISSILE_UNLOCK" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="ST_MISSILE_LOCK" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="TIPE_AR_SHIP" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="TIPE_AR_SUBMARINE" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="TIPE_AR_HELICOPTER" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="TIPE_AR_AIRCRAFT" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="TIPE_AR_LAUNCHER" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="TIPE_AR_MISSILE" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="TIPE_MISC_OJK" type="Integer">
+    <value>
+      $32
+    </value>
+  </const>
+  <const name="TIPE_MISC_MODEL_1" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="TIPE_MISC_MODEL_2" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="TIPE_MISC_MODEL_3" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="TIPE_MISC_OLL" type="Integer">
+    <value>
+      $33
+    </value>
+  </const>
+  <const name="TIPE_MISC_MODEL_4" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="TIPE_MISC_MODEL_5" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="TIPE_MISC_MODEL_6" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="ORD_OJK_CLEAR" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_OJK_DEL" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_OJK_CREATE" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="TIPE_MISC_RANJAU" type="Integer">
+    <value>
+      $34
+    </value>
+  </const>
+  <const name="ORD_RANJAU_CLEAR" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_RANJAU_DEL" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_RANJAU_CREATE" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="TIPE_UTIL_CAM_OBSERVER" type="Integer">
+    <devnotes>
+       end constant actor runtime
+      //////////////////////////////////////////////////////////////////////
+    </devnotes>
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_UP" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_FR" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_BK" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_LF" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_RG" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_MOVE_UP" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_MOVE_DW" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_MOVE_FR" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_MOVE_BK" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_MOVE_LF" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_MOVE_RG" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_ROT_UP" type="Integer">
+    <value>
+      $15
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_ROT_DW" type="Integer">
+    <value>
+      $16
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_ROT_LF" type="Integer">
+    <value>
+      $17
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_ROT_RG" type="Integer">
+    <value>
+      $18
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_MOVE_UP_OFF" type="Integer">
+    <value>
+      $29
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_MOVE_DW_OFF" type="Integer">
+    <value>
+      $2A
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_MOVE_FR_OFF" type="Integer">
+    <value>
+      $2B
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_MOVE_BK_OFF" type="Integer">
+    <value>
+      $2C
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_MOVE_LF_OFF" type="Integer">
+    <value>
+      $2D
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_MOVE_RG_OFF" type="Integer">
+    <value>
+      $2E
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_ROT_UP_OFF" type="Integer">
+    <value>
+      $33
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_ROT_DW_OFF" type="Integer">
+    <value>
+      $34
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_ROT_LF_OFF" type="Integer">
+    <value>
+      $35
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_ROT_RG_OFF" type="Integer">
+    <value>
+      $36
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_LOCK" type="Integer">
+    <value>
+      $1F
+    </value>
+  </const>
+  <const name="ORD_UTIL_CAMOBS_ULOCK" type="Integer">
+    <value>
+      $20
+    </value>
+  </const>
+  <const name="TIPE_UTIL_PLAYER_SETTING" type="Integer">
+    <value>
+      $33
+    </value>
+  </const>
+  <const name="PLAYER_SET_BASE" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="SET_BASE_KEYBOARD" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="SET_BASE_KEY_ON" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="SET_BASE_UNLOCK" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="PLAYER_SET_OBSERVER" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="SET_OBS_VHCFOCUS" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="PLAYER_SET_ATTACH_SHIP" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="PLAYER_SET_ATTACH_LAUNCHER" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="PLAYER_SET_ATTACH_MISSILE" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="PLAYER_SET_LOCK_OBJECT" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="PLAYER_SET_FIRING_LOCK" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="PLAYER_SET_ATTACH_SHIP2" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="PLAYER_SET_ATTACH_LAUNCHER2" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="PLAYER_SET_ATTACH_MISSILE2" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="PLAYER_SET_LOCK_OBJECT2" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="PLAYER_SET_FIRING_LOCK2" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="LOCK_SURFACE" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="LOCK_SUBSURFCE" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="LOCK_AIR" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="LOCK_WEAPON" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="LOCK_SIDE_DEFAULT" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="LOCK_SIDE_LEFT" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="LOCK_SIDE_RIGHT" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="LOCK_SIDE_FRONT" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="LOCK_SIDE_BACK" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="LOCK_SIDE_TOP" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="TIPE_UTIL_PLAYER_EVENT" type="Integer">
+    <value>
+      $34
+    </value>
+  </const>
+  <const name="IS_PLAYER_STOP_ALL" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="IS_PLAYER_MOVE_OFF" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="IS_PLAYER_MOVE_ON" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="MOVE_PLAYER_FORWARD" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="MOVE_PLAYER_BACK" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="MOVE_PLAYER_LEFT" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="MOVE_PLAYER_RIGHT" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="MOVE_PLAYER_UP" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="MOVE_PLAYER_DOWN" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="IS_PLAYER_ROTATE_OFF" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="IS_PLAYER_ROTATE_ON" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="ROTATE_PLAYER_UP" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ROTATE_PLAYER_DOWN" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ROTATE_PLAYER_LEFT" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ROTATE_PLAYER_RIGHT" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="TIPE_UTIL_PAUSE_GAME" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_ENVI" type="Integer">
+    <value>
+      $36
+    </value>
+  </const>
+  <const name="ORD_SEA_STATE" type="Integer">
+    <value>
+      $38
+    </value>
+  </const>
+  <const name="ORD_HUMIDITY" type="Integer">
+    <value>
+      $39
+    </value>
+  </const>
+  <const name="ORD_BAROPRESSURE" type="Integer">
+    <value>
+      $3A
+    </value>
+  </const>
+  <const name="ORD_TEMPERATURE" type="Integer">
+    <value>
+      $3B
+    </value>
+  </const>
+  <const name="ORD_CURSPEED" type="Integer">
+    <value>
+      $3C
+    </value>
+  </const>
+  <const name="ORD_WINDSPEED" type="Integer">
+    <value>
+      $3D
+    </value>
+  </const>
+  <const name="ORD_WINDDIRECTION" type="Integer">
+    <value>
+      $3E
+    </value>
+  </const>
+  <const name="ORD_CURDIRECTION" type="Integer">
+    <value>
+      $3F
+    </value>
+  </const>
+  <const name="ORD_REFRESH_CLIENT" type="Integer">
+    <value>
+      $40
+    </value>
+  </const>
+  <const name="C_DBID_ASROC" type="Integer">
+    <devnotes>
+       modul on game ( konstan ini harus sama dengan di database)
+    </devnotes>
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="C_DBID_RBU6000" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="C_DBID_TORPEDO_A244S" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="C_DBID_TORPEDO_SUT" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="C_DBID_TETRAL" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="C_DBID_YAKHONT" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="C_DBID_C802" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="C_DBID_MISTRAL" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="C_DBID_STRELA" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="C_DBID_EXOCET_MM40" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="C_DBID_EXOCET_MM38" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="C_DBID_CANNON40" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="C_DBID_CANNON57" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="C_DBID_CANNON76" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="C_DBID_CANNON120" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="C_DBID_MOCCONSOLE" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="C_TIPEID_MISSILE" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="C_TIPEID_ROCKET" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="C_TIPEID_CANNON" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="C_TIPEID_TORPEDO" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="_CM_CLIENT_MANAGE" type="Integer">
+    <devnotes>
+      *****************************////
+    </devnotes>
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__CM_CLIENT_CONNECT" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__CM_CLIENT_DISCONNECT" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__CM_CLIENT_WELCOME" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__CM_CLIENT_RESTART" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="__CM_CLIENT_SHUTDOWN" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="__CM_CLIENT_RESET" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="__CM_CLIENT_REQDB_ADDR" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="__CM_CLIENT_SETDB_ADDR" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="__CM_CLIENT_REQ3D_ADDR" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="__CM_CLIENT_SET3D_ADDR" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="__CM_CLIENT_CLOSE_LAUNCHER" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="__CM_CLIENT_REQ_SIM_TIME" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="__CM_CLIENT_SET_SIM_TIME" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="__CM_CLIENT_RESTART_ALL" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="__CM_CLIENT_SHUTDOWN_ALL" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="__CM_CLIENT_RESTARTALLCOMM" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="__CM_CLIENT_SHUTDOWNALLCOM" type="Integer">
+    <value>
+      $11
+    </value>
+  </const>
+  <const name="__CM_CLIENT_RESTARTSERVERCOMM" type="Integer">
+    <value>
+      $12
+    </value>
+  </const>
+  <const name="__CM_CLIENT_SHUTDOWNSERVERCOMM" type="Integer">
+    <value>
+      $13
+    </value>
+  </const>
+  <const name="__CM_CLIENT_CLOSEALLCOM" type="Integer">
+    <value>
+      $14
+    </value>
+  </const>
+  <const name="_CM_CLIENT_APP" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__CM_CLIENT_LAUNCH" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__CM_CLIENT_STOP" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__CM_CLIENT_RELAUNCH" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="__CM_CLIENT_LAUNCHALL" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="__CM_CLIENT_STATUS" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="_CM_CLIENT_CHECK" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="_CM_CLIENT_CHECKSCENARIOID" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="_CM_CLIENT_CONNECT" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="__CM_CLIENT_INST" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="__CM_CLIENT_CONSOLE" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="__CM_CLIENT_LAUNCHER" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="_CM_REQ_SYNCPACKET" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="ORD_ANJUNGAN_MESINON_OF" type="Integer">
+    <devnotes>
+      *****************************////
+       modul on game ( konstan ini harus sama dengan di database)
+    </devnotes>
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_ANJUNGAN_THROTTLEKIRI" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_ANJUNGAN_THROTTLEKANAN" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ORD_ANJUNGAN_RUDDER" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="ORD_ANJUNGAN_INDIKATOR" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="ORD_RADARNAVIGASI_MESINON_OF" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="ORD_RADARDA05_MESINON_OF" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="ORD_RADARGM28_MESINON_OF" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="ORD_SONAR_HULL_MESINON_OF" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="ORD_SONAR_TOWED_MESINON_OF" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="ORD_TDC_MESINON_OF" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="ORD_TDC_RADAR" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="ORD_TDC_PERSENJATAAN" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="ORD_WCC_MESINON_OF" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="ORD_WCC_RADAR" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="ORD_WCC_PERSENJATAAN" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="ORD_OCC_MESINON_OF" type="Integer">
+    <value>
+      $11
+    </value>
+  </const>
+  <const name="ORD_LIOD_MESINON_OF" type="Integer">
+    <value>
+      $12
+    </value>
+  </const>
+  <const name="ORD_PERISKOPNAVIGASI_MESINON_OF" type="Integer">
+    <value>
+      $13
+    </value>
+  </const>
+  <const name="ORD_PERISKOPSERANG_MESINON_OF" type="Integer">
+    <value>
+      $14
+    </value>
+  </const>
+  <const name="ORD_CANNON1_ON_OF" type="Integer">
+    <value>
+      $15
+    </value>
+  </const>
+  <const name="ORD_CANNON2_ON_OF" type="Integer">
+    <value>
+      $16
+    </value>
+  </const>
+  <const name="ORD_CANNON3_ON_OF" type="Integer">
+    <value>
+      $17
+    </value>
+  </const>
+  <const name="ORD_CANNON4_ON_OF" type="Integer">
+    <value>
+      $18
+    </value>
+  </const>
+  <const name="ORD_TORPEDO1_ON_OF" type="Integer">
+    <value>
+      $19
+    </value>
+  </const>
+  <const name="ORD_TORPEDO2_ON_OF" type="Integer">
+    <value>
+      $1A
+    </value>
+  </const>
+  <const name="ORD_TORPEDO3_ON_OF" type="Integer">
+    <value>
+      $1B
+    </value>
+  </const>
+  <const name="ORD_TORPEDO4_ON_OF" type="Integer">
+    <value>
+      $1C
+    </value>
+  </const>
+  <const name="ORD_TORPEDO5_ON_OF" type="Integer">
+    <value>
+      $1D
+    </value>
+  </const>
+  <const name="ORD_TORPEDO6_ON_OF" type="Integer">
+    <value>
+      $1E
+    </value>
+  </const>
+  <const name="ORD_TORPEDO7_ON_OF" type="Integer">
+    <value>
+      $1F
+    </value>
+  </const>
+  <const name="ORD_TORPEDO8_ON_OF" type="Integer">
+    <value>
+      $20
+    </value>
+  </const>
+  <const name="ORD_EXOCET1_ON_OF" type="Integer">
+    <value>
+      $21
+    </value>
+  </const>
+  <const name="ORD_EXOCET2_ON_OF" type="Integer">
+    <value>
+      $22
+    </value>
+  </const>
+  <const name="ORD_EXOCET3_ON_OF" type="Integer">
+    <value>
+      $23
+    </value>
+  </const>
+  <const name="ORD_EXOCET4_ON_OF" type="Integer">
+    <value>
+      $24
+    </value>
+  </const>
+  <const name="ORD_CHAFF1_ON_OF" type="Integer">
+    <value>
+      $25
+    </value>
+  </const>
+  <const name="ORD_CHAFF2_ON_OF" type="Integer">
+    <value>
+      $26
+    </value>
+  </const>
+  <const name="ORD_CHAFF3_ON_OF" type="Integer">
+    <value>
+      $27
+    </value>
+  </const>
+  <const name="ORD_CHAFF4_ON_OF" type="Integer">
+    <value>
+      $28
+    </value>
+  </const>
+  <const name="ORD_ASROCK1_ON_OF" type="Integer">
+    <value>
+      $29
+    </value>
+  </const>
+  <const name="ORD_ASROCK2_ON_OF" type="Integer">
+    <value>
+      $2A
+    </value>
+  </const>
+  <const name="ORD_ASROCK3_ON_OF" type="Integer">
+    <value>
+      $2B
+    </value>
+  </const>
+  <const name="ORD_ASROCK4_ON_OF" type="Integer">
+    <value>
+      $2C
+    </value>
+  </const>
+  <const name="ORD_3D_TORPEDO_MK44_FIRED" type="Integer">
+    <value>
+      $24
+    </value>
+  </const>
+  <const name="ORD_SET_LONGLAT" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="ORD_SET_WAKTU" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_SET_WEATHER" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_W_THEME_CLEAR" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="ORD_W_THEME_FAIR" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_W_THEME_FOGGY" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_W_THEME_RAINY" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ORD_SET_SEASON" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ORD_SEASON_SPRING" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="ORD_SEASON_FALL" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_SEASON_WINTER" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_SEASON_SUMMER" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ORD_SET_WIND" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="ORD_WIND_NONE" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="ORD_WIND_BREEZE" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_WIND_LIGHT" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_WIND_MODERATE" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ORD_WIND_HEAVY" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="ORD_WIND_SEVERE" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="ORD_SET_TIME_PERIODE" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="ORD_TIME_DAWN" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="ORD_TIME_DAY" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_TIME_DUSK" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_TIME_NIGHT" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ORD_SET_CLOUD" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="ORD_CLOUD_CLEAR" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="ORD_CLOUD_FEW" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ORD_CLOUD_SCATTERED" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ORD_CLOUD_BROKEN" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ORD_CLOUD_OVERCAST" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="icm1" type="OrdType_ICM">
+    <value>
+      icm1
+    </value>
+  </const>
+  <const name="icm2" type="OrdType_ICM">
+    <value>
+      icm2
+    </value>
+  </const>
+  <const name="icm3" type="OrdType_ICM">
+    <value>
+      icm3
+    </value>
+  </const>
+  <const name="datum_number1" type="OrdType_datum_number">
+    <value>
+      datum_number1
+    </value>
+  </const>
+  <const name="datum_number2" type="OrdType_datum_number">
+    <value>
+      datum_number2
+    </value>
+  </const>
+  <const name="datum_number3" type="OrdType_datum_number">
+    <value>
+      datum_number3
+    </value>
+  </const>
+  <const name="datum_number4" type="OrdType_datum_number">
+    <value>
+      datum_number4
+    </value>
+  </const>
+  <const name="datum_number5" type="OrdType_datum_number">
+    <value>
+      datum_number5
+    </value>
+  </const>
+  <const name="MK44" type="OrdType_torpedo">
+    <value>
+      MK44
+    </value>
+  </const>
+  <const name="A244" type="OrdType_torpedo">
+    <value>
+      A244
+    </value>
+  </const>
+  <const name="kiri_1" type="OrdType_wipe">
+    <value>
+      kiri_1
+    </value>
+  </const>
+  <const name="kiri_2" type="OrdType_wipe">
+    <value>
+      kiri_2
+    </value>
+  </const>
+  <const name="kanan_1" type="OrdType_wipe">
+    <value>
+      kanan_1
+    </value>
+  </const>
+  <const name="kanan_2" type="OrdType_wipe">
+    <value>
+      kanan_2
+    </value>
+  </const>
+  <const name="FC1" type="TOrdType_FC_number">
+    <value>
+      FC1
+    </value>
+  </const>
+  <const name="FC2" type="TOrdType_FC_number">
+    <value>
+      FC2
+    </value>
+  </const>
+  <const name="FC3" type="TOrdType_FC_number">
+    <value>
+      FC3
+    </value>
+  </const>
+  <const name="FC4" type="TOrdType_FC_number">
+    <value>
+      FC4
+    </value>
+  </const>
+  <const name="FC5" type="TOrdType_FC_number">
+    <value>
+      FC5
+    </value>
+  </const>
+  <const name="STO" type="TOrdType_FC_command">
+    <value>
+      STO
+    </value>
+  </const>
+  <const name="SBS" type="TOrdType_FC_command">
+    <value>
+      SBS
+    </value>
+  </const>
+  <const name="ATO" type="TOrdType_FC_command">
+    <value>
+      ATO
+    </value>
+  </const>
+  <const name="SBA" type="TOrdType_FC_command">
+    <value>
+      SBA
+    </value>
+  </const>
+  <const name="RATO" type="TOrdType_FC_command">
+    <value>
+      RATO
+    </value>
+  </const>
+  <const name="RSTO" type="TOrdType_FC_command">
+    <value>
+      RSTO
+    </value>
+  </const>
+  <const name="break_track" type="TOrdType_FC_command">
+    <value>
+      break_track
+    </value>
+  </const>
+  <const name="open_fire" type="TOrdType_FC_command">
+    <value>
+      open_fire
+    </value>
+  </const>
+  <const name="hold_fire" type="TOrdType_FC_command">
+    <value>
+      hold_fire
+    </value>
+  </const>
+  <const name="GenFix" type="TOrdType_FC_command">
+    <value>
+      GenFix
+    </value>
+  </const>
+  <const name="BlindBomb" type="TOrdType_FC_command">
+    <value>
+      BlindBomb
+    </value>
+  </const>
+  <const name="IndirectBomb" type="TOrdType_FC_command">
+    <value>
+      IndirectBomb
+    </value>
+  </const>
+  <const name="InitTrackSurf" type="TOrdType_FC_command">
+    <value>
+      InitTrackSurf
+    </value>
+  </const>
+  <const name="AssignTrackSs" type="TOrdType_FC_command">
+    <value>
+      AssignTrackSs
+    </value>
+  </const>
+  <const name="InitAir" type="TOrdType_OWA_command">
+    <value>
+      InitAir
+    </value>
+  </const>
+  <const name="InitSurf" type="TOrdType_OWA_command">
+    <value>
+      InitSurf
+    </value>
+  </const>
+  <const name="InitSubRT" type="TOrdType_OWA_command">
+    <value>
+      InitSubRT
+    </value>
+  </const>
+  <const name="InitSubNRT" type="TOrdType_OWA_command">
+    <value>
+      InitSubNRT
+    </value>
+  </const>
+  <const name="AssLocRT" type="TOrdType_OWA_command">
+    <value>
+      AssLocRT
+    </value>
+  </const>
+  <const name="AssLocNRT" type="TOrdType_OWA_command">
+    <value>
+      AssLocNRT
+    </value>
+  </const>
+  <const name="AssRemote" type="TOrdType_OWA_command">
+    <value>
+      AssRemote
+    </value>
+  </const>
+  <const name="ReposTrack" type="TOrdType_OWA_command">
+    <value>
+      ReposTrack
+    </value>
+  </const>
+  <const name="CorrectTrack" type="TOrdType_OWA_command">
+    <value>
+      CorrectTrack
+    </value>
+  </const>
+  <const name="Gun1" type="OrdType_GunNumber">
+    <value>
+      Gun1
+    </value>
+  </const>
+  <const name="Gun2" type="OrdType_GunNumber">
+    <value>
+      Gun2
+    </value>
+  </const>
+  <const name="Gun3" type="OrdType_GunNumber">
+    <value>
+      Gun3
+    </value>
+  </const>
+  <const name="PARPROX" type="OrdType_BulletType1">
+    <value>
+      PARPROX
+    </value>
+  </const>
+  <const name="IMPACT" type="OrdType_BulletType1">
+    <value>
+      IMPACT
+    </value>
+  </const>
+  <const name="HE_TRACER" type="OrdType_BulletType2">
+    <value>
+      HE_TRACER
+    </value>
+  </const>
+  <const name="PRE_FRAG" type="OrdType_BulletType2">
+    <value>
+      PRE_FRAG
+    </value>
+  </const>
+  <const name="SINGLE_FIRE" type="OrdType_FireMode">
+    <value>
+      SINGLE_FIRE
+    </value>
+  </const>
+  <const name="BURST_FIRE" type="OrdType_FireMode">
+    <value>
+      BURST_FIRE
+    </value>
+  </const>
+  <const name="LOCAL" type="OrdType_ControlMode">
+    <value>
+      LOCAL
+    </value>
+  </const>
+  <const name="REMOTE" type="OrdType_ControlMode">
+    <value>
+      REMOTE
+    </value>
+  </const>
+  <enum name="OrdType_ICM">
+    <element name="icm1" />
+    <element name="icm2" />
+    <element name="icm3" />
+  </enum>
+  <enum name="OrdType_datum_number">
+    <element name="datum_number1" />
+    <element name="datum_number2" />
+    <element name="datum_number3" />
+    <element name="datum_number4" />
+    <element name="datum_number5" />
+  </enum>
+  <enum name="OrdType_torpedo">
+    <element name="MK44" />
+    <element name="A244" />
+  </enum>
+  <enum name="OrdType_wipe">
+    <element name="kiri_1" />
+    <element name="kiri_2" />
+    <element name="kanan_1" />
+    <element name="kanan_2" />
+  </enum>
+  <enum name="TOrdType_FC_number">
+    <element name="FC1" />
+    <element name="FC2" />
+    <element name="FC3" />
+    <element name="FC4" />
+    <element name="FC5" />
+  </enum>
+  <enum name="TOrdType_FC_command">
+    <element name="STO" />
+    <element name="SBS" />
+    <element name="ATO" />
+    <element name="SBA" />
+    <element name="RATO" />
+    <element name="RSTO" />
+    <element name="break_track" />
+    <element name="open_fire" />
+    <element name="hold_fire" />
+    <element name="GenFix" />
+    <element name="BlindBomb" />
+    <element name="IndirectBomb" />
+    <element name="InitTrackSurf" />
+    <element name="AssignTrackSs" />
+  </enum>
+  <enum name="TOrdType_OWA_command">
+    <element name="InitAir" />
+    <element name="InitSurf" />
+    <element name="InitSubRT" />
+    <element name="InitSubNRT" />
+    <element name="AssLocRT" />
+    <element name="AssLocNRT" />
+    <element name="AssRemote" />
+    <element name="ReposTrack" />
+    <element name="CorrectTrack" />
+  </enum>
+  <enum name="OrdType_GunNumber">
+    <element name="Gun1" />
+    <element name="Gun2" />
+    <element name="Gun3" />
+  </enum>
+  <enum name="OrdType_BulletType1">
+    <element name="PARPROX" />
+    <element name="IMPACT" />
+  </enum>
+  <enum name="OrdType_BulletType2">
+    <element name="HE_TRACER" />
+    <element name="PRE_FRAG" />
+  </enum>
+  <enum name="OrdType_FireMode">
+    <element name="SINGLE_FIRE" />
+    <element name="BURST_FIRE" />
+  </enum>
+  <enum name="OrdType_ControlMode">
+    <element name="LOCAL" />
+    <element name="REMOTE" />
+  </enum>
+</namespace>

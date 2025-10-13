@@ -1,0 +1,446 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uBaseFunction">
+  <function name="DeleteAmpersand" visibility="public">
+    <parameters>
+      <parameter name="Value" type="string" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="Gun40_ConvertRangeToElev" visibility="public">
+    <parameters>
+      <parameter name="GunRange" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="Gun120_ConvertRangeToElev" visibility="public">
+    <parameters>
+      <parameter name="Range" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="ConvCoordPolar_To_Cartesian" visibility="public">
+    <parameters>
+      <parameter name="aAngleRadian" type="Double" paramflags="const" />
+      <parameter name="aRadius" type="Double" paramflags="const" />
+      <retval type="tDouble2DPoint" />
+    </parameters>
+  </function>
+  <function name="ConvMeter_To_Feet" visibility="public">
+    <parameters>
+      <parameter name="aMeter" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="ConvFeet_To_Meter" visibility="public">
+    <parameters>
+      <parameter name="aMeter" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="ConvCartesian_To_Compass" visibility="public">
+    <parameters>
+      <parameter name="degree" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="ConvCompass_To_Cartesian" visibility="public">
+    <parameters>
+      <parameter name="degree" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="ConvMeterPerSecond_To_KiloMeterPerHour" visibility="public">
+    <parameters>
+      <parameter name="aMps" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="ConvKiloMeterPerHour_To_MeterPerSecond" visibility="public">
+    <parameters>
+      <parameter name="aKmpH" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="ConvMeterPerSecond_To_FeetPerMinute" visibility="public">
+    <parameters>
+      <parameter name="aMps" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="ConvMeterPerSecond_To_Knots" visibility="public">
+    <parameters>
+      <parameter name="aMps" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="ConvKnots_To_MeterPerSecond" visibility="public">
+    <parameters>
+      <parameter name="aKts" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="ConvMach_To_Knot" visibility="public">
+    <parameters>
+      <parameter name="aSpdMach" type="Double" paramflags="const" />
+      <parameter name="atLevel" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="ConvKnot_To_Mach" visibility="public">
+    <parameters>
+      <parameter name="aSpdKnot" type="Double" paramflags="const" />
+      <parameter name="atLevel" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="ValidateRadiant" visibility="public">
+    <parameters>
+      <parameter name="aRad" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="AddRadianClockWise" visibility="public">
+    <parameters>
+      <parameter name="aRad" type="Double" paramflags="const" />
+      <parameter name="goCW" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="AddRadianCounterClockWise" visibility="public">
+    <parameters>
+      <parameter name="aRad" type="Double" paramflags="const" />
+      <parameter name="goCCW" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="RadiantBack" visibility="public">
+    <parameters>
+      <parameter name="aRad" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="IsRadiantDestAtLeft" visibility="public">
+    <parameters>
+      <parameter name="src" type="Double" paramflags="const" />
+      <parameter name="dest" type="Double" paramflags="const" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="DegComp_IsBeetwen" visibility="public">
+    <parameters>
+      <parameter name="aDegTes" type="Double" paramflags="const" />
+      <parameter name="aDeg1" type="Double" paramflags="const" />
+      <parameter name="aDeg2" type="Double" paramflags="const" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="ValidateDegree" visibility="public">
+    <parameters>
+      <parameter name="degreeOrg" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="Validate180Degree" visibility="public">
+    <parameters>
+      <parameter name="degreeOrg" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <procedure name="degreeToRedGreen" visibility="public">
+    <parameters>
+      <parameter name="aDeg" type="Double" paramflags="const" />
+      <parameter name="aDir" type="Char" paramflags="var" />
+      <parameter name="aVal" type="Double" paramflags="var" />
+    </parameters>
+  </procedure>
+  <function name="GetIntIni" visibility="public">
+    <parameters>
+      <parameter name="FName" type="string" />
+      <parameter name="Section" type="string" />
+      <parameter name="Ident" type="string" />
+      <parameter name="Deflt" type="Integer" />
+      <retval type="Integer" />
+    </parameters>
+  </function>
+  <function name="GetStrIni" visibility="public">
+    <parameters>
+      <parameter name="FName" type="string" />
+      <parameter name="Section" type="string" />
+      <parameter name="Ident" type="string" />
+      <parameter name="Deflt" type="string" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetFltIni" visibility="public">
+    <parameters>
+      <parameter name="FName" type="string" />
+      <parameter name="Section" type="string" />
+      <parameter name="Ident" type="string" />
+      <parameter name="Deflt" type="Double" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="Range3D" visibility="public">
+    <parameters>
+      <parameter name="X1" type="Double" />
+      <parameter name="Y1" type="Double" />
+      <parameter name="Z1" type="Double" />
+      <parameter name="X2" type="Double" />
+      <parameter name="Y2" type="Double" />
+      <parameter name="Z2" type="Double" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="NextPost2D" visibility="public" procflags="overload">
+    <parameters>
+      <parameter name="PrePost" type="tDouble2DPoint" />
+      <parameter name="Speed" type="Integer" />
+      <parameter name="Heading" type="Integer" />
+      <parameter name="DeltaT" type="Double" />
+      <retval type="tDouble2DPoint" />
+    </parameters>
+  </function>
+  <procedure name="NextPost2D" visibility="public" procflags="overload">
+    <parameters>
+      <parameter name="PreX" type="Double" />
+      <parameter name="PreY" type="Double" />
+      <parameter name="Speed" type="Integer" />
+      <parameter name="Heading" type="Integer" />
+      <parameter name="DeltaT" type="Double" />
+      <parameter name="PosX" type="Double" paramflags="var" />
+      <parameter name="PosY" type="Double" paramflags="var" />
+    </parameters>
+  </procedure>
+  <function name="SudutBelok" visibility="public">
+    <parameters>
+      <parameter name="Tujuan" type="Double" />
+      <parameter name="Asal" type="Double" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="CalcRange" visibility="public">
+    <parameters>
+      <parameter name="x1" type="Double" paramflags="const" />
+      <parameter name="y1" type="Double" paramflags="const" />
+      <parameter name="x2" type="Double" paramflags="const" />
+      <parameter name="y2" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="CalcBearing" visibility="public">
+    <parameters>
+      <parameter name="x1" type="Double" paramflags="const" />
+      <parameter name="y1" type="Double" paramflags="const" />
+      <parameter name="x2" type="Double" paramflags="const" />
+      <parameter name="y2" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="CalcElevation" visibility="public">
+    <parameters>
+      <parameter name="r" type="Double" paramflags="const" />
+      <parameter name="z1" type="Double" paramflags="const" />
+      <parameter name="z2" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <procedure name="InitOleVariant" visibility="public">
+    <parameters>
+      <parameter name="TheVar" type="OleVariant" paramflags="var" />
+    </parameters>
+  </procedure>
+  <function name="ptToRect" visibility="public">
+    <parameters>
+      <parameter name="pt" type="TPoint" paramflags="const" />
+      <parameter name="r" type="Word" paramflags="const" />
+      <retval type="TRect" />
+    </parameters>
+  </function>
+  <function name="IsAlmostZero" visibility="public">
+    <parameters>
+      <parameter name="d" type="Double" paramflags="const" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <procedure name="StringListCompare" visibility="public">
+    <parameters>
+      <parameter name="aStrs1" type="TStrings" paramflags="const" />
+      <parameter name="aStrs2" type="TStrings" paramflags="const" />
+      <parameter name="aStrsEqual" type="TStrings" paramflags="var" />
+      <parameter name="aStrsIn_1_Only" type="TStrings" paramflags="var" />
+      <parameter name="aStrsIn_2_Only" type="TStrings" paramflags="var" />
+      <parameter name="aSort" type="Boolean" paramflags="const">
+        <value>
+          False
+        </value>
+      </parameter>
+    </parameters>
+  </procedure>
+  <function name="Calc_DopplerShift" visibility="public">
+    <parameters>
+      <parameter name="orgFreq" type="Double" paramflags="const" />
+      <parameter name="objSpeed" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="Calc_powerloss" visibility="public">
+    <parameters>
+      <parameter name="orgPower" type="Double" paramflags="const" />
+      <parameter name="aDistance" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="IntToOct" visibility="public">
+    <parameters>
+      <parameter name="Value" type="Integer" />
+      <parameter name="digits" type="Integer" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="OctToInt" visibility="public">
+    <parameters>
+      <parameter name="oct" type="string" paramflags="const" />
+      <retval type="Integer" />
+    </parameters>
+  </function>
+  <procedure name="ClearListAndObject" visibility="public">
+    <parameters>
+      <parameter name="list" type="TList" paramflags="var" />
+    </parameters>
+  </procedure>
+  <procedure name="RangeBearingToCoord" visibility="public">
+    <parameters>
+      <parameter name="r" type="Double" paramflags="const" />
+      <parameter name="b" type="Double" paramflags="const" />
+      <parameter name="mx" type="Double" paramflags="var" />
+      <parameter name="my" type="Double" paramflags="var" />
+    </parameters>
+  </procedure>
+  <function name="CalcPositionAhead" visibility="public">
+    <parameters>
+      <parameter name="ptOrg" type="tDouble2DPoint" paramflags="const" />
+      <parameter name="aRange" type="Double" paramflags="const" />
+      <parameter name="aDirection" type="Double" paramflags="const" />
+      <retval type="tDouble2DPoint" />
+    </parameters>
+  </function>
+  <function name="CalcCrossPoint" visibility="public">
+    <parameters>
+      <parameter name="pt1" type="tDouble2DPoint" paramflags="const" />
+      <parameter name="pt2" type="tDouble2DPoint" paramflags="const" />
+      <parameter name="h1" type="Double" paramflags="const" />
+      <parameter name="h2" type="Double" paramflags="const" />
+      <parameter name="aCross" type="tDouble2DPoint" paramflags="var" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="ptToLineDistance" visibility="public">
+    <parameters>
+      <parameter name="ptFrom" type="TPoint" paramflags="const" />
+      <parameter name="ptTo" type="TPoint" paramflags="const" />
+      <parameter name="pt" type="TPoint" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="DistanceToHorizon" visibility="public">
+    <parameters>
+      <parameter name="h" type="Double" paramflags="const" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="IsVisibleByHorizon" visibility="public">
+    <parameters>
+      <parameter name="x1" type="Double" paramflags="const" />
+      <parameter name="y1" type="Double" paramflags="const" />
+      <parameter name="h1" type="Double" paramflags="const" />
+      <parameter name="x2" type="Double" paramflags="const" />
+      <parameter name="y2" type="Double" paramflags="const" />
+      <parameter name="h2" type="Double" paramflags="const" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="ConvertToWord" visibility="public">
+    <parameters>
+      <parameter name="str" type="string" paramflags="const" />
+      <parameter name="w" type="Word" paramflags="var" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="ConvertToInt" visibility="public">
+    <parameters>
+      <parameter name="str" type="string" paramflags="const" />
+      <parameter name="i" type="Integer" paramflags="var" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="ConvertToFloat" visibility="public">
+    <parameters>
+      <parameter name="str" type="string" paramflags="const" />
+      <parameter name="f" type="Double" paramflags="var" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="WindTrueToRel" visibility="public">
+    <parameters>
+      <parameter name="tWind" type="tVect2D" paramflags="const" />
+      <parameter name="ship" type="tVect2D" paramflags="const" />
+      <retval type="tVect2D" />
+    </parameters>
+  </function>
+  <function name="WindRelToTrue" visibility="public">
+    <parameters>
+      <parameter name="rWind" type="tVect2D" paramflags="const" />
+      <parameter name="ship" type="tVect2D" paramflags="const" />
+      <retval type="tVect2D" />
+    </parameters>
+  </function>
+  <function name="UniqueID_To_dbID" visibility="public">
+    <parameters>
+      <parameter name="uid" type="string" paramflags="const" />
+      <retval type="Integer" />
+    </parameters>
+  </function>
+  <function name="dbID_to_UniqueID" visibility="public">
+    <parameters>
+      <parameter name="id" type="Integer" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="ConvLL_To_Str" visibility="public">
+    <parameters>
+      <parameter name="LL" type="Double" />
+      <parameter name="cType" type="Char" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="ConvDegree_To_Georef" visibility="public">
+    <parameters>
+      <parameter name="B" type="Double" />
+      <parameter name="L" type="Double" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="ReadValConsoleSetting" visibility="public">
+    <parameters>
+      <parameter name="val" type="Integer" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <function name="WindowsExit" visibility="public">
+    <parameters>
+      <parameter name="RebootParam" type="Cardinal" />
+      <retval type="Boolean" />
+    </parameters>
+  </function>
+  <procedure name="SendLogEvenConsole" visibility="public">
+    <parameters>
+      <parameter name="ClientTCP" type="TTCPClient" />
+      <parameter name="Ship_ID" type="Word" />
+      <parameter name="Console_ID" type="Word" />
+      <parameter name="Even_Id" type="Word" />
+      <parameter name="prm1" type="Double" />
+      <parameter name="prm2" type="Double" />
+      <parameter name="prm3" type="Double" />
+    </parameters>
+  </procedure>
+</namespace>

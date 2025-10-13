@@ -1,0 +1,41 @@
+unit ulibSettings;
+
+interface
+uses
+  IniFiles, SysUtils, uIniFilesProcs;
+const
+  c_image = 'image';
+type
+  TPathImageSetting = record
+    ImgPath: string;
+  end;
+
+  function getFileSetting: string;
+  function LoadFF_PathImageSetting(const fName: string; var imgSet: TPathImageSetting): boolean;
+
+implementation
+  //==============================================================================
+  function getFileSetting: string;
+  begin
+  //  result := ChangeFileExt(ParamStr(0), '.ini');
+    result := ExtractFilePath(ParamStr(0)) + 'm57setting.ini';
+  end;
+  //==============================================================================
+
+  function LoadFF_PathImageSetting(const fName: string; var imgSet: TPathImageSetting): boolean;
+  var
+    IniF: TIniFile;
+    s: string;
+  begin
+    IniF := TIniFile.Create(fName);
+    s := ExtractFilePath(ParamStr(0));
+
+    with imgSet do
+    begin
+      ImgPath := IncludeTrailingBackslash(s + IniFReadstring(IniF, c_image,
+        'imgpath', '.\data\Picture\'));
+    end;
+
+    Result := True;
+  end;
+end.

@@ -1,0 +1,35 @@
+---yang ada di kapal----
+
+switch: SwitchWeapon
+
+
+DOF_TorpedoL
+DOF_TorpedoR
+
+DOF_Meriam57Base
+
+DOF_Meriam40Base
+
+---------------------------
+
+Meriam40Base.ive
+DOF_Meriam40Launcher
+
+---------------------------
+
+Meriam40Launcher.ive
+DOF_Meriam40Camera1
+DOF_Meriam40Camera2
+DOF_Meriam40Missile
+
+---------------------------
+
+Meriam57Base.ive
+DOF_Meriam57Launcher
+
+---------------------------
+
+Meriam57Launcher.ive
+DOF_Meriam57Camera1
+DOF_Meriam57Camera2
+DOF_Meriam57Missile

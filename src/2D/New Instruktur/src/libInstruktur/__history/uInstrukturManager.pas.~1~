@@ -1,0 +1,2900 @@
+{ DONT Uses Forms In Instruktur Manager }
+
+
+unit uInstrukturManager;
+
+interface
+
+uses
+  {windows / Component uses}
+  Graphics, Classes, Math, ExtCtrls, SysUtils, MapXLib_TLB, Windows, Controls, OverbyteICSWSocketS,
+  OverbyteICSWsocket, Forms, Dialogs,
+
+  {lib uses}               
+  uSimulationManager, uTCPClient, uBaseInterleaver, uBaseSimulationObject , uMapXSim,
+  uInstrukturObjects, uInstrukturViews, uTCPDatatype, Logger, uBridgeSet,
+  uClassDatabase, uDataModule, uLibInstrukturSetting, uNewLog, uCommonLogReplay, ufDBSetting,
+  uGlobalVar, uSelctionMan, uBaseDataType, uNewReplay;
+
+const
+  Colors : array[0..15] of Tcolor =
+  ( clMaroon,  clGreen,  clOlive,
+    clNavy,  clPurple,  clTeal,   clGray,
+    clSilver,clRed,     clLime,   clYellow,
+    clBlue,  clFuchsia ,clAqua,   clLtGray,
+    clDkGray );
+
+type
+   { Event handler To Event Manager }
+   TOnReceiveMissilePos   = procedure ( Rec : TRec3DMissilePos ) of object;
+   TOnReceiveShipPos      = procedure ( Rec : TRecData3DPosition ) of object;
+   TOnReceiveClientMg     = procedure ( Rec : TRecData2DOrder ) of object;
+   TOnReceive3DOrder      = procedure ( Rec : TRecData3DOrder ) of object;
+   TOnReceiveMapCommand   = procedure ( Rec : TRecMapCommand ) of object;
+   TOnReceiveComConsole   = procedure ( Rec : TRecComConsole ) of object;
+   TOnReceiveStatConsole  = procedure ( Rec : TRecStatus_Console ) of object;
+   TOnReceiveReport       = procedure ( Rec : TRecEventLog) of object;
+   TOnReceiveStatusGame   = procedure ( Rec : TRecStatusGame) of object;
+   TOnReceiveEnableWeapon = procedure ( Rec : TRecEnableWeapon) of object;
+   TOnReceiveAsrocMT      = procedure ( Rec : TRecAsrocMissileType) of object;
+   TOnGetPortReplay       = procedure ( aID : integer) of object;
+   TOnWindowState         = procedure ( aValue : byte) of object;
+   TOnStatusReplay        = procedure ( aValue : byte) of object;
+   TOnTrajectoryView      = procedure (aWeapon,aValue : byte) of object;
+
+   TSimManager = class(TSimulationManager)
+    private
+      { Event Manager Handler }
+      FOnNewObject              : TNotifyEvent;
+      FOnClearObject            : TNotifyEvent;
+      FOnDeleteMissile          : TNotifyEvent;
+      FOnReceiveMissilePos      : TOnReceiveMissilePos;
+      FOnReceiveShipPos         : TOnReceiveShipPos;
+      FOnReceiveClientMg        : TOnReceiveClientMg;
+      FOnReceive3DOrder         : TOnReceive3DOrder;
+      FOnReceiveMapCommand      : TOnReceiveMapCommand;
+      FOnReceiveStatConsole     : TOnReceiveStatConsole;
+      FOnReceiveComConsole      : TOnReceiveComConsole;      
+      FOnReceiveReport          : TOnReceiveReport;
+      FOnUpdateRuler            : TNotifyEvent;
+      FOnReceiveStatusConnect   : TGetStrProc;
+      FOnReceiveStatusGame      : TOnReceiveStatusGame;
+      FOnReceiveEnableWeapon    : TOnReceiveEnableWeapon;
+      FOnReceiveAsrocMT         : TOnReceiveAsrocMT;
+      FOnUpdateReplay           : TNotifyEvent;
+      FOnGetPortReplay          : TOnGetPortReplay;
+      FOnWindowState            : TOnWindowState;
+      FOnStatusReplay           : TOnStatusReplay;
+      FOnTrajectoryView         : TOnTrajectoryView;
+
+
+      procedure EventOnMainTimer(const dt: double); override;
+
+      procedure FActionRepainter(sender: TObject);              // Draw All Element
+      procedure FActionVehicleHistory(sender: TObject);         // Draw History Vehicle
+      procedure FActionMissHistory(sender: TObject);            // Draw History Weapon
+      procedure FActionConnectToServer(sender : TObject);       // Connect To Server
+      procedure FActionUpdateRuler(sender : TObject);           // Update Ruler
+      procedure FActionCheckConnect(Sender : TObject);          // Check Connect to Bridge
+      procedure FActionCheckRespone(Sender : TObject);          // Check Respone From Bridge
+
+      procedure Prepare_As_ClientBridge;                        // Register
+      
+    protected
+      FCLColor              : byte;
+      NetHandler            : TCPT_ARRAY_PROCEDURE;
+
+      { Draw Object }
+      FTimeRepainterIL      : tInterleaver;
+
+      { History Object }
+      FTimeVehicleHiss      : tDelayer;
+      FTimeMissHiss         : tDelayer;
+
+      FTimeUpdateRuler      : tDelayer;
+
+      { Connect To Server }
+      FTimeConnect          : tDelayer;
+
+      { Check Connectiion }
+      FisCheckConnect,
+      FisCheckRespone       : Boolean;
+      FTimeCheckConnect     : tDelayer;
+      FTimeCheckRespone     : tDelayer;
+
+      prevTick,
+      prevDataTick  : LongWord;
+    public
+      isFirstRequest : Boolean;
+
+      AsrockAssignNumber    : Integer;
+
+      { Logger For Handle Error }
+      LogFile               : Tlogfile;
+
+      { Distance Ruler }
+      VRuler                : TRulerView;
+
+      { Multi Select }
+      Selections            : TSelectionMgr;
+      VSelect               : TRectView;
+
+      { Minimap }
+      Minimap1              : TMap;
+
+      isDatabaseMode        : Boolean;
+      FGamePlayType         : TGamePlayType;
+      FRecorder             : TNewRecorder;
+      FReplay               : TNewReplay;
+
+      { Object For TinsObject }
+      theObj                : TSimulationClass;
+      TrackObject           : TInsObject;
+      DragObject            : TInsObject;
+      DatabaseObject        : TInsObject;
+
+      { Searching Object }
+      selectedObject : TSimulationClass;
+      selIndex       : integer;
+      selectedView   : TActiveView;
+
+      { BridgeSet }
+      bridgeSet             : TRecBridgeSet;
+      bridgeSetPath         : string;
+
+      { setting for instruktur }
+      instMapSet            : TRecInstMapSet;
+      InsUtils              : TInsUtil; //yoga
+
+      { Time Simulation }
+      fSimTime  : TTime;
+      fSimAdded : Double;
+
+      { Main Thread }
+      Procedure RunSimulation;
+      procedure StopSimulation;
+
+      procedure ConnectToBridge;
+      procedure StopScenario;
+
+      { for Load Map }
+      procedure LoadGeoset(const aGst: string); override;
+      procedure LoadGeosetMiniMap1(const aGst: string);
+
+      procedure initializeVariable;
+      procedure initializeSimulation;
+
+      { Utilities }
+      procedure Select_(ptStart, ptEnd: TPoint);
+      procedure Select_SendMove;
+      procedure Select_Begin(const ptStart: TPoint);
+      procedure Select_End(const ptEnd: TPoint);
+      procedure Drag_Begin(const mPtLast: TPoint);
+      procedure Drag_Move(const ptFrom, ptTo: TPoint);
+
+      { Searching Object }
+      procedure ResetColorShip;
+      function FindViewByPosition(const pt: TPoint; var v: TActiveView): boolean;
+      procedure BringToFront(var s: TSimulationClass);
+
+      { Property Event Handler }
+      property OnNewObject            : TNotifyEvent                read FOnNewObject            write  FOnNewObject;
+      property OnClearObject          : TNotifyEvent                read FOnClearObject          write  FOnClearObject;
+      property OnDeleteMissile        : TNotifyEvent                read FOnDeleteMissile        write  FOnDeleteMissile;
+      property OnReceiveMissilePos    : TOnReceiveMissilePos        read FOnReceiveMissilePos    write  FOnReceiveMissilePos;
+      property OnReceiveShipPos       : TOnReceiveShipPos           read FOnReceiveShipPos       write  FOnReceiveShipPos;
+      property OnReceiveClientMg      : TOnReceiveClientMg          read FOnReceiveClientMg      write  FOnReceiveClientMg;
+      property OnReceive3DOrder       : TOnReceive3DOrder           read FOnReceive3DOrder       write  FOnReceive3DOrder;
+      property OnReceiveMapCommand    : TOnReceiveMapCommand        read FOnReceiveMapCommand    write  FOnReceiveMapCommand;
+      property OnReceiveStatConsole   : TOnReceiveStatConsole       read FOnReceiveStatConsole   write  FOnReceiveStatConsole;
+      property OnReceiveComConsole    : TOnReceiveComConsole        read FOnReceiveComConsole    write  FOnReceiveComConsole;
+      property OnReceiveReport        : TOnReceiveReport            read FOnReceiveReport        write  FOnReceiveReport;
+      property OnUpdateRuler          : TNotifyEvent                read FOnUpdateRuler          write  FOnUpdateRuler;
+      property OnReceiveStatusConnect : TGetStrProc                 read FOnReceiveStatusConnect write  FOnReceiveStatusConnect;
+      property OnUpdateReplay         : TNotifyEvent                read FOnUpdateReplay         write  FOnUpdateReplay;
+      property OnGetPortReplay        : TOnGetPortReplay            read FOnGetPortReplay        write  FOnGetPortReplay;
+      property OnWindowState          : TOnWindowState              read FOnWindowState          write  FOnWindowState;
+      property OnStatusReplay         : TOnStatusReplay             read FOnStatusReplay         write  FOnStatusReplay;
+      property OnTrajectoryView       : TOnTrajectoryView           read FOnTrajectoryView       write  FOnTrajectoryView;
+      { Property Variable }
+      property isCheckConnect         : Boolean                     read FisCheckConnect         write FisCheckConnect;
+      property isCheckRespone         : Boolean                     read FisCheckRespone         write FisCheckRespone;
+      property TimeCheckConnect       : tDelayer                    read FTimeCheckConnect       write FTimeCheckConnect;
+
+      property OnReceiveStatusGame    : TOnReceiveStatusGame        read FOnReceiveStatusGame    write FOnReceiveStatusGame;
+      property OnReceiveEnableWeapon  : TOnReceiveEnableWeapon      read FOnReceiveEnableWeapon  write FOnReceiveEnableWeapon;
+      property OnReceiveAsrocMT       : TOnReceiveAsrocMT           read FOnReceiveAsrocMT       write FOnReceiveAsrocMT;
+
+      { Recording Packet }
+      procedure RecordingUpdateCurrentObjectData ( from3D : boolean );
+      procedure DeleteObjectRecord(ShpID, WpnID, LncrID, MisslID, MisslNbr : integer);
+
+      { Create Ship, Missile }
+      procedure CreateShipForDatabse(const shipID: integer);
+      function CreateShipnView(const sid: integer): TInsObject ;
+      function CreateMissilenView(const mShipID, mWeaponID, mlauncherID, mMissileID, mMissileNumber : integer): TIMissileObject;
+      function CreateCannonSplashnView(const mShipID, mWeaponID, mlauncherID : integer): TICannonBlast;
+      procedure DrawAllOnMapXCanvas(aCnv: TCanvas);     override;
+
+      { clear All Object in Instruktur }
+      procedure ClearAllObjects;
+
+      { Generate Name Missile }
+      function dbID_to_MissileUniqueID(const ShipID, WeaponID, LauncherID,
+                                         MissileID, MissileNumber  : integer): string;
+
+      { ------------------------------------------------------------------------ }
+      { Socket Procedure }
+      { Procedure Receive Socket }
+      procedure ClientRecv_3D_ShipPos(apRec: PAnsiChar; aSize: integer);
+      procedure ClientRecv_3D_MissilePos(apRec: PAnsiChar; aSize: integer);
+      procedure ClientRecv_ComConsole(apRec: PAnsiChar; aSize: integer);
+      procedure ClientRecv_ClientManagement(apRec: PAnsiChar; aSize: integer);
+      procedure ClientRecv_EventLog(apRec: PAnsiChar; aSize: integer);
+      procedure ClientRecv_3D_Order(apRec: PAnsiChar; aSize: integer);
+      procedure ClientRecv_OrderConsole(apRec: PAnsiChar; aSize: integer);
+      procedure ClientRecv_MapCommand(apRec: PAnsiChar; aSize: integer);
+      procedure ClientRecv_GameName(apRec: PAnsiChar; aSize: integer);
+      procedure ClientRecv_StatusGame(apRec: PAnsiChar; aSize: integer);
+      procedure ClientRecv_EnableWeapon(apRec: PAnsiChar; aSize: integer);
+      procedure ClientRecv_CannonSplash(apRec: PAnsiChar; aSize: integer);
+      procedure Clientrecv_ReplayControl(apRec : PAnsiChar; aSize : integer);
+      procedure ClientRecv_MissileTypeAsroc(apRec : PAnsiChar; aSize : integer);
+      procedure Clientrecv_TrajectoryView(apRec : PAnsiChar; aSize : integer);
+      procedure ClientReceive_3DUtilTools(apRec : PAnsiChar; aSize : integer);
+      procedure Clientrecv_ViewRangeWeapon(apRec : PAnsiChar; aSize : integer);
+
+
+      { Procedure Send Socket }
+      { For Weapon }
+      procedure NetSendTo3D_AddLauncherRuntime( shipID, lcrID, mslID, typeID  : integer );
+      procedure NetSendTo3D_AddMissileRuntime( shipID, WpnID, LcrID, MslID, MslNmber ,TypeID : integer ; mX, mY, mZ, mRot: double );
+      procedure NetSendTo3D_OrderMissileRBU6000(rec : TRec3DSetRBU);
+      procedure NetSendTo3D_OrderCannon(rec : TRec3DSetWCC);
+      procedure NetSendTo3D_OrderMissile_YAHKONT(rec : TRecData_Yakhont);
+      procedure NetSendTo3D_OrderMissile_C802(rec : TRecData_C802);
+      procedure NetSendTo3D_OrderMissileAsroc(rec : TRec3DSetAsrock);
+      procedure NetSendTo3D_OrderMissileSUT(Rec : TRecSetTorpedoSUT);
+      procedure NetSendTo3D_OrderMissileExocet(rec : TRec3DSetExocet);
+      procedure NetSendTo3D_OrderMissileExocet_MM40(Rec : TRec3DSetExocet_40);
+      procedure NetSendTo3D_OrderMissileTetral(rec : TRec3DSetTetral);
+      procedure NetSendTo3D_OrderMissileMistral(rec : TRec3DSetMistral);
+      procedure NetSendTo3D_OrderMissileStrella(rec : TRec3DSetStrella);
+      procedure NetSendTo3D_OrderMissileTorpedo(rec : TRecDataTorperdo);
+      procedure NetSendEnableWeapon(shipid : Integer; weaponid : Byte; valuez : Single; launcher : Byte);
+      procedure NetSendAsroc_MissileType(rec : TRecAsrocMissileType);
+      { For Console }
+      procedure NetSendRBU_TrackObject(const rec : TRecRBU_SonarMode);
+      procedure NetSendASROC_TrackObject(const rec : TRecFireControlOrder);
+      procedure NetSendStatConsole(aOWN_SHIP_UID : string; aWeaponID, aErrorID, aParamError : integer);
+      procedure NetSendTo2D_ObjectAssign(rec : TRecObjectAssigned);
+      procedure NetSendToMap(rec : TRecMapCommand);
+      { Report Game }
+      procedure NetSendLogTest(rec : TRecEventLog);
+      procedure NetSendGameName(aGameName : string);
+      procedure NetSendStatusGame(cekCaption :Word ;cekStatusKonek : Byte);
+      { For Launcher }
+      procedure InstrukturSendStopCommandIP(ipAddress: string);
+      procedure InstrukturSendLaunchCommand(ipAddress, shipID, launcherID : string);
+      procedure InstrukturSendLaunchAllCommand;
+      procedure InstrukturSetDBAddressToClientConnected(cAdrress: string);
+      procedure InstrukturSendWelcomeToClientConnected(cAdrress: string);
+      procedure InstrukturSet3DAddressWhoRequested(cAdrress: string);
+      procedure InstrukturSetTimeServerWhoRequested(cAdrress: string);
+      procedure CheckStatusConsole;
+      { For Utility }
+      procedure SendMoveUnit(const ship: TSimulationClass);
+      procedure NetSendTo3D_AddShipRuntime( shipID : integer ; mX, mY, mZ, mRot: double );
+      procedure NetSendTo3D_DelShipRuntime( shipID : integer  );
+      procedure NetSendTo3D_SetCommandObserver(rec : spUtilityTools);
+      procedure NetSendTo3D_SetCommandPlayerCamera(rec : spUtilityTools);
+      procedure NetSendTo3D_SetCommandOrder ( shipID, OrderID  : integer ; Val: single; MoveMode : Integer;
+      mCoordX : Single; mCoordY : Single; mCoordZ : Single);
+      procedure NetSendTo3D_SetOrderLamps(shipID : integer ; Val: single);
+      procedure NetSendTo3D_SetOrderBell(shipID : integer ; Val: single);
+      procedure StopToClientOnIP(cAddress: string);
+      procedure SendCommand2D_Order(Rec : TRecData2DOrder);
+
+      {for replay}
+      procedure Replay_Start;
+      procedure Replay_Stop;
+      procedure Replay_Pause;
+      procedure Replay_Resume;
+      procedure InitFileReplay(const aFNewName: string);
+      procedure ReplayOnGetFrame(const aData: aObjectData);
+      procedure ReplayOnEnd(sender: TObject);
+      procedure EventFromReplay( aRec: TRecDataAll3DPosition );
+      procedure EC_ReplayOnEnd ;
+      procedure StopRecording;
+      procedure StartRecording(const aFNewName: string);
+      procedure GetPort(const aID : integer);
+      procedure WindowStateControl(const value : byte);// 0 minimized, 1 maximized
+      procedure NetSend_ReplayControl(OID : integer; rName : string; rControl, rSpeed : byte);
+      procedure StatusReplay(const value : byte); //0 Stop, 1 Replay
+      { ------------------------------------------------------------------------ }
+
+      procedure NetSend_TrajectoryView(aWeapon, aStatus : byte);
+      procedure NetSend_ViewRangeWeapon(aUID,aWeaponName, alauncherName, aWeaponType : string;
+                                        aStatus : boolean);
+
+      constructor create;
+      destructor destroy;
+    published
+   end;
+
+var
+    SimManager  : TSimManager;
+
+implementation
+
+uses
+   uQuery;
+
+function GetMissileName(const WeaponID, LauncherID, MissileID, MissileNumber: integer): string;
+begin
+  result := 'MISSILE ';
+  case WeaponID of
+    C_DBID_EXOCET_MM38   : result := 'EXOCET_MM38';
+    C_DBID_ASROC         : result := 'ASROC';
+    C_DBID_RBU6000       : result := 'RBU6000';
+    C_DBID_TORPEDO_SUT   : result := 'TORPEDO SUT';
+    C_DBID_TORPEDO_A244S : result := 'TORPEDO A244';
+    C_DBID_CANNON40      : result := 'CANNON40';
+    C_DBID_CANNON57      : result := 'CANNON57';
+    C_DBID_CANNON76      : result := 'CANNON76';
+    C_DBID_CANNON120     : result := 'CANNON120';
+    C_DBID_YAKHONT       : Result := 'YAKHONT';
+    C_DBID_C802          : Result := 'C802';
+    C_DBID_MISTRAL       : Result := 'MISTRAL';
+    C_DBID_STRELA        : Result := 'STRELLA';
+    C_DBID_EXOCET_MM40   : Result := 'EXOCET_MM40';
+    C_DBID_TETRAL        : Result := 'TETRAL';
+
+  end;
+  
+  result := result + '-' +
+            IntToStr(LauncherID) + '-' +
+            IntToStr(MissileID) + '-' +
+            IntToStr(MissileNumber);
+end;
+
+function GetMissileSymbol(const tid: integer): char;
+begin
+  result := #46;
+  case tid of
+    C_DBID_ASROC          : result := #109;
+    C_DBID_RBU6000        : result := #109;
+    C_DBID_TORPEDO_A244S  : result := #109;
+    C_DBID_TORPEDO_SUT    : result := #109;
+    C_DBID_TETRAL         : result := #109;
+    C_DBID_YAKHONT        : result := #109;
+    C_DBID_C802           : result := #109;
+    C_DBID_MISTRAL        : result := #109;
+    C_DBID_STRELA         : result := #109;
+    C_DBID_EXOCET_MM40    : result := #109;
+    C_DBID_EXOCET_MM38    : result := #109;
+    C_DBID_CANNON40       : result := #109;
+    C_DBID_CANNON57       : result := #109;
+    C_DBID_CANNON76       : result := #109;
+    C_DBID_CANNON120      : result := #109;
+  end;
+end;
+
+{ TSimManager }
+
+{-------------------------------------------------------------------------------}
+{contructor - destructor}
+constructor TSimManager.create;
+begin
+  inherited;
+
+  isFirstRequest := false;
+
+  { Distance Ruler }
+  VRuler                      := TRulerView.Create;
+
+  { Multi Select }
+  Selections                  := TSelectionMgr.Create;
+  VSelect                     := TRectView.Create;
+
+  { GameType , Scenario, Scenario & Record, Replay}
+  FGamePlayType               := gpmScenario;
+
+  { Create Delayer / Timer }
+  { Draw Member In 2ms }
+  FTimeRepainterIL            := tInterleaver.Create;
+  FTimeRepainterIL.OnAction   := FActionRepainter;
+  FTimeRepainterIL.Cycle      := 2;
+  { Draw History Ship In 30s }
+  FTimeVehicleHiss            := tDelayer.Create;
+  FTimeVehicleHiss.Delay      := 30000;
+  FTimeVehicleHiss.OnAction   := FActionMissHistory;
+  { Draw History Weapon In 6s }
+  FTimeMissHiss               := tDelayer.Create;
+  FTimeMissHiss.Delay         := 6000;
+  FTimeMissHiss.OnAction      := FActionVehicleHistory;
+  { Reconnect In Server In 5s }
+  FTimeConnect                := tDelayer.Create;
+  FTimeConnect.Delay          := 5000;
+  FTimeConnect.OnAction       := FActionConnectToServer;
+  { For Update Ruler }
+  FTimeUpdateRuler            := tDelayer.create;
+  FTimeUpdateRuler.Delay      := 1000;
+  FTimeUpdateRuler.OnAction   := FActionUpdateRuler;
+
+  { for Check Connect to Server Every 5 Second }
+  FisCheckConnect             := false;
+  FTimeCheckConnect           := tDelayer.Create;
+  FTimeCheckConnect.Delay     := 5000;
+  FTimeCheckConnect.OnAction  := FActionCheckConnect;
+  { if in 5 Second , not receive respone from server, Disconnect Socket }
+  FisCheckRespone             := false;
+  FTimeCheckRespone           := tDelayer.Create;
+  FTimeCheckRespone.Delay     := 5000;
+  FTimeCheckRespone.OnAction  := FActionCheckRespone;
+
+  { Create Logger }
+  LogFile                     := TLogFile.Create;
+  LogFile.FileName            := 'Instruktur.Log';
+  LogFile.IsLog               := True;
+  LogFile.Init;
+
+  { Instruktur Setting }      //yoga
+  InsUtils                    := TInsUtil.Create;
+  InsUtils.CameraMode         := False;
+  InsUtils.MapMode            := False;
+  InsUtils.MapID              := 0;
+  InsUtils.InsID              := 0;
+  InsUtils.DenahMode          := 0;
+
+  AsrockAssignNumber := 40;
+
+  initializeVariable;
+  Prepare_As_ClientBridge;
+end;
+
+destructor TSimManager.destroy;
+begin
+  FTimeRepainterIL.Free;
+  FTimeVehicleHiss.Free;
+  FTimeMissHiss.Free;
+  FTimeConnect.Free;
+
+  LogFile.Free;
+  InsUtils.Free;
+
+  VRuler.Free;
+
+  VSelect.Free;
+  Selections.Free;
+end;
+
+procedure TSimManager.initializeVariable;
+begin
+  theObj         := nil;
+  TrackObject    := nil;
+  DragObject     := nil;
+  DatabaseObject := nil;
+
+  selectedObject := nil;
+  selectedView   := nil;
+
+  isDatabaseMode := false;
+end;
+
+procedure TSimManager.initializeSimulation;
+var apPath : string;
+    iResult : integer;
+    bResult, lastR : boolean;
+
+begin
+  inherited;
+
+// Load Setting - - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -- - - -
+  bridgeSetPath := GetSettingDirectory;
+
+  with bridgeSet.mDB do
+    InitDefault_DBConfig(bridgeSetPath,
+      mDBServer, mDBProto, mDBName, mDBUser, mDBPass );
+
+  frmDBSEtting := TfrmDBSetting.Create(nil);
+  iResult := mrNone;
+  repeat
+    with bridgeSet.mDB do begin
+      bResult := DataModule1.InitZDB(
+        mDBServer, mDBProto, mDBName, mDBUser,  mDBPass);
+    end;
+
+    if not bResult then begin
+
+      frmDBSetting.dbServer := bridgeSet.mDB.mDBServer;
+      frmDBSetting.dbName   := bridgeSet.mDB.mDBName;
+      frmDBSetting.dbUser   := bridgeSet.mDB.mDBUser;
+      frmDBSetting.dbPass   := bridgeSet.mDB.mDBPass;
+
+      iResult := frmDBSEtting.ShowModal;
+
+      if iResult = mrOk then begin
+        bridgeSet.mDB.mDBServer := frmDBSetting.dbServer;
+        bridgeSet.mDB.mDBProto  := defaultDBProto;
+        bridgeSet.mDB.mDBName   := frmDBSetting.dbName;
+        bridgeSet.mDB.mDBUser   := frmDBSetting.dbUser;
+        bridgeSet.mDB.mDBPass   := frmDBSetting.dbPass;
+
+      end;
+    end
+    else begin
+      if (iResult = mrOk) then
+        with bridgeSet.mDB do
+        SaveDefault_DBConfig(bridgeSetPath,
+        mDBServer, mDBProto, mDBName, mDBUser, mDBPass );
+
+    end;
+  until  bResult or (iResult = mrCancel);
+  frmDBSetting.Free;
+
+  if (iResult = mrCancel) then Application.Terminate;
+
+  with bridgeSet.mServer do begin
+    InitDefault_GameServerConfig(bridgeSetPath,
+      m2D_IP,  m2D_Port,
+      m3D_IP,  m3D_Port);
+
+    ServerIp   := m3D_IP;
+    ServerPort := m3D_Port;
+  end;
+  AddToMemoLog( 'ServerIp : ' + ServerIp + ' ServerPort : ' + ServerPort );
+
+  with bridgeSet.mServer do begin
+    InitDefault_CtrlServerConfig(bridgeSetPath,
+      mCtrl_IP,  mCtrl_Port);
+  end;
+
+  InitConfig_InstrMap(InstMapSet);
+
+  apPath  := ExtractFilePath(Application.ExeName);
+  SetCurrentDir(apPath);
+  
+  AddToMemoLog(apPath+InstMapSet.geoset);
+
+  LoadGeoset(apPath+InstMapSet.geoset);
+  LoadGeosetMiniMap1(apPath+InstMapSet.geosetMini1);
+  //yoga
+  InitInsUtil(bridgeSetPath, InsUtils.Mapmode, InsUtils.CameraMode, InsUtils.MapID, InsUtils.InsID, InsUtils.DenahMode);
+
+end;
+
+{-------------------------------------------------------------------------------}
+
+{-------------------------------------------------------------------------------}
+{Event Handler}
+procedure TSimManager.FActionVehicleHistory(sender: TObject); //dendy mampir
+var i : integer;
+    l : Tlist;
+    obj : TSimClassOnMapX;
+begin
+  // delay per sepuluh 'detik'.
+  // add histori
+
+  l := MainObjList.GetList;
+  for i := 0 to l.Count-1 do
+  begin
+    obj := l[i];
+   (obj as TInsObject).VHistory.AddPoint(obj.PositionX, obj.PositionY, obj.PositionZ);
+  end;
+  
+  MainObjList.ReturnList;
+end;
+
+procedure TSimManager.FActionMissHistory(sender: TObject);
+var i : integer;
+    l : Tlist;
+    obj : TSimClassOnMapX;
+begin
+  // delay per enam 'detik'.
+  // add histori
+
+  l := MainObjList.GetList;
+  for i := 0 to l.Count-1 do
+  begin
+    obj := l[i];
+    if (obj is TIMissileObject) then
+      (obj as TInsObject).VHistory.AddPoint(obj.PositionX, obj.PositionY, obj.PositionZ);
+  end;
+  MainObjList.ReturnList;
+end;
+
+procedure TSimManager.FActionRepainter(sender: TObject);
+begin
+  UpdateMember;
+  DrawMember;
+end;
+
+procedure TSimManager.FActionConnectToServer(sender: TObject);
+var
+  RecSend : TRecData2DOrder;
+begin
+  ShouldConnect := False;
+  Application.ProcessMessages;
+
+  if TCPClient.State <> Wsconnected then
+  begin
+    TCPClient.Connect(bridgeSet.mServer.m2D_IP, bridgeSet.mServer.m2D_Port);
+    ShouldConnect := True;
+  end
+  else
+  begin
+    ShouldConnect           := False;
+    FTimeConnect.Accum      := 0;
+
+    FTimeCheckConnect.Accum := 0;
+    FisCheckConnect         := True;
+
+    { Send Request SceanrioID }
+    with RecSend do
+    begin
+      orderID   := _CM_CLIENT_CHECKSCENARIOID;
+      numValue  := 0;
+      strValue  := '';
+      strValue2 := '';
+      strValue3 := '';
+      ipConsole := '';
+    end;
+
+    if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+      TCPClient.sendDataEx(REC_2D_ORDER, @RecSend);
+  end;
+end;
+
+procedure TSimManager.FActionCheckConnect(Sender: TObject);
+var
+  RecSend : TRecData2DOrder;
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+  begin
+    { Send Request Connection }
+    with RecSend do
+    begin
+      orderID   := _CM_CLIENT_CONNECT;
+      numValue  := __CM_CLIENT_INST;
+      strValue  := '';
+      strValue2 := '';
+      strValue3 := '';
+      ipConsole := '';
+    end;
+    TCPClient.sendDataEx(REC_2D_ORDER, @RecSend);
+
+    FisCheckConnect         := false;
+    FisCheckRespone         := True;
+    FTimeCheckRespone.Accum := 0;
+
+    if Assigned(OnReceiveStatusConnect) then
+      OnReceiveStatusConnect('Check Connection To Server');
+  end;
+end;
+
+procedure TSimManager.FActionCheckRespone(Sender: TObject);
+begin
+  { if this method called = connection loss from server }
+  { Disconnet will triger event stop simulation n reconnect again }
+  TCPClient.Disconnect;
+  LogFile.Log('Connection', 'Lost Connection From Server');
+
+  if Assigned(OnReceiveStatusConnect) then
+    OnReceiveStatusConnect('Lost Connection From Server');
+end;
+{-------------------------------------------------------------------------------}
+
+{-------------------------------------------------------------------------------}
+{Create Object For Instruktur}
+procedure TSimManager.CreateShipForDatabse(const shipID: integer);
+begin
+  CreateShipnView(shipID);
+end;
+
+
+function TSimManager.CreateMissilenView(const mShipID, mWeaponID,
+  mlauncherID, mMissileID, mMissileNumber: integer): TIMissileObject;
+var suid : string;
+begin
+  suid := dbID_to_MissileUniqueID(mShipID, mWeaponID, mlauncherID, mMissileID, mMissileNumber);
+
+  result := TIMissileObject.Create;  //TInsObject
+  result.UniqueID := suid;
+
+  with (result as TInsObject) do
+  begin
+    FDataBaseID  := ShipID;
+
+    (result as TIMissileObject).ShipID        := mShipID;
+    (result as TIMissileObject).WeaponID      := mWeaponID;
+    (result as TIMissileObject).LauncherID    := mlauncherID;
+    (result as TIMissileObject).MissileID     := mMissileID;
+    (result as TIMissileObject).MissileNumber := mMissileNumber;
+
+    CreateDefaultView(Fmap);
+    VSymbol.CharSymbol  := GetMissileSymbol(mWeaponID);
+    VSymbol.FontName    := 'TAKTIS_AU';
+    VSymbol.Size        := 18;
+    VSymbol.Color       := clMaroon;
+    VLabel.BGColor      := clMaroon;
+
+    ObjName      := GetMissileName(mWeaponID, mlauncherID, mMissileID, mMissileNumber);
+    ObjClassName := 'Missile';
+    ObjClassID   := mWeaponID;
+    VHistory.Color := Colors[FCLColor];
+    Enabled := TRUE;
+  end;
+
+  MainObjList.AddObject(result);
+  FCLColor := (FCLColor + 1) mod 16
+
+end;
+
+function TSimManager.CreateShipnView(const sid: integer): TInsObject;
+var
+   i,j, h : Integer;
+   suid : string;
+   sChar: Char;
+   Color : TColor;
+   fname: string;
+   sClassID, sCategoryID  : integer;
+   sName, sClassname: string;
+   aMaxAhead, aMinAstern, aMaxRudder, aMinRudder,
+   aPanjang, aLebar, aTinggi: double;
+   WeaponShip : TWeaponOnShip;
+   ListWeapon  : Tlist;
+   Weapon : TWeaponGetList;
+   ListWeaponDetail : Tlist;
+   WeaponDet : TWeaponDetail;
+   WeaponRangeDet : TWeaponRangeDetail;
+   listSceWeapon  : TList;
+   sceWeapon : TScenarioWeapon;
+begin
+  result  := nil;
+  suid    := dbID_to_UniqueID(sid);
+
+  sName         := DataModule1.GetShipName(sid);
+  sClassID      := DataModule1.GetShipType(sid, sClassName);
+  sCategoryID   := DataModule1.GetShipCategoryID(sid);
+
+  DataModule1.GetShipData_symbol(sClassID, sChar, fName);
+  DataModule1.GetSteeringProfile(sid, aMaxAhead, aMinAstern, aMaxRudder, aMinRudder, aPanjang, aLebar, aTinggi );
+
+  case DataModule1.CheckObjectCatDomainByCatID(sCategoryID) of
+    1 : result := TIShipObject.Create;       // Ship Object
+    2 : result := TISubMarineObject.Create;  // Submarine Object
+    3 : result := TIHeliObject.Create;       // Helicopter Object
+    4 : Result := TIAirCraftObject.Create;   // Air Ship Object
+  end;
+
+  result.UniqueID := suid;
+
+  with (result as TInsObject) do
+  begin
+    FDataBaseID  := sid;
+    CreateDefaultView(Fmap);
+
+    VSymbol.CharSymbol  := sChar;
+    VSymbol.FontName    := fName;
+    VSymbol.Size        := 24;
+    VSymbol.Color       := clNavy;
+
+    ObjName         := sName;
+    ObjClassName    := sClassName;
+    ObjClassID      := sClassID;
+    VHistory.Color  := Colors[FCLColor];
+
+    FCalc.SetShipData(aMaxAhead, aMinAstern, aMaxRudder, aMinRudder, aPanjang, aLebar, aTinggi);
+
+    Enabled := TRUE;
+
+    try
+      ListWeapon := TList.Create;
+      DataModule1.GetListWeaponOnShip(sid, ListWeapon);
+
+      { Create Weapon On Ship }
+      for i := 0 to ListWeapon.Count -1 do
+      begin
+        Weapon := TWeaponGetList(ListWeapon[i]);
+
+        case Weapon.IDWeapon of
+          C_DBID_ASROC :
+          begin
+            WeaponShip := TWeaponOn_ASROC.Create(Result, Fmap);
+            Color  := TColor($8A00B8); //ungu
+          end;
+
+          C_DBID_RBU6000 :
+          begin
+            WeaponShip := TWeaponOn_RBU.Create(Result, Fmap);
+            Color  := TColor($CC0099); //magenta
+          end;
+
+          C_DBID_TORPEDO_A244S :
+          begin
+            WeaponShip := TWeaponOn_SPS.Create(Result, Fmap);
+            Color  := TColor($FF5CAD);    //pink
+
+            if TWeaponOn_SPS(WeaponShip).AdviceOn_SPS <> nil then
+            begin
+              ViewContainer.AddObject(TWeaponOn_SPS(WeaponShip).AdviceOn_SPS);
+              ViewContainer.AddObject(TWeaponOn_SPS(WeaponShip).AdviceOn_SPS.SymbolPHP);
+              ViewContainer.AddObject(TWeaponOn_SPS(WeaponShip).AdviceOn_SPS.SymbolELP);
+              ViewContainer.AddObject(TWeaponOn_SPS(WeaponShip).AdviceOn_SPS.MLinePHP);
+              ViewContainer.AddObject(TWeaponOn_SPS(WeaponShip).AdviceOn_SPS.MLineELP);
+            end;
+          end;
+
+          C_DBID_TORPEDO_SUT :
+          begin
+            WeaponShip := TWeaponOn_TOCOS.Create(Result, Fmap);
+            Color  := clRed;
+          end;
+
+          C_DBID_TETRAL :
+          begin
+            WeaponShip := TWeaponOn_Tetral.Create(Result, Fmap);
+            Color  := clGreen;
+          end;
+
+          C_DBID_YAKHONT :
+          begin
+            WeaponShip := TWeaponOn_Yakhont.Create(Result, Fmap);
+            Color  := TColor($FF9933);  //orange
+          end;
+
+          C_DBID_C802 :
+          begin
+            WeaponShip := TWeaponOn_C802.Create(Result, Fmap);
+            Color  := TColor($993333);  //coklat
+          end;
+
+          C_DBID_MISTRAL :
+          begin
+            WeaponShip := TWeaponOn_Mistral.Create(Result, Fmap);
+            Color := TColor($996633);  //coklat muda
+          end;
+
+          C_DBID_STRELA  :
+          begin
+            WeaponShip := TWeaponOn_Strella.Create(Result, Fmap);
+            Color := TColor($009999);   //biru laut
+          end;
+
+          C_DBID_EXOCET_MM40 :
+          begin
+            WeaponShip := TWeaponOn_EXOCET40.Create(Result, Fmap);
+            Color := TColor($B3FF00);   //hijau lemon
+          end;
+
+          C_DBID_EXOCET_MM38 :
+          begin
+            WeaponShip := TWeaponOn_EXOCET40.Create(Result, Fmap);
+            Color := TColor($990000);  //merah gelap
+          end;
+
+          C_DBID_CANNON40  :
+          begin
+            WeaponShip := TWeaponOn_Cannon40.Create(Result, Fmap);
+            Color := TColor($668099);   // abu-abu gelap
+          end;
+
+          C_DBID_CANNON57  :
+          begin
+            WeaponShip := TWeaponOn_Cannon57.Create(Result, Fmap);
+            Color := clBlue;
+          end;
+
+          C_DBID_CANNON76  :
+          begin
+            WeaponShip := TWeaponOn_Cannon76.Create(Result, Fmap);
+            Color := TColor($33FF33);  //hijau muda
+          end;
+
+          C_DBID_CANNON120 :
+          begin
+            WeaponShip := TWeaponOn_Cannon120.Create(Result, Fmap);
+            Color := TColor($660000);  //merah darah
+          end;
+
+          C_DBID_MOCCONSOLE :
+          begin
+            WeaponShip := TWeaponOn_MOC.Create(Result, Fmap);
+            Color := TColor($B8B800);  //kuning lumut
+          end;
+        end;
+
+        { Add Weapon Range Detail }
+        try
+          //yoga ganteng
+          ListWeaponDetail := TList.Create;
+          DataModule1.GetListWeaponRangeDetail(sid, Weapon.IDWeapon, Weapon.IDDetail, ListWeaponDetail);
+
+          for j:= 0 to ListWeaponDetail.Count -1 do
+          begin
+            WeaponDet := TWeaponDetail(ListWeaponDetail.Items[j]);
+
+            WeaponRangeDet                        := TWeaponRangeDetail.Create(Result, Color, Fmap);
+            WeaponRangeDet.Detail_Type            := WeaponDet.IDType;
+            WeaponRangeDet.Detail_Name            := WeaponDet.DetName;
+            WeaponRangeDet.WeaponRange.StartAngle := WeaponDet.StartAngle;
+            WeaponRangeDet.WeaponRange.EndAngle   := WeaponDet.EndAngle;
+            WeaponRangeDet.WeaponRange.LowRange   := WeaponDet.LowRange;
+            WeaponRangeDet.WeaponRange.HighRange  := WeaponDet.HighRange;
+
+            WeaponShip.addDetail(WeaponRangeDet);
+            ViewContainer.AddObject(WeaponRangeDet.WeaponRange);
+          end;
+
+        finally
+          ListWeaponDetail.Free;
+        end;
+
+        listSceWeapon := TList.Create;
+
+        WeaponShip.Weapon_Name      := DataModule1.GetNameWeaponByID(Weapon.IDWeapon);
+        WeaponShip.Weapon_ID        := Weapon.IDWeapon;
+        WeaponShip.Weapon_Launcher  := Weapon.IDDetail;
+        WeaponShip.Weapon_Status    := 2;
+
+        DataModule1.GetListWeaponOnShipBySceID(0, FDataBaseID, listSceWeapon);
+        for h := 0 to listSceWeapon.Count -1 do begin
+          sceWeapon := TScenarioWeapon(listSceWeapon.Items[h]);
+          if (Weapon.IDWeapon = sceWeapon.WeaponID) and (Weapon.IDDetail = sceWeapon.LauncherID) then
+          begin
+            WeaponShip.Weapon_Status := 1;
+            Break;
+          end;
+        end;
+        //WeaponShip.Weapon_Status = sesuai database
+
+        WeaponOnShip_List.Add(WeaponShip);
+      end;
+    finally
+      ListWeapon.Free;
+    end;
+
+  end;
+
+  MainObjList.AddObject(result);
+  FCLColor := (FCLColor + 1) mod 16;
+
+end;
+{-------------------------------------------------------------------------------}
+
+
+{-------------------------------------------------------------------------------}
+{Event Receive/Send Socket Socket}
+procedure TSimManager.Prepare_As_ClientBridge;
+begin
+  {For Weapon}
+  TCPClient.RegisterProcedure(REC_SPSS_ORDER,               nil,                            SizeOf(TRecDataTorperdo));
+  TCPClient.RegisterProcedure(C_REC_CANNON,                 nil,                            SizeOf(TRec3DSetWCC));
+  TCPClient.RegisterProcedure(REC_CMD_TETRAL,               nil,                            SizeOf(TRec3DSetTetral));
+  TCPClient.RegisterProcedure(REC_CMD_MISTRAL,              nil,                            SizeOf(TRec3DSetMistral));
+  TCPClient.RegisterProcedure(REC_CMD_STRELLA,              nil,                            SizeOf(TRec3DSetStrella));
+  TCPClient.RegisterProcedure(REC_CMD_MISTRAL,              nil,                            SizeOf(TRec3DSetMistral));
+  TCPClient.RegisterProcedure(REC_DATA_Yakhont,             nil,                            SizeOf(TRecData_YAkhont));
+  TCPClient.RegisterProcedure(REC_DATA_C802,                nil,                            SizeOf(TRecData_C802));
+  TCPClient.RegisterProcedure(REC_CMD_EXOCET_40,            nil,                            SizeOf(TRec3DSetExocet_40));
+  tcpClient.RegisterProcedure(REC_3D_EXOCET,                nil,                            Sizeof(TRecSetExocet));
+  tcpClient.RegisterProcedure(REC_3D_ASROCK,                nil,                            Sizeof(TRec3DSetAsrock));
+  tcpClient.RegisterProcedure(REC_3D_RBU,                   nil,                            Sizeof(TRec3DSetRBU));
+  tcpClient.RegisterProcedure(REC_3D_TORPEDO_SUT,           nil,                            Sizeof(TRecSetTorpedoSUT));
+  tcpClient.RegisterProcedure(C_REC_FIRE_CONTROL,           nil,                            Sizeof(TRecFireControlOrder));
+
+  {Position}
+  tcpClient.RegisterProcedure(REC_3D_POSITION,              ClientRecv_3D_ShipPos ,         sizeOf(TRecData3DPosition));
+  tcpClient.RegisterProcedure(REC_3D_MISSILEPOS,            ClientRecv_3D_MissilePos ,      sizeof(TRec3DMissilePos));
+  TCPClient.RegisterProcedure(REC_STAT_CANNON_SPLASH,       ClientRecv_CannonSplash,        SizeOf(TRecSplashCannon));
+
+  {Console}
+  TCPClient.RegisterProcedure(REC_CMD_COM_CONSOLE,          ClientRecv_ComConsole,          SizeOf(TRecComConsole));
+  TCPClient.RegisterProcedure(REC_2D_ORDER,                 ClientRecv_ClientManagement ,   Sizeof(TRecData2DOrder));
+  TCPClient.RegisterProcedure(REC_STAT_ASSIGN_OBJECT,       nil,                            SizeOf(TRecObjectAssigned));
+  TCPClient.RegisterProcedure(REC_EVENT_LOG,                ClientRecv_EventLog,            SizeOf(TRecEventLog));
+
+  {Utility}
+  tcpClient.RegisterProcedure(REC_ENVIRONMENT,              nil,                            sizeof(TRecDataEnvironment));
+  tcpClient.RegisterProcedure(REC_3D_ORDER,                 ClientRecv_3D_Order,            sizeOf(TRecData3DOrder));
+  tcpClient.RegisterProcedure(REC_3D_SETCONTROL,            nil,                            sizeOf(spActorsController));
+  tcpClient.RegisterProcedure(REC_3D_UTIL_TOOLS,            nil,                            sizeOf(spUtilityTools));
+  TCPClient.RegisterProcedure(RecRBU_SonarMode_ORDER,       nil,                            SizeOf(TRecRBU_SonarMode));
+  TCPClient.RegisterProcedure(REC_STAT_ORDER_CONSOLE,       ClientRecv_OrderConsole,        SizeOf(TRecStatus_Console));
+  TCPClient.RegisterProcedure(REC_GUIDANCE,                 nil,                            SizeOf(TRecGuidance));
+  TCPClient.RegisterProcedure(REC_GAME_NAME,                ClientRecv_GameName,            SizeOf(TRecGameName));
+  TCPClient.RegisterProcedure(REC_STATUS_GAME,              ClientRecv_StatusGame,          SizeOf(TRecStatusGame));
+  TCPClient.RegisterProcedure(REC_ENABLE_WEAPON,            ClientRecv_EnableWeapon,        SizeOf(TRecEnableWeapon));
+  TCPClient.RegisterProcedure(REC_ASROC_TYPE_MISSILE,       ClientRecv_MissileTypeAsroc,    SizeOf(TRecAsrocMissileType));
+
+  { MAP }
+  TCPClient.RegisterProcedure(REC_MAP_COMMAND,              ClientRecv_MapCommand,          SizeOf(TRecMapCommand));
+
+  TCPClient.RegisterProcedure(REC_REPLAY,                   Clientrecv_ReplayControl,       Sizeof(TRec_Replay));
+
+  TCPClient.RegisterProcedure(REC_TRAJECTORY_VIEW,          Clientrecv_TrajectoryView,       Sizeof(TRec_Trajectory_View));
+
+  TCPClient.RegisterProcedure(REC_3D_UTIL_TOOLS,            ClientReceive_3DUtilTools,       sizeOf(spUtilityTools));
+
+  TCPClient.RegisterProcedure(REC_VIEW_RANGE_WEAPON,        Clientrecv_ViewRangeWeapon,      Sizeof(TRec_View_Range_Weapon));
+
+
+
+end;
+
+{ Create ship after receive packet }
+procedure TSimManager.ClientRecv_3D_ShipPos(apRec: PAnsiChar; aSize: integer);
+var
+  aRec: ^TRecData3DPosition;
+  suid : string;
+  ts: LongWord;
+  ins : TInsObject;
+  
+  RecSend   : TRecData2DOrder;
+begin
+  if isDatabaseMode then Exit;
+
+  // receive from 3D server.
+  aRec := @apRec^;
+  if IsNan(aRec^.X) or
+     IsNan(aRec^.Y) or
+     IsNan(aRec^.Z) or
+     IsNan(aRec^.Heading) or
+     isNan(aRec^.Speed) or
+     isNan(aRec^.pitch) or
+     IsNan(aRec^.roll) or
+     IsNan(aRec^.rudder) then
+  begin
+    LogFile.Log(TimeToStr(Now) + '-ERROR', 'RECEIVE NAN POS');
+    exit;
+  end;
+
+  // vsl only, msl beda packet
+  suid := dbID_to_UniqueID(aRec.ShipID);
+
+  theObj := MainObjList.FindObjectByUid(suid);
+  if theObj = nil then
+  begin
+    theObj := CreateShipnView(aRec.ShipID);
+    if Assigned(FOnNewObject) then FOnNewObject(theObj);
+  end
+  else
+  begin
+    //Req Sync Packet
+    if not isFirstRequest then
+    begin
+      RecSend.orderID   := _CM_REQ_SYNCPACKET;
+      RecSend.numValue  := 0;
+      RecSend.strValue  := '';
+      RecSend.strValue2 := '';
+      RecSend.strValue3 := '';
+      RecSend.ipConsole := '';
+
+      SendCommand2D_Order(RecSend);
+      isFirstRequest := True;
+    end;
+  end;
+
+  if instMapSet.useOffset then begin
+    aRec^.X := aRec^.X + instMapSet.xOffset;
+    aRec^.y := aRec^.y + instMapSet.yOffset;
+  end;
+
+  if theObj <> nil then begin
+    ins := (theObj as TInsObject);
+    with ins do
+    begin
+      ts := MainGameTimer.GetMillisecond;
+
+      UpdateDataPosition(aRec^, ts);
+    end;
+  end;
+
+  if Assigned(FOnReceiveShipPos) then
+      FOnReceiveShipPos(aRec^);
+
+  if FGamePlayType = gpmScenAndRecord then
+    if Assigned(FRecorder) then RecordingUpdateCurrentObjectData ( true );
+    
+end;
+
+function TSimManager.dbID_to_MissileUniqueID(const ShipID, WeaponID, LauncherID,
+                                         MissileID, MissileNumber  : integer): string;
+begin
+  result := Format('%s%0.4d%0.2d%0.2d%0.2d%0.2d',['MSL', ShipID, WeaponID, LauncherID,
+                                                  MissileID, MissileNumber]);
+end;
+
+{Create weapon after receive packet}
+procedure TSimManager.ClientRecv_3D_MissilePos(apRec: PAnsiChar;  // dendy mampir
+  aSize: integer);
+var
+  arMissile : ^TRec3DMissilePos;
+  tempUID   : string;
+  lObj      : TIMissileObject;
+  ins       : TInsObject;
+  ts        : LongWord;
+
+  shipID,
+  WeaponID,
+  LauncherID,
+  MissileID,
+  MissileNumber : integer ;
+begin
+  if isDatabaseMode then Exit;
+
+  arMissile := @apRec^;
+
+  if IsNan(arMissile^.X) or
+     IsNan(arMissile^.Y) or
+     IsNan(arMissile^.Z) or
+     IsNan(arMissile^.heading) or
+     IsNan(arMissile^.speed) then
+  begin
+    LogFile.Log('ERROR', 'RECEIVE NAN POS');
+    exit;
+  end;
+
+  shipID        := arMissile^.shipID ;
+  WeaponID      := arMissile^.WeaponID ;
+  launcherID    := arMissile^.launcherID;
+  missileID     := arMissile^.missileID;
+  missileNumber := arMissile^.MissileNumber;
+
+  tempUID := dbID_to_MissileUniqueID( shipID, WeaponID, LauncherID, missileID, MissileNumber);
+
+  if instMapSet.useOffset then
+  begin
+    arMissile.x := arMissile^.x + instMapSet.xOffset;
+    arMissile.y := arMissile^.y + instMapSet.yOffset;
+  end;
+
+  case arMissile.status   of
+    ST_MISSILE_RUN :
+    begin
+      tmpNewObj := mainObjList.FindObjectByUid(tempUID);
+
+      if tmpNewObj = nil then
+      begin
+        tmpNewObj := CreateMissilenView(shipID, WeaponID, LauncherID, MissileID, MissileNumber);
+      end;
+
+      lObj := TIMissileObject(tmpNewObj);
+
+      ins := (tmpNewObj as TInsObject);
+      with ins do
+      begin
+        ts := MainGameTimer.GetMillisecond;
+        if lObj <> nil then
+          lObj.UpdateMissileDataPosition(arMissile^, ts);
+      end;
+    end;
+
+    ST_MISSILE_HIT :
+    begin
+
+    end;
+
+    ST_MISSILE_DEL :
+    begin
+      tmpNewObj := mainObjList.FindObjectByUid(tempUID);
+      if tmpNewObj <> nil then
+      begin
+        lObj := TIMissileObject(tmpNewObj);
+        lObj.MarkAs_NeedToBeFree;
+
+        if FGamePlayType = gpmScenAndRecord then
+         DeleteObjectRecord(lObj.ShipID, lObj.WeaponID, lObj.LauncherID,
+                            lObj.MissileID, lObj.MissileNumber);
+      end;
+    end;
+
+    ST_MISSILE_LOADED :
+    begin
+
+    end;
+  end;
+
+  if Assigned(FOnReceiveMissilePos) then
+    FOnReceiveMissilePos(arMissile^);
+end;
+
+{Create Cannon Splash}
+procedure TSimManager.ClientRecv_CannonSplash(apRec: PAnsiChar;
+  aSize: integer);
+var
+  arSplash  : ^TRecSplashCannon;
+  SplashCannon : TICannonBlast;
+begin
+  if isDatabaseMode then Exit;
+
+  arSplash := @apRec^;
+
+  if IsNan(arSplash^.PosX) or
+     IsNan(arSplash^.PosY) or
+     IsNan(arSplash^.PosZ)
+  then
+  begin
+    LogFile.Log('ERROR', 'RECEIVE NAN POS');
+    exit;
+  end;
+
+  if instMapSet.useOffset then
+  begin
+    arSplash^.PosX := arSplash^.PosX + instMapSet.xOffset;
+    arSplash^.PosY := arSplash^.PosY + instMapSet.yOffset;
+  end;
+
+  SplashCannon := TICannonBlast.Create;
+  SplashCannon.UpdateSplashDataPosition(arSplash^, MainGameTimer.GetMillisecond);
+  SplashCannon.CreateDefaultView(FMap);
+  SplashCannon.VLabel.Visible := false;
+  SplashCannon.VHistory.Visible := false;
+  SplashCannon.VSymbol.CharSymbol := 'X';
+  SplashCannon.VSymbol.FontName := 'TCMS 2';
+  SplashCannon.VSymbol.Size := 24;
+  SplashCannon.VSymbol.Color := clNavy;
+  SplashCannon.Enabled := TRUE;
+  MainObjList.AddObject(SplashCannon);
+end;
+
+procedure TSimManager.ClientRecv_ClientManagement(apRec: PAnsiChar;
+  aSize: integer);
+var
+  aRec : ^TRecData2DOrder;
+begin
+  aRec := @apRec^;
+
+  if Assigned(OnReceiveClientMg) then
+    OnReceiveClientMg(aRec^);
+end;
+
+procedure TSimManager.ClientRecv_3D_Order(apRec: PAnsiChar;
+  aSize: integer);
+var
+  aRec : ^TRecData3DOrder;
+begin
+  aRec := @aPrec^;
+
+  if Assigned(OnReceive3DOrder) then
+    OnReceive3DOrder(aRec^);
+end;
+
+procedure TSimManager.ClientRecv_ComConsole(apRec: PAnsiChar;
+  aSize: integer);
+var
+  aRec : ^TRecComConsole;
+begin
+  aRec := @apRec^;
+
+  if Assigned(OnReceiveComConsole) then
+    OnReceiveComConsole(aRec^);
+end;
+
+procedure TSimManager.ClientRecv_EventLog(apRec: PAnsiChar;
+  aSize: integer);
+var
+  aRec : ^TRecEventLog;
+begin
+  aRec := @apRec^;
+
+  if Assigned(OnReceiveReport) then
+    OnReceiveReport(aRec^);
+end;
+
+procedure TSimManager.ClientRecv_MapCommand(apRec: PAnsiChar;
+  aSize: integer);
+var
+  aRec : ^TRecMapCommand;
+begin
+  aRec := @apRec^;
+
+  if Assigned(OnReceiveMapCommand) then
+    OnReceiveMapCommand(aRec^);
+end;
+
+procedure TSimManager.Clientrecv_ReplayControl(apRec: PAnsiChar;
+  aSize: integer);
+var
+  aRec : ^TRec_Replay;
+begin
+  aRec := @apRec^;
+
+  if (not SimManager.InsUtils.MapMode) and (SimManager.InsUtils.MapID <> 0) then
+    Exit;
+
+  WindowStateControl(1); //normal;
+
+  case aRec^.OrderID of
+    //Init Replay
+    1 :
+    begin
+      //Net_DisConnect;
+      InitFileReplay(aRec^.ReplayName);
+    end;
+
+    //Change Status
+    //Start, Stop, Pause, Resume
+    2 :
+    begin
+      case arec^.ReplayControl of
+        1 :    //start
+        begin
+          fGamePlayType := gpmReplay;
+          Replay_Start;
+        end;
+        2 :    //stop
+        begin
+          Replay_Stop;
+          fGamePlayType := gpmScenario;
+          ClearAllObjects;
+          SimCenter.StartSimulation;
+        end;
+        3 :   //pause
+        begin
+          Replay_Pause;
+        end;
+        4 :   //resume
+        begin
+          Replay_Resume;
+        end;
+        5 :
+        begin
+          Replay_Stop;
+          fGamePlayType := gpmScenario;
+          ClearAllObjects;
+          SimCenter.StartSimulation;
+          WindowStateControl(0);    // minimized
+        end;
+      end
+    end;
+
+    //Change Speed
+    3 :
+    begin
+      FReplay.ReplaySpeedMultiplier :=  aRec^.ReplaySpeed;
+    end;
+  end;
+end;
+
+procedure TSimManager.ClientRecv_OrderConsole(apRec: PAnsiChar;
+  aSize: integer);
+var
+  aRec : ^TRecStatus_Console;
+begin
+  aRec := @apRec^;
+
+  if Assigned(OnReceiveStatConsole) then
+    OnReceiveStatConsole(aRec^);
+end;
+
+{-------------------------------------------------------------------------------}
+
+{-------------------------------------------------------------------------------}
+{ Send Socket }
+{ Weapon }
+procedure TSimManager.NetSendTo3D_AddLauncherRuntime(shipID, lcrID, mslID,
+  typeID: integer);
+var
+  lRec: spActorsController;
+begin
+
+  lRec.ShipID := shipID;
+  lRec.ActorRuntimeID1 := lcrID ;
+  lRec.ActorRuntimeID2 := mslID ;
+  lRec.TypeID := typeID;
+  lRec.OrderID := STATE_AR_CREATE;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_SETCONTROL, @lRec);
+end;
+
+procedure TSimManager.NetSendTo3D_AddMissileRuntime(shipID, WpnID, LcrID,
+  MslID, MslNmber, TypeID: integer; mX, mY, mZ, mRot: double);
+var
+  lRec: spActorsController;
+begin
+  lRec.ShipID := shipID;
+
+  lRec.ActorRuntimeID1 := WpnID ;
+  lRec.ActorRuntimeID2 := LcrID ;
+  lRec.ActorRuntimeID3 := MslID ;
+  lRec.ActorRuntimeID4 := MslNmber ;
+
+  lRec.TypeID   := typeID;
+  lRec.OrderID  := STATE_AR_CREATE;
+
+  lRec.x := mX;
+  lRec.y := mY;
+  lRec.z := mZ;
+  lRec.h := mRot;
+
+  if (TCPClient <> nil) and (SimCenter.TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_SETCONTROL, @lRec);
+
+end;
+
+procedure TSimManager.NetSendTo3D_OrderCannon(rec: TRec3DSetWCC);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(C_REC_CANNON, @Rec);
+end;
+
+procedure TSimManager.NetSendTo3D_OrderMissile_C802(rec: TRecData_C802);
+begin
+   if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_DATA_C802, @Rec);
+end;
+
+procedure TSimManager.NetSendTo3D_OrderMissile_YAHKONT(rec: TRecData_Yakhont);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_DATA_Yakhont, @Rec);
+end;
+
+procedure TSimManager.NetSendTo3D_OrderMissileAsroc(rec: TRec3DSetAsrock);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_ASROCK, @rec);
+end;
+
+procedure TSimManager.NetSendTo3D_OrderMissileExocet(rec: TRec3DSetExocet);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_EXOCET, @Rec);
+end;
+
+procedure TSimManager.NetSendTo3D_OrderMissileExocet_MM40(Rec: TRec3DSetExocet_40);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_CMD_EXOCET_40, @Rec);
+end;
+
+procedure TSimManager.NetSendTo3D_OrderMissileMistral(rec: TRec3DSetMistral);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_CMD_MISTRAL, @Rec);
+end;
+
+procedure TSimManager.NetSendTo3D_OrderMissileRBU6000(rec: TRec3DSetRBU);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_RBU, @rec);
+end;
+
+procedure TSimManager.NetSendTo3D_OrderMissileStrella(rec: TRec3DSetStrella);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_CMD_STRELLA, @rec);
+end;
+
+procedure TSimManager.NetSendTo3D_OrderMissileSUT(Rec: TRecSetTorpedoSUT);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_TORPEDO_SUT, @Rec);
+end;
+
+procedure TSimManager.NetSendTo3D_OrderMissileTetral(rec: TRec3DSetTetral);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_CMD_TETRAL, @Rec);
+end;
+
+procedure TSimManager.NetSendTo3D_OrderMissileTorpedo(rec: TRecDataTorperdo);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_SPSS_ORDER, @rec);
+end;
+
+{ Launcher }
+procedure TSimManager.CheckStatusConsole;
+var
+  RecSend : TRecData2DOrder;
+begin
+  RecSend.orderID   := _CM_CLIENT_CHECK;
+  RecSend.numValue  := 0;
+  RecSend.strValue  := IntToStr(CurrentScenarioID);
+  RecSend.strValue2 := '';
+  RecSend.strValue3 := '';
+  RecSend.ipConsole := '';
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_2D_ORDER, @RecSend);
+end;
+
+procedure TSimManager.InstrukturSendLaunchAllCommand;
+var
+  thePacket: TRecData2DOrder;
+begin
+  with thePacket do begin
+    orderID   := _CM_CLIENT_APP;
+    numValue  := __CM_CLIENT_LAUNCHALL;
+    strValue  := IntToStr(CurrentScenarioID);
+    strValue2 := '';
+    strValue3 := '';
+    ipConsole := '';
+  end;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_2D_ORDER, @thePacket);
+end;
+
+procedure TSimManager.InstrukturSendLaunchCommand(ipAddress, shipID,
+  launcherID: string);
+var
+  thePacket: TRecData2DOrder;
+begin
+  with thePacket do begin
+    orderID   := _CM_CLIENT_APP;
+    numValue  := __CM_CLIENT_LAUNCH;
+    strValue  := IntToStr(CurrentScenarioID);
+    strValue2 := shipID;
+    strValue3 := launcherID;
+    ipConsole := ipAddress;
+  end;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_2D_ORDER, @thePacket);
+end;
+
+procedure TSimManager.SendCommand2D_Order(Rec: TRecData2DOrder);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_2D_ORDER, @Rec);
+end;
+
+procedure TSimManager.InstrukturSendStopCommandIP(ipAddress: string);
+var
+  thePacket: TRecData2DOrder;
+begin
+  with thePacket do begin
+    orderID   := _CM_CLIENT_APP;
+    numValue  := __CM_CLIENT_STOP;
+    strValue  := '';
+    strValue2 := '';
+    strValue3 := '';
+    ipConsole := ipAddress;
+  end;
+  
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_2D_ORDER, @thePacket);
+end;
+
+procedure TSimManager.InstrukturSendWelcomeToClientConnected(
+  cAdrress: string);
+var
+  thePacket: TRecData2DOrder;
+  aClient: TWSocketClient;
+begin
+  with thePacket do begin
+    orderID  := _CM_CLIENT_MANAGE;
+    numValue := __CM_CLIENT_WELCOME;
+    strValue := cAdrress;
+    strValue2 := '';
+    strValue3 := '';
+    ipConsole := cAdrress;
+  end;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_2D_ORDER, @thePacket);
+
+end;
+
+procedure TSimManager.InstrukturSet3DAddressWhoRequested(cAdrress: string);
+var
+  thePacket: TRecData2DOrder;
+begin
+  with thePacket do begin
+    orderID   := _CM_CLIENT_MANAGE;
+    numValue  := __CM_CLIENT_SET3D_ADDR;
+    strValue  := SimManager.ServerIp;
+    strValue2 := '';
+    strValue3 := '';
+    ipConsole := cAdrress;
+  end;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_2D_ORDER, @thePacket);
+end;
+
+procedure TSimManager.InstrukturSetDBAddressToClientConnected(
+  cAdrress: string);
+var
+  thePacket: TRecData2DOrder;
+  aClient: TWSocketClient;
+begin
+  with thePacket do begin
+    orderID   := _CM_CLIENT_MANAGE;
+    numValue  := __CM_CLIENT_SETDB_ADDR;
+    strValue  := bridgeSet.mDB.mDBServer;
+    strValue2 := '';
+    strValue3 := '';
+    ipConsole := cAdrress;
+  end;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_2D_ORDER, @thePacket);
+end;
+procedure TSimManager.InstrukturSetTimeServerWhoRequested(
+  cAdrress: string);
+var
+  thePacket : TRecData2DOrder;
+  fSendTime : TTime;
+begin
+  with thePacket do begin
+    orderID   := _CM_CLIENT_MANAGE;
+    numValue  := __CM_CLIENT_SET_SIM_TIME;
+    fSendTime := fSimTime + fSimAdded ;
+    strValue  := TimeToStr(fSendTime);
+    strValue2 := '';
+    strValue3 := '';
+    ipConsole := cAdrress;
+  end;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_2D_ORDER, @thePacket);
+end;
+
+{ Console }
+procedure TSimManager.NetSendASROC_TrackObject(
+  const rec: TRecFireControlOrder);
+var
+  RecSend : TRecFireControlOrder;
+begin
+  RecSend := Rec;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(C_REC_FIRE_CONTROL, @recsend);
+end;
+procedure TSimManager.NetSendRBU_TrackObject(const rec: TRecRBU_SonarMode);
+var
+  RecSend : TRecRBU_SonarMode;
+begin
+  RecSend := Rec;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(RecRBU_SonarMode_ORDER, @recsend);
+end;
+
+procedure TSimManager.NetSendTo2D_ObjectAssign(rec: TRecObjectAssigned);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_STAT_ASSIGN_OBJECT, @rec);
+end;
+
+procedure TSimManager.NetSendStatConsole(aOWN_SHIP_UID: string; aWeaponID,
+  aErrorID, aParamError: integer);
+var
+  RecSend : TRecStatus_Console;
+begin
+  RecSend.OWN_SHIP_UID := aOWN_SHIP_UID;
+  RecSend.WeaponID     := aWeaponID;
+  RecSend.ErrorID      := aErrorID;
+  RecSend.ParamError   := aParamError;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_STAT_ORDER_CONSOLE, @RecSend);
+end;
+
+procedure TSimManager.NetSendToMap(rec: TRecMapCommand);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_MAP_COMMAND, @rec);
+end;
+
+{-------------------------------------------------------------------------------}
+
+{-------------------------------------------------------------------------------}
+{Utility}
+procedure TSimManager.SendMoveUnit(const ship: TSimulationClass);
+var
+  aRec : TRecData3DPosition;
+begin
+  with (ship as TInsObject) do
+  begin
+    Get3DDataPosition(aRec);
+
+    aRec.X := PositionX;
+    aRec.Y := PositionY;
+    aRec.z := PositionZ;
+    aRec.heading := Course;
+
+    if instMapSet.useOffset then
+    begin
+      aRec.x := aRec.x - instMapSet.xOffset;
+      aRec.y := aRec.y - instMapSet.yOffset;
+    end;
+
+    FInterpolDelay := 2;
+  end;
+
+  TCPClient.sendDataEx(REC_3D_POSITION, @aRec);
+end;
+
+procedure TSimManager.NetSendGameName(aGameName: string);
+var
+  rec : TRecGameName;
+begin
+  rec.GameName := aGameName;
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_GAME_NAME, @Rec);
+end;
+
+procedure TSimManager.NetSendLogTest(rec: TRecEventLog);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_EVENT_LOG, @Rec);
+end;
+
+procedure TSimManager.NetSendTo3D_AddShipRuntime(shipID: integer; mX, mY,
+  mZ, mRot: double);
+var
+  lRec: spActorsController;
+begin
+
+  lRec.ShipID := shipID;
+  case DataModule1.CheckObjectCatDomain(shipID) of
+    1 : begin
+          lRec.TypeID   := TIPE_AR_SHIP;
+          lRec.OrderID  := STATE_AR_CREATE;
+        end;
+
+    2 : begin
+          lRec.TypeID := TIPE_AR_SUBMARINE;
+          lRec.OrderID := STATE_AR_CREATE;
+        end;
+
+    3 : begin
+          lRec.TypeID := TIPE_AR_HELICOPTER;
+          lRec.OrderID := STATE_AR_CREATE;
+        end;
+        
+    4 : begin
+          lRec.TypeID := TIPE_AR_AIRCRAFT;
+          lRec.OrderID := STATE_AR_CREATE;
+        end;
+  end;
+
+  lRec.x := mX;
+  lRec.y := mY;
+  lRec.z := mZ;
+  lRec.h := mRot;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_SETCONTROL, @lRec);
+end;
+
+procedure TSimManager.NetSendTo3D_DelShipRuntime(shipID: integer);
+var
+  lRec: spActorsController;
+  sCategoryID  : integer;
+begin
+
+  lRec.ShipID   := shipID;
+  sCategoryID   := DataModule1.GetShipCategoryID(shipID);
+
+  if DataModule1.GetShipCategoryName(sCategoryID) = 'SUBMARINE' then
+  begin
+    lRec.TypeID   := TIPE_AR_SUBMARINE;
+    lRec.OrderID  := STATE_AR_DEL;
+  end
+  else
+  if DataModule1.GetShipCategoryName(sCategoryID) = 'HELICOPTER' then
+  begin
+    lRec.TypeID   := TIPE_AR_HELICOPTER;
+    lRec.OrderID  := STATE_AR_DEL;
+  end
+  else
+  if DataModule1.GetShipCategoryName(sCategoryID) = 'AIRCRAFT' then
+  begin
+    lRec.TypeID   := TIPE_AR_AIRCRAFT;
+    lRec.OrderID  := STATE_AR_DEL;
+  end
+  else
+  begin
+    lRec.TypeID   := TIPE_AR_SHIP;
+    lRec.OrderID  := STATE_AR_DEL;
+  end;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_SETCONTROL, @lRec);
+end;
+
+procedure TSimManager.NetSendTo3D_SetCommandObserver(rec: spUtilityTools);
+var
+  lRec: spUtilityTools;
+begin
+  lRec := rec;
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_UTIL_TOOLS, @lRec);
+end;
+
+procedure TSimManager.NetSendTo3D_SetCommandOrder(shipID, OrderID: integer;
+  Val: single; MoveMode: Integer; mCoordX : Single; mCoordY : Single;
+  mCoordZ : Single);
+var
+  lRec : TRecData3DOrder;
+begin
+  lRec.shipID := shipID;
+  lRec.sOrder := OrderID ;
+  lRec.mValue := Val;
+  lRec.ModeMove := MoveMode;
+  lRec.coordinatX := mCoordX;
+  lRec.coordinatY := mCoordY;
+  lRec.coordinatZ := mCoordZ;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_ORDER, @lRec);
+end;
+
+procedure TSimManager.NetSendTo3D_SetCommandPlayerCamera(
+  rec: spUtilityTools);
+var
+  lRec: spUtilityTools;
+begin
+  lRec := rec;
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_UTIL_TOOLS, @lRec);
+end;
+
+procedure TSimManager.NetSendTo3D_SetOrderBell(shipID: integer;
+  Val: single);
+var
+  thePacket: TRecData3DOrder;
+begin
+  with thePacket do begin
+    shipID := shipID;
+    sOrder := ORD_BELL;
+    mValue := Val;
+  end;
+  
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_ORDER, @thePacket);
+end;
+
+procedure TSimManager.StopToClientOnIP(cAddress: string);
+var
+  i: integer;
+  thePacket: TRecData2DOrder;
+begin
+  with thePacket do begin
+    orderID   := _CM_CLIENT_APP;
+    numValue  := __CM_CLIENT_STOP;
+    strValue  := '';
+    ipConsole := cAddress;
+  end;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_2D_ORDER, @thePacket);
+end;
+
+procedure TSimManager.NetSendTo3D_SetOrderLamps(shipID: integer;
+  Val: single);
+var
+  thePacket: TRecData3DOrder;
+begin
+  with thePacket do begin
+    shipID := shipID;
+    sOrder := ORD_LAMP;
+    mValue := Val;
+  end;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_3D_ORDER, @thePacket);
+end;
+
+procedure TSimManager.DeleteObjectRecord(ShpID, WpnID, LncrID, MisslID, MisslNbr : integer);
+var i : integer;
+  obj : TInsObject;
+  lRec: TRecData3DPosition;
+  arrObjData : aObjectData;
+begin
+  SetLength(arrObjData,1);
+  for i := 0 to MainObjList.ItemCount-1 do begin
+    obj := TInsObject(MainObjList.getObject(i));
+    if obj is TIMissileObject then
+    begin
+      if (TIMissileObject(obj).ShipID = ShpID) and
+         (TIMissileObject(obj).WeaponID = WpnID) and
+         (TIMissileObject(obj).LauncherID = LncrID) and
+         (TIMissileObject(obj).MissileID = MisslID) and
+         (TIMissileObject(obj).MissileNumber = MisslNbr) then
+      begin
+        arrObjData[0].ShipID := TIMissileObject(obj).ShipID;
+        arrObjData[0].WeaponID := TIMissileObject(obj).WeaponID;
+        arrObjData[0].launcherID := TIMissileObject(obj).LauncherID;
+        arrObjData[0].missileID := TIMissileObject(obj).MissileID;
+        arrObjData[0].MissileNumber := TIMissileObject(obj).MissileNumber;
+        arrObjData[0].X := 0;
+        arrObjData[0].y := 0;
+        arrObjData[0].z := 0;
+        arrObjData[0].Heading := 0;
+        arrObjData[0].speed := 0;
+        arrObjData[0].pitch := 0;
+        arrObjData[0].roll := 0;
+        arrObjData[0].rudder := 0;
+        arrObjData[0].ObjType := 1;  //weapon
+        arrObjData[0].OrderID := CONST_REPLAY_DEL_OBJECT;
+      end;
+    end
+    else
+    begin
+      if not (obj is TICannonBlast) then
+      begin
+        obj.Get3DDataPosition(lRec);
+        if lRec.ShipID = ShpID then
+        begin
+          arrObjData[0].ShipID := lRec.ShipID;
+          arrObjData[0].WeaponID := 0;
+          arrObjData[0].launcherID    := 0;
+          arrObjData[0].missileID     := 0;
+          arrObjData[0].MissileNumber := 0;
+          arrObjData[0].X := 0;
+          arrObjData[0].Y := 0;
+          arrObjData[0].Z := 0;
+          arrObjData[0].Heading := 0;
+          arrObjData[0].Speed := 0;
+          arrObjData[0].pitch := 0;
+          arrObjData[0].roll := 0;
+          arrObjData[0].rudder := 0;
+          arrObjData[0].ObjType := 2; //ship
+          arrObjData[0].OrderID := CONST_REPLAY_DEL_OBJECT;
+        end;
+      end;
+    end;
+  end;
+
+  FRecorder.AddDataToLog(FSpeedMultiplier,arrObjData);
+  MainObjList.ReturnList;
+end;
+
+procedure TSimManager.RecordingUpdateCurrentObjectData(from3D: boolean);
+var i : integer;
+    l : Tlist;
+    obj, objTmp : TInsObject;
+    lRec: TRecData3DPosition;
+    mRec : TRecMissilePos;
+    aRec : TRecDataAll3DPosition;
+    arrObjData : aObjectData;
+begin
+  l := MainObjList.GetList;
+  SetLength(arrObjData,l.Count);
+  for i := 0 to l.Count-1 do begin
+    obj := l[i];
+    objTmp := TInsObject(SimManager.MainObjList.getObject(i));
+    if objTmp is TIMissileObject then
+    begin
+      if objTmp is TICannonBlast then
+      begin
+       aRec.ShipID := TICannonBlast(obj).ShipID;
+       aRec.WeaponID := TICannonBlast(obj).WeaponID;
+       aRec.launcherID := TICannonBlast(obj).LauncherID;
+       aRec.missileID := TICannonBlast(obj).MissileID;
+       aRec.MissileNumber := TICannonBlast(obj).MissileNumber;
+       arec.X := TICannonBlast(obj).PositionX - instMapSet.xOffset ;
+       aRec.y := TICannonBlast(obj).PositionY - instMapSet.yOffset ;
+       aRec.z := TICannonBlast(obj).PositionZ;
+       arec.Heading := TICannonBlast(obj).Course;
+       aRec.speed := TICannonBlast(obj).Speed;
+       aRec.pitch := TICannonBlast(obj).Pitch;
+       aRec.roll := TICannonBlast(obj).Roll;
+       aRec.rudder := TICannonBlast(obj).RuderPos;
+       aRec.ObjType := 3;     //1 = weapon, 2 = ship, 3 = cannonSpalsh
+       aRec.OrderID := CONST_REPLAY_UPDATE_OBJECT;
+      end
+      else
+      begin
+       aRec.ShipID := TIMissileObject(obj).ShipID;
+       aRec.WeaponID := TIMissileObject(obj).WeaponID;
+       aRec.launcherID := TIMissileObject(obj).LauncherID;
+       aRec.missileID := TIMissileObject(obj).MissileID;
+       aRec.MissileNumber := TIMissileObject(obj).MissileNumber;
+       arec.X := TIMissileObject(obj).PositionX - instMapSet.xOffset ;
+       aRec.y := TIMissileObject(obj).PositionY - instMapSet.yOffset ;
+       aRec.z := TIMissileObject(obj).PositionZ;
+       arec.Heading := TIMissileObject(obj).Course;
+       aRec.speed := TIMissileObject(obj).Speed;
+       aRec.pitch := TIMissileObject(obj).Pitch;
+       aRec.roll := TIMissileObject(obj).Roll;
+       aRec.rudder := TIMissileObject(obj).RuderPos;
+       aRec.ObjType := 1;     //1 = weapon, 2 = ship, 3 = cannonSpalsh
+       aRec.OrderID := CONST_REPLAY_UPDATE_OBJECT;
+      end;
+    end
+    else
+    begin
+      obj.Get3DDataPosition(lRec);
+      aRec.WeaponID := 0;
+      aRec.launcherID := 0;
+      aRec.missileID := 0;
+      aRec.MissileNumber := 0;
+      aRec.ShipID := lRec.ShipID;
+      aRec.x := lRec.x - instMapSet.xOffset ;
+      aRec.y := lRec.y - instMapSet.yOffset ;
+      aRec.z := lRec.Z;
+      aRec.Heading := lRec.Heading;
+      aRec.speed := lRec.Speed;
+      aRec.pitch := lRec.pitch;
+      aRec.roll := lRec.roll;
+      aRec.rudder := lRec.rudder;
+      aRec.ObjType := 2;     //1 = weapon, 2 = ship, 3 = cannonSpalsh
+      aRec.OrderID := CONST_REPLAY_UPDATE_OBJECT;
+    end;
+
+    arrObjData[i] := aRec;
+  end;
+
+  FRecorder.AddDataToLog(FSpeedMultiplier,arrObjData);
+  MainObjList.ReturnList;
+end;
+
+procedure TSimManager.ClearAllObjects;
+begin
+  MainObjList.ClearObject;
+  MainViewList.ClearObject;
+end;
+{-------------------------------------------------------------------------------}
+
+{-------------------------------------------------------------------------------}
+{ Load Map }
+procedure TSimManager.LoadGeoset(const aGst: string);
+begin
+  inherited;
+
+end;
+
+procedure TSimManager.LoadGeosetMiniMap1(const aGst: string);
+begin
+  if Not FileExists(aGst) then
+    MessageDlg('Geoset not found! '+ aGst, mtWarning, [mbOK], 0);
+
+  //Mini Map1
+  MiniMap1.Layers.RemoveAll;
+  MiniMap1.Geoset := aGst;
+end;
+
+{-------------------------------------------------------------------------------}
+
+procedure TSimManager.DrawAllOnMapXCanvas(aCnv: TCanvas);
+var
+  i : integer;
+  l : Tlist;
+  obj : TSimClassOnMapX;
+begin
+  inherited;
+
+  if VSelect.Visible then
+    VSelect.DrawView(aCnv);
+
+  l := MainObjList.GetList;
+  for i := 0 to l.Count-1 do begin
+    obj := l[i];
+    if obj <> nil then
+    begin
+    try
+      obj.ConvertViewsPosition;
+      obj.ViewContainer.DrawAllView(aCnv);
+    except
+      SimManager.LogFile.Log('Error Convert Coord', 'Name ' +   obj.UniqueID  +
+                                                    ' X : ' + FloatToStr(obj.PositionX) +
+                                                    ' Y : ' + FloatToStr(obj.PositionY) +
+                                                    ' Z : ' + FloatToStr(obj.PositionZ) );
+    end
+    
+    end;
+  end;
+  MainObjList.ReturnList;
+
+  VRuler.DrawView(aCnv);
+end;
+
+procedure TSimManager.EventOnMainTimer(const dt: double);
+
+   procedure SlowDown ;
+   var i : Integer;
+   begin
+      for i := 0 to FSpeedMultiplier-1  do begin
+        // update time
+         MainGameTimer.IncreaseMillisecond(dt);
+
+         { CallMove Member }
+         MoveMember(dt);
+         FTimeVehicleHiss.Step(dt);
+         FTimeMissHiss.step(dt);
+      end;
+
+      FTimeUpdateRuler.Step(dt);
+
+      if ShouldConnect then
+        FTimeConnect.Step(dt);
+
+      if FisCheckConnect then
+        FTimeCheckConnect.Step(dt);
+
+      if FisCheckRespone then
+        FTimeCheckRespone.Step(dt);
+
+      { For Debuging -> must delete if Fixed } 
+      {
+        if ShouldConnectCtrl then
+          FTimeCtrlConnect.Step(dt);
+      }
+
+      FTimeRepainterIL.Step;
+
+      { Garbage Collector }
+      CleanUpMember;
+
+   end;
+   
+begin
+   case FGamePlayType of
+    gpmScenario,
+    gpmScenAndRecord : begin
+      SlowDown ;
+      end;
+    gpmReplay   : begin
+      SlowDown ;
+    end;
+   end;
+end;
+
+procedure TSimManager.RunSimulation;
+begin
+  MainThread.Resume;
+end;
+
+procedure TSimManager.StopSimulation;
+begin
+  MainThread.Suspend;
+end;
+
+procedure TSimManager.ConnectToBridge;
+begin
+  ShouldConnect := True;
+end;
+
+procedure TSimManager.BringToFront(var s: TSimulationClass);
+var
+  l : TList;
+  i : integer;
+begin
+  l := MainObjList.GetList;
+  i := l.IndexOf(s);
+
+  if i >= 0 then l.Delete(i);
+
+  l.Add(s);
+  MainObjList.ReturnList;
+end;
+
+procedure TSimManager.ResetColorShip;
+var
+  l : TList;
+  i : Integer;
+  sim : TInsObject;
+begin
+  l := MainObjList.GetList;
+  for i := 0 to l.Count-1 do
+  begin
+    sim := l[i];
+    sim.VSymbol.Color := clNavy;
+  end;
+end;
+
+function TSimManager.FindViewByPosition(const pt: TPoint;
+  var v: TActiveView): boolean;
+var
+  i, j: integer;
+  l : TList;
+  sim: TInsObject;
+begin
+  v := nil;
+
+  l := MainObjList.GetList;
+  if (selIndex < 1) or (selIndex >= l.count) then
+    i := l.count-1
+  else
+    i := selIndex;
+
+  j := l.Count;
+  result := false;
+  while not result and (j > 0) do
+  begin
+    sim := l[i];
+    result := sim.FindViewByPosition(pt.X, pt.Y, v);
+    dec(i);
+    dec(j);
+    if i < 0 then i := l.Count-1;
+  end;
+
+  if result then
+  begin
+    { the result is v }
+    selectedView  := v;
+    selectedObject := sim;
+
+     TInsObject(selectedObject).VSymbol.Color := clLime;
+
+    selIndex := i + 1;
+    if selIndex >= l.Count then selIndex := 0;
+  end
+  else
+  begin
+    selectedView   := nil;
+    selectedObject := nil;
+  end;
+
+  MainObjList.ReturnList;
+end;
+
+procedure TSimManager.StopScenario;
+begin
+  TrackObject    := nil;
+  DatabaseObject := nil;
+  DragObject     := nil;
+  
+  Selections.ClearSelection;
+  VSelect.Visible := false;
+  ClearAllObjects;
+
+  isFirstRequest := false;
+end;
+
+{ ----------------------------------------------------------------------------- }
+{ Utilities }
+procedure TSimManager.Drag_Begin(const mPtLast: TPoint);
+begin
+  Selections.RectSelect := VSelect.Rects;
+  Selections.BeginMove();
+end;
+
+procedure TSimManager.Drag_Move(const ptFrom, ptTo: TPoint);
+var
+  r : tRect;
+  ptDelta : TPoint;
+  sx, sy: single;
+  dF, dT  : t2DPoint;
+begin
+  ptDelta.X := ptTo.X - ptFrom.X;
+  ptDelta.Y := ptTo.Y - ptFrom.Y;
+
+  r := Selections.RectOrg;
+  OffsetRect(r, ptDelta.X, ptDelta.Y);
+  VSelect.Rects := r;
+
+  sx := ptFrom.X;
+  sy := ptFrom.y;
+  Fmap.ConvertCoord(sx, sy, dF.X, dF.Y, miScreenToMap);
+
+  sx := ptTo.X;
+  sy := ptTo.y;
+  Fmap.ConvertCoord(sx, sy, dT.X, dT.Y, miScreenToMap);
+  Selections.MoveOffset(dT.x - dF.x, dT.y - dF.y);
+end;
+
+procedure TSimManager.Select_(ptStart, ptEnd: TPoint);
+var
+  i: integer;
+  l : TList;
+  sim: TInsObject;
+  pt : TPoint;
+  r : TRect;
+begin
+  r.TopLeft     := ptStart;
+  r.BottomRight := ptEnd;
+
+  l := MainObjList.GetList;
+  i := l.count-1;
+
+  while (i >= 0) do
+  begin
+    sim := l[i];
+    pt := sim.VSymbol.CenterCoord;
+    if PtInRect(r, pt)  then begin
+      sim.AllowUpdate := false;
+      Selections.AddToSelection(sim);
+    end;
+    dec(i);
+  end;
+
+  MainObjList.ReturnList;
+end;
+
+procedure TSimManager.Select_Begin(const ptStart: TPoint);
+var
+  dpt : t2DPoint;
+  sx, sy: single;
+begin
+  sx := ptStart.X;
+  sy := ptStart.Y;
+
+  Fmap.ConvertCoord(sx, sy, dpt.X, dpt.Y, miScreenToMap);
+  VSelect.ptStart     := ptStart;
+  VSelect.ptEnd       := ptStart;
+
+  Selections.RectSelect.TopLeft  := ptStart;
+
+  VSelect.Visible := TRUE;
+end;
+
+procedure TSimManager.Select_End(const ptEnd: TPoint);
+var
+  dpt : t2DPoint;
+  sx, sy: single;
+begin
+  sx := ptEnd.X;
+  sy := ptEnd.Y;
+
+  Fmap.ConvertCoord(sx, sy, dpt.X, dpt.Y, miScreenToMap);
+
+  VSelect.ptEnd := ptEnd;
+
+  Selections.RectSelect.BottomRight := ptEnd;
+end;
+
+procedure TSimManager.Select_SendMove;
+var
+  i: integer;
+  ins: TInsObject;
+begin
+  for i := 0 to Selections.Count-1 do
+  begin
+    ins := Selections.Items[i];
+    SendMoveUnit(ins);
+    ins.AllowUpdate := true;
+  end;
+end;
+{ ----------------------------------------------------------------------------- }
+
+
+procedure TSimManager.ClientRecv_GameName(apRec: PAnsiChar;
+  aSize: integer);
+var
+  NetRecv : ^TRecGameName;
+begin
+  NetRecv := @apRec^;
+end;
+
+procedure TSimManager.FActionUpdateRuler(sender: TObject);
+begin
+  if Assigned(OnUpdateRuler) then
+    OnUpdateRuler(sender);
+end;
+
+
+
+procedure TSimManager.NetSendStatusGame(cekCaption : Word ; cekStatusKonek : Byte);
+var
+  rec : TRecStatusGame;
+begin
+  rec.ScenarioID := cekCaption;
+  rec.StatusConnect := cekStatusKonek;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_STATUS_GAME, @Rec);
+end;
+
+procedure TSimManager.ClientRecv_StatusGame(apRec: PAnsiChar;
+  aSize: integer);
+var
+  rec : ^TRecStatusGame;
+begin
+ Rec := @apRec^;
+
+  if Assigned(OnReceiveStatusGame) then
+    OnReceiveStatusGame(Rec^);
+end;
+
+procedure TSimManager.ClientRecv_EnableWeapon(apRec: PAnsiChar;
+  aSize: integer);
+var
+  rec : ^TRecEnableWeapon;
+begin
+ Rec := @apRec^;
+
+  if Assigned(OnReceiveEnableWeapon) then
+    OnReceiveEnableWeapon(Rec^);
+end;
+
+procedure TSimManager.NetSendEnableWeapon(shipid: Integer; weaponid: Byte;
+  valuez: Single; launcher: Byte);
+var
+  rec : TRecEnableWeapon;
+begin
+  rec.Shipid        := shipid;
+  rec.WeaponID      := weaponid;
+  rec.Value         := valuez;
+  rec.Launcher      := launcher;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_ENABLE_WEAPON, @Rec);
+end;
+
+procedure TSimManager.Replay_Pause;
+begin
+  PauseSimulation;
+  if Assigned(FReplay) then
+  begin
+    FReplay.PausePlay;
+  end;
+end;
+
+procedure TSimManager.Replay_Resume;
+begin
+  ResumeSimulation;
+  if Assigned(FReplay) then
+  begin
+   FReplay.ResumePlay;
+  end;
+end;
+
+procedure TSimManager.Replay_Start;
+begin
+  StartSimulation;
+  if Assigned(FReplay) then
+  begin
+    FReplay.StartPlay;
+    prevTick := GetTickCount;
+  end;
+end;
+
+procedure TSimManager.Replay_Stop;
+begin
+  PauseSimulation;
+  if Assigned(FReplay) then
+  begin
+    FReplay.StopPlay;
+  end;
+end;
+
+procedure TSimManager.InitFileReplay(const aFNewName: string);
+var
+   FName  : string ;
+begin
+   FGamePlayType := gpmReplay ;
+   FName := GetFullNameRecsFileFromName(aFNewName);
+   
+   if not MainThread.Suspended then
+   begin
+     PauseSimulation;
+     ClearAllObjects;
+     CleanUpMember;
+   end;
+
+   if FReplay <> nil then
+   begin
+      FReplay.OnFrameReplay := nil;
+      FReplay.OnEndReplay   := nil;
+      FreeAndNil(FReplay);
+   end;
+
+   Sleep(50);
+   
+   if FReplay = nil then
+   begin
+      FReplay := TNewReplay.Create;
+      FReplay.OnFrameReplay := ReplayOnGetFrame;
+      FReplay.OnEndReplay   := ReplayOnEnd;
+   end;
+
+   FReplay.CloseFileReplay;
+   FReplay.OpenFileReplay(FName);
+
+   GetPort(FReplay.ScenarioInfo.scID);
+end;
+
+
+procedure TSimManager.ReplayOnGetFrame(const aData: aObjectData);
+var
+  //sIP: string;
+  //tick : LongWord;
+  //ValidCurrentFrame : boolean ;
+  //fdStream : TFileStream;
+  rdata       : TRecDataAll3DPosition;
+  i : integer ;
+  tick : LongWord;
+begin
+  tick := GetTickCount;
+
+  for i := 0 to Length(FReplay.DataCurrent)-1 do begin
+    rData := FReplay.DataCurrent[i];
+    //EventOnReceiveDataPosition( @rdata, sizeOF(TRecData3DPosition) );
+    EventFromReplay( rdata );
+  end;
+
+  prevTick := tick;
+  prevDataTick := FReplay.DataTick;
+end;
+
+procedure TSimManager.ReplayOnEnd(sender: TObject);
+begin
+  PauseSimulation;
+  EC_ReplayOnEnd;
+end;
+
+procedure TSimManager.EventFromReplay(aRec: TRecDataAll3DPosition);
+var
+  suid : string;
+  ts: LongWord;
+  ins : TInsObject;
+  mRec : TRec3DMissilePos;  //untuk missile
+  sRec : TRecData3DPosition; //untuk ship
+  cRec : TRecSplashCannon; //cannon
+begin
+  if aRec.ObjType = 1 then // weapon
+    suid := dbID_to_MissileUniqueID(aRec.ShipID, aRec.WeaponID, aRec.launcherID,
+                                    aRec.missileID, aRec.MissileNumber)
+  else if aRec.ObjType = 2 then   //ship                    //berari weapon
+    suid := dbID_to_UniqueID(aRec.ShipID)
+  else if aRec.ObjType = 3 then  //cannonSplash
+    suid := dbID_to_UniqueID(aRec.ShipID);
+
+  if IsNan(aRec.X) or
+     IsNan(aRec.Y) or
+     IsNan(aRec.Z) or
+     IsNan(aRec.Heading) or
+     isNan(aRec.Speed) or
+     isNan(aRec.pitch) or
+     IsNan(aRec.roll) or
+     IsNan(aRec.rudder) then
+  begin
+    LogFile.Log('ERROR', 'RECEIVE NAN POS');
+    exit;
+  end;
+
+  theObj := MainObjList.FindObjectByUid(suid);
+  if theObj = nil then begin
+    if aRec.ObjType = 1 then  //weapon
+      theObj := CreateMissilenView(aRec.ShipID, aRec.WeaponID, aRec.launcherID,
+                                   aRec.missileID, aRec.MissileNumber)
+    else if aRec.ObjType = 2 then   // ship
+      theObj := CreateShipnView(aRec.ShipID)
+    else if aRec.ObjType = 3 then  //cannon splash
+      theObj := CreateCannonSplashnView(aRec.ShipID, aRec.WeaponID, aRec.launcherID);
+
+    if Assigned(FOnNewObject)
+     then FOnNewObject(theObj);
+
+  end;
+  if aRec.OrderID = CONST_REPLAY_UPDATE_OBJECT  then
+  begin
+    if instMapSet.useOffset then begin
+      aRec.x := aRec.x + instMapSet.xOffset;
+      aRec.y := aRec.y + instMapSet.yOffset;
+    end;
+
+    ins := (theObj as TInsObject);
+    with ins do begin
+      ts := MainGameTimer.GetMillisecond;
+      if ins is TIMissileObject then
+      begin
+        mRec.shipID := aRec.ShipID;
+        mRec.WeaponID := aRec.WeaponID;
+        mRec.launcherID := aRec.launcherID;
+        mRec.missileID := aRec.missileID;
+        mRec.MissileNumber := aRec.MissileNumber;
+        mRec.x := aRec.X;
+        mRec.y := arec.Y;
+        mRec.z := arec.Z;
+        mRec.heading := aRec.Heading;
+        mrec.speed := arec.Speed;
+        TIMissileObject(ins).UpdateMissileDataPosition(mRec,ts);
+      end
+      else if ins is TICannonBlast then
+      begin
+        cRec.ShipID := aRec.ShipID;
+        cRec.WeaponID := aRec.WeaponID;
+        cRec.LauncherID := aRec.launcherID;
+        cRec.PosX := aRec.X;
+        cRec.PosY := aRec.Y;
+        cRec.PosZ := aRec.Z;
+        TICannonBlast(ins).UpdateSplashDataPosition(cRec,ts);
+      end
+      else
+      begin
+        sRec.ShipID := aRec.ShipID;
+        sRec.X := aRec.x;
+        sRec.Y := aRec.y;
+        sRec.Z := aRec.Z;
+        sRec.Heading := aRec.Heading;
+        sRec.Speed := arec.Speed;
+        sRec.pitch := aRec.pitch;
+        sRec.roll := aRec.roll;
+        sRec.rudder := aRec.rudder;
+        ins.UpdateDataPosition(sRec, ts);
+      end;
+    end;
+  end
+  else
+  begin
+    theObj.MarkAs_NeedToBeFree;
+  end;
+
+//  if FGamePlayType = gpmScenAndRecord then
+//    if Assigned(FRecorder) then RecordingUpdateCurrentObjectData ( true );
+    
+end;
+
+procedure TSimManager.EC_ReplayOnEnd;
+begin
+  if assigned(FOnUpdateReplay) then
+    FOnUpdateReplay(self);
+
+  fGamePlayType := gpmScenario;
+  StartSimulation;
+end;
+
+procedure TSimManager.StopRecording;
+begin
+  FGamePlayType := gpmScenario ;
+  if FRecorder <> nil then
+  begin
+    FRecorder.CloseFileLog;
+    FreeAndNil(FRecorder);
+  end;
+end;
+
+procedure TSimManager.StartRecording(const aFNewName: string);
+  var
+   aScene : TRecScenarioInfo;
+   FName  : string ;
+begin
+   FGamePlayType := gpmScenAndRecord ;
+   FName := GetFullNameRecsFileFromName(aFNewName);
+
+   if FRecorder <> nil then FreeAndNil(FRecorder);
+
+   if FRecorder = nil then
+      FRecorder := TNewRecorder.Create;
+   aScene.scID := SceIDTemporary ;
+   aScene.scMissionName := CurrentScenarioName ;
+   aScene.scMapGeoset := FMap.Geoset;
+   aScene.scMapZoom := FMap.Zoom;
+   aScene.mapOffsetX:= instMapSet.xOffset;
+   aScene.mapOffsetY:= instMapSet.yOffset;
+   FRecorder.InitializedFileRecord(FName, aScene);
+   //FRecorder.SaveFileRecord(FName);
+end;
+
+procedure TSimManager.GetPort(const aID: integer);
+begin
+  if Assigned(FOnGetPortReplay) then
+    OnGetPortReplay(aID)
+end;
+
+procedure TSimManager.WindowStateControl(const value: byte);
+begin
+  if Assigned(FOnWindowState) then
+    OnWindowState(value);
+end;
+
+function TSimManager.CreateCannonSplashnView(const mShipID,
+  mWeaponID, mlauncherID : integer): TICannonBlast;
+begin
+
+  result := TICannonBlast.Create;
+
+  with (result as TInsObject) do
+  begin
+    //FDataBaseID  := ShipID;
+
+    (result as TICannonBlast).ShipID        := mShipID;
+    (result as TICannonBlast).WeaponID      := mWeaponID;
+    (result as TICannonBlast).LauncherID    := mlauncherID;
+
+    CreateDefaultView(Fmap);
+    VLabel.Visible      := false;
+    VHistory.Visible := false;
+    VSymbol.CharSymbol  := 'X';
+    VSymbol.FontName    := 'TCMS 2';
+    VSymbol.Size        := 24;
+    VSymbol.Color       := clNavy;
+
+//    ObjName      := 'Cannon Splash';
+//    ObjClassName := 'Missile';
+//    ObjClassID   := mWeaponID;
+    Enabled := TRUE;
+  end;
+
+  MainObjList.AddObject(result);
+
+end;
+
+procedure TSimManager.NetSend_ReplayControl(OID : integer; rName : string; rControl, rSpeed : byte);
+var
+  rec : TRec_Replay;
+begin
+  rec.OrderID := OID;
+  rec.ReplayName := rName;
+  rec.ReplayControl := rControl;
+  rec.ReplaySpeed := rSpeed;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_REPLAY, @Rec);
+end;
+
+procedure TSimManager.NetSendAsroc_MissileType(rec: TRecAsrocMissileType);
+begin
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_ASROC_TYPE_MISSILE, @Rec);
+end;
+
+procedure TSimManager.ClientRecv_MissileTypeAsroc(apRec: PAnsiChar;
+  aSize: Integer);
+var
+  aRec : ^TRecAsrocMissileType;
+begin
+  aRec := @aPrec^;
+
+  if Assigned(OnReceiveAsrocMT) then
+  OnReceiveAsrocMT(aRec^);
+
+end;
+
+procedure TSimManager.NetSend_TrajectoryView(aWeapon, aStatus: byte);
+var
+  rec : TRec_Trajectory_View;
+begin
+  rec.status := aStatus;
+  rec.WeaponLabel := aWeapon;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_TRAJECTORY_VIEW, @Rec);
+end;
+
+procedure TSimManager.NetSend_ViewRangeWeapon(aUID, aWeaponName, alauncherName, aWeaponType : string;
+ aStatus : boolean);
+var
+  rec : TRec_View_Range_Weapon;
+begin
+  rec.aID := aUID;
+  rec.WeaponName := aWeaponName;
+  rec.LauncherName := alauncherName;
+  rec.WeaponType := aWeaponType;
+  rec.status := aStatus;
+
+  if (TCPClient <> nil) and (TCPClient.State in [wsConnected]) then
+    TCPClient.sendDataEx(REC_VIEW_RANGE_WEAPON, @Rec);
+
+end;
+
+procedure TSimManager.Clientrecv_TrajectoryView(apRec: PAnsiChar;
+  aSize: integer);
+var
+  aRec : ^TRec_Trajectory_View;
+begin
+  aRec := @apRec^;
+  if (SimManager.InsUtils.MapMode) and (SimManager.InsUtils.MapID = 2) then
+  begin
+    if Assigned(FOnTrajectoryView) then
+      OnTrajectoryView(aRec^.WeaponLabel, aRec^.status);
+  end;
+end;
+
+procedure TSimManager.Clientrecv_ViewRangeWeapon(apRec: PAnsiChar;
+  aSize: integer);
+var
+  aRec : ^TRec_View_Range_Weapon;
+  i,j : integer;
+  WeaponShip : TWeaponOnShip;
+  WeaponShipDetail : TWeaponRangeDetail;
+  obj : TSimulationClass;
+  ins : TInsObject;
+  ShipID : Integer;
+begin
+  aRec := @apRec^;
+  if (SimManager.InsUtils.MapMode) then
+  begin
+    if Assigned(SimManager.MainObjList.FindObjectByUid(aRec^.aID)) then
+    begin
+      obj := SimManager.MainObjList.FindObjectByUid(aRec^.aID);
+      ShipID := UniqueID_To_dbID(aRec^.aID);
+      ins := (obj as TInsObject);
+
+      for i := 0 to ins.WeaponOnShip_List.Count -1 do
+      begin
+        WeaponShip := TWeaponOnShip(ins.WeaponOnShip_List[i]);
+
+        if ( WeaponShip.Weapon_Name = aRec^.WeaponName ) and
+           ( 'Launcher ' + IntToStr(WeaponShip.Weapon_Launcher) = aRec^.LauncherName )
+        then
+        begin
+          for j := 0 to WeaponShip.ListDetail.Count -1 do
+          begin
+            WeaponShipDetail := TWeaponRangeDetail(WeaponShip.ListDetail.Items[j]);
+            if WeaponShipDetail.Detail_Name = aRec^.WeaponType then
+            begin
+              if aRec^.Status then
+              begin
+                WeaponShipDetail.isShowWeaponRange := True;
+              end
+              else
+                WeaponShipDetail.isShowWeaponRange := False;
+            end;
+
+            Break;
+          end;
+        end;
+
+        break;
+      end;
+    end;
+  end;
+end;
+
+procedure TSimManager.ClientReceive_3DUtilTools(apRec: PAnsiChar;
+  aSize: integer);
+var
+  aRec : ^spUtilityTools;
+  a    : Word;
+  WeaponLabel : Byte;
+begin
+  aRec := @apRec^;
+
+//  aAsroc1  = 1;
+//  aAsroc2  = 2;
+//  aAsroc3  = 3;
+//  aAsroc4  = 4;
+//  aRBU1    = 5;
+//  aRBU2    = 6;
+//  aRBU3    = 7;
+//  aRBU4    = 8;
+//  aC802    = 9;
+//  aExocet1 = 10;
+//  aExocet2 = 11;
+//  aExocet3 = 12;
+//  aExocet4 = 13;
+//  aYakhontB1  = 14;
+//  aYakhontB1n = 15;
+//  aYakhontB2  = 16;
+//  aYakhontB2n = 17;
+//  TOCOS       = 18;
+//  SPS         = 19;
+
+  WeaponLabel := 1;
+  if (SimManager.InsUtils.MapMode) and (SimManager.InsUtils.MapID = 2) then
+  begin
+    if Assigned(FOnTrajectoryView) then
+    begin
+      if aRec^.c1 = 1 then    //asroc
+        WeaponLabel := 2
+      else if aRec^.c1 = 2 then      //rbu
+        WeaponLabel := 6
+      else if aRec^.c1 = 7 then      //c802
+        WeaponLabel := 9
+      else if (aRec^.c1 = 10) or (aRec^.c1 = 11) then     // exocet
+        WeaponLabel := 10
+      else if aRec^.c1 = 6 then       //yakhont
+      begin
+        if aRec^.c4 = 1 then
+          WeaponLabel := 14
+        else if aRec^.c4 = 2 then
+          WeaponLabel := 15
+        else if aRec^.c4 = 3 then
+          WeaponLabel := 16
+        else if aRec^.c4 = 4 then
+          WeaponLabel := 17
+      end
+      else if  aRec^.c1 = 4 then       //tocos
+        WeaponLabel := 18;
+//      else if  aRec^.c1 = 3 then       //sps
+//        WeaponLabel := 19;
+
+      OnTrajectoryView(WeaponLabel, 1);
+    end;
+  end;
+
+  // if Assigned(FOnTrajectoryView) then
+  //    OnTrajectoryView(aRec^.c4, 1);
+
+end;
+
+procedure TSimManager.StatusReplay(const value: byte);
+begin
+  if Assigned(FOnStatusReplay) then
+    OnStatusReplay(value);
+end;
+
+end.

@@ -1,0 +1,1 @@
+GameStartd.exe didPlatform --host 192.168.1.120 --port 7000 --name "OSWALD SIAHAAN" --use "ANJUNGAN"

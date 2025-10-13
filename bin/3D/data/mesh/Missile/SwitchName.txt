@@ -1,0 +1,42 @@
+konsep penyusunan state kebutuhan sekarang.
+osg pake penomoran teko 0 kan??
+sing angka di kanan kuwi gawe aku dewe... diurutkan mulai 1 ^^
+
+nama switch: SwitchWeapon		
+0	Meriam120	1
+1	Meriam76	2
+2	Meriam57	3
+3	Meriam40	4
+4	Meriam40L	5
+5	Meriam40R	6
+6	Asroc		7
+7	RBU6000L	8
+8	RBU6000R	9
+9	StrelaL		10
+10	StrelaR		11
+11	TetralF		12
+12	TetralB		13
+13	MistralL	14
+14	MistralR	15
+
+switch ga bisa diberi object kosong, makane tak wenehi Helper(dummy) dengan nama Null
+jadi kalo di OWA yang ada objectnya cm state 2,14,15... lainnya object kosong
+
+contoh switc di OWA
+0	Null
+1	Meriam76
+2	Null
+3	Null
+4	Null
+5	Null
+6	Null
+7	Null
+8	Null
+9	Null
+10	Null
+11	Null
+12	Null
+13	MistralL
+14	MistralR
+
+lek ono ide reply yoo...

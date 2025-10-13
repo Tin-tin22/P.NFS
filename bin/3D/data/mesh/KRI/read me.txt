@@ -1,0 +1,5 @@
+500 - 599 = submarine
+600 - 699 = helicopter
+700 - 799 = pesawat
+800 - 899 = threat ship
+900 - 999 = container

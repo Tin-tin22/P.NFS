@@ -1,0 +1,1 @@
+didLauncher.exe didPlatform --host 192.168.3.2 --port 7000 --fullscreen "true" --login "OBSERVER" --vehicle 6 --weapon 2

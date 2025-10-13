@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uMover">
+  <class name="TMover">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <function name="GetDirection" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="SetDirection" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetTurnRate" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="SetTurnRate" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetAcceleration" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="SetAcceleration" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetSpeed" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="SetSpeed" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetDeltaDir" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <field name="FPosX" type="Double" visibility="protected" />
+      <field name="FPosY" type="Double" visibility="protected" />
+      <field name="FPosZ" type="Double" visibility="protected" />
+      <field name="FAcceleration" type="Double" visibility="protected" />
+      <field name="FSpeed" type="Double" visibility="protected" />
+      <field name="FTurnRate" type="Double" visibility="protected" />
+      <field name="FDirection" type="Double" visibility="protected" />
+      <field name="FDeltaDir" type="Double" visibility="protected" />
+      <field name="FSinX" type="Extended" visibility="protected" />
+      <field name="FCosX" type="Extended" visibility="protected" />
+      <procedure name="Calc_Speed" visibility="public">
+        <parameters>
+          <parameter name="aDt" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Calc_Direction" visibility="public">
+        <parameters>
+          <parameter name="aDt" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Calc_Movement" visibility="public">
+        <parameters>
+          <parameter name="aDt" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Move" visibility="public">
+        <parameters>
+          <parameter name="aDt" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <property name="X" visibility="public" read="FPosX" write="FPosX" type="Double" />
+      <property name="Y" visibility="public" read="FPosY" write="FPosY" type="Double" />
+      <property name="Z" visibility="public" read="FPosZ" write="FPosZ" type="Double" />
+      <property name="Acceleration" visibility="public" read="GetAcceleration" write="SetAcceleration" type="Double" />
+      <property name="Speed" visibility="public" read="GetSpeed" write="SetSpeed" type="Double" />
+      <property name="Direction" visibility="public" read="GetDirection" write="SetDirection" type="Double" />
+      <property name="DeltaDirection" visibility="public" read="GetDeltaDir" type="Double" />
+      <property name="TurnRate" visibility="public" read="GetTurnRate" write="SetTurnRate" type="Double" />
+    </members>
+  </class>
+</namespace>

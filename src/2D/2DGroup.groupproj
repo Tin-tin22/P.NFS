@@ -1,0 +1,168 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{B0B90DCF-FD97-4E92-9E59-FD417A57DC7E}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="SPS115\SPS115.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Yakhont\Yakhont.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Yakhont\Yakhont_A_1.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Yakhont\Yakhont_A_2.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Yakhont\Yakhont_B.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="WCC\WCC.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TOCOS\SingaTorpedo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TOCOS\TOCOS.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TDC\TDC_Asroc.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="RBU\RBU6000.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="C802\C802.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="C802\C802_Archos.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="SPS115">
+			<MSBuild Projects="SPS115\SPS115.dproj"/>
+		</Target>
+		<Target Name="SPS115:Clean">
+			<MSBuild Targets="Clean" Projects="SPS115\SPS115.dproj"/>
+		</Target>
+		<Target Name="SPS115:Make">
+			<MSBuild Targets="Make" Projects="SPS115\SPS115.dproj"/>
+		</Target>
+		<Target Name="Yakhont">
+			<MSBuild Projects="Yakhont\Yakhont.dproj"/>
+		</Target>
+		<Target Name="Yakhont:Clean">
+			<MSBuild Targets="Clean" Projects="Yakhont\Yakhont.dproj"/>
+		</Target>
+		<Target Name="Yakhont:Make">
+			<MSBuild Targets="Make" Projects="Yakhont\Yakhont.dproj"/>
+		</Target>
+		<Target Name="Yakhont_A_1">
+			<MSBuild Projects="Yakhont\Yakhont_A_1.dproj"/>
+		</Target>
+		<Target Name="Yakhont_A_1:Clean">
+			<MSBuild Targets="Clean" Projects="Yakhont\Yakhont_A_1.dproj"/>
+		</Target>
+		<Target Name="Yakhont_A_1:Make">
+			<MSBuild Targets="Make" Projects="Yakhont\Yakhont_A_1.dproj"/>
+		</Target>
+		<Target Name="Yakhont_A_2">
+			<MSBuild Projects="Yakhont\Yakhont_A_2.dproj"/>
+		</Target>
+		<Target Name="Yakhont_A_2:Clean">
+			<MSBuild Targets="Clean" Projects="Yakhont\Yakhont_A_2.dproj"/>
+		</Target>
+		<Target Name="Yakhont_A_2:Make">
+			<MSBuild Targets="Make" Projects="Yakhont\Yakhont_A_2.dproj"/>
+		</Target>
+		<Target Name="Yakhont_B">
+			<MSBuild Projects="Yakhont\Yakhont_B.dproj"/>
+		</Target>
+		<Target Name="Yakhont_B:Clean">
+			<MSBuild Targets="Clean" Projects="Yakhont\Yakhont_B.dproj"/>
+		</Target>
+		<Target Name="Yakhont_B:Make">
+			<MSBuild Targets="Make" Projects="Yakhont\Yakhont_B.dproj"/>
+		</Target>
+		<Target Name="WCC">
+			<MSBuild Projects="WCC\WCC.dproj"/>
+		</Target>
+		<Target Name="WCC:Clean">
+			<MSBuild Targets="Clean" Projects="WCC\WCC.dproj"/>
+		</Target>
+		<Target Name="WCC:Make">
+			<MSBuild Targets="Make" Projects="WCC\WCC.dproj"/>
+		</Target>
+		<Target Name="SingaTorpedo">
+			<MSBuild Projects="TOCOS\SingaTorpedo.dproj"/>
+		</Target>
+		<Target Name="SingaTorpedo:Clean">
+			<MSBuild Targets="Clean" Projects="TOCOS\SingaTorpedo.dproj"/>
+		</Target>
+		<Target Name="SingaTorpedo:Make">
+			<MSBuild Targets="Make" Projects="TOCOS\SingaTorpedo.dproj"/>
+		</Target>
+		<Target Name="TOCOS">
+			<MSBuild Projects="TOCOS\TOCOS.dproj"/>
+		</Target>
+		<Target Name="TOCOS:Clean">
+			<MSBuild Targets="Clean" Projects="TOCOS\TOCOS.dproj"/>
+		</Target>
+		<Target Name="TOCOS:Make">
+			<MSBuild Targets="Make" Projects="TOCOS\TOCOS.dproj"/>
+		</Target>
+		<Target Name="TDC_Asroc">
+			<MSBuild Projects="TDC\TDC_Asroc.dproj"/>
+		</Target>
+		<Target Name="TDC_Asroc:Clean">
+			<MSBuild Targets="Clean" Projects="TDC\TDC_Asroc.dproj"/>
+		</Target>
+		<Target Name="TDC_Asroc:Make">
+			<MSBuild Targets="Make" Projects="TDC\TDC_Asroc.dproj"/>
+		</Target>
+		<Target Name="RBU6000">
+			<MSBuild Projects="RBU\RBU6000.dproj"/>
+		</Target>
+		<Target Name="RBU6000:Clean">
+			<MSBuild Targets="Clean" Projects="RBU\RBU6000.dproj"/>
+		</Target>
+		<Target Name="RBU6000:Make">
+			<MSBuild Targets="Make" Projects="RBU\RBU6000.dproj"/>
+		</Target>
+		<Target Name="C802">
+			<MSBuild Projects="C802\C802.dproj"/>
+		</Target>
+		<Target Name="C802:Clean">
+			<MSBuild Targets="Clean" Projects="C802\C802.dproj"/>
+		</Target>
+		<Target Name="C802:Make">
+			<MSBuild Targets="Make" Projects="C802\C802.dproj"/>
+		</Target>
+		<Target Name="C802_Archos">
+			<MSBuild Projects="C802\C802_Archos.dproj"/>
+		</Target>
+		<Target Name="C802_Archos:Clean">
+			<MSBuild Targets="Clean" Projects="C802\C802_Archos.dproj"/>
+		</Target>
+		<Target Name="C802_Archos:Make">
+			<MSBuild Targets="Make" Projects="C802\C802_Archos.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="SPS115;Yakhont;Yakhont_A_1;Yakhont_A_2;Yakhont_B;WCC;SingaTorpedo;TOCOS;TDC_Asroc;RBU6000;C802;C802_Archos"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="SPS115:Clean;Yakhont:Clean;Yakhont_A_1:Clean;Yakhont_A_2:Clean;Yakhont_B:Clean;WCC:Clean;SingaTorpedo:Clean;TOCOS:Clean;TDC_Asroc:Clean;RBU6000:Clean;C802:Clean;C802_Archos:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="SPS115:Make;Yakhont:Make;Yakhont_A_1:Make;Yakhont_A_2:Make;Yakhont_B:Make;WCC:Make;SingaTorpedo:Make;TOCOS:Make;TDC_Asroc:Make;RBU6000:Make;C802:Make;C802_Archos:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>

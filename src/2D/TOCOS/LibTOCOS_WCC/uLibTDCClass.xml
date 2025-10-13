@@ -1,0 +1,1765 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uLibTDCClass">
+  <const name="C_Kanan" type="string">
+    <value>
+       kanan
+    </value>
+  </const>
+  <const name="C_Kiri" type="string">
+    <value>
+       kiri
+    </value>
+  </const>
+  <const name="mLocal" type="TocosOperMode">
+    <value>
+      mLocal
+    </value>
+  </const>
+  <const name="mLocalwSonar" type="TocosOperMode">
+    <value>
+      mLocalwSonar
+    </value>
+  </const>
+  <const name="mRemote" type="TocosOperMode">
+    <value>
+      mRemote
+    </value>
+  </const>
+  <enum name="TocosOperMode">
+    <element name="mLocal" />
+    <element name="mLocalwSonar" />
+    <element name="mRemote" />
+  </enum>
+  <class name="TTDC_Symbol">
+    <ancestor name="TCharSymbol" namespace="uLabelDisplay">
+      <methodref name="Create" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <ancestor name="TTextInfo" namespace="uLabelDisplay">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Draw" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="mPos" type="tDouble2DPoint" visibility="public" />
+      <field name="Selected" type="Boolean" visibility="public" />
+      <field name="Moved" type="Boolean" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+    </members>
+  </class>
+  <class name="TICM_Symbol">
+    <ancestor name="TTDC_Symbol" namespace="uLibTDCClass">
+      <methodref name="Create" visibility="public" />
+      <ancestor name="TCharSymbol" namespace="uLabelDisplay">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Draw" visibility="public" />
+        <ancestor name="TTextInfo" namespace="uLabelDisplay">
+          <methodref name="Create" visibility="public" />
+          <methodref name="Draw" visibility="public" />
+          <ancestor name="TObject" namespace="System">
+            <methodref name="Create" visibility="public">
+            </methodref>
+            <methodref name="Free" visibility="public">
+            </methodref>
+            <methodref name="InitInstance" visibility="public">
+            </methodref>
+            <methodref name="CleanupInstance" visibility="public">
+            </methodref>
+            <methodref name="ClassType" visibility="public">
+            </methodref>
+            <methodref name="ClassName" visibility="public">
+            </methodref>
+            <methodref name="ClassNameIs" visibility="public">
+            </methodref>
+            <methodref name="ClassParent" visibility="public">
+            </methodref>
+            <methodref name="ClassInfo" visibility="public">
+            </methodref>
+            <methodref name="InstanceSize" visibility="public">
+            </methodref>
+            <methodref name="InheritsFrom" visibility="public">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public">
+            </methodref>
+            <methodref name="MethodName" visibility="public">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public">
+            </methodref>
+            <methodref name="GetInterface" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceEntry" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceTable" visibility="public">
+            </methodref>
+            <methodref name="UnitName" visibility="public">
+            </methodref>
+            <methodref name="Equals" visibility="public">
+            </methodref>
+            <methodref name="GetHashCode" visibility="public">
+            </methodref>
+            <methodref name="ToString" visibility="public">
+            </methodref>
+            <methodref name="SafeCallException" visibility="public">
+            </methodref>
+            <methodref name="AfterConstruction" visibility="public">
+            </methodref>
+            <methodref name="BeforeDestruction" visibility="public">
+            </methodref>
+            <methodref name="Dispatch" visibility="public">
+            </methodref>
+            <methodref name="DefaultHandler" visibility="public">
+            </methodref>
+            <methodref name="NewInstance" visibility="public">
+            </methodref>
+            <methodref name="FreeInstance" visibility="public">
+            </methodref>
+            <methodref name="Destroy" visibility="public">
+            </methodref>
+          </ancestor>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="icmNum" type="Byte" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="Draw" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="TFireControl">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <field name="Name" type="string" visibility="public" />
+      <field name="IsTracking" type="Boolean" visibility="public" />
+      <field name="TrackedTarget" type="TManualTrack" visibility="public" />
+      <field name="LastTrackedTarget" type="TManualTrack" visibility="public" />
+      <field name="HasGun" type="Boolean" visibility="public" />
+      <field name="GenFix" type="Boolean" visibility="public" />
+      <field name="ThrowOff" type="Boolean" visibility="public" />
+      <field name="TargetUID" type="string" visibility="public" />
+      <field name="IsDoingBlindBomb" type="Boolean" visibility="public" />
+      <field name="IsDoingIndBomb" type="Boolean" visibility="public" />
+      <field name="Detected" type="TDetectedObject" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+    </members>
+  </class>
+  <class name="TCursorTrackConnection">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <field name="esbTrack" type="TESMBearingTrack" visibility="public" />
+      <field name="mTrack" type="TManualTrack" visibility="public" />
+    </members>
+  </class>
+  <struct name="TRCounter">
+    <field name="Count" type="Byte" visibility="public" />
+    <field name="Capacity" type="Byte" visibility="public" />
+  </struct>
+  <array name="TSysLoad">
+    <element type="TRCounter" />
+  </array>
+  <class name="TTDCDataGeneral">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <field name="FOffsetTime" type="TDateTime" visibility="private" />
+      <field name="FTrueWind" type="tVect2D" visibility="private" />
+      <function name="GetLocalTime" visibility="private">
+        <parameters>
+          <retval type="TDateTime" />
+        </parameters>
+      </function>
+      <procedure name="SetLocalTime" visibility="private">
+        <parameters>
+          <parameter name="Value" type="TDateTime" paramflags="const" />
+        </parameters>
+      </procedure>
+      <property name="LocalTime" visibility="published" read="GetLocalTime" write="SetLocalTime" type="TDateTime" />
+      <field name="SeaCurrent" type="tVect2D" visibility="public" />
+      <field name="DeadReconEnable" type="Boolean" visibility="public" />
+      <field name="DeadReconPos" type="tDouble2DPoint" visibility="public" />
+      <field name="PowderTemp" type="Single" visibility="public" />
+      <field name="DelayTime" type="Byte" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <function name="getTrueWind" visibility="public">
+        <parameters>
+          <parameter name="dShipCourse" type="Double" paramflags="const" />
+          <parameter name="dShip" type="Double" paramflags="const" />
+          <retval type="tVect2D" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+  <struct name="TTDCDataStationing">
+    <field name="Starting" type="Boolean" visibility="public" />
+    <field name="Duration" type="Word" visibility="public" />
+    <field name="Movement" type="tVect2D" visibility="public" />
+  </struct>
+  <struct name="TTDCData_Vectac">
+    <field name="Starting" type="Boolean" visibility="public" />
+    <field name="TrueAirSpeed" type="Double" visibility="public" />
+    <field name="MagneticVariation" type="Double" visibility="public" />
+    <field name="BallisticCorrection" type="Byte" visibility="public" />
+  </struct>
+  <class name="TGenericTDCInterface">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <field name="FTrueMotion" type="Boolean" visibility="protected" />
+      <field name="FTrackIndex" type="Integer" visibility="protected" />
+      <field name="FTrackIndex_AtasAir" type="Integer" visibility="protected" />
+      <field name="FTrackIndex_Udara" type="Integer" visibility="protected" />
+      <field name="selTrack" type="TManualTrack" visibility="protected" />
+      <field name="SelTrack_AtasAir" type="TManualTrack" visibility="protected" />
+      <field name="SelTrack_Udara" type="TManualTrack" visibility="protected" />
+      <field name="SelTrack_BawahAir" type="TManualTrack" visibility="protected" />
+      <field name="mTrack" type="TManualTrack" visibility="protected" />
+      <field name="dtTrack" type="TDatumTrack" visibility="protected" />
+      <field name="esbTrack" type="TESMBearingTrack" visibility="protected" />
+      <field name="snTrack" type="TManualTrack" visibility="protected" />
+      <field name="ltid" visibility="protected">
+        <array name="ltid">
+          <element type="Byte" />
+        </array>
+      </field>
+      <field name="FMainSymbolVisible" type="Boolean" visibility="protected" />
+      <field name="FCourseVisible" type="Boolean" visibility="protected" />
+      <field name="FAMPLInfoVisible" type="Boolean" visibility="protected" />
+      <field name="FLINKVisible" type="Boolean" visibility="protected" />
+      <field name="FTrackNumberVisible" type="Boolean" visibility="protected" />
+      <field name="CConnect" type="TCursorTrackConnection" visibility="protected" />
+      <field name="FCConnList" type="TList" visibility="protected" />
+      <procedure name="SetTrueMotion" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="ConvertToScreen" visibility="protected">
+        <parameters>
+          <parameter name="dx" type="Double" paramflags="const" />
+          <parameter name="dy" type="Double" paramflags="const" />
+          <retval type="TPoint" />
+        </parameters>
+      </function>
+      <function name="ConvertToMap" visibility="protected">
+        <parameters>
+          <parameter name="ix" type="Integer" paramflags="const" />
+          <parameter name="iy" type="Integer" paramflags="const" />
+          <retval type="tDouble2DPoint" />
+        </parameters>
+      </function>
+      <procedure name="AddGameLog" visibility="protected">
+        <parameters>
+          <parameter name="s" type="string" />
+        </parameters>
+      </procedure>
+      <field name="cTrack" type="TTDCTrack" visibility="public" />
+      <field name="FMap" type="TMap" visibility="public" />
+      <field name="xSHIP" type="TXShip" visibility="public" />
+      <field name="ActiveRadar" type="TClientRadar" visibility="public" />
+      <field name="netSend" type="TTCPClient" visibility="public" />
+      <field name="HaveToSend" type="Boolean" visibility="public" />
+      <field name="LastUpdateCounter" type="Cardinal" visibility="public" />
+      <field name="frmTengah" type="TfrmMapWindow" visibility="public" />
+      <field name="frmMainCtrlPAnel" type="TfrmMapWindow" visibility="public" />
+      <field name="frmLeftPanel" type="TfrmMapWindow" visibility="public" />
+      <field name="frmTechCtrlPanel" type="TfrmMapWindow" visibility="public" />
+      <field name="frmBottomPanel" type="TfrmMapWindow" visibility="public" />
+      <procedure name="ShowAllForm" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="CreateFormss" visibility="public" procflags="abstract virtual">
+        <parameters>
+          <parameter name="num" type="Byte" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetDefaultLayOut" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="ShowFormBawahOWA" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="HideFormBawahOWA" visibility="public" procflags="virtual">
+      </procedure>
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <devnotes>
+          ///////////////////////////////////////
+        </devnotes>
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="ConvertViewPosition" visibility="public">
+      </procedure>
+      <procedure name="Draw" visibility="public">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <procedure name="Run" visibility="public">
+        <parameters>
+          <parameter name="aDt" type="Double" />
+        </parameters>
+      </procedure>
+      <procedure name="Update" visibility="public">
+      </procedure>
+      <procedure name="Walk" visibility="public">
+      </procedure>
+      <procedure name="Initialize" visibility="public" procflags="virtual">
+      </procedure>
+      <function name="FindMarkerByPosition" visibility="public">
+        <parameters>
+          <parameter name="pt" type="TPoint" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="JustFindTrack_by_OBMRight" visibility="public">
+        <parameters>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="FindTrack_by_screenpos" visibility="public">
+        <parameters>
+          <parameter name="x" type="Integer" paramflags="const" />
+          <parameter name="y" type="Integer" paramflags="const" />
+          <parameter name="aTrack" type="TTDCTrack" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="IsHitTrack" visibility="public">
+        <parameters>
+          <parameter name="pt" type="TPoint" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="FindTrack_by_trackID" visibility="public">
+        <parameters>
+          <parameter name="aShiptid" type="Byte" paramflags="const" />
+          <parameter name="aTrackNum" type="Byte" paramflags="const" />
+          <parameter name="aMtrack" type="TManualTrack" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="FindTDCTrack_by_trackID" visibility="public">
+        <parameters>
+          <parameter name="aShiptid" type="Byte" paramflags="const" />
+          <parameter name="aTrackNum" type="Byte" paramflags="const" />
+          <parameter name="aTrack" type="TTDCTrack" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="CreateDefaultMTrack" visibility="public">
+        <parameters>
+          <parameter name="mt" type="TManualTrack" paramflags="var" />
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="InitMTrackIdent" visibility="public">
+        <parameters>
+          <parameter name="mt" type="TManualTrack" paramflags="var" />
+          <parameter name="initid" type="Char" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="ChangeMTrackIdent" visibility="public">
+        <parameters>
+          <parameter name="mt" type="TManualTrack" paramflags="var" />
+          <parameter name="newid" type="Char" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="DeleteMTrack" visibility="public">
+        <parameters>
+          <parameter name="trck" type="TManualTrack" paramflags="var" />
+        </parameters>
+      </procedure>
+      <field name="FOCView" type="TFOCView" visibility="public" />
+      <field name="DisplaySymbols" visibility="public">
+        <array name="DisplaySymbols" low="0" high="16">
+          <element type="TTDC_Symbol" />
+        </array>
+      </field>
+      <field name="SelectedMarkerTool" type="Integer" visibility="public" />
+      <field name="OBMLeft" type="TTDC_Symbol" visibility="public" />
+      <field name="OBMRight" type="TTDC_Symbol" visibility="public" />
+      <field name="ICMLeft" type="TICM_Symbol" visibility="public" />
+      <field name="ICMRight" type="TICM_Symbol" visibility="public" />
+      <field name="HeadingMarker" type="THeadingMarker" visibility="public" />
+      <field name="CentStatus" type="TCenter_Status" visibility="public" />
+      <field name="CU_ORStatus" type="TCursorOrigin_Status" visibility="public" />
+      <field name="Cursorss" type="TTDC_Cursor" visibility="public" />
+      <field name="assssm" type="TAssignSSMView" visibility="public" />
+      <field name="ssmTrack" type="TManualTrack" visibility="public" />
+      <field name="AssTorpedo" type="TAssignTorpedoView" visibility="public" />
+      <field name="BlindArcs" type="TBlindARCS" visibility="public" />
+      <field name="LPDTest" type="TLPDTest" visibility="public" />
+      <field name="FC4Cursor" type="THeadingMarker" visibility="public" />
+      <field name="LPDText" type="TLPDDisplayText" visibility="public" />
+      <field name="LoadTube" type="TLoadStatus" visibility="public" />
+      <field name="StatusTube" type="Boolean" visibility="public" />
+      <field name="TOCOSSysON" type="Boolean" visibility="public" />
+      <field name="TOCOSSim" type="Boolean" visibility="public" />
+      <field name="ssmSendUpdate" type="Boolean" visibility="public" />
+      <field name="tocosMode" type="TocosOperMode" visibility="public" />
+      <field name="LPDStatus" type="TLPDStatus" visibility="public" />
+      <field name="TorpTest" type="TTorpTest" visibility="public" />
+      <field name="torpAssgn" type="TTube" visibility="public" />
+      <field name="TorpedoList" type="TObjectContainer" visibility="public" />
+      <field name="torp_tocos" type="TObjectContainer" visibility="public" />
+      <field name="TrackList" type="TObjectContainer" visibility="public" />
+      <field name="lastRangeTorp" type="Double" visibility="public" />
+      <field name="FTDCRangeScale" type="Double" visibility="public" />
+      <field name="ssmUpdateCounter" type="Double" visibility="public" />
+      <field name="trackTorped" type="TTorpedoTrack" visibility="public" />
+      <field name="torpManual" type="TTorpedoTrack" visibility="public" />
+      <field name="tempTorped" type="TTorpedoTrack" visibility="public" />
+      <field name="shipt_tid" type="Byte" visibility="public" />
+      <field name="GunNumber" type="Integer" visibility="public" />
+      <field name="SelectedThreatAsses" type="Integer" visibility="public" />
+      <field name="SystLoad" type="TSysLoad" visibility="public" />
+      <field name="BKTSurface" type="TRCounter" visibility="public" />
+      <field name="BKTSubSurface" type="TRCounter" visibility="public" />
+      <field name="tdcData" type="TTDCDataGeneral" visibility="public" />
+      <field name="SGO" type="TSurfaceGrid" visibility="public" />
+      <field name="VecData" type="TTDCData_Vectac" visibility="public" />
+      <field name="EngageBox" type="TEngagementBox" visibility="public" />
+      <procedure name="SetView_RangeScale" visibility="public">
+        <parameters>
+          <parameter name="aRangeNM" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Set_Radar_Off" visibility="public">
+        <parameters>
+          <parameter name="map" type="TMap" />
+          <parameter name="operate" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRadar_Amplification" visibility="public">
+        <parameters>
+          <parameter name="aRa" type="TRadar_Amp" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRadar_MTI_Status" visibility="public">
+        <parameters>
+          <parameter name="aOnOff" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRadarForTocos_Status" visibility="public">
+        <parameters>
+          <parameter name="aOnOff" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRadar_type" visibility="public">
+        <parameters>
+          <parameter name="aRT" type="TRadar_Type" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRadar_SubSurf_Status" visibility="public">
+        <parameters>
+          <parameter name="aOnOff" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRadar_Surf_Status" visibility="public">
+        <parameters>
+          <parameter name="aOnOff" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRadar_RangeRing" visibility="public">
+        <parameters>
+          <parameter name="aOnOff" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRadar_HeadingMarker" visibility="public">
+        <parameters>
+          <parameter name="aOnOff" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CU_OR_Left_SetStatus" visibility="public">
+        <parameters>
+          <parameter name="aCCStatus" type="TCursorOrigin_Status" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CU_OR_Right_SetStatus" visibility="public">
+        <parameters>
+          <parameter name="aCCStatus" type="TCursorOrigin_Status" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CentLeft_SetStatus" visibility="public">
+        <parameters>
+          <parameter name="aCCStatus" type="TCenter_Status" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CentRight_SetStatus" visibility="public">
+        <parameters>
+          <parameter name="aCCStatus" type="TCenter_Status" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="OBMLeft_Reset" visibility="public">
+      </procedure>
+      <procedure name="OBMRight_Reset" visibility="public">
+      </procedure>
+      <procedure name="SetThreadAssesmentDuration" visibility="public">
+        <parameters>
+          <parameter name="aSecond" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetThreadAsses" visibility="public">
+        <parameters>
+          <parameter name="v" type="Boolean" paramflags="const" />
+          <parameter name="x" type="Integer" paramflags="const" />
+          <parameter name="y" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="OwnShipMarker_SetPosition" visibility="public">
+        <parameters>
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="OBMLeft_SetPosition" visibility="public">
+        <parameters>
+          <parameter name="x" type="Integer" paramflags="const" />
+          <parameter name="y" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="OBMRight_SetPosition" visibility="public">
+        <parameters>
+          <parameter name="x" type="Integer" paramflags="const" />
+          <parameter name="y" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CursorSetRange" visibility="public">
+        <parameters>
+          <parameter name="r" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CursorSetBearing" visibility="public">
+        <parameters>
+          <parameter name="b" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetBlindARC" visibility="public">
+        <parameters>
+          <parameter name="v" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetLPDTest" visibility="public">
+        <parameters>
+          <parameter name="v" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="WipeOnPosition" visibility="public">
+        <parameters>
+          <parameter name="X" type="Integer" paramflags="const" />
+          <parameter name="Y" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="WipeOnLeftOBM" visibility="public">
+      </procedure>
+      <procedure name="WipeOnRightOBM" visibility="public">
+      </procedure>
+      <procedure name="RecvWIPE" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecOrderXY" />
+        </parameters>
+      </procedure>
+      <procedure name="SendWIPE" visibility="public">
+        <parameters>
+          <parameter name="X" type="Double" paramflags="const" />
+          <parameter name="Y" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetInitDatum" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecOrderXY" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="setFOCPlus" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecOrderXY" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="setFOCMinus" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecOrderXY" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="setAssignASRL" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="setDeAssignASRL" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="Recv_Ident" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+        </parameters>
+      </procedure>
+      <procedure name="Change_Ident" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="initiateTrackPacket" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" paramflags="var" />
+          <parameter name="td" type="TTrackDomain" paramflags="var" />
+        </parameters>
+      </procedure>
+      <procedure name="InitiateRAM" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="InitiateAuto" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="InitiateDR" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="AssignRAM" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="RecvAssignRAM" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+        </parameters>
+      </procedure>
+      <procedure name="AssignDR" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="AssignAuto" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="CorrectRAM" visibility="public">
+        <parameters>
+          <parameter name="aDomain" type="TTrackDomain" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="CloseControl" visibility="public">
+        <parameters>
+          <parameter name="aDomain" type="TTrackDomain" />
+        </parameters>
+      </procedure>
+      <procedure name="WipeCloseControlerMarker" visibility="public">
+      </procedure>
+      <procedure name="SetOBMRightPos_NextTrack_AtasAir" visibility="public">
+      </procedure>
+      <procedure name="SetOBMRightPos_NextTrack_Udara" visibility="public">
+      </procedure>
+      <procedure name="SetOBMPos_NextTrack" visibility="public">
+      </procedure>
+      <procedure name="SetInitESMFix" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecOrderXY" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="setAssignSSM" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecOrderXY" />
+          <parameter name="send" type="Boolean" />
+        </parameters>
+      </procedure>
+      <procedure name="SendUpdateSSM" visibility="public">
+      </procedure>
+      <procedure name="setDeAssignSSM" visibility="public">
+        <parameters>
+          <parameter name="send" type="Boolean" />
+        </parameters>
+      </procedure>
+      <procedure name="SetAssignTorpedo_MK44" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="SetDeAssignTorpedo" visibility="public">
+        <parameters>
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="SetAssignTorpedo_SUT" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecOrderAssignment" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="SetDeassignTorpedo_SUT" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecOrderAssignment" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="SetMainSymbolVisible" visibility="public">
+        <parameters>
+          <parameter name="aVis" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetCourseVisible" visibility="public">
+        <parameters>
+          <parameter name="aVis" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetAMPLInfoVisible" visibility="public">
+        <parameters>
+          <parameter name="aVis" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetLINKVisible" visibility="public">
+        <parameters>
+          <parameter name="aVis" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetTrackNumberVisible" visibility="public">
+        <parameters>
+          <parameter name="aVis" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Filter" visibility="public">
+        <parameters>
+          <parameter name="atd" type="TTrackDomain" paramflags="const" />
+          <parameter name="aVis" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="SetAssign_FC" visibility="public">
+        <parameters>
+          <parameter name="aNum" type="Byte" paramflags="const" />
+          <parameter name="pt" type="TPoint" paramflags="const" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="SetDeAssign_FC" visibility="public">
+        <parameters>
+          <parameter name="aNum" type="Byte" paramflags="const" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="RecvAssign_FC" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecFireControlOrder" />
+        </parameters>
+      </procedure>
+      <procedure name="RecvDeAssign_FC" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecFireControlOrder" />
+        </parameters>
+      </procedure>
+      <procedure name="RecvAssign_GenFiX" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecFireControlOrder" />
+        </parameters>
+      </procedure>
+      <procedure name="RecvAssign_BlindBomb" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecFireControlOrder" />
+        </parameters>
+      </procedure>
+      <procedure name="SetOpenFire_FC" visibility="public">
+        <parameters>
+          <parameter name="aNum" type="Byte" paramflags="const" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="SetHoldFire_FC" visibility="public">
+        <parameters>
+          <parameter name="aNum" type="Byte" paramflags="const" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <function name="CreateCursorFix" visibility="public">
+        <parameters>
+          <parameter name="nESMB" type="TESMBearingTrack" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="AddCursorFix" visibility="public">
+      </procedure>
+      <function name="DelCursorFix" visibility="public">
+        <parameters>
+          <parameter name="pt" type="TPoint" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="AddCursorFixToTrack" visibility="public">
+        <parameters>
+          <parameter name="sid" type="Byte" paramflags="const" />
+          <parameter name="tnum" type="Byte" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="StartICMLeft" visibility="public">
+        <parameters>
+          <parameter name="icmNum" type="Byte" paramflags="const" />
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="EndICMLeft" visibility="public">
+        <parameters>
+          <parameter name="icmNum" type="Byte" paramflags="const" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="StartICMRight" visibility="public">
+        <parameters>
+          <parameter name="icmNum" type="Byte" paramflags="const" />
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="EndICMRight" visibility="public">
+        <parameters>
+          <parameter name="icmNum" type="Byte" paramflags="const" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="UpdateICMPos" visibility="public">
+        <parameters>
+          <parameter name="icmNum" type="Byte" paramflags="const" />
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="AssignTrackToDetected" visibility="public">
+        <parameters>
+          <parameter name="sid" type="Byte" paramflags="const" />
+          <parameter name="tn" type="Byte" paramflags="const" />
+          <parameter name="dUid" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="RecvUpdateTrackPosition" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecTrackOrder" />
+        </parameters>
+      </procedure>
+      <procedure name="LaunchTorpedoTo" visibility="public">
+        <parameters>
+          <parameter name="sid" type="Byte" paramflags="const" />
+          <parameter name="tn" type="Byte" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetToTargetBeforeFire" visibility="public">
+        <parameters>
+          <parameter name="sid" type="Byte" paramflags="const" />
+          <parameter name="tn" type="Byte" paramflags="const" />
+          <parameter name="dUid" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetNoTargetBeforeFire" visibility="public">
+        <parameters>
+          <parameter name="launcher" type="TTube" />
+        </parameters>
+      </procedure>
+      <procedure name="SetToTargetAfterFire" visibility="public">
+      </procedure>
+      <procedure name="SetNoTargetAfterFire" visibility="public">
+      </procedure>
+      <procedure name="SetDeAssignTo3D" visibility="public">
+      </procedure>
+      <function name="DeleteTorpedoPHP" visibility="public">
+        <parameters>
+          <parameter name="pt" type="TPoint" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="UpdateTorpedoPosition" visibility="public">
+      </procedure>
+      <procedure name="DeleteTorpedoSUTTrack" visibility="public">
+        <parameters>
+          <parameter name="ttrack" type="TTorpedoTrack" />
+        </parameters>
+      </procedure>
+      <procedure name="DeleteTorpedoSUTTrack_OnWipeTrack" visibility="public">
+        <parameters>
+          <parameter name="ttrack" type="TTorpedoTrack" />
+        </parameters>
+      </procedure>
+      <procedure name="ClearSkenario" visibility="public">
+        <parameters>
+          <parameter name="Tube" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="SetLPDText" visibility="public">
+        <parameters>
+          <parameter name="v" type="Boolean" paramflags="const" />
+          <parameter name="s1" type="string">
+            <value>
+              
+            </value>
+          </parameter>
+          <parameter name="s2" type="string">
+            <value>
+              
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="DataRequest_Left" visibility="public" procflags="virtual">
+        <devnotes>
+          /////////////////////////////////////////////////////////////////////////////
+        </devnotes>
+        <parameters>
+          <parameter name="b" type="Byte" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="DataRequest_Right" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="b" type="Byte" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="DR_OBM_right" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="b" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="DR_OBM_left" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="b" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="DR_OCM_right" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="DR_OCM_left" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="SetBackTracking" visibility="public">
+        <parameters>
+          <parameter name="v" type="Boolean" paramflags="const" />
+          <parameter name="mTrack" type="TManualTrack" paramflags="var" />
+        </parameters>
+      </procedure>
+      <procedure name="SetBackTrackOnPos" visibility="public">
+        <parameters>
+          <parameter name="v" type="Boolean" paramflags="const" />
+          <parameter name="x" type="Integer" paramflags="const" />
+          <parameter name="y" type="Integer" paramflags="const" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="SetDeadRecon" visibility="public">
+        <parameters>
+          <parameter name="v" type="Boolean" paramflags="const" />
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetLPDStatus" visibility="public">
+        <parameters>
+          <parameter name="v" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetStatus" visibility="public">
+        <parameters>
+          <parameter name="i" type="Byte" paramflags="const" />
+          <parameter name="j" type="Byte" paramflags="const" />
+          <parameter name="tAss" type="TTube" paramflags="const" />
+          <parameter name="status" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="ViewStatus" visibility="public">
+        <parameters>
+          <parameter name="tAss" type="TTube" />
+        </parameters>
+      </procedure>
+      <procedure name="ResetStatus" visibility="public">
+      </procedure>
+      <procedure name="SetTorpStatus" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="aDt" type="Double" />
+        </parameters>
+      </procedure>
+      <field name="FC1" type="TFireControl" visibility="public" />
+      <field name="FC2" type="TFireControl" visibility="public" />
+      <field name="FC3" type="TFireControl" visibility="public" />
+      <field name="FC4" type="TFireControl" visibility="public" />
+      <field name="FC5" type="TFireControl" visibility="public" />
+      <field name="FC_Chanel" visibility="public">
+        <array name="FC_Chanel" low="1" high="5">
+          <element type="TFireControl" />
+        </array>
+      </field>
+      <field name="ThrowOff_Marker" type="TTDC_Symbol" visibility="public" />
+      <field name="actTrack_Closecontroled" type="TManualTrack" visibility="public" />
+      <function name="FindToBeDeletedTrack" visibility="public">
+        <parameters>
+          <parameter name="IsNew" type="Boolean" paramflags="var" />
+          <parameter name="indx" type="Integer" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="DeleteTrack" visibility="public">
+        <parameters>
+          <parameter name="tFCID" type="Byte" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="OCC_AssignFC" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecOrderAssignment" />
+        </parameters>
+      </procedure>
+      <procedure name="OCC_DeassignFC" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecOrderAssignment" />
+        </parameters>
+      </procedure>
+      <function name="GetLastTrackID" visibility="public">
+        <parameters>
+          <parameter name="td" type="TTrackDomain" />
+          <retval type="Byte" />
+        </parameters>
+      </function>
+      <procedure name="SetLastTrackID" visibility="public">
+        <parameters>
+          <parameter name="td" type="TTrackDomain" paramflags="const" />
+          <parameter name="newLtid" type="Byte" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="InitiateDATUM" visibility="public">
+        <parameters>
+          <parameter name="dtm" type="TDatumTrack" paramflags="var" />
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="InitiateESMFix" visibility="public">
+        <parameters>
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+          <parameter name="tid" type="Byte" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="InitiateRefPos" visibility="public">
+        <parameters>
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+          <parameter name="tid" type="Byte" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="initiateSurfaceGrid" visibility="public">
+        <parameters>
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="setRelatifWind" visibility="public">
+        <parameters>
+          <parameter name="rCourse" type="Double" paramflags="const" />
+          <parameter name="rSpeed" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetTrueWind" visibility="public">
+        <parameters>
+          <retval type="tVect2D" />
+        </parameters>
+      </function>
+      <function name="GetRealtiveWind" visibility="public">
+        <parameters>
+          <retval type="tVect2D" />
+        </parameters>
+      </function>
+      <function name="GetTorpedoTrack" visibility="public">
+        <parameters>
+          <parameter name="v" type="TTorpedoTrack" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="SetEngagementBox" visibility="public">
+        <parameters>
+          <parameter name="aMode" type="TEngageStatus" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="InitiateTrack" visibility="public">
+        <parameters>
+          <parameter name="aDomain" type="TTrackDomain" paramflags="const" />
+          <parameter name="pt" type="TPoint" paramflags="const" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="RecvInitiateTrack" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecFireControlOrder" />
+        </parameters>
+      </procedure>
+      <procedure name="CorrectRAM_OWA" visibility="public">
+        <parameters>
+          <parameter name="aDomain" type="TTrackDomain" />
+          <parameter name="OBM" type="TTDC_Symbol" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="RePos_OWA" visibility="public">
+        <parameters>
+          <parameter name="aDomain" type="TTrackDomain" />
+          <parameter name="OBM" type="TTDC_Symbol" />
+          <parameter name="send" type="Boolean" paramflags="const">
+            <value>
+              True
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="CloseControlOWA" visibility="public">
+        <parameters>
+          <parameter name="aDomain" type="TTrackDomain" />
+          <parameter name="pt" type="TPoint" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Update_Exocet_Position" visibility="public">
+        <parameters>
+          <parameter name="cID" type="Integer" paramflags="const" />
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+          <parameter name="heading" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="Wipe_TorpedoSUTTrack" visibility="public">
+        <parameters>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="FindTorpTrack_by_screenpos" visibility="public">
+        <parameters>
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+          <parameter name="torpTrack" type="TTorpedoTrack" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="GetTorp_fromTube" visibility="public">
+        <parameters>
+          <parameter name="tube" type="TTube" />
+          <parameter name="index" type="Byte" paramflags="var" />
+          <parameter name="torpTrack" type="TTorpedoTrack" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="GetTorp_fromList" visibility="public">
+        <parameters>
+          <parameter name="tube" type="TTube" />
+          <parameter name="index" type="Byte" paramflags="var" />
+          <parameter name="torpTrack" type="TTorpedoTrack" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="FireTorp_SUT" visibility="public">
+      </procedure>
+      <procedure name="ClearStatus" visibility="public">
+        <parameters>
+          <parameter name="tube" type="TTube" />
+        </parameters>
+      </procedure>
+      <procedure name="TorpedoDestroy" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="Launcher" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Update_TorpedoSUT_Position" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="cID" type="Integer" paramflags="const" />
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+          <parameter name="heading" type="Double" paramflags="const" />
+          <parameter name="stat" type="Byte" paramflags="const" />
+          <parameter name="tSpeed" type="Double" />
+          <parameter name="tCourse" type="Double" />
+          <parameter name="tDepth" type="Double" />
+        </parameters>
+      </procedure>
+      <procedure name="GetTorpData_From3D" visibility="public">
+        <parameters>
+          <parameter name="lncr" type="Byte" />
+          <parameter name="tCourse" type="Double" />
+          <parameter name="tDepth" type="Double" />
+        </parameters>
+      </procedure>
+      <procedure name="ManCloseControl" visibility="public">
+      </procedure>
+      <procedure name="Update_Bearing_TORP" visibility="public">
+        <parameters>
+          <parameter name="newBearing" type="Double" />
+          <parameter name="aRec" type="TRecSetTorpedoSUT" />
+        </parameters>
+      </procedure>
+      <procedure name="Update_Depth_TORP" visibility="public">
+        <parameters>
+          <parameter name="newDepth" type="Double" />
+          <parameter name="aRec" type="TRecSetTorpedoSUT" />
+        </parameters>
+      </procedure>
+      <procedure name="Update_EnDis_TORP" visibility="public">
+        <parameters>
+          <parameter name="newEndis" type="Double" />
+          <parameter name="aRec" type="TRecSetTorpedoSUT" />
+        </parameters>
+      </procedure>
+      <procedure name="Update_Speed_TORP" visibility="public">
+        <parameters>
+          <parameter name="tube" type="TTube" />
+        </parameters>
+      </procedure>
+      <procedure name="Update_Persistence_TORP" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TRecSetTorpedoSUT" />
+        </parameters>
+      </procedure>
+      <procedure name="RecvUpdateTechnicalConsole" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="rec" type="TRecStatus_Console" />
+        </parameters>
+      </procedure>
+      <procedure name="UpdateButtonTechnical" visibility="public">
+        <devnotes>
+           <summary>
+           fungsi untuk update Up Down Button (param 1), dengan nilai param 2
+           true -&gt; Down;
+           false -&gt; Up;
+           </summary>
+           <param name="button">var button yang akan diupdate type: TSpeedButton</param>
+           <param name="value">value untuk mengupdate type : boolean</param>
+        </devnotes>
+        <parameters>
+          <parameter name="button" type="TSpeedButtonImage" paramflags="var" />
+          <parameter name="value" type="Boolean" />
+        </parameters>
+      </procedure>
+      <procedure name="RecvTorpSUTStatus" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="rec" type="TRec_TorpStatus" />
+        </parameters>
+      </procedure>
+      <procedure name="RemovePredictionLineView" visibility="public">
+        <parameters>
+          <parameter name="lncr" type="Byte" />
+          <parameter name="vis" type="Boolean" />
+        </parameters>
+      </procedure>
+      <procedure name="SendEvenTOCOS" visibility="public">
+        <parameters>
+          <parameter name="EvenId" type="Word" />
+          <parameter name="Prm1" type="Double" paramflags="const">
+            <value>
+              0
+            </value>
+          </parameter>
+          <parameter name="Prm2" type="Double">
+            <value>
+              0
+            </value>
+          </parameter>
+          <parameter name="Prm3" type="Double">
+            <value>
+              0
+            </value>
+          </parameter>
+        </parameters>
+      </procedure>
+      <procedure name="Homming_SUT" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="status" type="Boolean" />
+        </parameters>
+      </procedure>
+      <procedure name="Searching_SUT" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="TorpShutDown_SUT" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="ManualControl_SUT" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="IsmanualTorp" type="Boolean" />
+        </parameters>
+      </procedure>
+      <property name="TrueMotion" visibility="published" read="FTrueMotion" write="SetTrueMotion" type="Boolean" />
+    </members>
+  </class>
+  <const name="Range_AutoHoaming" type="Integer">
+    <value>
+      $7D00
+    </value>
+  </const>
+</namespace>

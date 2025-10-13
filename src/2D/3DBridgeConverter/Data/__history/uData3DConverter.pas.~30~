@@ -1,0 +1,489 @@
+unit uData3DConverter;
+
+interface
+uses
+  Grijjy.Bson,
+  Grijjy.Bson.IO,
+  Grijjy.Bson.Serialization;
+
+const
+  REC_SCEID = 0;
+  REC3D_POSITION = 1;
+  REC_3D_ORDER                    = 3;
+  REC_3D_EXOCET = 4;
+  REC_3D_CHAFF = 5;
+  REC_3D_ASROCK                   = 6;
+    __ORD_ASROCK_ASSIGNED       = 1;
+    __ORD_ASROCK_DEASSIGNED     = 2;
+    __ORD_ASROCK_FIRE           = 3;
+    __ORD_ASROCK_LOADING        = 4;
+    __ORD_ASROCK_ON             = 5;
+    __ORD_ASROCK_OFF            = 6;
+
+  REC_SET_CANNON                  = 7;
+    __ORD_CANNON_LR             = 1;  // meriam left-right
+    __ORD_CANNON_UD             = 2;  // meriam up-down
+    __ORD_CANNON_F              = 3;  // meriam fire
+    __ORD_CANNON_DIRECT_LR      = 4;  // meriam direct left-right
+    __ORD_CANNON_DIRECT_UD      = 5;  // meriam direct up-down
+    __ORD_CANNON_DIRECT_F       = 6;  // meriam direct fire
+    __ORD_CANNON_START_F        = 7;  // meriam start fire
+    __ORD_CANNON_STOP_F         = 8;  // meriam stop fire
+    __ORD_CANNON_ASSIGNED       = 9;  // meriam assigned
+    __ORD_CANNON_DEASSIGNED     = 10; // meriam deassigned
+    __ORD_CANNON_AUTOCORRECT    = 11; // meriam correction
+    __ORD_CANNON_ON             = 13; // meriam on
+    __ORD_CANNON_OFF            = 14; // meriam off
+    __ORD_CANNON_UNLOCK         = 15;
+    __ORD_CANNON_LOCK           = 16;
+
+
+    {Mode ID GUN}
+    M_DirBomb           = 1;
+    M_IndBomb_BlindBomb = 2;
+    M_AirTarget         = 3;
+  REC_3D_TORPEDO_MK44             = 8;
+  REC_3D_TORPEDO_SUT              = 9;
+
+    {ORD TORP SUT}
+    __ORD_TORPEDOSUT_FIRED		  = 1;  // FIRE
+    __ORD_TORPEDOSUT_NAVIGATE   = 2;  // NAVIGATE -> UPDATE COURSE, ENDIS DAN DEPTH
+    __ORD_TORPEDOSUT_HOMING     = 3;  // HOMMING ->
+    __ORD_TORPEDOSUT_SEARCH     = 4;  // ACTIVE SEARCH SONAR TORPEDO -> Pergerakan based on Intercept or Bearing mode
+    __ORD_TORPEDOSUT_MANUAL     = 5;  // MANUALY UPDATE COURSE DAN DEPTH
+    __ORD_TORPEDOSUT_SHUTDOWN   = 6;  // KILL TORP SUT
+    __ORD_TORPEDOSUT_LOADING    = 7;  // LOADING
+    __ORD_TORPEDOSUT_ON         = 8;
+    __ORD_TORPEDOSUT_OFF        = 9;
+    __ORD_TORPEDOSUT_DELETE     = 10;
+    __ORD_TORPEDOSUT_TARGETSEARCHPROGRAM = 11;
+    {ORD TORP SUT}
+
+    __TORPEDOSUT_TARGET_SURFACE    = 1;   // search surface
+    __TORPEDOSUT_TARGET_SUBSURFACE = 2;   // search subsurface
+
+  REC_3D_RBU                      = 19;
+    __ORD_RBU_ASSIGNED          = 1; // RBU Assign
+    __ORD_RBU_DEASSIGNED        = 2; // RBU Deassign
+    __ORD_RBU_FIRE              = 3; // RBU Fire
+    __ORD_RBU_LOADING           = 4; // RBU Loading
+    __ORD_RBU_AUTO              = 5; // RBU Auto
+    __ORD_RBU_STARTF            = 6; // RBU Start Fire
+    __ORD_RBU_STOPF             = 7; // RBU Stop Fire
+    __ORD_RBU_FIRE_SALVO        = 6; // RBU Fire
+    __ORD_RBU_ON                = 8;
+    __ORD_RBU_OFF               = 9;
+
+  REC_DATA_C802         = 20; //------- End C802 -----------
+    __ORD_C802_FIRE          = 1;
+    __ORD_C802_RADAR_ASSIGN  = 2;
+    __ORD_C802_LOADING       = 3;
+    __ORD_C802_ON            = 4;
+    __ORD_C802_OFF           = 5;
+
+  //----- Tetral, Mistral, Strella -----
+  REC_CMD_TETRAL      = 21;
+    __ORD_TETRAL_FIRE     = 1;
+    __ORD_TETRAL_ASSIGN   = 2;
+    __ORD_TETRAL_LOADING  = 8;
+    __ORD_TETRAL_ON      = 9;
+    __ORD_TETRAL_OFF     = 10;
+
+  REC_CMD_MISTRAL     = 22;
+    __ORD_MISTRAL_FIRE    = 1;
+    __ORD_MISTRAL_ASSIGN  = 2;
+    __ORD_MISTRAL_LOADING = 8;
+    __ORD_MISTRAL_ON      = 9;
+    __ORD_MISTRAL_OFF     = 10;
+    __ORD_MISTRAL_UNLOCK   = 11;
+    __ORD_MISTRAL_LOCK     = 12;
+
+  REC_CMD_STRELLA     = 23;
+    __ORD_STRELLA_FIRE    = 1;
+    __ORD_STRELLA_ASSIGN  = 2;
+    __ORD_STRELLA_LOADING = 8;
+    __ORD_STRELA_ON       = 9;
+    __ORD_STRELA_OFF      = 10;
+    __ORD_STRELA_UNLOCK   = 11;
+    __ORD_STRELA_LOCK     = 12;
+
+  REC_DATA_Yakhont        = 24; //------ End Yakhont ---------
+     __ORD_Yahkont_FIRE    = 1;
+     __ORD_Yahkont_RELEASE = 2;
+     __ORD_Yahkont_LOADING = 3;
+     __ORD_YAKHONT_ON      = 4;
+     __ORD_YAKHONT_OFF     = 5;
+
+  REC_CMD_EXOCET_40       = 27;
+    __ORD_EXOCET_40_FIRE     = 1;
+    __ORD_EXOCET_40_LOADING  = 2;
+    __ORD_EXOCET_40_ON      = 3;
+    __ORD_EXOCET_40_OFF     = 4;
+
+  REC_3D_MISSILEPOS = 50;
+  REC_3D_SETCONTROL               = 51;
+  REC_3D_UTIL_TOOLS               = 53;
+  REC_SPSS_ORDER			            = 57;
+    _ORD_SPS_FIRE           = 1;
+    _ORD_SPS_LOADING        = 3;
+    __ORD_SPS_ON            = 4;
+    __ORD_SPS_OFF           = 5;
+
+  REC_3D_WCC        = 63;
+  REC_GUIDANCE                    = 77;
+  REC3D_STATUS_GAME = 84;
+
+type
+
+  TRecStatusGame3D = record
+    [BsonElement('ScenarioID')]
+    ScenarioID: Word;
+    [BsonElement('StatusConnect')]
+    StatusConnect: byte;
+  end;
+  TRecDataPosition3D = record
+    [BsonElement('ShipID')]
+    ShipID: word;
+    [BsonElement('X')]
+    X: double;
+    [BsonElement('Y')]
+    Y: double;
+    [BsonElement('Z')]
+    Z: double;
+    [BsonElement('Heading')]
+    Heading: double;
+    [BsonElement('Speed')]
+    Speed: double;
+    [BsonElement('pitch')]
+    pitch: double;
+    [BsonElement('roll')]
+    roll: double;
+    [BsonElement('rudder')]
+    rudder: double;
+    [BsonElement('fuel')]
+    fuel: double;
+    [BsonElement('status')]
+    status: double;
+  end;
+  TRecRequestScenario = record
+    [BsonElement('ScenarioID')]
+    ScenarioID : word;
+    [BsonElement('StatusSce')]
+    StatusSce : byte;
+  end;
+
+  //missile pos
+  TRecMissilePos3D = record
+    shipID: word;
+    WeaponID      : word;
+    launcherID    : word;
+    missileID     : word;
+    MissileNumber : word;
+
+    status: byte;
+    x, y, z: double;
+    heading: single;
+    speed: single;
+  end;
+
+  TRecSetExocet3D = record
+    shipID          : word;
+    mWeaponID       : Word; //Diisi sesuai Database
+    mLauncherID     : word;
+    mMissileID      : word;
+    mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+
+    sOrder          : byte;
+
+    mProxFuze       : single;
+    mAltitude       : single;
+    mSearchArea     : single;
+    mRTG            : single;
+    mManualWidth    : single;
+    mSelecDepth     : single;
+    mTBearing       : single;
+    mTRange         : single;
+  end;
+
+  TRecSetExocet3D_40 = record
+    shipID            : word;
+    mWeaponID         : Word;
+    mLauncherID       : word;
+    mMissileID        : word;
+    mMissileNumber    : Word;
+
+    sOrder            : byte;
+
+    mTRange           : single;
+    mTBearing         : single;
+
+    mAngular_Mode     : Byte;
+    mAgility_Mode     : Byte;
+    mInitialStep_Mode : Byte;
+
+    mObstacle_Alt     : Single;
+    mObstacle_Range   : Single;
+
+    mApproach_Range   : Single;
+    mTerminal_Range   : Single;
+
+    mLeft_Angle       : Single;
+    mRight_Angle      : Single;
+    mFar_Range        : Single;
+    mNear_Range       : Single;
+
+    mMasking1         : Byte;
+    mMasking2         : Byte;
+    mMasking3         : Byte;
+    mMasking4         : Byte;
+    mMasking5         : Byte;
+    mMasking6         : Byte;
+    mMasking7         : Byte;
+    mMasking8         : Byte;
+    mMasking9         : Byte;
+    mMasking10        : Byte;
+    mMasking11        : Byte;
+    mMasking12        : Byte;
+    mMasking13        : Byte;
+    mMasking14        : Byte;
+    mMasking15        : Byte;
+    mMasking16        : Byte;
+    mSeekerOpenPosX   : Double;
+    mSeekerOpenPosY   : Double;
+    mSeekerOpenHeading   : Single;
+
+    //mMasking          : array[0..15] of Byte;
+  end;
+
+  TRec3DSetChaff = record
+    ShipID        : word;
+    mLauncherID   : word;
+    OrderID       : byte;
+    //mCountID      : integer;
+    mDegreeRate   : single;
+    mPart         : integer;
+    mPartNo       : integer;
+  end;
+
+  TRec3DSetAsrock = record
+    ShipID          : word;
+    mWeaponID       : Word;       //  Diisi sesuai Database
+    mLauncherID     : word;
+    mMissileID      : word;
+    mMissileNumber  : Word;       //  Diisi 0 aj...nanti instruktur yang ngisi ulang
+    mMissile_Type   : word;       //  add by eka
+    mTargetID       : Word;       //  Added by bagoes
+    OrderID         : byte;
+    mTargetBearing  : single;
+    mTargetRange    : single;
+    mTargetDepth    : single;
+    mFuzeType       : Word;       //  0: time   1 : prox
+
+    mCorrRange      : single;
+  end;
+  TRecSetTorpedoSUT = record
+    ShipID          : word;
+    mWeaponID       : Word; //Diisi sesuai Database
+    mLauncherID     : word;
+    mMissileID      : word;
+    mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+    mT_ID           : Word;
+    OrderID         : byte;
+
+    mTorpedoCourse        : single;
+    mTorpedoSpeed         : single;
+    mTorpedoDepth         : single;
+    mTorpedoSafeDistance  : Single;
+    mTorpedoEnDis         : Single;
+    mpredm                : word;
+    mTargetType           : Byte;
+  end;
+  TRecTorpedoMK44Order = record
+    shipID        : word;
+    OrderID       : byte;
+    mID           : word;
+    mISD          : single;
+    mFloor        : single;
+    mGyroRunOut   : boolean;
+  end;
+
+  TRecMeriam = record                              //17
+      ShipID      : word;
+      OrderID     : byte;   //
+      Gun_number  : integer;
+      X, Y, Z     : double;
+      TOF         : double;
+    end;
+
+  TRec3DSetRBU = record
+    ShipID         : word;
+    mWeaponID      : Word;  // Diisi sesuai Database
+    mLauncherID    : word;
+    mMissileID     : word;
+    mMissileNumber : Word;  // Diisi 0 aj...nanti instruktur yang ngisi ulang
+    mCount         : Word;
+    mMissileType   : word;
+    mTargetID      : Word;  // Added by bagoes
+    OrderID        : byte;
+
+    mLncrBearing   : single;
+    mLncRange      : single;
+    mTargetDepth   : single;
+    mCorrBearing   : single;
+    mCorrElev      : single;
+  end;
+
+  TRecData_Yakhont = record
+     //Add New
+     ShipID          : word;
+     mWeaponID       : Word; //Diisi sesuai Database
+     mLauncherID     : word;
+     mMissileID      : word;
+     mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulan
+
+     mMissile1,
+     mMissile2,
+     mMissile3,
+     mMissile4       : Byte;
+
+     OrderID         : Byte;
+
+     mTargetBearing  : Single;
+     mTargetRange    : Single;
+   end;
+
+  TRec3DSetWCC = record
+     ShipID          : word;
+     mWeaponID       : Word; //Diisi sesuai Database
+     mLauncherID     : word;
+     mMissileID      : word;
+     mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+     mOrderID        : byte;
+
+     mTargetID       : Word; // Added by bagoes
+     mModeID         : Word; // ModeID
+
+     mUpDown              : Single;
+     mAutoCorrectElev     : Single;
+     mAutoCorrectBearing  : Single;
+
+     mBalistikID    : Word;
+     mSalvoRate     : Word;
+  end;
+
+  //Tetral
+  TRec3DSetTetral = record
+    ShipID          : Word;
+    mWeaponID       : Word; //Diisi sesuai Database
+    mLauncherID     : Word;
+    mMissileID      : Word;
+    mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+
+    OrderID         : Byte;
+
+    mTargetBearing  : Single;
+    mTargetRange    : Single;
+    mTargetElev     : Single;
+  end;
+  //Mistral
+  TRec3DSetMistral = record
+    ShipID          : Word;
+    mWeaponID       : Word; //Diisi sesuai Database
+    mLauncherID     : Word;
+    mMissileID      : Word;
+    mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+
+    OrderID         : Byte;
+
+    mTargetBearing  : Single;
+    mTargetRange    : Single;
+    mTargetElev     : Single;
+  end;
+  //Strella\
+  TRec3DSetStrella = record
+    ShipID          : Word;
+    mWeaponID       : Word; //Diisi sesuai Database
+    mLauncherID     : Word;
+    mMissileID      : Word;
+    mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+
+    OrderID         : Byte;
+
+    mTargetBearing  : Single;
+    mTargetRange    : Single;
+    mTargetElev     : Single;
+  end;
+
+  TRecData_C802 = record
+     //Add New
+     ShipID          : word;
+     mWeaponID       : Word; //Diisi sesuai Database
+     mLauncherID     : word;
+     mMissileID      : word;
+     mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulan
+
+     OrderID         : Byte;
+
+     mTargetBearing  : Single;
+     mTargetRange    : Single;
+   end;
+
+   TRecDataTorperdo = record
+    ShipID          : word;
+    mWeaponID       : Word; //Diisi sesuai Database
+    mLauncherID     : word;
+    mMissileID      : word;
+    mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+
+    OrderID     : byte;
+
+    ISC : single;
+    ISR : word;
+    WTR : word;             //(0: SH, 1 :DP);
+    CEI : word;
+    PRG : word;             //(0: HE, 1 :SP)
+    DOP : word;             //(0: CW, 1 :FM)
+    ACE : word;
+    FLO : word;
+    ISD : word;
+    ACM : word;             //(0: ACT,1 :PAS,2 :MIX)
+  end;
+
+  //REC_3D_UTIL_TOOLS           = 53;
+  spUtilityTools = record
+    OrderID: word;
+    c0,c1,c2,c3,c4 :word;        //For Camera -> //co  = shipID, c1 =
+    c5, c6: double;
+  end;
+
+  //REC_3D_SETCONTROL = 51;  ------------------------------------------------
+  spActorsController = record
+    ShipID: word;
+    TypeID: word;
+
+    ActorRuntimeID1: word;   //Weapon ID
+    ActorRuntimeID2: word;   //Launcher ID
+    ActorRuntimeID3: word;   //Missile ID
+    ActorRuntimeID4: word;   //Missile Number
+
+    OrderID: word;
+    x, y, z: double;
+    h, p, r : double;
+  end;
+
+  TRecGuidance = record
+    ShipID    : Word;
+    GuidanceID: Word;         // SL     | Helm  | Circle    | Zigzag   | Sinuation | Formation | Evasion | Waypoint| Outrun | Engagement | Shadow  |
+                              //====================================================================================================================
+    param0    : Single;       // Course | Angle | TgtID     | Course   | Course    |           | TgtID   |         | TgtID  | TgtID      | TgtID   |
+    param1    : Single;       // Speed  | Speed | Speed     | Speed    | Speed     |           |         |         |        | Speed      | Speed   |
+    param2    : Single;       //        |       | Radius    | legLgth  | Amplitude |           |         |         |        | EgmntRange | TgtRange|
+    param3    : Single;       //        |       | Direction |          | Period    |           |         |                  | Altitude   |
+    param4    : Single;       //        |       | RangeOffst|          |
+    param5    : Single;       //        |       | AngleOffst|          |
+    param6    : Single;       //        |       | AbsAglOfst|          |
+  end;
+
+implementation
+
+end.

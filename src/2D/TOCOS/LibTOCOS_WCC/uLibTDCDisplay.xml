@@ -1,0 +1,1557 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uLibTDCDisplay">
+  <class name="TItemTDC">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <field name="Org" type="tDouble2DPoint" visibility="public" />
+      <field name="Center" type="TPoint" visibility="public" />
+      <field name="Visible" type="Boolean" visibility="public" />
+      <field name="Enabled" type="Boolean" visibility="public" />
+      <field name="Color" type="TColor" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="Draw" visibility="public" procflags="abstract virtual">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <procedure name="Run" visibility="public" procflags="abstract virtual">
+        <parameters>
+          <parameter name="aDt" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="ConvertCoord" visibility="public" procflags="abstract virtual">
+        <parameters>
+          <parameter name="aMap" type="TMap" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="TTDC_Cursor">
+    <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+      <methodref name="Create" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <methodref name="ConvertCoord" visibility="public" />
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="InitInstance" visibility="public">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public">
+        </methodref>
+        <methodref name="ClassName" visibility="public">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public">
+        </methodref>
+        <methodref name="ClassParent" visibility="public">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodName" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public">
+        </methodref>
+        <methodref name="UnitName" visibility="public">
+        </methodref>
+        <methodref name="Equals" visibility="public">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public">
+        </methodref>
+        <methodref name="ToString" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="Dispatch" visibility="public">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public">
+        </methodref>
+        <methodref name="NewInstance" visibility="public">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <function name="GetDistance" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <function name="GetHeading" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <field name="ptH" type="TPoint" visibility="protected" />
+      <field name="FHeading" type="Double" visibility="protected" />
+      <field name="FDistance" type="Double" visibility="protected" />
+      <field name="EndCoord" type="tDouble2DPoint" visibility="protected" />
+      <procedure name="UpdateEndCoord" visibility="protected">
+      </procedure>
+      <procedure name="SetHeading" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="Head" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetDistance" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <field name="Style" type="TPenStyle" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="Draw" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <procedure name="ConvertCoord" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aMap" type="TMap" />
+        </parameters>
+      </procedure>
+      <property name="Heading" visibility="public" read="GetHeading" write="SetHeading" type="Double" />
+      <property name="Distance" visibility="public" read="GetDistance" write="SetDistance" type="Double" />
+      <property name="EndPoint" visibility="public" read="ptH" write="ptH" type="TPoint" />
+      <procedure name="SetEndCoord" visibility="public">
+        <parameters>
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetStartCoord" visibility="public">
+        <parameters>
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="THeadingMarker">
+    <ancestor name="TTDC_Cursor" namespace="uLibTDCDisplay">
+      <methodref name="GetDistance" visibility="private" />
+      <methodref name="GetHeading" visibility="private" />
+      <methodref name="UpdateEndCoord" visibility="protected" />
+      <methodref name="SetHeading" visibility="public" />
+      <methodref name="SetDistance" visibility="public" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <methodref name="ConvertCoord" visibility="public" />
+      <propertyref name="Heading" visibility="public" />
+      <propertyref name="Distance" visibility="public" />
+      <propertyref name="EndPoint" visibility="public" />
+      <methodref name="SetEndCoord" visibility="public" />
+      <methodref name="SetStartCoord" visibility="public" />
+      <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Draw" visibility="public" />
+        <methodref name="Run" visibility="public" />
+        <methodref name="ConvertCoord" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+  </class>
+  <class name="TBlindARCS">
+    <ancestor name="TTDC_Cursor" namespace="uLibTDCDisplay">
+      <methodref name="GetDistance" visibility="private" />
+      <methodref name="GetHeading" visibility="private" />
+      <methodref name="UpdateEndCoord" visibility="protected" />
+      <methodref name="SetHeading" visibility="public" />
+      <methodref name="SetDistance" visibility="public" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <methodref name="ConvertCoord" visibility="public" />
+      <propertyref name="Heading" visibility="public" />
+      <propertyref name="Distance" visibility="public" />
+      <propertyref name="EndPoint" visibility="public" />
+      <methodref name="SetEndCoord" visibility="public" />
+      <methodref name="SetStartCoord" visibility="public" />
+      <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Draw" visibility="public" />
+        <methodref name="Run" visibility="public" />
+        <methodref name="ConvertCoord" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FCursors" type=":TBlindARCS.:1" visibility="protected" />
+      <field name="FCursorCount" type="Integer" visibility="protected" />
+      <field name="GunOffset" visibility="protected">
+        <array name="GunOffset" low="1" high="5">
+          <element type="Single" />
+        </array>
+      </field>
+      <field name="DirOffset" visibility="protected">
+        <array name="DirOffset" low="1" high="5">
+          <element type="Single" />
+        </array>
+      </field>
+      <procedure name="SetHeading" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="Head" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <constructor name="Create" visibility="public">
+        <parameters>
+          <parameter name="Num" type="Integer" paramflags="const" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="Draw" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <procedure name="ConvertCoord" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aMap" type="TMap" />
+        </parameters>
+      </procedure>
+      <procedure name="GetGunAngle" visibility="public">
+        <parameters>
+          <parameter name="shipHeading" type="Double" paramflags="const" />
+          <parameter name="Gun" type="Byte" paramflags="const" />
+          <parameter name="LeftAngle" type="Double" paramflags="var" />
+          <parameter name="RightAngle" type="Double" paramflags="var" />
+        </parameters>
+      </procedure>
+      <procedure name="SetVisibles" visibility="public">
+        <parameters>
+          <parameter name="v" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="TWeaponAssignView">
+    <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+      <methodref name="Create" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <methodref name="ConvertCoord" visibility="public" />
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="InitInstance" visibility="public">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public">
+        </methodref>
+        <methodref name="ClassName" visibility="public">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public">
+        </methodref>
+        <methodref name="ClassParent" visibility="public">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodName" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public">
+        </methodref>
+        <methodref name="UnitName" visibility="public">
+        </methodref>
+        <methodref name="Equals" visibility="public">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public">
+        </methodref>
+        <methodref name="ToString" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="Dispatch" visibility="public">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public">
+        </methodref>
+        <methodref name="NewInstance" visibility="public">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FRange" type="Double" visibility="protected" />
+      <field name="FDirection" type="Double" visibility="protected" />
+      <procedure name="SetDirection" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRange" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetDirection" visibility="protected">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <function name="GetRange" visibility="protected">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <property name="Range" visibility="public" read="GetRange" write="SetRange" type="Double" />
+      <property name="Direction" visibility="public" read="GetDirection" write="SetDirection" type="Double" />
+    </members>
+  </class>
+  <class name="TAssignSSMView">
+    <ancestor name="TWeaponAssignView" namespace="uLibTDCDisplay">
+      <methodref name="SetDirection" visibility="public" />
+      <methodref name="SetRange" visibility="public" />
+      <methodref name="GetDirection" visibility="protected" />
+      <methodref name="GetRange" visibility="protected" />
+      <propertyref name="Range" visibility="public" />
+      <propertyref name="Direction" visibility="public" />
+      <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Draw" visibility="public" />
+        <methodref name="Run" visibility="public" />
+        <methodref name="ConvertCoord" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="pt1" type="t2DComboPoint" visibility="private" />
+      <field name="ptHit" type="t2DComboPoint" visibility="private" />
+      <field name="stL" type="t2DComboPoint" visibility="private" />
+      <field name="stR" type="t2DComboPoint" visibility="private" />
+      <field name="enL" type="t2DComboPoint" visibility="private" />
+      <field name="enR" type="t2DComboPoint" visibility="private" />
+      <field name="mRangeToGo" type="Double" visibility="private" />
+      <field name="mSearchDepth" type="Double" visibility="private" />
+      <field name="mManWidth" type="Double" visibility="private" />
+      <field name="FRangeToGo" type="TLetterSize" visibility="private" />
+      <field name="FSearch_Depth" type="TLetterSize" visibility="private" />
+      <field name="FSearch_Width" type="TLetterSize" visibility="private" />
+      <field name="FLaunchMode" type="TLaunchMode" visibility="private" />
+      <procedure name="SetRangeToGo" visibility="private">
+        <parameters>
+          <parameter name="Value" type="TLetterSize" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetSearch_Depth" visibility="private">
+        <parameters>
+          <parameter name="Value" type="TLetterSize" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetSearch_Width" visibility="private">
+        <parameters>
+          <parameter name="Value" type="TLetterSize" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetLaunchMode" visibility="private">
+        <parameters>
+          <parameter name="Value" type="TLaunchMode" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="UpdateRangeDirection" visibility="protected">
+      </procedure>
+      <procedure name="SetDirection" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRange" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <field name="ExocetID" type="Integer" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="Draw" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <procedure name="ConvertCoord" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aMap" type="TMap" />
+        </parameters>
+      </procedure>
+      <property name="RangeToGo" visibility="public" read="FRangeToGo" write="SetRangeToGo" type="TLetterSize" />
+      <property name="Search_Depth" visibility="public" read="FSearch_Depth" write="SetSearch_Depth" type="TLetterSize" />
+      <property name="Search_Width" visibility="public" read="FSearch_Width" write="SetSearch_Width" type="TLetterSize" />
+      <property name="LaunchMode" visibility="public" read="FLaunchMode" write="SetLaunchMode" type="TLaunchMode" />
+    </members>
+  </class>
+  <class name="TAssignTorpedoView">
+    <ancestor name="TWeaponAssignView" namespace="uLibTDCDisplay">
+      <methodref name="SetDirection" visibility="public" />
+      <methodref name="SetRange" visibility="public" />
+      <methodref name="GetDirection" visibility="protected" />
+      <methodref name="GetRange" visibility="protected" />
+      <propertyref name="Range" visibility="public" />
+      <propertyref name="Direction" visibility="public" />
+      <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Draw" visibility="public" />
+        <methodref name="Run" visibility="public" />
+        <methodref name="ConvertCoord" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="LeftPoint" type="t2DComboPoint" visibility="public" />
+      <field name="RightPoint" type="t2DComboPoint" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="Draw" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <procedure name="ConvertCoord" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aMap" type="TMap" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="TTDCSymbol">
+    <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+      <methodref name="Create" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <methodref name="ConvertCoord" visibility="public" />
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="InitInstance" visibility="public">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public">
+        </methodref>
+        <methodref name="ClassName" visibility="public">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public">
+        </methodref>
+        <methodref name="ClassParent" visibility="public">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodName" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public">
+        </methodref>
+        <methodref name="UnitName" visibility="public">
+        </methodref>
+        <methodref name="Equals" visibility="public">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public">
+        </methodref>
+        <methodref name="ToString" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="Dispatch" visibility="public">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public">
+        </methodref>
+        <methodref name="NewInstance" visibility="public">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FCharSymbol" type="Char" visibility="protected" />
+      <field name="FFontSize" type="Integer" visibility="protected" />
+      <field name="FFontName" type="string" visibility="protected" />
+      <field name="FRect" type="TRect" visibility="protected" />
+      <field name="FSymbolChange" type="Boolean" visibility="protected" />
+      <field name="FOffset" type="TPoint" visibility="protected" />
+      <procedure name="SetCharSymbol" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Char" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetFontName" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetFontSize" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetOffset" visibility="protected">
+        <parameters>
+          <parameter name="Index" type="Integer" paramflags="const" />
+          <parameter name="Value" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="Draw" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <procedure name="ConvertCoord" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aMap" type="TMap" />
+        </parameters>
+      </procedure>
+      <function name="IsHit" visibility="public">
+        <parameters>
+          <parameter name="x" type="Integer" paramflags="const" />
+          <parameter name="y" type="Integer" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <property name="CharSymbol" visibility="public" read="FCharSymbol" write="SetCharSymbol" type="Char" />
+      <property name="FontName" visibility="public" read="FFontName" write="SetFontName" type="string" />
+      <property name="FontSize" visibility="public" read="FFontSize" write="SetFontSize" type="Integer" />
+      <field type="Integer" visibility="private" />
+      <property name="OffsetX" visibility="public" write="SetOffset" type="Integer" index="0" />
+      <field type="Integer" visibility="private" />
+      <property name="OffsetY" visibility="public" write="SetOffset" type="Integer" index="1" />
+    </members>
+  </class>
+  <class name="TLPDFixDisplay">
+    <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+      <methodref name="Create" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <methodref name="ConvertCoord" visibility="public" />
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="InitInstance" visibility="public">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public">
+        </methodref>
+        <methodref name="ClassName" visibility="public">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public">
+        </methodref>
+        <methodref name="ClassParent" visibility="public">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodName" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public">
+        </methodref>
+        <methodref name="UnitName" visibility="public">
+        </methodref>
+        <methodref name="Equals" visibility="public">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public">
+        </methodref>
+        <methodref name="ToString" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="Dispatch" visibility="public">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public">
+        </methodref>
+        <methodref name="NewInstance" visibility="public">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FRect" type="TRect" visibility="protected" />
+      <function name="GetHeight" visibility="protected">
+        <parameters>
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetWidth" visibility="protected">
+        <parameters>
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <procedure name="SetLeft" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetTop" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetWidth" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetHeight" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="Draw" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <field type="Integer" visibility="private" />
+      <property name="Left" visibility="public" write="SetLeft" type="Integer" />
+      <field type="Integer" visibility="private" />
+      <property name="Top" visibility="public" write="SetTop" type="Integer" />
+      <property name="Width" visibility="public" read="GetWidth" write="SetWidth" type="Integer" />
+      <property name="Height" visibility="public" read="GetHeight" write="SetHeight" type="Integer" />
+    </members>
+  </class>
+  <class name="TLPDStatus">
+    <ancestor name="TLPDFixDisplay" namespace="uLibTDCDisplay">
+      <methodref name="GetHeight" visibility="protected" />
+      <methodref name="GetWidth" visibility="protected" />
+      <methodref name="SetLeft" visibility="protected" />
+      <methodref name="SetTop" visibility="protected" />
+      <methodref name="SetWidth" visibility="protected" />
+      <methodref name="SetHeight" visibility="protected" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <propertyref name="Left" visibility="public" />
+      <propertyref name="Top" visibility="public" />
+      <propertyref name="Width" visibility="public" />
+      <propertyref name="Height" visibility="public" />
+      <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Draw" visibility="public" />
+        <methodref name="Run" visibility="public" />
+        <methodref name="ConvertCoord" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="CPORT" type=":TLPDStatus.:1" visibility="public" />
+      <field name="CSTB" type=":TLPDStatus.:2" visibility="public" />
+      <field name="SelectedTube" type="Boolean" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="Draw" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="TTorpTest">
+    <ancestor name="TLPDFixDisplay" namespace="uLibTDCDisplay">
+      <methodref name="GetHeight" visibility="protected" />
+      <methodref name="GetWidth" visibility="protected" />
+      <methodref name="SetLeft" visibility="protected" />
+      <methodref name="SetTop" visibility="protected" />
+      <methodref name="SetWidth" visibility="protected" />
+      <methodref name="SetHeight" visibility="protected" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <propertyref name="Left" visibility="public" />
+      <propertyref name="Top" visibility="public" />
+      <propertyref name="Width" visibility="public" />
+      <propertyref name="Height" visibility="public" />
+      <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Draw" visibility="public" />
+        <methodref name="Run" visibility="public" />
+        <methodref name="ConvertCoord" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="step" type="Byte" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="Draw" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="TLPDTest">
+    <ancestor name="TLPDFixDisplay" namespace="uLibTDCDisplay">
+      <methodref name="GetHeight" visibility="protected" />
+      <methodref name="GetWidth" visibility="protected" />
+      <methodref name="SetLeft" visibility="protected" />
+      <methodref name="SetTop" visibility="protected" />
+      <methodref name="SetWidth" visibility="protected" />
+      <methodref name="SetHeight" visibility="protected" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <propertyref name="Left" visibility="public" />
+      <propertyref name="Top" visibility="public" />
+      <propertyref name="Width" visibility="public" />
+      <propertyref name="Height" visibility="public" />
+      <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Draw" visibility="public" />
+        <methodref name="Run" visibility="public" />
+        <methodref name="ConvertCoord" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <procedure name="DrawTextTest" visibility="protected">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="Draw" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="TLPDDisplayText">
+    <ancestor name="TLPDFixDisplay" namespace="uLibTDCDisplay">
+      <methodref name="GetHeight" visibility="protected" />
+      <methodref name="GetWidth" visibility="protected" />
+      <methodref name="SetLeft" visibility="protected" />
+      <methodref name="SetTop" visibility="protected" />
+      <methodref name="SetWidth" visibility="protected" />
+      <methodref name="SetHeight" visibility="protected" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <propertyref name="Left" visibility="public" />
+      <propertyref name="Top" visibility="public" />
+      <propertyref name="Width" visibility="public" />
+      <propertyref name="Height" visibility="public" />
+      <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Draw" visibility="public" />
+        <methodref name="Run" visibility="public" />
+        <methodref name="ConvertCoord" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="Line1" type="string" visibility="public" />
+      <field name="Line2" type="string" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="Draw" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="TEngagementBox">
+    <ancestor name="TItemTDC" namespace="uLibTDCDisplay">
+      <methodref name="Create" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <methodref name="ConvertCoord" visibility="public" />
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="InitInstance" visibility="public">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public">
+        </methodref>
+        <methodref name="ClassName" visibility="public">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public">
+        </methodref>
+        <methodref name="ClassParent" visibility="public">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodName" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public">
+        </methodref>
+        <methodref name="UnitName" visibility="public">
+        </methodref>
+        <methodref name="Equals" visibility="public">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public">
+        </methodref>
+        <methodref name="ToString" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="Dispatch" visibility="public">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public">
+        </methodref>
+        <methodref name="NewInstance" visibility="public">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FTrails" visibility="private">
+        <array name="FTrails" low="0" high="39">
+          <element type="tDouble2DPoint" />
+        </array>
+      </field>
+      <field name="FPixelTrails" visibility="private">
+        <array name="FPixelTrails" low="0" high="39">
+          <element type="TPoint" />
+        </array>
+      </field>
+      <field name="FOrigin" type="tDouble2DPoint" visibility="private" />
+      <field name="FTimer" type="Double" visibility="private" />
+      <field name="VisibleCount" type="Byte" visibility="private" />
+      <field name="FEngageCursor" type="TTDC_Cursor" visibility="private" />
+      <field name="HeadingNorth" type="Single" visibility="public" />
+      <field name="EngageMode" type="TEngageStatus" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="ConvertDataPosition" visibility="public">
+        <parameters>
+          <parameter name="aMap" type="TMap" />
+        </parameters>
+      </procedure>
+      <procedure name="Draw" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <procedure name="UpdateOrigin" visibility="public">
+        <parameters>
+          <parameter name="x1" type="Double" paramflags="const" />
+          <parameter name="y1" type="Double" paramflags="const" />
+          <parameter name="x2" type="Double" paramflags="const" />
+          <parameter name="y2" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Run" visibility="public">
+        <parameters>
+          <parameter name="aDeltaMs" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+</namespace>

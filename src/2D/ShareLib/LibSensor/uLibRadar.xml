@@ -1,0 +1,852 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uLibRadar">
+  <const name="C_Max_Freq_Slot" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="rtDA_05" type="TRadar_Type">
+    <value>
+      rtDA_05
+    </value>
+  </const>
+  <const name="rtWM_28" type="TRadar_Type">
+    <value>
+      rtWM_28
+    </value>
+  </const>
+  <const name="rtLW_03" type="TRadar_Type">
+    <value>
+      rtLW_03
+    </value>
+  </const>
+  <const name="rtVESTA" type="TRadar_Type">
+    <value>
+      rtVESTA
+    </value>
+  </const>
+  <const name="rtDECCA_1229" type="TRadar_Type">
+    <value>
+      rtDECCA_1229
+    </value>
+  </const>
+  <const name="tes_Radar" type="TRadar_Type">
+    <value>
+      tes_Radar
+    </value>
+  </const>
+  <const name="raLiner" type="TRadar_Amp">
+    <value>
+      raLiner
+    </value>
+  </const>
+  <const name="raLogarithmic" type="TRadar_Amp">
+    <value>
+      raLogarithmic
+    </value>
+  </const>
+  <enum name="TRadar_Type">
+    <element name="rtDA_05" />
+    <element name="rtWM_28" />
+    <element name="rtLW_03" />
+    <element name="rtVESTA" />
+    <element name="rtDECCA_1229" />
+    <element name="tes_Radar" />
+  </enum>
+  <enum name="TRadar_Amp">
+    <element name="raLiner" />
+    <element name="raLogarithmic" />
+  </enum>
+  <class name="TClientRadar">
+    <ancestor name="TSimClassOnMapX" namespace="uMapXSim">
+      <methodref name="CreateDefaultView" visibility="public" />
+      <methodref name="ConvertViewsPosition" visibility="public" />
+      <methodref name="DrawViews" visibility="public" />
+      <ancestor name="TSimulationClass" namespace="uBaseSimulationObject">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Destroy" visibility="public" />
+        <methodref name="MarkAs_NeedToBeFree" visibility="public" />
+        <methodref name="DeleteAllChildren" visibility="public" />
+        <methodref name="Update" visibility="public" />
+        <methodref name="Run" visibility="public" />
+        <propertyref name="PositionX" visibility="public" />
+        <propertyref name="PositionY" visibility="public" />
+        <propertyref name="PositionZ" visibility="public" />
+        <propertyref name="UniqueID" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FDirection" type="Double" visibility="private" />
+      <field name="FCurTimeBasePos" type="Double" visibility="private" />
+      <field name="FPrevTimeBasePos" type="Double" visibility="private" />
+      <field name="FHorizontalBeamWidth" type="Double" visibility="private" />
+      <field name="FVerticalBeamWidth" type="Double" visibility="private" />
+      <field name="FAveratePower" type="Double" visibility="private" />
+      <field name="FFrequencyMode" type="tFrequencyMode" visibility="private" />
+      <field name="FMin_Frequency" type="Double" visibility="private" />
+      <field name="FMax_Frequency" type="Double" visibility="private" />
+      <field name="FRadiate" type="Boolean" visibility="private" />
+      <field name="FDetObj" type="TSimulationClass" visibility="private" />
+      <function name="GetDirection" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="SetDirection" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetFrequencyMode" visibility="private">
+        <parameters>
+          <parameter name="Value" type="tFrequencyMode" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetMax_Frequency" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetMin_Frequency" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="getMaxIntens" visibility="private">
+        <parameters>
+          <retval type="Byte" />
+        </parameters>
+      </function>
+      <procedure name="setIntens" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Byte" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetRadiate" visibility="private">
+        <parameters>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="setRadiate" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <field name="FrequencySlot" visibility="protected">
+        <array name="FrequencySlot" low="0" high="16">
+          <element type="Double" />
+        </array>
+      </field>
+      <field name="FrequencyIndex" type="Byte" visibility="protected" />
+      <field name="FFrequency" type="Double" visibility="protected" />
+      <field name="FWavelength" type="Double" visibility="protected" />
+      <field name="FPRF" type="Double" visibility="protected" />
+      <field name="FDetectionRange" type="Double" visibility="protected" />
+      <field name="FPulseWidth" type="Double" visibility="protected" />
+      <field name="FRangeResolution" type="Double" visibility="protected" />
+      <field name="FMTI_ON" type="Boolean" visibility="protected" />
+      <field name="FSubSurf_On" type="Boolean" visibility="protected" />
+      <field name="FSurf_On" type="Boolean" visibility="protected" />
+      <field name="FRadarForTocos" type="Boolean" visibility="protected" />
+      <procedure name="SetFrequency" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetWavelength" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetDetectionRange" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetPRF" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetPulseWidth" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRangeResolution" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetHorizontalBeamWidth" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetVerticalBeamWidth" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetAveratePower" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetMTI_ON" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetSubSurf_On" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetSurf_On" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRadarForTocos" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Boolean" />
+        </parameters>
+      </procedure>
+      <function name="FindByRangeBearing" visibility="protected">
+        <parameters>
+          <parameter name="r" type="Double" paramflags="const" />
+          <parameter name="b" type="Double" paramflags="const" />
+          <parameter name="obj" type="TDetectedObject" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="RangeBearingToCoord" visibility="protected">
+        <parameters>
+          <parameter name="r" type="Double" paramflags="const" />
+          <parameter name="b" type="Double" paramflags="const" />
+          <parameter name="mx" type="Double" paramflags="var" />
+          <parameter name="my" type="Double" paramflags="var" />
+        </parameters>
+      </procedure>
+      <procedure name="RadarProcess_MTI" visibility="protected">
+      </procedure>
+      <procedure name="RadarTocosProses" visibility="protected">
+      </procedure>
+      <procedure name="RadarProcess_SubSurf" visibility="protected">
+        <parameters>
+          <parameter name="status" type="Boolean" />
+        </parameters>
+      </procedure>
+      <procedure name="RadarProcess_Surf" visibility="protected">
+        <parameters>
+          <parameter name="status" type="Boolean" />
+        </parameters>
+      </procedure>
+      <procedure name="RadarProcess_FrequencyAgile" visibility="protected">
+      </procedure>
+      <procedure name="RadarProcess_Signal" visibility="protected">
+      </procedure>
+      <field name="DisplayArea" type="TRadarAreaView" visibility="public" />
+      <field name="TimeBase" type="TRadarTimeBase" visibility="public" />
+      <field name="TimeBaseView" type="TRadarTimeBaseView" visibility="public" />
+      <field name="SectorView" type="TRadarSectorView" visibility="public" />
+      <field name="PolarView" type="TRadarPolarView" visibility="public" />
+      <field name="LastTrackNumber" type="Integer" visibility="public" />
+      <field name="FRadarType" type="TRadar_Type" visibility="public" />
+      <field name="AntenaHeight" type="Double" visibility="public" />
+      <field name="CalculateHorizon" type="Boolean" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="Run" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aDeltaMs" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Update" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="CreateDefaultView" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aMap" type="TMap" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="ConvertViewsPosition" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="DrawViews" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <procedure name="DrawObjects" visibility="public">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <function name="FindDetectedObjectByView" visibility="public">
+        <parameters>
+          <parameter name="x" type="Integer" paramflags="const" />
+          <parameter name="y" type="Integer" paramflags="const" />
+          <parameter name="det" type="TDetectedObject" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="SetAllSymbolVisible" visibility="public">
+        <parameters>
+          <parameter name="value" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <field name="DetObjects" type="TObjectContainer" visibility="public" />
+      <field name="TmpDet" type="TDetectedObject" visibility="public" />
+      <procedure name="RadarProcess" visibility="public">
+        <parameters>
+          <parameter name="org" type="TObjectContainer" />
+          <parameter name="gCount" type="Cardinal" paramflags="const" />
+          <parameter name="Run" type="Boolean" />
+        </parameters>
+      </procedure>
+      <function name="CreateSimulatedDetected" visibility="public">
+        <parameters>
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+          <retval type="TDetectedObject" />
+        </parameters>
+      </function>
+      <property name="Direction" visibility="published" read="GetDirection" write="SetDirection" type="Double" />
+      <property name="Frequency" visibility="published" read="FFrequency" write="SetFrequency" type="Double" />
+      <property name="Wavelength" visibility="published" read="FWavelength" type="Double" />
+      <property name="Max_Frequency" visibility="published" read="FMax_Frequency" write="SetMax_Frequency" type="Double" />
+      <property name="Min_Frequency" visibility="published" read="FMin_Frequency" write="SetMin_Frequency" type="Double" />
+      <property name="DetectionRange" visibility="published" read="FDetectionRange" write="SetDetectionRange" type="Double" />
+      <property name="PRF" visibility="published" read="FPRF" write="SetPRF" type="Double" />
+      <property name="PulseWidth" visibility="published" read="FPulseWidth" write="SetPulseWidth" type="Double" />
+      <property name="RangeResolution" visibility="published" read="FRangeResolution" type="Double" />
+      <property name="VerticalBeamWidth" visibility="published" read="FVerticalBeamWidth" write="SetVerticalBeamWidth" type="Double" />
+      <property name="HorizontalBeamWidth" visibility="published" read="FHorizontalBeamWidth" write="SetHorizontalBeamWidth" type="Double" />
+      <property name="MTI_ON" visibility="published" read="FMTI_ON" write="SetMTI_ON" type="Boolean" />
+      <property name="SubSurf_On" visibility="published" read="FSubSurf_On" write="SetSubSurf_On" type="Boolean" />
+      <property name="Surf_On" visibility="published" read="FSurf_On" write="SetSurf_On" type="Boolean" />
+      <property name="RadarForTocos" visibility="published" read="FRadarForTocos" write="SetRadarForTocos" type="Boolean" />
+      <property name="FrequencyMode" visibility="published" read="FFrequencyMode" write="SetFrequencyMode" type="tFrequencyMode" />
+      <property name="AveratePower" visibility="published" read="FAveratePower" write="SetAveratePower" type="Double" />
+      <property name="MaxIntensity" visibility="published" read="getMaxIntens" write="setIntens" type="Byte" />
+      <property name="Radiate" visibility="published" read="GetRadiate" write="setRadiate" type="Boolean" />
+    </members>
+  </class>
+  <class name="TWM_Radar">
+    <devnotes>
+      ////////////////////////////////////////////////////////////////////////////
+    </devnotes>
+    <ancestor name="TClientRadar" namespace="uLibRadar">
+      <methodref name="GetDirection" visibility="private" />
+      <methodref name="SetDirection" visibility="private" />
+      <methodref name="SetFrequencyMode" visibility="private" />
+      <methodref name="SetMax_Frequency" visibility="private" />
+      <methodref name="SetMin_Frequency" visibility="private" />
+      <methodref name="getMaxIntens" visibility="private" />
+      <methodref name="setIntens" visibility="private" />
+      <methodref name="GetRadiate" visibility="private" />
+      <methodref name="setRadiate" visibility="private" />
+      <methodref name="SetFrequency" visibility="protected" />
+      <methodref name="SetWavelength" visibility="protected" />
+      <methodref name="SetDetectionRange" visibility="protected" />
+      <methodref name="SetPRF" visibility="protected" />
+      <methodref name="SetPulseWidth" visibility="protected" />
+      <methodref name="SetRangeResolution" visibility="protected" />
+      <methodref name="SetHorizontalBeamWidth" visibility="protected" />
+      <methodref name="SetVerticalBeamWidth" visibility="protected" />
+      <methodref name="SetAveratePower" visibility="protected" />
+      <methodref name="SetMTI_ON" visibility="protected" />
+      <methodref name="SetSubSurf_On" visibility="protected" />
+      <methodref name="SetSurf_On" visibility="protected" />
+      <methodref name="SetRadarForTocos" visibility="protected" />
+      <methodref name="FindByRangeBearing" visibility="protected" />
+      <methodref name="RangeBearingToCoord" visibility="protected" />
+      <methodref name="RadarProcess_MTI" visibility="protected" />
+      <methodref name="RadarTocosProses" visibility="protected" />
+      <methodref name="RadarProcess_SubSurf" visibility="protected" />
+      <methodref name="RadarProcess_Surf" visibility="protected" />
+      <methodref name="RadarProcess_FrequencyAgile" visibility="protected" />
+      <methodref name="RadarProcess_Signal" visibility="protected" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <methodref name="Update" visibility="public" />
+      <methodref name="CreateDefaultView" visibility="public" />
+      <methodref name="ConvertViewsPosition" visibility="public" />
+      <methodref name="DrawViews" visibility="public" />
+      <methodref name="DrawObjects" visibility="public" />
+      <methodref name="FindDetectedObjectByView" visibility="public" />
+      <methodref name="SetAllSymbolVisible" visibility="public" />
+      <methodref name="RadarProcess" visibility="public" />
+      <methodref name="CreateSimulatedDetected" visibility="public" />
+      <propertyref name="Direction" visibility="published" />
+      <propertyref name="Frequency" visibility="published" />
+      <propertyref name="Wavelength" visibility="published" />
+      <propertyref name="Max_Frequency" visibility="published" />
+      <propertyref name="Min_Frequency" visibility="published" />
+      <propertyref name="DetectionRange" visibility="published" />
+      <propertyref name="PRF" visibility="published" />
+      <propertyref name="PulseWidth" visibility="published" />
+      <propertyref name="RangeResolution" visibility="published" />
+      <propertyref name="VerticalBeamWidth" visibility="published" />
+      <propertyref name="HorizontalBeamWidth" visibility="published" />
+      <propertyref name="MTI_ON" visibility="published" />
+      <propertyref name="SubSurf_On" visibility="published" />
+      <propertyref name="Surf_On" visibility="published" />
+      <propertyref name="RadarForTocos" visibility="published" />
+      <propertyref name="FrequencyMode" visibility="published" />
+      <propertyref name="AveratePower" visibility="published" />
+      <propertyref name="MaxIntensity" visibility="published" />
+      <propertyref name="Radiate" visibility="published" />
+      <ancestor name="TSimClassOnMapX" namespace="uMapXSim">
+        <methodref name="CreateDefaultView" visibility="public" />
+        <methodref name="ConvertViewsPosition" visibility="public" />
+        <methodref name="DrawViews" visibility="public" />
+        <ancestor name="TSimulationClass" namespace="uBaseSimulationObject">
+          <methodref name="Create" visibility="public" />
+          <methodref name="Destroy" visibility="public" />
+          <methodref name="MarkAs_NeedToBeFree" visibility="public" />
+          <methodref name="DeleteAllChildren" visibility="public" />
+          <methodref name="Update" visibility="public" />
+          <methodref name="Run" visibility="public" />
+          <propertyref name="PositionX" visibility="public" />
+          <propertyref name="PositionY" visibility="public" />
+          <propertyref name="PositionZ" visibility="public" />
+          <propertyref name="UniqueID" visibility="public" />
+          <ancestor name="TObject" namespace="System">
+            <methodref name="Create" visibility="public">
+            </methodref>
+            <methodref name="Free" visibility="public">
+            </methodref>
+            <methodref name="InitInstance" visibility="public">
+            </methodref>
+            <methodref name="CleanupInstance" visibility="public">
+            </methodref>
+            <methodref name="ClassType" visibility="public">
+            </methodref>
+            <methodref name="ClassName" visibility="public">
+            </methodref>
+            <methodref name="ClassNameIs" visibility="public">
+            </methodref>
+            <methodref name="ClassParent" visibility="public">
+            </methodref>
+            <methodref name="ClassInfo" visibility="public">
+            </methodref>
+            <methodref name="InstanceSize" visibility="public">
+            </methodref>
+            <methodref name="InheritsFrom" visibility="public">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public">
+            </methodref>
+            <methodref name="MethodName" visibility="public">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public">
+            </methodref>
+            <methodref name="GetInterface" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceEntry" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceTable" visibility="public">
+            </methodref>
+            <methodref name="UnitName" visibility="public">
+            </methodref>
+            <methodref name="Equals" visibility="public">
+            </methodref>
+            <methodref name="GetHashCode" visibility="public">
+            </methodref>
+            <methodref name="ToString" visibility="public">
+            </methodref>
+            <methodref name="SafeCallException" visibility="public">
+            </methodref>
+            <methodref name="AfterConstruction" visibility="public">
+            </methodref>
+            <methodref name="BeforeDestruction" visibility="public">
+            </methodref>
+            <methodref name="Dispatch" visibility="public">
+            </methodref>
+            <methodref name="DefaultHandler" visibility="public">
+            </methodref>
+            <methodref name="NewInstance" visibility="public">
+            </methodref>
+            <methodref name="FreeInstance" visibility="public">
+            </methodref>
+            <methodref name="Destroy" visibility="public">
+            </methodref>
+          </ancestor>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+    </members>
+  </class>
+  <class name="TDA_Radar">
+    <ancestor name="TClientRadar" namespace="uLibRadar">
+      <methodref name="GetDirection" visibility="private" />
+      <methodref name="SetDirection" visibility="private" />
+      <methodref name="SetFrequencyMode" visibility="private" />
+      <methodref name="SetMax_Frequency" visibility="private" />
+      <methodref name="SetMin_Frequency" visibility="private" />
+      <methodref name="getMaxIntens" visibility="private" />
+      <methodref name="setIntens" visibility="private" />
+      <methodref name="GetRadiate" visibility="private" />
+      <methodref name="setRadiate" visibility="private" />
+      <methodref name="SetFrequency" visibility="protected" />
+      <methodref name="SetWavelength" visibility="protected" />
+      <methodref name="SetDetectionRange" visibility="protected" />
+      <methodref name="SetPRF" visibility="protected" />
+      <methodref name="SetPulseWidth" visibility="protected" />
+      <methodref name="SetRangeResolution" visibility="protected" />
+      <methodref name="SetHorizontalBeamWidth" visibility="protected" />
+      <methodref name="SetVerticalBeamWidth" visibility="protected" />
+      <methodref name="SetAveratePower" visibility="protected" />
+      <methodref name="SetMTI_ON" visibility="protected" />
+      <methodref name="SetSubSurf_On" visibility="protected" />
+      <methodref name="SetSurf_On" visibility="protected" />
+      <methodref name="SetRadarForTocos" visibility="protected" />
+      <methodref name="FindByRangeBearing" visibility="protected" />
+      <methodref name="RangeBearingToCoord" visibility="protected" />
+      <methodref name="RadarProcess_MTI" visibility="protected" />
+      <methodref name="RadarTocosProses" visibility="protected" />
+      <methodref name="RadarProcess_SubSurf" visibility="protected" />
+      <methodref name="RadarProcess_Surf" visibility="protected" />
+      <methodref name="RadarProcess_FrequencyAgile" visibility="protected" />
+      <methodref name="RadarProcess_Signal" visibility="protected" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <methodref name="Update" visibility="public" />
+      <methodref name="CreateDefaultView" visibility="public" />
+      <methodref name="ConvertViewsPosition" visibility="public" />
+      <methodref name="DrawViews" visibility="public" />
+      <methodref name="DrawObjects" visibility="public" />
+      <methodref name="FindDetectedObjectByView" visibility="public" />
+      <methodref name="SetAllSymbolVisible" visibility="public" />
+      <methodref name="RadarProcess" visibility="public" />
+      <methodref name="CreateSimulatedDetected" visibility="public" />
+      <propertyref name="Direction" visibility="published" />
+      <propertyref name="Frequency" visibility="published" />
+      <propertyref name="Wavelength" visibility="published" />
+      <propertyref name="Max_Frequency" visibility="published" />
+      <propertyref name="Min_Frequency" visibility="published" />
+      <propertyref name="DetectionRange" visibility="published" />
+      <propertyref name="PRF" visibility="published" />
+      <propertyref name="PulseWidth" visibility="published" />
+      <propertyref name="RangeResolution" visibility="published" />
+      <propertyref name="VerticalBeamWidth" visibility="published" />
+      <propertyref name="HorizontalBeamWidth" visibility="published" />
+      <propertyref name="MTI_ON" visibility="published" />
+      <propertyref name="SubSurf_On" visibility="published" />
+      <propertyref name="Surf_On" visibility="published" />
+      <propertyref name="RadarForTocos" visibility="published" />
+      <propertyref name="FrequencyMode" visibility="published" />
+      <propertyref name="AveratePower" visibility="published" />
+      <propertyref name="MaxIntensity" visibility="published" />
+      <propertyref name="Radiate" visibility="published" />
+      <ancestor name="TSimClassOnMapX" namespace="uMapXSim">
+        <methodref name="CreateDefaultView" visibility="public" />
+        <methodref name="ConvertViewsPosition" visibility="public" />
+        <methodref name="DrawViews" visibility="public" />
+        <ancestor name="TSimulationClass" namespace="uBaseSimulationObject">
+          <methodref name="Create" visibility="public" />
+          <methodref name="Destroy" visibility="public" />
+          <methodref name="MarkAs_NeedToBeFree" visibility="public" />
+          <methodref name="DeleteAllChildren" visibility="public" />
+          <methodref name="Update" visibility="public" />
+          <methodref name="Run" visibility="public" />
+          <propertyref name="PositionX" visibility="public" />
+          <propertyref name="PositionY" visibility="public" />
+          <propertyref name="PositionZ" visibility="public" />
+          <propertyref name="UniqueID" visibility="public" />
+          <ancestor name="TObject" namespace="System">
+            <methodref name="Create" visibility="public">
+            </methodref>
+            <methodref name="Free" visibility="public">
+            </methodref>
+            <methodref name="InitInstance" visibility="public">
+            </methodref>
+            <methodref name="CleanupInstance" visibility="public">
+            </methodref>
+            <methodref name="ClassType" visibility="public">
+            </methodref>
+            <methodref name="ClassName" visibility="public">
+            </methodref>
+            <methodref name="ClassNameIs" visibility="public">
+            </methodref>
+            <methodref name="ClassParent" visibility="public">
+            </methodref>
+            <methodref name="ClassInfo" visibility="public">
+            </methodref>
+            <methodref name="InstanceSize" visibility="public">
+            </methodref>
+            <methodref name="InheritsFrom" visibility="public">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public">
+            </methodref>
+            <methodref name="MethodName" visibility="public">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public">
+            </methodref>
+            <methodref name="GetInterface" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceEntry" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceTable" visibility="public">
+            </methodref>
+            <methodref name="UnitName" visibility="public">
+            </methodref>
+            <methodref name="Equals" visibility="public">
+            </methodref>
+            <methodref name="GetHashCode" visibility="public">
+            </methodref>
+            <methodref name="ToString" visibility="public">
+            </methodref>
+            <methodref name="SafeCallException" visibility="public">
+            </methodref>
+            <methodref name="AfterConstruction" visibility="public">
+            </methodref>
+            <methodref name="BeforeDestruction" visibility="public">
+            </methodref>
+            <methodref name="Dispatch" visibility="public">
+            </methodref>
+            <methodref name="DefaultHandler" visibility="public">
+            </methodref>
+            <methodref name="NewInstance" visibility="public">
+            </methodref>
+            <methodref name="FreeInstance" visibility="public">
+            </methodref>
+            <methodref name="Destroy" visibility="public">
+            </methodref>
+          </ancestor>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+  </class>
+  <class name="TNav_Radar">
+    <ancestor name="TClientRadar" namespace="uLibRadar">
+      <methodref name="GetDirection" visibility="private" />
+      <methodref name="SetDirection" visibility="private" />
+      <methodref name="SetFrequencyMode" visibility="private" />
+      <methodref name="SetMax_Frequency" visibility="private" />
+      <methodref name="SetMin_Frequency" visibility="private" />
+      <methodref name="getMaxIntens" visibility="private" />
+      <methodref name="setIntens" visibility="private" />
+      <methodref name="GetRadiate" visibility="private" />
+      <methodref name="setRadiate" visibility="private" />
+      <methodref name="SetFrequency" visibility="protected" />
+      <methodref name="SetWavelength" visibility="protected" />
+      <methodref name="SetDetectionRange" visibility="protected" />
+      <methodref name="SetPRF" visibility="protected" />
+      <methodref name="SetPulseWidth" visibility="protected" />
+      <methodref name="SetRangeResolution" visibility="protected" />
+      <methodref name="SetHorizontalBeamWidth" visibility="protected" />
+      <methodref name="SetVerticalBeamWidth" visibility="protected" />
+      <methodref name="SetAveratePower" visibility="protected" />
+      <methodref name="SetMTI_ON" visibility="protected" />
+      <methodref name="SetSubSurf_On" visibility="protected" />
+      <methodref name="SetSurf_On" visibility="protected" />
+      <methodref name="SetRadarForTocos" visibility="protected" />
+      <methodref name="FindByRangeBearing" visibility="protected" />
+      <methodref name="RangeBearingToCoord" visibility="protected" />
+      <methodref name="RadarProcess_MTI" visibility="protected" />
+      <methodref name="RadarTocosProses" visibility="protected" />
+      <methodref name="RadarProcess_SubSurf" visibility="protected" />
+      <methodref name="RadarProcess_Surf" visibility="protected" />
+      <methodref name="RadarProcess_FrequencyAgile" visibility="protected" />
+      <methodref name="RadarProcess_Signal" visibility="protected" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <methodref name="Update" visibility="public" />
+      <methodref name="CreateDefaultView" visibility="public" />
+      <methodref name="ConvertViewsPosition" visibility="public" />
+      <methodref name="DrawViews" visibility="public" />
+      <methodref name="DrawObjects" visibility="public" />
+      <methodref name="FindDetectedObjectByView" visibility="public" />
+      <methodref name="SetAllSymbolVisible" visibility="public" />
+      <methodref name="RadarProcess" visibility="public" />
+      <methodref name="CreateSimulatedDetected" visibility="public" />
+      <propertyref name="Direction" visibility="published" />
+      <propertyref name="Frequency" visibility="published" />
+      <propertyref name="Wavelength" visibility="published" />
+      <propertyref name="Max_Frequency" visibility="published" />
+      <propertyref name="Min_Frequency" visibility="published" />
+      <propertyref name="DetectionRange" visibility="published" />
+      <propertyref name="PRF" visibility="published" />
+      <propertyref name="PulseWidth" visibility="published" />
+      <propertyref name="RangeResolution" visibility="published" />
+      <propertyref name="VerticalBeamWidth" visibility="published" />
+      <propertyref name="HorizontalBeamWidth" visibility="published" />
+      <propertyref name="MTI_ON" visibility="published" />
+      <propertyref name="SubSurf_On" visibility="published" />
+      <propertyref name="Surf_On" visibility="published" />
+      <propertyref name="RadarForTocos" visibility="published" />
+      <propertyref name="FrequencyMode" visibility="published" />
+      <propertyref name="AveratePower" visibility="published" />
+      <propertyref name="MaxIntensity" visibility="published" />
+      <propertyref name="Radiate" visibility="published" />
+      <ancestor name="TSimClassOnMapX" namespace="uMapXSim">
+        <methodref name="CreateDefaultView" visibility="public" />
+        <methodref name="ConvertViewsPosition" visibility="public" />
+        <methodref name="DrawViews" visibility="public" />
+        <ancestor name="TSimulationClass" namespace="uBaseSimulationObject">
+          <methodref name="Create" visibility="public" />
+          <methodref name="Destroy" visibility="public" />
+          <methodref name="MarkAs_NeedToBeFree" visibility="public" />
+          <methodref name="DeleteAllChildren" visibility="public" />
+          <methodref name="Update" visibility="public" />
+          <methodref name="Run" visibility="public" />
+          <propertyref name="PositionX" visibility="public" />
+          <propertyref name="PositionY" visibility="public" />
+          <propertyref name="PositionZ" visibility="public" />
+          <propertyref name="UniqueID" visibility="public" />
+          <ancestor name="TObject" namespace="System">
+            <methodref name="Create" visibility="public">
+            </methodref>
+            <methodref name="Free" visibility="public">
+            </methodref>
+            <methodref name="InitInstance" visibility="public">
+            </methodref>
+            <methodref name="CleanupInstance" visibility="public">
+            </methodref>
+            <methodref name="ClassType" visibility="public">
+            </methodref>
+            <methodref name="ClassName" visibility="public">
+            </methodref>
+            <methodref name="ClassNameIs" visibility="public">
+            </methodref>
+            <methodref name="ClassParent" visibility="public">
+            </methodref>
+            <methodref name="ClassInfo" visibility="public">
+            </methodref>
+            <methodref name="InstanceSize" visibility="public">
+            </methodref>
+            <methodref name="InheritsFrom" visibility="public">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public">
+            </methodref>
+            <methodref name="MethodName" visibility="public">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public">
+            </methodref>
+            <methodref name="GetInterface" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceEntry" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceTable" visibility="public">
+            </methodref>
+            <methodref name="UnitName" visibility="public">
+            </methodref>
+            <methodref name="Equals" visibility="public">
+            </methodref>
+            <methodref name="GetHashCode" visibility="public">
+            </methodref>
+            <methodref name="ToString" visibility="public">
+            </methodref>
+            <methodref name="SafeCallException" visibility="public">
+            </methodref>
+            <methodref name="AfterConstruction" visibility="public">
+            </methodref>
+            <methodref name="BeforeDestruction" visibility="public">
+            </methodref>
+            <methodref name="Dispatch" visibility="public">
+            </methodref>
+            <methodref name="DefaultHandler" visibility="public">
+            </methodref>
+            <methodref name="NewInstance" visibility="public">
+            </methodref>
+            <methodref name="FreeInstance" visibility="public">
+            </methodref>
+            <methodref name="Destroy" visibility="public">
+            </methodref>
+          </ancestor>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+  </class>
+</namespace>

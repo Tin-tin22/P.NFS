@@ -1,0 +1,341 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{8E41355D-5B5D-4740-B7B3-DC71990F320C}</ProjectGuid>
+			<MainSource>SingaTorpedo.dpr</MainSource>
+			<Config Condition="'$(Config)'==''">Debug</Config>
+			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+			<ProjectVersion>12.0</ProjectVersion>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_UnitSearchPath>D:\NSSFS\NEW\NFS\src\2D\comp;D:\NSSFS\NFS\trunk\src\2D\comp;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+			<DCC_DependencyCheckOutputName>..\..\..\bin\2D\bin\SingaTorpedo.exe</DCC_DependencyCheckOutputName>
+			<DCC_ImageBase>00400000</DCC_ImageBase>
+			<DCC_UsePackage>vcl;rtl;vclx;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;VclSmp;bdertl;vcldbx;adortl;vclactnband;vclshlctrls;emulator;IcsDel70;Vcwd7;indy;soaprtl;dbexpress;dbxcds;inetdb;webdsnap;websnap;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP</DCC_UsePackage>
+			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;WinTypes=Windows;WinProcs=Windows;$(DCC_UnitAlias)</DCC_UnitAlias>
+			<DCC_Platform>x86</DCC_Platform>
+			<DCC_ExeOutput>..\..\..\bin\2D\bin\</DCC_ExeOutput>
+			<DCC_K>false</DCC_K>
+			<DCC_N>true</DCC_N>
+			<DCC_S>false</DCC_S>
+			<DCC_F>false</DCC_F>
+			<DCC_SymbolReferenceInfo>1</DCC_SymbolReferenceInfo>
+			<DCC_E>false</DCC_E>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+			<DCC_DebugInformation>false</DCC_DebugInformation>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''"/>
+		<ItemGroup>
+			<DelphiCompile Include="SingaTorpedo.dpr">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\Timer\MSThreadTimer.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\Timer\uQScheduler2.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\Timer\uVirtualTime.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uBaseConstan.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uBaseDataType.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uBaseFunction.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uBaseSimulationObject.pas"/>
+			<DCCReference Include="..\ShareLib\LibObject\uMapXSim.pas"/>
+			<DCCReference Include="..\ShareLib\LibObject\uMover.pas"/>
+			<DCCReference Include="..\ShareLib\LibNetworks\uTCPDatatype.pas"/>
+			<DCCReference Include="..\ShareLib\LibNetworks\uTCPClient.pas"/>
+			<DCCReference Include="..\ShareLib\LibNetworks\uTCPServer.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uBaseSensor.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uBaseSensorView.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uLibRadarComp.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uLibRadar.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uLibRadarView.pas"/>
+			<DCCReference Include="..\ShareLib\libGrafik\uBaseGraphicProc.pas"/>
+			<DCCReference Include="..\ShareLib\LibClientObject\uClientShip.pas"/>
+			<DCCReference Include="..\ShareLib\LibClientObject\uLibClientObject.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uSimulationManager.pas"/>
+			<DCCReference Include="..\ShareLib\LibTest\uTestShip.pas"/>
+			<DCCReference Include="..\ShareLib\LibObject\uObjectView.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uDetected.pas"/>
+			<DCCReference Include="..\ShareLib\AppForms\uMapTools.pas">
+				<Form>frmMapTools</Form>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\AppForms\ufrmNetSetting.pas">
+				<Form>frmNetSetting</Form>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\LibObject\uRadarTracks.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uStringFunction.pas"/>
+			<DCCReference Include="..\ShareLib\LibSetting\uBridgeSet.pas"/>
+			<DCCReference Include="..\ShareLib\LibSetting\uCodecBase64.pas"/>
+			<DCCReference Include="..\ShareLib\AppForms\uMapWindow.pas">
+				<Form>frmMapWindow</Form>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\AppForms\uDataModule.pas">
+				<Form>DataModule1</Form>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\libDisplay\uLabelDisplay.pas"/>
+			<DCCReference Include="..\ShareLib\LibUtil\uFormUtil.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uMapXFunction.pas"/>
+			<DCCReference Include="..\ShareLib\libDisplay\uCompassDisplay.pas"/>
+			<DCCReference Include="AppForms\uTDCSplash.pas">
+				<Form>frmSplash</Form>
+			</DCCReference>
+			<DCCReference Include="AppForms\uSpecialForm.pas">
+				<Form>frmDeveloper</Form>
+			</DCCReference>
+			<DCCReference Include="AppForms\ufLog.pas">
+				<Form>frmLog</Form>
+			</DCCReference>
+			<DCCReference Include="LW03\RCR_radar_LW03.pas">
+				<Form>Frm_RCR_radar_LW03</Form>
+			</DCCReference>
+			<DCCReference Include="ExtPanel\DA05.pas">
+				<Form>Frm_DA05</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Common-PIT\ufTDCTengah.pas">
+				<Form>frmTDCTengah</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\uLibTDC_Nala.pas"/>
+			<DCCReference Include="LibTOCOS\uLibTDC_Oswald.pas"/>
+			<DCCReference Include="LibTOCOS\uLibTDC_Rencong.pas"/>
+			<DCCReference Include="LibTOCOS\uLibTDC_Singa.pas"/>
+			<DCCReference Include="LibTOCOS\Nala-PIT\ufInjectionKeyboard.pas">
+				<Form>frmInjectionKeyBoard</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Nala-PIT\ufTDC1Kanan.pas">
+				<Form>frmTDC1Kanan</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Nala-PIT\ufTDC1Kiri.pas">
+				<Form>frmTDC1Kiri</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Nala-PIT\ufTDC2Kanan.pas">
+				<Form>frmTDC2Kanan</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Nala-PIT\ufTDC2Kiri.pas">
+				<Form>frmTDC2Kiri</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa-PIT\ufTDCTengah_Singa.pas">
+				<Form>frmTDCTengah_Singa</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa-PIT\ufTdcKeyboard.pas">
+				<Form>frmTdcKeyboard</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa-PIT\ufTdcOrange.pas">
+				<Form>frmTDCQEKSinga</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa-PIT\ufTdcPc.pas">
+				<Form>frmTdcPc</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa-PIT\ufTdcPwo.pas">
+				<Form>frmTdcPwo</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa-PIT\ufTdcTengahBawah.pas">
+				<Form>frmTdcTengahBawah</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\RENCONG\ufTDCKanan_Rencong.pas">
+				<Form>frmTDCKanan_Rencong</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\RENCONG\ufTDCKiri_Rencong.pas">
+				<Form>frmTDCKiri_Rencong</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\RENCONG\ufTDCTengah_Rencong.pas">
+				<Form>frmTDCTengah_Rencong</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Nala-PIT\ufTDCTengah_Nala.pas">
+				<Form>frmTDCTengahNala</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Common-PIT\ufQEK.pas">
+				<Form>frmQEK</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa_torpedo\uDisplaySinga.pas">
+				<Form>frmLPDTorpedo</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\uLibTorpedo_Singa.pas"/>
+			<DCCReference Include="LibTOCOS\Singa_torpedo\uDisplayCtrlPanelLeft.pas">
+				<Form>vDisplayCtrlPanelLeft</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa_torpedo\uMainCtrlPanel.pas">
+				<Form>vMainCtrlPanel</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa_torpedo\uTechnicalCtrlPanel.pas">
+				<Form>vTechnicalCtrlPanel</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa_torpedo\uDisplayCtrlPanelBottom.pas">
+				<Form>vDisplayCtrlPanelBottom</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Common-PIT\ufMIK.pas"/>
+			<DCCReference Include="LibTOCOS\Common-PIT\ufKeyBoard.pas">
+				<Form>frmKeyBoard</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Common-PIT\ufANDUKeyboard.pas">
+				<Form>frmANDUKey</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Common-PIT\ufANDUDisplay.pas">
+				<Form>frmANDUDisplay</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Common-PIT\ufANDU.pas">
+				<Form>frmQEK1</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Nala-PIT\ufDisplay_Nala.pas">
+				<Form>frmDisplay_NALA</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\owa\ufOwa_8.pas">
+				<Form>frmOwa_8</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\owa\ufMIK_Owa.pas">
+				<Form>frmMIK_Owa</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\owa\ufOwa_1.pas">
+				<Form>frmOwa_1</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\owa\ufOwa_2.pas">
+				<Form>frmOwa_2</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\owa\ufOwa_3.pas">
+				<Form>frmOwa_3</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\owa\ufOwa_4.pas">
+				<Form>frmOwa_4</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\owa\ufOwa_5.pas">
+				<Form>frmOwa_5</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\owa\ufOwa_6.pas">
+				<Form>frmOwa_6</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\owa\ufOwa_7.pas">
+				<Form>frmOwa_7</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa-PIT\ufMIK_Singa.pas">
+				<Form>frmMIK_Singa</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa_torpedo\uAnduProc.pas"/>
+			<DCCReference Include="LibTOCOS\Singa_torpedo\uTOCOSManager.pas"/>
+			<DCCReference Include="LibSensor\uLibRadar_WM28.pas"/>
+			<DCCReference Include="LibSensor\uLibRadar_DA05.pas"/>
+			<DCCReference Include="LibSensor\uLibTDCTrack.pas"/>
+			<DCCReference Include="LibSensor\uLibTDCTracks.pas"/>
+			<DCCReference Include="LibSensor\uTrackFunction.pas"/>
+			<DCCReference Include="LibObject\uTorpedoTrack.pas"/>
+			<DCCReference Include="LibObject\uTorpedoView.pas"/>
+			<DCCReference Include="uTDCmanager.pas"/>
+			<DCCReference Include="uMainFormTorpedo.pas">
+				<Form>fMainTorpedo</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\owa\ufDisplay_OWA.pas">
+				<Form>frmDisplay_Owa</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\owa\ufTDCTengah_OWA.pas">
+				<Form>frmTDCTengah_OWA</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\owa\ufTDCTengahBawah_OWA.pas">
+				<Form>frmTengahBawah_OWA</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa-PIT\ufTDCkanan_Singa.pas">
+				<Form>fTDCKanan_Singa</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS\Singa-PIT\ufTDCkiri_Singa.pas">
+				<Form>fTDCKiri_singa</Form>
+			</DCCReference>
+			<DCCReference Include="LibTOCOS_WCC\uLibTDC_Object.pas"/>
+			<DCCReference Include="LibTOCOS_WCC\uLibTDCClass.pas"/>
+			<DCCReference Include="LibTOCOS_WCC\uLibTDCDisplay.pas"/>
+			<DCCReference Include="LibTOCOS_WCC\uTDCConstan.pas"/>
+			<DCCReference Include="..\ShareLib\AppForms\uClassDatabase.pas"/>
+			<DCCReference Include="..\ShareLib\LibUtil\uSettingFormToMonitorWith_ini.pas"/>
+			<DCCReference Include="..\ShareLib\libGrafik\uGraphics.pas"/>
+			<None Include="SingaTorpedo.todo"/>
+			<None Include="ModelSupport_SingaTorpedo\default.txaPackage"/>
+			<None Include="ModelSupport_SingaTorpedo\default.txvpck"/>
+			<None Include="ModelSupport_SingaTorpedo\DA05\default.txvpck"/>
+			<None Include="ModelSupport_SingaTorpedo\SingaTorpedo\default.txvpck"/>
+			<None Include="ModelSupport_SingaTorpedo\DA05\default.txaPackage"/>
+			<None Include="ModelSupport_SingaTorpedo\uTOCOSManager\default.txvpck"/>
+			<None Include="ModelSupport_SingaTorpedo\uTOCOSManager\default.txaPackage"/>
+			<None Include="ModelSupport_SingaTorpedo\uTechnicalCtrlPanel\default.txvpck"/>
+			<None Include="ModelSupport_SingaTorpedo\uStringFunction\default.txvpck"/>
+			<None Include="ModelSupport_SingaTorpedo\uSpecialForm\default.txvpck"/>
+			<None Include="ModelSupport_SingaTorpedo\uSimulationManager\default.txvpck"/>
+			<None Include="ModelSupport_SingaTorpedo\uRadarTracks\default.txvpck"/>
+			<None Include="ModelSupport_SingaTorpedo\uQScheduler2\default.txvpck"/>
+			<None Include="ModelSupport_SingaTorpedo\uObjectView\default.txvpck"/>
+			<None Include="ModelSupport_SingaTorpedo\uMover\default.txvpck"/>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType>VCLApplication</Borland.ProjectType>
+			<BorlandProject>
+				<Delphi.Personality>
+					<Source>
+						<Source Name="MainSource">SingaTorpedo.dpr</Source>
+					</Source>
+					<Parameters>
+						<Parameters Name="UseLauncher">False</Parameters>
+						<Parameters Name="LoadAllSymbols">True</Parameters>
+						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+						<Parameters Name="RunParams">-192.168.1.173 -2120 -192.168.1.141 -mysql -dbNSuFs_Armabar -root -admin -20 -16</Parameters>
+					</Parameters>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
+						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">0</VersionInfo>
+						<VersionInfo Name="Release">0</VersionInfo>
+						<VersionInfo Name="Build">0</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">1033</VersionInfo>
+						<VersionInfo Name="CodePage">1252</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
+						<VersionInfoKeys Name="LegalTrademarks"/>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments"/>
+					</VersionInfoKeys>
+					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\bin\bcboffice2k140.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\bin\bcbofficexp140.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\bin\dcloffice2k140.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\bin\dclofficexp140.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+					</Excluded_Packages>
+				</Delphi.Personality>
+				<ModelSupport>False</ModelSupport>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+	</Project>

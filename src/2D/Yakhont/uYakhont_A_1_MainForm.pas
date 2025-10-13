@@ -1,0 +1,214 @@
+unit uYakhont_A_1_MainForm;
+
+{ Yakhont Panel Kiri }
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, ImgList, Buttons, SpeedButtonImage, IniFiles, acPNG;
+
+type
+  TfrmYakh_A_1_MainForm = class(TForm)
+    pnlYakh_A_1_MainForm: TPanel;
+    imgYakh_A_1_MainForm: TImage;
+    btnOn: TSpeedButtonImage;
+    ilOn: TImageList;
+    btnCHCK: TSpeedButtonImage;
+    ilChck: TImageList;
+    imgEP: TImage;
+    timerA: TTimer;
+    imgPS: TImage;
+    imgSB: TImage;
+    imgOnKR231: TImage;
+    img300v: TImage;
+    procedure timerATimer(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnOnClick(Sender: TObject);
+    procedure btnCHCKClick(Sender: TObject);
+    procedure LoadSettingForm(filepath : string);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    StartTime, StopTime: TDateTime;
+    thisDay, thisHour, thisMinute : integer;
+	  thisSecond : double;
+
+    picture_Path : String;
+    fIndikatorOn, fIndikatorOff, fIndikatorFault : String;
+
+    _state300v : Boolean;
+
+    StateOn    : Boolean;
+
+    isEnabled, isChecked : Boolean;
+    procedure SetTime(StartTime: double);
+  end;
+
+var
+  frmYakh_A_1_MainForm: TfrmYakh_A_1_MainForm;
+
+  idFormKiriAtas, offX, offY : Integer;
+
+implementation
+
+{$R *.dfm}
+
+uses
+   uBlankScreen, uLoadingScreen, {uRegimesOfWork,} uYakhont_A_2_MainForm, uYakhontManager;
+
+procedure TfrmYakh_A_1_MainForm.FormCreate(Sender: TObject);
+begin
+//  LoadSettingForm('..\bin\SettingYakhontToMonitor.ini');
+end;
+
+procedure TfrmYakh_A_1_MainForm.FormShow(Sender: TObject);
+var
+  i : Integer;
+begin
+  i := 0;
+//  DefaultMonitor := dmDesktop;
+//  i := idFormKiriAtas;
+//
+//  Left := Screen.Monitors[i].Left + offX;
+//  Top := Screen.Monitors[i].Top + offY;
+
+   { default condition }
+   isEnabled  := false;
+   isChecked  := false;
+   _state300v := false;
+
+
+   { starting timer }
+   timerA.Enabled := True;
+   setTime(0.0);
+end;
+
+procedure TfrmYakh_A_1_MainForm.LoadSettingForm(filepath: string);
+var
+  inifile : TIniFile;
+  tempstring : TStringList;
+begin
+  inifile := TIniFile.Create(filepath);
+  tempstring := TStringList.Create;
+
+  inifile.ReadSection('Kiri Atas', tempstring);
+
+  idFormKiriAtas := StrToInt(inifile.ReadString('Kiri Atas', tempstring[0],'Default'));
+  offX := StrToInt(inifile.ReadString('Kiri Atas', tempstring[1],'Default'));
+  offY := StrToInt(inifile.ReadString('Kiri Atas', tempstring[2],'Default'));
+
+  inifile.Free;
+  tempstring.Free;
+end;
+
+procedure TfrmYakh_A_1_MainForm.btnCHCKClick(Sender: TObject);
+begin
+   case btnCHCK.ImageIndex of
+     0 : begin
+
+     end;
+     1 : begin
+
+     end;
+   end;
+end;
+
+procedure TfrmYakh_A_1_MainForm.btnOnClick(Sender: TObject);
+begin
+   YakhontManager.EventOnSendingLog(1, 0, 0, 0);
+
+   if not timerA.Enabled then
+   begin
+     timerA.Enabled := True;
+     setTime(0.0);
+   end;
+
+   case btnOn.ImageIndex of
+     0 : begin
+          isEnabled := False;
+          frmYakh_A_2_MainForm.img1.Visible:=True;
+
+     end;
+     1 : begin
+       { if the PS & SB indikator are ON mode, you may click ON button NCR }
+       if isChecked then
+       begin
+          isEnabled := true;
+          frmYakh_A_2_MainForm.img1.Visible:=False;
+          //StateOn := True;
+
+       end
+
+     end;
+   end;
+
+end;
+
+procedure TfrmYakh_A_1_MainForm.timerATimer(Sender: TObject);
+var
+	 CTime: TDateTime;
+	 ETime: double;
+begin
+   CTime := now;
+   ETime := CTime - StartTime;
+   setTime(ETime);
+
+   picture_Path    := Copy(ExtractFilePath(Application.ExeName),1,length(ExtractFilePath(Application.ExeName))-4);
+   fIndikatorOn    := picture_Path + 'data\images\yakhont\AB_Indikator_On_SMALL.bmp';
+   fIndikatorOff   := picture_Path + 'data\images\yakhont\AB_Indikator_Of_SMALL.bmp';
+   fIndikatorFault := picture_Path + 'data\images\yakhont\AB_Indikator_On_SMALL_Merah.bmp';
+
+   if thisSecond > 0 then
+   begin
+      { if the system has been checked, PS & SB indikator is ON mode }
+      { checking for ->  power supply }
+      { central control unit }
+      if _state300v OR frmYakh_A_2_MainForm._state27v then
+      begin
+
+      end
+      else if (_state300v = False) AND (frmYakh_A_2_MainForm._state27v = False) then
+      begin
+        isChecked := true;
+        imgPS.Picture.LoadFromFile(fIndikatorOn);
+        imgSB.Picture.LoadFromFile(fIndikatorOn);
+
+        if frmYakh_A_2_MainForm.isSACS then
+        begin
+           imgOnKR231.Picture.LoadFromFile(fIndikatorOn);
+
+           frmBlankScreen.Close;
+
+           frmLoadingScreen.timerLoadingScreen.Enabled := True;
+           frmLoadingScreen.set_Time(0.0);
+           frmLoadingScreen.Show;
+
+           timerA.Enabled := false;
+        end;
+      end;
+   end;
+
+end;
+
+procedure TfrmYakh_A_1_MainForm.SetTime(StartTime: double);
+begin
+	If int(StartTime) > 0 then
+	  thisDay := 0
+  else
+    thisHour := Trunc(StartTime);
+
+	StartTime  := Frac(StartTime) * 24; // untuk jam
+	thisHour   := Trunc(StartTime);
+
+	StartTime  := frac(StartTime) * 60; // untuk Menit
+	thisMinute := Trunc(StartTime);
+
+	thisSecond := frac(StartTime) * 60; // untuk detik
+
+//  Result := '0' + IntToStr(thisHour) + ' : ' + '0' + IntToStr(thisMinute) + ' : ' + 	FloatToStrF(thisSecond, ffFixed,15,0);
+end;
+
+end.

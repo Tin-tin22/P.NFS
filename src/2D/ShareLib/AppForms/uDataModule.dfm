@@ -1,0 +1,36 @@
+object DataModule1: TDataModule1
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 263
+  Width = 513
+  object EmuConn: TZConnection
+    ControlsCodePage = cCP_UTF16
+    Catalog = ''
+    HostName = '192.168.1.122'
+    Port = 3306
+    Database = 'dbNSuFs_Armabar'
+    User = 'root'
+    Password = 'admin'
+    Protocol = 'mysql-5'
+    Left = 32
+    Top = 16
+  end
+  object DS: TZQuery
+    Connection = EmuConn
+    Params = <>
+    Left = 112
+    Top = 88
+  end
+  object DQ: TZQuery
+    Connection = EmuConn
+    Params = <>
+    Left = 64
+    Top = 88
+  end
+  object DGen: TZQuery
+    Connection = EmuConn
+    Params = <>
+    Left = 168
+    Top = 88
+  end
+end

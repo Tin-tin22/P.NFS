@@ -1,0 +1,1 @@
+didLauncherD.exe  didPlatform --host 192.168.3.2 --port 7000 --name "NALA" --use "TDS" --launcherID 2

@@ -1,0 +1,60 @@
+unit uScriptCommon;
+
+interface
+
+  procedure BeginGameCommon;
+  procedure EndGameCommon;
+
+
+implementation
+
+uses
+   SysUtils, Controls, Forms,
+   ulibSettings;
+
+
+procedure BeginGameCommon;
+var iResult: Integer;
+    bResult : Boolean;
+begin
+
+//  {$IFDEF VER280}
+  FormatSettings.DateSeparator     := '/';
+  FormatSettings.TimeSeparator     := ':';
+  FormatSettings.ShortDateFormat := 'd/m/yyyy';
+
+  FormatSettings.DecimalSeparator  := '.';
+  FormatSettings.ThousandSeparator := ',';
+
+//  {$ELSE}
+//  DateSeparator := '/';
+//  FormatSettings.TimeSeparator     := ':';
+//  ShortDateFormat := 'd/m/yyyy';
+//
+//  DecimalSeparator := '.';
+//  ThousandSeparator := ',';
+//  {$ENDIF}
+
+
+
+  vSettingFile := getFileSetting;
+
+  if FileExists(vSettingFile) then
+  begin
+    LoadFF_PathImageSetting(vSettingFile, vPathImageSetting);
+  end
+  else
+  begin
+    Save_PathImageSetting(vSettingFile);
+    LoadFF_PathImageSetting(vSettingFile, vPathImageSetting);
+  end;
+
+
+end;
+
+procedure EndGameCommon;
+begin
+
+end;
+
+end.

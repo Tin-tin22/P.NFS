@@ -1,0 +1,57 @@
+object frmControl_C40: TfrmControl_C40
+  Left = 0
+  Top = 0
+  Width = 504
+  Height = 142
+  Color = clMoneyGreen
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  ParentColor = False
+  ParentFont = False
+  TabOrder = 0
+  object btn1: TSpeedButton
+    Left = 120
+    Top = 21
+    Width = 80
+    Height = 100
+    Caption = 'FIRE'
+  end
+  object btn2: TSpeedButton
+    Left = 289
+    Top = 21
+    Width = 88
+    Height = 49
+    Caption = '10'
+  end
+  object btn3: TSpeedButton
+    Left = 392
+    Top = 76
+    Width = 81
+    Height = 45
+    Caption = '100'
+  end
+  object btn4: TSpeedButton
+    Left = 289
+    Top = 76
+    Width = 88
+    Height = 45
+    Caption = '30'
+  end
+  object btn5: TSpeedButton
+    Left = 392
+    Top = 21
+    Width = 79
+    Height = 49
+    Caption = '50'
+  end
+  object pnlLeftControl1: TPanel
+    Left = 24
+    Top = 21
+    Width = 80
+    Height = 100
+    TabOrder = 0
+  end
+end

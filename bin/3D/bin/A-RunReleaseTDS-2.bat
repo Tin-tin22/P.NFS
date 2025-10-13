@@ -1,0 +1,1 @@
+didLauncher.exe didPlatform --host "192.168.1.150" --port 7000 --fullscreen "false" --login "TDS" --vehicle 6 --weapon 12 --launcher 1

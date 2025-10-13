@@ -1,0 +1,247 @@
+object FrmEvasive_action_warning_torpedo: TFrmEvasive_action_warning_torpedo
+  Left = 254
+  Top = 174
+  Width = 284
+  Height = 219
+  Caption = 'Evasive Action Warning'
+  Color = clMedGray
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 273
+    Height = 185
+    Color = clMedGray
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 48
+      Top = 9
+      Width = 185
+      Height = 16
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'TORPEDO ALERT'
+      Color = clRed
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Verdana'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+    end
+    object Bevel1: TBevel
+      Left = 2
+      Top = 141
+      Width = 271
+      Height = 2
+    end
+    object Label2: TLabel
+      Left = 152
+      Top = 44
+      Width = 27
+      Height = 16
+      Alignment = taCenter
+      Caption = '000'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Verdana'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 20
+      Top = 42
+      Width = 12
+      Height = 46
+      Alignment = taCenter
+      Caption = '!'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -40
+      Font.Name = 'Arial Narrow'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 120
+      Top = 44
+      Width = 27
+      Height = 16
+      Alignment = taCenter
+      Caption = 'Brn:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label5: TLabel
+      Left = 82
+      Top = 60
+      Width = 65
+      Height = 16
+      Alignment = taCenter
+      Caption = 'S/N ratio:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 152
+      Top = 60
+      Width = 41
+      Height = 16
+      Alignment = taCenter
+      Caption = '15:23'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Verdana'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label7: TLabel
+      Left = 66
+      Top = 84
+      Width = 87
+      Height = 16
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'Turn Port'
+      Color = clOlive
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
+    object Label8: TLabel
+      Left = 168
+      Top = 84
+      Width = 33
+      Height = 16
+      Alignment = taCenter
+      Caption = 'CTS:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label9: TLabel
+      Left = 208
+      Top = 84
+      Width = 27
+      Height = 16
+      Alignment = taCenter
+      Caption = '000'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Verdana'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label10: TLabel
+      Left = 115
+      Top = 108
+      Width = 31
+      Height = 16
+      Alignment = taCenter
+      Caption = 'Spd:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label11: TLabel
+      Left = 152
+      Top = 108
+      Width = 30
+      Height = 16
+      Alignment = taCenter
+      Caption = 'Max'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Verdana'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object VrDemoButton1: TVrDemoButton
+      Left = 9
+      Top = 152
+      Width = 64
+      Height = 25
+      FontEnter.Charset = DEFAULT_CHARSET
+      FontEnter.Color = clWhite
+      FontEnter.Height = -11
+      FontEnter.Name = 'Verdana'
+      FontEnter.Style = [fsBold]
+      FontLeave.Charset = DEFAULT_CHARSET
+      FontLeave.Color = clWhite
+      FontLeave.Height = -11
+      FontLeave.Name = 'Verdana'
+      FontLeave.Style = [fsBold]
+      Caption = 'OK'
+      Color = clMedGray
+      TabOrder = 0
+    end
+    object VrDemoButton2: TVrDemoButton
+      Left = 105
+      Top = 152
+      Width = 64
+      Height = 25
+      FontEnter.Charset = DEFAULT_CHARSET
+      FontEnter.Color = clWhite
+      FontEnter.Height = -11
+      FontEnter.Name = 'Verdana'
+      FontEnter.Style = [fsBold]
+      FontLeave.Charset = DEFAULT_CHARSET
+      FontLeave.Color = clWhite
+      FontLeave.Height = -11
+      FontLeave.Name = 'Verdana'
+      FontLeave.Style = [fsBold]
+      Caption = 'Cancel'
+      Color = clMedGray
+      TabOrder = 1
+    end
+    object VrDemoButton3: TVrDemoButton
+      Left = 201
+      Top = 152
+      Width = 64
+      Height = 25
+      FontEnter.Charset = DEFAULT_CHARSET
+      FontEnter.Color = clWhite
+      FontEnter.Height = -11
+      FontEnter.Name = 'Verdana'
+      FontEnter.Style = [fsBold]
+      FontLeave.Charset = DEFAULT_CHARSET
+      FontLeave.Color = clWhite
+      FontLeave.Height = -11
+      FontLeave.Name = 'Verdana'
+      FontLeave.Style = [fsBold]
+      Caption = 'Help'
+      Color = clMedGray
+      TabOrder = 2
+    end
+  end
+end

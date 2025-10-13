@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uStringFunction">
+  <procedure name="Split" visibility="public">
+    <parameters>
+      <parameter name="delimiter" type="string" paramflags="const" />
+      <parameter name="S" type="string" paramflags="const" />
+      <parameter name="chunks" type="TStrings" paramflags="var" />
+    </parameters>
+  </procedure>
+  <procedure name="Split_2" visibility="public">
+    <parameters>
+      <parameter name="delimiter" type="string" paramflags="const" />
+      <parameter name="S" type="string" paramflags="const" />
+      <parameter name="chunks" type="TStrings" paramflags="var" />
+    </parameters>
+  </procedure>
+  <function name="InsertSpace" visibility="public">
+    <parameters>
+      <parameter name="str" type="string" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="RemoveSpace" visibility="public">
+    <parameters>
+      <parameter name="str" type="string" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="FillSpace" visibility="public">
+    <parameters>
+      <parameter name="n" type="Byte" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <procedure name="OverwriteString" visibility="public">
+    <parameters>
+      <parameter name="s" type="string" paramflags="var" />
+      <parameter name="sub" type="string" paramflags="const" />
+      <parameter name="start" type="Integer" paramflags="const" />
+    </parameters>
+  </procedure>
+  <function name="MergeSpaceString" visibility="public">
+    <parameters>
+      <parameter name="s1" type="string" paramflags="const" />
+      <parameter name="s2" type="string" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+</namespace>

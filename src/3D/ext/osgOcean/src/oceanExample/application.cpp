@@ -1,0 +1,640 @@
+/*
+* This source file is part of the osgOcean library
+* 
+* Copyright (C) 2009 Kim Bale
+* Copyright (C) 2009 The University of Hull, UK
+* 
+* This program is free software; you can redistribute it and/or modify it under
+* the terms of the GNU Lesser General Public License as published by the Free Software
+* Foundation; either version 3 of the License, or (at your option) any later
+* version.
+
+* This program is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+* FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+* http://www.gnu.org/copyleft/lesser.txt.
+*/
+
+#include <string>
+#include <vector>
+#include <iostream>
+
+#include <osgViewer/Viewer>
+#include <osgViewer/CompositeViewer>
+
+#include <osgViewer/ViewerEventHandlers>
+
+#include <osgGA/StateSetManipulator>
+
+#include <osg/Notify>
+
+#include <osgDB/ReadFile>
+
+#include <osgShadow/ShadowedScene>
+#include <osgShadow/LightSpacePerspectiveShadowMap>
+
+#include <osgOcean/OceanScene>
+#include <osgOcean/Version>
+#include <osgOcean/ShaderManager>
+
+#include <osg/TexEnv>
+
+#include "SceneEventHandler.h"
+#include "Scene.h"
+#include "TextHUD.h"
+
+class BoatPositionCallback : public osg::NodeCallback
+{
+public: 
+    BoatPositionCallback(osgOcean::OceanScene* oceanScene)
+        : _oceanScene(oceanScene) {}
+
+    virtual void operator()(osg::Node* node, osg::NodeVisitor* nv)
+    {
+        if(nv->getVisitorType() == osg::NodeVisitor::UPDATE_VISITOR ){
+            osg::MatrixTransform* mt = dynamic_cast<osg::MatrixTransform*>(node);
+            if (!mt || !_oceanScene.valid()) return;
+
+            osg::Matrix mat = osg::computeLocalToWorld(nv->getNodePath());
+            osg::Vec3d pos = mat.getTrans();
+
+            osg::Vec3f normal;
+            // Get the ocean surface height at the object's position, note
+            // that this only considers one point on the object (the object's
+            // geometric center) and not the whole object.
+            float height = _oceanScene->getOceanSurfaceHeightAt(pos.x(), pos.y(), &normal);
+
+            mat.makeTranslate(osg::Vec3f(pos.x(), pos.y(), height));
+
+            osg::Matrix rot;
+            rot.makeIdentity();
+            rot.makeRotate( normal.x(), osg::Vec3f(1.0f, 0.0f, 0.0f), 
+                            normal.y(), osg::Vec3f(0.0f, 1.0f, 0.0f),
+                            (1.0f-normal.z()), osg::Vec3f(0.0f, 0.0f, 1.0f));
+
+            mat = rot*mat;
+            mt->setMatrix(mat);
+        }
+
+        traverse(node, nv); 
+    }
+
+    osg::observer_ptr<osgOcean::OceanScene> _oceanScene;
+};
+
+
+
+int main(int argc, char *argv[])
+{
+    osg::notify(osg::NOTICE) << "osgOcean " << osgOceanGetVersion() << std::endl << std::endl;
+
+    osg::ArgumentParser arguments(&argc,argv);
+    arguments.getApplicationUsage()->setApplicationName(arguments.getApplicationName());
+    arguments.getApplicationUsage()->setDescription(arguments.getApplicationName()+" is an example of osgOcean.");
+    arguments.getApplicationUsage()->setCommandLineUsage(arguments.getApplicationName()+" [options] ...");
+    arguments.getApplicationUsage()->addCommandLineOption("--windx <x>","Wind X direction. Default 1.1");
+    arguments.getApplicationUsage()->addCommandLineOption("--windy <y>","Wind Y direction. Default 1.1");
+    arguments.getApplicationUsage()->addCommandLineOption("--windSpeed <speed>","Wind speed. Default: 12");
+    arguments.getApplicationUsage()->addCommandLineOption("--depth <depth>","Depth. Default: 10000");
+    arguments.getApplicationUsage()->addCommandLineOption("--isNotChoppy","Set the waves not choppy (by default they are).");
+    arguments.getApplicationUsage()->addCommandLineOption("--choppyFactor <factor>","How choppy the waves are. Default: 2.5");
+    arguments.getApplicationUsage()->addCommandLineOption("--crestFoamHeight <height>","How high the waves need to be before foam forms on the crest. Default: 2.2 ");
+    arguments.getApplicationUsage()->addCommandLineOption("--oceanSurfaceHeight <z>","Z position of the ocean surface in world coordinates. Default: 0.0");
+    arguments.getApplicationUsage()->addCommandLineOption("--testCollision","Test ocean surface collision detection by making a boat float on its surface.");
+    arguments.getApplicationUsage()->addCommandLineOption("--disableShaders","Disable use of shaders for the whole application. Also disables most visual effects as they depend on shaders.");
+    //arguments.getApplicationUsage()->addCommandLineOption("--file <ive filename>","The object in front of the glowing object.");
+
+    std::string pathName(argv[0]);
+    std::string appName(arguments.getApplicationName());
+
+    pathName.erase(pathName.end()-16, pathName.end());
+    
+    osgDB::Registry::instance()->getDataFilePathList().push_back(pathName);
+
+    unsigned int helpType = 0;
+    if ((helpType = arguments.readHelpType()))
+    {
+        arguments.getApplicationUsage()->write(std::cout, helpType);
+        return 1;
+    }
+
+    // report any errors if they have occurred when parsing the program arguments.
+    if (arguments.errors())
+    {
+        arguments.writeErrorMessages(std::cout);
+        return 1;
+    }
+
+    float windx = 1.1f, windy = 1.1f;
+    while (arguments.read("--windx", windx));
+    while (arguments.read("--windy", windy));
+    osg::Vec2f windDirection(windx, windy);
+
+    float windSpeed = 12.f;
+    while (arguments.read("--windSpeed", windSpeed));
+
+    float depth = 1000.f;
+    while (arguments.read("--depth", depth));
+
+    float reflectionDamping = 0.35f;
+    while (arguments.read("--reflectionDamping", reflectionDamping));
+
+    float scale = 1e-8;
+    while (arguments.read("--waveScale", scale ) );
+
+    bool isChoppy = true;
+    while (arguments.read("--isNotChoppy")) isChoppy = false;
+
+    float choppyFactor = 2.5f;
+    while (arguments.read("--choppyFactor", choppyFactor));
+    choppyFactor = -choppyFactor;
+
+    float crestFoamHeight = 2.2f;
+    while (arguments.read("--crestFoamHeight", crestFoamHeight));
+
+    double oceanSurfaceHeight = 0.0f;
+    while (arguments.read("--oceanSurfaceHeight", oceanSurfaceHeight));
+
+    bool testCollision = false;
+    if (arguments.read("--testCollision")) testCollision = true;
+
+    bool disableShaders = false;
+    if (arguments.read("--disableShaders")) disableShaders = true;
+
+    bool useVBO = false;
+    if (arguments.read("--vbo")) useVBO = true;
+
+    bool compositeViewer = false;
+    if (arguments.read("--compositeViewer")) compositeViewer = true;
+
+    bool firstViewLast = false;
+    if (arguments.read("--firstViewLast")) firstViewLast = true;
+
+    bool disableEffectsForSecondView = false;
+    if (arguments.read("--disableEffectsForSecondView")) disableEffectsForSecondView = true;
+
+    bool useShadows = false;
+    if (arguments.read("--useShadows")) useShadows = true;
+
+    osg::ref_ptr<osg::Node> loadedModel = osgDB::readNodeFiles(arguments);
+
+    // any option left unread are converted into errors to write out later.
+    arguments.reportRemainingOptionsAsUnrecognized();
+
+    // report any errors if they have occurred when parsing the program arguments.
+    if (arguments.errors())
+    {
+        arguments.writeErrorMessages(std::cout);
+        return 1;
+    }
+
+    //------------------------------------------------------------------------
+    // Set up the scene
+    //------------------------------------------------------------------------
+
+    std::string terrain_shader_basename = "terrain";
+	
+    if (useShadows){
+        terrain_shader_basename = "terrain_lispsm";
+    }
+
+    osgOcean::ShaderManager::instance().enableShaders(!disableShaders);
+    osg::ref_ptr<Scene> scene = new Scene(windDirection, windSpeed, depth, reflectionDamping, scale, isChoppy, choppyFactor, crestFoamHeight, useVBO, terrain_shader_basename);
+
+	osg::ref_ptr<osg::Group> root;
+
+	if (useShadows)
+	{
+        osg::ref_ptr<osgShadow::ShadowedScene> shadowedScene = new osgShadow::ShadowedScene;
+        root = shadowedScene;
+
+        shadowedScene->setCastsShadowTraversalMask(CAST_SHADOW);
+        shadowedScene->setReceivesShadowTraversalMask(RECEIVE_SHADOW);
+        osgShadow::LightSpacePerspectiveShadowMapVB* shadowTechnique = new osgShadow::LightSpacePerspectiveShadowMapVB;
+        shadowTechnique->setTextureSize(osg::Vec2s(1024,1024));
+        shadowTechnique->setShadowTextureUnit(7);
+        //shadowTechnique->setDebugDraw(true);
+        shadowedScene->setShadowTechnique(shadowTechnique);
+        shadowTechnique->setLight(scene->getLight());
+
+        osg::Shader* vs = osgDB::readShaderFile(osg::Shader::VERTEX,"osgOcean_ocean_scene_lispsm.vert");
+        
+        if(vs){
+            shadowTechnique->setMainVertexShader(vs);
+        }
+        else{
+            osg::notify(osg::WARN) << "osgOcean: Could not read shader from file: osgOcean_ocean_scene_lispsm.vert"  << std::endl;
+        }
+
+        osg::Shader* fs = osgDB::readShaderFile(osg::Shader::FRAGMENT,"osgOcean_ocean_scene_lispsm.frag");
+
+        if(fs){
+            shadowTechnique->setMainFragmentShader(fs);
+        }
+        else{
+            osg::notify(osg::WARN) << "osgOcean: Could not read shader from file: osgOcean_ocean_scene_lispsm.frag" << std::endl;
+        }
+
+        shadowTechnique->setShadowVertexShader(NULL);
+        shadowTechnique->setShadowFragmentShader(NULL);
+
+        scene->getOceanScene()->getOceanTechnique()->setNodeMask(scene->getOceanScene()->getOceanTechnique()->getNodeMask() & ~CAST_SHADOW & ~RECEIVE_SHADOW);
+        scene->getOceanScene()->getOceanCylinder()->getParent(0)->setNodeMask(scene->getOceanScene()->getOceanCylinder()->getParent(0)->getNodeMask() & ~CAST_SHADOW & ~RECEIVE_SHADOW);
+
+        osg::Program* sceneProgram = osgOcean::ShaderManager::instance().createProgram("scene_shader", 
+                                               "osgOcean_ocean_scene_lispsm.vert", "osgOcean_ocean_scene_lispsm.frag", "", "");
+        scene->getOceanScene()->setDefaultSceneShader(sceneProgram);
+    }
+	else
+	{
+		root = new osg::Group;
+	}
+
+    if (disableShaders)
+    {
+        // Disable all special effects that depend on shaders.
+
+        // These depend on fullscreen RTT passes and shaders to do their effects.
+        scene->getOceanScene()->enableDistortion(false);
+        scene->getOceanScene()->enableGlare(false);
+        scene->getOceanScene()->enableUnderwaterDOF(false);
+
+        // These are only implemented in the shader, with no fixed-pipeline equivalent
+        scene->getOceanScene()->enableUnderwaterScattering(false);
+        // For these two, we might be able to use projective texturing so it would
+        // work on the fixed pipeline?
+        scene->getOceanScene()->enableReflections(false);
+        scene->getOceanScene()->enableRefractions(false);
+        scene->getOceanScene()->enableGodRays(false);  // Could be done in fixed pipeline?
+        scene->getOceanScene()->enableSilt(false);     // Could be done in fixed pipeline?
+
+        scene->getOceanScene()->enableGlow(false);// BAWE-20110801: GLOW_SHADER
+    }
+
+    scene->getOceanScene()->setOceanSurfaceHeight(oceanSurfaceHeight);
+
+    root->addChild( scene->getScene() );
+
+    if (loadedModel.valid())
+    {
+        loadedModel->setNodeMask( scene->getOceanScene()->getNormalSceneMask()    | 
+                                  scene->getOceanScene()->getReflectedSceneMask() | 
+                                  scene->getOceanScene()->getRefractedSceneMask() |
+                                  CAST_SHADOW | RECEIVE_SHADOW );
+
+        scene->getOceanScene()->addChild(loadedModel.get());
+
+        osg::ref_ptr<osg::PositionAttitudeTransform> modelXform = new osg::PositionAttitudeTransform;
+
+        modelXform->addChild(loadedModel.get());
+
+        modelXform->setPosition( osg::Vec3f(20.0f, 140.0f,30.0f) );
+        modelXform->setScale(osg::Vec3f(0.5f, 0.5f, 0.5f));
+        modelXform->setAttitude( 
+                osg::Quat(osg::DegreesToRadians(-90.0), osg::Vec3(0,0,1) ) );
+            //osg::Quat(osg::DegreesToRadians(0.0), osg::Vec3(0,0,1) ) );
+
+        scene->getOceanScene()->addChild(modelXform.get());   
+    }
+
+    //if (testCollision)
+    {
+        
+    osgDB::Registry::instance()->getDataFilePathList().push_back(std::string(pathName + "resources/boat"));
+    //osgDB::Registry::instance()->getDataFilePathList().push_back("resources/boat");
+        const std::string filename = "boat.3ds";
+        osg::ref_ptr<osg::Node> boat = osgDB::readNodeFile(filename);
+
+        if(boat.valid())
+        {
+            boat->setNodeMask( scene->getOceanScene()->getNormalSceneMask()    | 
+                               scene->getOceanScene()->getReflectedSceneMask() | 
+                               scene->getOceanScene()->getRefractedSceneMask() |
+                               CAST_SHADOW | RECEIVE_SHADOW );
+
+            osg::ref_ptr<osg::MatrixTransform> boatTransform = new osg::MatrixTransform;
+            boatTransform->addChild(boat.get());
+            boatTransform->setMatrix(osg::Matrix::translate(osg::Vec3f(0.0f, 160.0f,0.0f)));
+            boatTransform->setUpdateCallback( new BoatPositionCallback(scene->getOceanScene()) );
+
+            scene->getOceanScene()->addChild(boatTransform.get());   
+        }
+        else
+        {
+            osg::notify(osg::WARN) << "testCollision flag ignored - Could not find: " << filename << std::endl;
+        }
+    }
+
+    //++ BAWE-20110713
+	//++ Smiley
+	{
+
+	    osgDB::Registry::instance()->getDataFilePathList().push_back(std::string(pathName + "resources/Lampu"));
+        const std::string smileyFilename = "BuildPink.IVE";
+        //osgDB::Registry::instance()->getDataFilePathList().push_back("resources/SmileFace");
+        //const std::string smileyFilename = "SmilingFaceDiff0.IVE";
+        //osgDB::Registry::instance()->getDataFilePathList().push_back("resources/SmileFace2");
+        //const std::string smileyFilename = "SmilingFace.IVE
+
+        osg::ref_ptr<osgDB::ReaderWriter::Options> options = new osgDB::ReaderWriter::Options();
+        //options->setObjectCacheHint(osgDB::ReaderWriter::Options::CACHE_ALL);
+        options->setObjectCacheHint(osgDB::ReaderWriter::Options::CACHE_NONE);
+
+        osg::ref_ptr<osg::Node> smiley = osgDB::readNodeFile(smileyFilename, options);
+
+
+        if(smiley.valid())
+        {
+			smiley->setNodeMask( scene->getOceanScene()->getNormalSceneMask() | 
+                scene->getOceanScene()->getReflectedSceneMask() | 
+                scene->getOceanScene()->getRefractedSceneMask()  |
+                CAST_SHADOW | RECEIVE_SHADOW );
+
+        //smiley->setNodeMask( scene->getOceanScene()->getGlowMask());
+
+
+            osg::ref_ptr<osg::PositionAttitudeTransform> smileyTransform = new osg::PositionAttitudeTransform;
+
+            smileyTransform->addChild(smiley.get());
+
+			smileyTransform->setPosition( osg::Vec3f(0.0f, 160.0f,30.0f) );
+			smileyTransform->setScale(osg::Vec3f(0.5f, 0.5f, 0.5f));
+			smileyTransform->setAttitude( 
+				osg::Quat(osg::DegreesToRadians(-90.0), osg::Vec3(0,0,1) ) );
+//				osg::Quat(osg::DegreesToRadians(0.0), osg::Vec3(0,0,1) ) );
+
+		////Test load image
+  //     osg::Texture2D* baseTexture = new osg::Texture2D;
+  //     // protect from being optimized away as static state:
+  //     baseTexture->setDataVariance(osg::Object::DYNAMIC); 
+  //     osg::Image* image = osgDB::readImageFile("images/LampuGlow.png");
+  //     if (!image)
+  //     {
+  //        std::cout << " couldn't find smiley texture, quiting." << std::endl;
+  //        return -1;
+  //     }
+
+  //     baseTexture->setImage(image);
+
+
+
+
+		//	//Set StateSet
+		//	osg::StateSet* ss = new osg::StateSet;
+
+		//	ss->setMode(GL_LIGHTING, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
+		//	//ss->setTextureAttributeAndModes(1,baseTexture,osg::StateAttribute::ON );
+		//	//ss->addUniform( new osg::Uniform( "baseTexture2", 1 ) );
+		//	
+		//	smiley->setStateSet(ss);
+
+//			//Set Programs
+//			osg::ref_ptr<osg::Program> program = new osg::Program;
+//
+//			//// Do not use shaders if they were globally disabled.
+//			//if (osgOcean::ShaderManager::instance().areShadersEnabled())
+//			//{
+//				char vertexSource[]=
+//					"void main(void)\n"
+//					"{\n"
+//					"    gl_Position = ftransform();\n"
+//					"    gl_TexCoord[0] = gl_MultiTexCoord0;\n"
+//					"}\n";
+//
+//				char fragmentSource[]=
+//					"uniform sampler2D baseTexture;\n"
+//					"uniform sampler2D baseTexture2;\n"
+//					"\n"
+//					"void main(void)\n"
+//					"{\n"
+//					"   vec4 color = texture2D( baseTexture, gl_TexCoord[0].st );\n"
+//					"   gl_FragColor = vec4( color.rgb, 0.05 );\n"
+////					"   gl_FragColor.a = 0.05;\n"
+//					"}\n";
+//
+//				program->setName( "smile_material" );
+//				program->addShader(new osg::Shader(osg::Shader::VERTEX,   vertexSource));
+//				program->addShader(new osg::Shader(osg::Shader::FRAGMENT, fragmentSource));
+//
+//			//}
+
+//			ss->setAttributeAndModes( program, osg::StateAttribute::ON );
+
+            scene->getOceanScene()->addChild(smileyTransform.get());   
+        }
+        else
+        {
+            osg::notify(osg::WARN) << "Smiley can't be created! - Could not find: " << smileyFilename << std::endl;
+        }
+	}
+	//-- Smiley
+
+    //++ Smiley2
+    {
+
+        osgDB::Registry::instance()->getDataFilePathList().push_back("resources/Lampu");
+        const std::string smileyFilename2 = "pepohonan.IVE";
+        //osgDB::Registry::instance()->getDataFilePathList().push_back("resources/SmileFace");
+        //const std::string smileyFilename = "SmilingFaceDiff0.IVE";
+        //osgDB::Registry::instance()->getDataFilePathList().push_back("resources/SmileFace2");
+        //const std::string smileyFilename = "SmilingFace.IVE
+
+        osg::ref_ptr<osgDB::ReaderWriter::Options> options = new osgDB::ReaderWriter::Options();
+        //options->setObjectCacheHint(osgDB::ReaderWriter::Options::CACHE_ALL);
+        options->setObjectCacheHint(osgDB::ReaderWriter::Options::CACHE_NONE);
+
+        osg::ref_ptr<osg::Node> smiley2 = osgDB::readNodeFile(smileyFilename2, options);
+
+
+        if(smiley2.valid())
+        {
+            smiley2->setNodeMask( scene->getOceanScene()->getNormalSceneMask() | 
+                scene->getOceanScene()->getReflectedSceneMask() | 
+                scene->getOceanScene()->getRefractedSceneMask() |
+                CAST_SHADOW | RECEIVE_SHADOW);
+
+            //smiley->setNodeMask( scene->getOceanScene()->getGlowMask());
+
+
+            osg::ref_ptr<osg::PositionAttitudeTransform> smileyTransform = new osg::PositionAttitudeTransform;
+
+            smileyTransform->addChild(smiley2.get());
+
+            smileyTransform->setPosition( osg::Vec3f(20.0f, 140.0f,30.0f) );
+            smileyTransform->setScale(osg::Vec3f(0.5f, 0.5f, 0.5f));
+            smileyTransform->setAttitude( 
+            //    osg::Quat(osg::DegreesToRadians(-90.0), osg::Vec3(0,0,1) ) );
+            				osg::Quat(osg::DegreesToRadians(0.0), osg::Vec3(0,0,1) ) );
+
+            ////Test load image
+            //     osg::Texture2D* baseTexture = new osg::Texture2D;
+            //     // protect from being optimized away as static state:
+            //     baseTexture->setDataVariance(osg::Object::DYNAMIC); 
+            //     osg::Image* image = osgDB::readImageFile("images/pepohonan1.png");
+            //     if (!image)
+            //     {
+            //        std::cout << " couldn't find smiley texture, quiting." << std::endl;
+            //        return -1;
+            //     }
+
+            //     baseTexture->setImage(image);
+
+
+
+
+            //	//set stateset
+            //	//osg::StateSet* ss = new osg::StateSet();
+            //    osg::StateSet* ss = smiley2->getOrCreateStateSet();
+
+            //	//ss->setmode(gl_lighting, osg::stateattribute::on | osg::stateattribute::override);
+            //	//ss->setTextureAttributeAndModes(1,baseTexture,osg::StateAttribute::ON );
+            //	ss->addUniform( new osg::Uniform( "baseTexture", 0 ) );
+            //    ss->setTextureAttribute(0,new osg::TexEnv(osg::TexEnv::BLEND),osg::StateAttribute::ON);
+            //              	
+            //	//smiley2->setStateSet(ss);
+
+            //			//Set Programs
+            //			osg::ref_ptr<osg::Program> program = new osg::Program;
+            //
+            //			//// Do not use shaders if they were globally disabled.
+            //			//if (osgOcean::ShaderManager::instance().areShadersEnabled())
+            //			//{
+            //				char vertexSource[]=
+            //					"void main(void)\n"
+            //					"{\n"
+            //					"    gl_Position = ftransform();\n"
+            //					"    gl_TexCoord[0] = gl_MultiTexCoord0;\n"
+            //					"}\n";
+            //
+            //				char fragmentSource[]=
+            //					"uniform sampler2D baseTexture;\n"
+            //					//"uniform sampler2D baseTexture2;\n"
+            //					"\n"
+            //					"void main(void)\n"
+            //					"{\n"
+            //					"   vec4 color = texture2D( baseTexture, gl_TexCoord[0].st );\n"
+            //					"   gl_FragColor = color;\n"
+            ////					"   gl_FragColor = vec4( color.rgb, 1.0 );\n"
+            ////					"   gl_FragColor.a = 0.05;\n"
+            //					"}\n";
+            //
+            //				program->setName( "smile_material" );
+            //				program->addShader(new osg::Shader(osg::Shader::VERTEX,   vertexSource));
+            //				program->addShader(new osg::Shader(osg::Shader::FRAGMENT, fragmentSource));
+            //
+            //			//}
+
+            //			ss->setAttributeAndModes( program, osg::StateAttribute::ON );
+
+            scene->getOceanScene()->addChild(smileyTransform.get());   
+        }
+        else
+        {
+            osg::notify(osg::WARN) << "Smiley2 can't be created! - Could not find: " << smileyFilename2 << std::endl;
+        }
+    }
+    ////-- Smiley2
+
+    //------------------------------------------------------------------------
+    // Set up the viewer
+    //------------------------------------------------------------------------
+
+    osg::ref_ptr<osgViewer::ViewerBase> viewer;
+    osgViewer::View* view = 0;
+    if (compositeViewer)
+    {
+        viewer = new osgViewer::CompositeViewer;
+        view = new osgViewer::View;
+
+        // If testing a composite viewer, we'll make a splitscreen window with 
+        // 2 views side by side.
+        view->setUpViewInWindow( 50, 50, 1600, 768, 0 );
+        view->getCamera()->setViewport(0, 0, 800, 768);
+        double fovy, aspectRatio, zNear, zFar;
+        view->getCamera()->getProjectionMatrixAsPerspective(fovy, aspectRatio, zNear, zFar);
+        view->getCamera()->setProjectionMatrixAsPerspective(fovy, 800.0/768.0, zNear, zFar);
+
+        // Create a second view
+        osg::ref_ptr<osgViewer::View> view2 = new osgViewer::View;
+        view2->getCamera()->setGraphicsContext(view->getCamera()->getGraphicsContext());
+        view2->getCamera()->setViewport(800, 0, 800, 768);
+        osgGA::TrackballManipulator* tb = new osgGA::TrackballManipulator;
+        tb->setHomePosition( osg::Vec3f(0.f,0.f,20.f), osg::Vec3f(0.f,20.f,20.f), osg::Vec3f(0,0,1) );
+        view2->setCameraManipulator( tb );
+        view2->setSceneData(root.get());
+        view2->addEventHandler( new osgGA::StateSetManipulator( view2->getCamera()->getOrCreateStateSet() ) );
+
+        if (disableEffectsForSecondView)
+        {
+            scene->getOceanScene()->enableRTTEffectsForView(view2.get(), false);
+        }
+
+        // The order here is important, the last view added to the viewer (so 
+        // presumably the last one to be rendered by the viewer) controls the LOD 
+        // of ocean tiles, as well as which view gets refraction effects 
+        // (refraction and height map). Reflection doesn't seem to depend on this 
+        // at all, it works correctly in both views.
+        osgViewer::CompositeViewer* compositeViewer = dynamic_cast<osgViewer::CompositeViewer*>(viewer.get());
+
+        if (firstViewLast)
+        {
+            // If we explicitly asked that the main view be added last to the 
+            // viewer, we'll see that the refraction applies to it, and it 
+            // controls ocean tile LOD.
+            compositeViewer->addView(view2.get());
+            compositeViewer->addView(view);
+        }
+        else
+        {
+            // The "normal" case in most applications I've seen is that the 
+            // main view is created and added first, and then inset views are
+            // created and added. So without the --firstViewLast argument, this
+            // is what we'll demonstrate. The main view won't have refraction
+            // effects, the inset view will.
+            compositeViewer->addView(view);
+            compositeViewer->addView(view2.get());
+        }
+
+        // Post-render RTT effects don't work at all when using multiple 
+        // views. This is not an immediate concern for us because we don't
+        // use them anyways in our software.
+        scene->getOceanScene()->enableGodRays(false);
+        scene->getOceanScene()->enableUnderwaterDOF(false);
+        scene->getOceanScene()->enableDistortion(false);
+        scene->getOceanScene()->enableGlare(false);
+    }
+    else
+    {
+        osgViewer::Viewer* singleViewer = new osgViewer::Viewer;
+        viewer = singleViewer;
+        view = singleViewer;
+
+        // Otherwise, a window with a single view.
+        view->setUpViewInWindow( 150, 150, 1024, 768, 0 );
+    }
+
+    view->setSceneData( root.get() );
+
+    view->addEventHandler( new osgViewer::StatsHandler );
+    view->addEventHandler( new osgGA::StateSetManipulator( view->getCamera()->getOrCreateStateSet() ) );
+
+    osg::ref_ptr<TextHUD> hud = new TextHUD;
+    // Add the HUD to the main view (if compositeViewer == true there will be a second one)
+    view->getCamera()->addChild( hud->getHudCamera() );
+
+    view->addEventHandler(scene->getOceanSceneEventHandler());
+    view->addEventHandler(scene->getOceanSurface()->getEventHandler());
+
+    view->addEventHandler( new SceneEventHandler(scene.get(), hud.get(), view ) );
+    view->addEventHandler( new osgViewer::HelpHandler );
+    view->getCamera()->setName("MainCamera");
+
+    viewer->realize();
+
+    while(!viewer->done())
+    {
+        viewer->frame();    
+    }
+
+    return 0;
+}

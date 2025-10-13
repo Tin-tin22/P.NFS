@@ -1,0 +1,117 @@
+object FrmWAP_fire_authorize: TFrmWAP_fire_authorize
+  Left = 218
+  Top = 27
+  Width = 298
+  Height = 141
+  Caption = 'WAP fire authorize'
+  Color = clMedGray
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 289
+    Height = 105
+    Color = clMedGray
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 73
+      Top = 24
+      Width = 54
+      Height = 13
+      Alignment = taCenter
+      Caption = 'FA-Code:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Bevel1: TBevel
+      Left = 0
+      Top = 64
+      Width = 289
+      Height = 2
+    end
+    object Edit1: TEdit
+      Left = 137
+      Top = 21
+      Width = 56
+      Height = 21
+      AutoSize = False
+      Color = clGray
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      Text = 'CODE'
+    end
+    object VrDemoButton1: TVrDemoButton
+      Left = 10
+      Top = 72
+      Width = 64
+      Height = 25
+      FontEnter.Charset = DEFAULT_CHARSET
+      FontEnter.Color = clWhite
+      FontEnter.Height = -11
+      FontEnter.Name = 'Verdana'
+      FontEnter.Style = [fsBold]
+      FontLeave.Charset = DEFAULT_CHARSET
+      FontLeave.Color = clWhite
+      FontLeave.Height = -11
+      FontLeave.Name = 'Verdana'
+      FontLeave.Style = [fsBold]
+      Caption = 'OK'
+      Color = clMedGray
+      TabOrder = 1
+    end
+    object VrDemoButton2: TVrDemoButton
+      Left = 114
+      Top = 72
+      Width = 64
+      Height = 25
+      FontEnter.Charset = DEFAULT_CHARSET
+      FontEnter.Color = clWhite
+      FontEnter.Height = -11
+      FontEnter.Name = 'Verdana'
+      FontEnter.Style = [fsBold]
+      FontLeave.Charset = DEFAULT_CHARSET
+      FontLeave.Color = clWhite
+      FontLeave.Height = -11
+      FontLeave.Name = 'Verdana'
+      FontLeave.Style = [fsBold]
+      Caption = 'Cancel'
+      Color = clMedGray
+      TabOrder = 2
+    end
+    object VrDemoButton3: TVrDemoButton
+      Left = 218
+      Top = 72
+      Width = 64
+      Height = 25
+      FontEnter.Charset = DEFAULT_CHARSET
+      FontEnter.Color = clWhite
+      FontEnter.Height = -11
+      FontEnter.Name = 'Verdana'
+      FontEnter.Style = [fsBold]
+      FontLeave.Charset = DEFAULT_CHARSET
+      FontLeave.Color = clWhite
+      FontLeave.Height = -11
+      FontLeave.Name = 'Verdana'
+      FontLeave.Style = [fsBold]
+      Caption = 'Help'
+      Color = clMedGray
+      TabOrder = 3
+    end
+  end
+end

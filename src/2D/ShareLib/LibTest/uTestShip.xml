@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uTestShip">
+  <const name="tsNone" type="TTurnState">
+    <value>
+      tsNone
+    </value>
+  </const>
+  <const name="tsTurnLeft" type="TTurnState">
+    <value>
+      tsTurnLeft
+    </value>
+  </const>
+  <const name="tsTurnRight" type="TTurnState">
+    <value>
+      tsTurnRight
+    </value>
+  </const>
+  <const name="ssStable" type="TSpeedState">
+    <value>
+      ssStable
+    </value>
+  </const>
+  <const name="ssAccelerate" type="TSpeedState">
+    <value>
+      ssAccelerate
+    </value>
+  </const>
+  <const name="ssDecelerate" type="TSpeedState">
+    <value>
+      ssDecelerate
+    </value>
+  </const>
+  <enum name="TTurnState">
+    <element name="tsNone" />
+    <element name="tsTurnLeft" />
+    <element name="tsTurnRight" />
+  </enum>
+  <enum name="TSpeedState">
+    <element name="ssStable" />
+    <element name="ssAccelerate" />
+    <element name="ssDecelerate" />
+  </enum>
+  <class name="TXShip">
+    <ancestor name="TSimClassOnMapX" namespace="uMapXSim">
+      <methodref name="CreateDefaultView" visibility="public" />
+      <methodref name="ConvertViewsPosition" visibility="public" />
+      <methodref name="DrawViews" visibility="public" />
+      <ancestor name="TSimulationClass" namespace="uBaseSimulationObject">
+        <methodref name="Create" visibility="public" />
+        <methodref name="Destroy" visibility="public" />
+        <methodref name="MarkAs_NeedToBeFree" visibility="public" />
+        <methodref name="DeleteAllChildren" visibility="public" />
+        <methodref name="Update" visibility="public" />
+        <methodref name="Run" visibility="public" />
+        <propertyref name="PositionX" visibility="public" />
+        <propertyref name="PositionY" visibility="public" />
+        <propertyref name="PositionZ" visibility="public" />
+        <propertyref name="UniqueID" visibility="public" />
+        <ancestor name="TObject" namespace="System">
+          <methodref name="Create" visibility="public">
+          </methodref>
+          <methodref name="Free" visibility="public">
+          </methodref>
+          <methodref name="InitInstance" visibility="public">
+          </methodref>
+          <methodref name="CleanupInstance" visibility="public">
+          </methodref>
+          <methodref name="ClassType" visibility="public">
+          </methodref>
+          <methodref name="ClassName" visibility="public">
+          </methodref>
+          <methodref name="ClassNameIs" visibility="public">
+          </methodref>
+          <methodref name="ClassParent" visibility="public">
+          </methodref>
+          <methodref name="ClassInfo" visibility="public">
+          </methodref>
+          <methodref name="InstanceSize" visibility="public">
+          </methodref>
+          <methodref name="InheritsFrom" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodAddress" visibility="public">
+          </methodref>
+          <methodref name="MethodName" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="FieldAddress" visibility="public">
+          </methodref>
+          <methodref name="GetInterface" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceEntry" visibility="public">
+          </methodref>
+          <methodref name="GetInterfaceTable" visibility="public">
+          </methodref>
+          <methodref name="UnitName" visibility="public">
+          </methodref>
+          <methodref name="Equals" visibility="public">
+          </methodref>
+          <methodref name="GetHashCode" visibility="public">
+          </methodref>
+          <methodref name="ToString" visibility="public">
+          </methodref>
+          <methodref name="SafeCallException" visibility="public">
+          </methodref>
+          <methodref name="AfterConstruction" visibility="public">
+          </methodref>
+          <methodref name="BeforeDestruction" visibility="public">
+          </methodref>
+          <methodref name="Dispatch" visibility="public">
+          </methodref>
+          <methodref name="DefaultHandler" visibility="public">
+          </methodref>
+          <methodref name="NewInstance" visibility="public">
+          </methodref>
+          <methodref name="FreeInstance" visibility="public">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <procedure name="SetHeading" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetHeading" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <function name="GetSpeed" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="InitSpeed" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetPos" visibility="private">
+        <parameters>
+          <parameter name="Index" type="Integer" paramflags="const" />
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="SetPos" visibility="private">
+        <parameters>
+          <parameter name="Index" type="Integer" paramflags="const" />
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRoll" visibility="private">
+        <parameters>
+          <parameter name="val" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetRoll" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="SetPitch" visibility="private">
+        <parameters>
+          <parameter name="val" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetPitch" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <field name="FRoll" type="Double" visibility="protected" />
+      <field name="FPitch" type="Double" visibility="protected" />
+      <field name="FTurnState" type="TTurnState" visibility="protected" />
+      <field name="FTurnDirection" type="Double" visibility="protected" />
+      <field name="FTurnRate" type="Double" visibility="protected" />
+      <field name="FTurnCounter" type="Double" visibility="protected" />
+      <field name="FSpeedState" type="TSpeedState" visibility="protected" />
+      <field name="FDestSpeed" type="Double" visibility="protected" />
+      <field name="FVSpeedVector" type="TSpeedVector" visibility="protected" />
+      <field name="FV3Linelabel" type="T3LineLabel" visibility="protected" />
+      <field name="Mover" type="TMover" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="CreateDefaultView" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aMap" type="TMap" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Run" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aDeltaMs" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Update" visibility="public" procflags="override">
+      </procedure>
+      <property name="Speed" visibility="published" read="GetSpeed" write="InitSpeed" type="Double" />
+      <property name="Heading" visibility="published" read="GetHeading" write="SetHeading" type="Double" />
+      <property name="Roll" visibility="published" read="GetRoll" write="SetRoll" type="Double" />
+      <property name="Pitch" visibility="published" read="GetPitch" write="SetPitch" type="Double" />
+      <property name="PositionX" visibility="published" read="GetPos" write="SetPos" type="Double" index="0" />
+      <property name="PositionY" visibility="published" read="GetPos" write="SetPos" type="Double" index="1" />
+      <property name="PositionZ" visibility="published" read="GetPos" write="SetPos" type="Double" index="2" />
+      <field name="Moving" type="Boolean" visibility="public" />
+      <procedure name="SetTurnRate" visibility="public">
+        <parameters>
+          <parameter name="aTurnRate" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CmdTurnLeftTo" visibility="public">
+        <parameters>
+          <parameter name="aDir" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CmdTurnRightTo" visibility="public">
+        <parameters>
+          <parameter name="aDir" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CmdSetSpeedTo" visibility="public">
+        <parameters>
+          <parameter name="aSpd" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="TXSonarObject">
+    <ancestor name="TXShip" namespace="uTestShip">
+      <methodref name="SetHeading" visibility="private" />
+      <methodref name="GetHeading" visibility="private" />
+      <methodref name="GetSpeed" visibility="private" />
+      <methodref name="InitSpeed" visibility="private" />
+      <methodref name="GetPos" visibility="private" />
+      <methodref name="SetPos" visibility="private" />
+      <methodref name="SetRoll" visibility="private" />
+      <methodref name="GetRoll" visibility="private" />
+      <methodref name="SetPitch" visibility="private" />
+      <methodref name="GetPitch" visibility="private" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="CreateDefaultView" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <methodref name="Update" visibility="public" />
+      <propertyref name="Speed" visibility="published" />
+      <propertyref name="Heading" visibility="published" />
+      <propertyref name="Roll" visibility="published" />
+      <propertyref name="Pitch" visibility="published" />
+      <propertyref name="PositionX" visibility="published" />
+      <propertyref name="PositionY" visibility="published" />
+      <propertyref name="PositionZ" visibility="published" />
+      <methodref name="SetTurnRate" visibility="public" />
+      <methodref name="CmdTurnLeftTo" visibility="public" />
+      <methodref name="CmdTurnRightTo" visibility="public" />
+      <methodref name="CmdSetSpeedTo" visibility="public" />
+      <ancestor name="TSimClassOnMapX" namespace="uMapXSim">
+        <methodref name="CreateDefaultView" visibility="public" />
+        <methodref name="ConvertViewsPosition" visibility="public" />
+        <methodref name="DrawViews" visibility="public" />
+        <ancestor name="TSimulationClass" namespace="uBaseSimulationObject">
+          <methodref name="Create" visibility="public" />
+          <methodref name="Destroy" visibility="public" />
+          <methodref name="MarkAs_NeedToBeFree" visibility="public" />
+          <methodref name="DeleteAllChildren" visibility="public" />
+          <methodref name="Update" visibility="public" />
+          <methodref name="Run" visibility="public" />
+          <propertyref name="PositionX" visibility="public" />
+          <propertyref name="PositionY" visibility="public" />
+          <propertyref name="PositionZ" visibility="public" />
+          <propertyref name="UniqueID" visibility="public" />
+          <ancestor name="TObject" namespace="System">
+            <methodref name="Create" visibility="public">
+            </methodref>
+            <methodref name="Free" visibility="public">
+            </methodref>
+            <methodref name="InitInstance" visibility="public">
+            </methodref>
+            <methodref name="CleanupInstance" visibility="public">
+            </methodref>
+            <methodref name="ClassType" visibility="public">
+            </methodref>
+            <methodref name="ClassName" visibility="public">
+            </methodref>
+            <methodref name="ClassNameIs" visibility="public">
+            </methodref>
+            <methodref name="ClassParent" visibility="public">
+            </methodref>
+            <methodref name="ClassInfo" visibility="public">
+            </methodref>
+            <methodref name="InstanceSize" visibility="public">
+            </methodref>
+            <methodref name="InheritsFrom" visibility="public">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public">
+            </methodref>
+            <methodref name="MethodName" visibility="public">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public">
+            </methodref>
+            <methodref name="GetInterface" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceEntry" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceTable" visibility="public">
+            </methodref>
+            <methodref name="UnitName" visibility="public">
+            </methodref>
+            <methodref name="Equals" visibility="public">
+            </methodref>
+            <methodref name="GetHashCode" visibility="public">
+            </methodref>
+            <methodref name="ToString" visibility="public">
+            </methodref>
+            <methodref name="SafeCallException" visibility="public">
+            </methodref>
+            <methodref name="AfterConstruction" visibility="public">
+            </methodref>
+            <methodref name="BeforeDestruction" visibility="public">
+            </methodref>
+            <methodref name="Dispatch" visibility="public">
+            </methodref>
+            <methodref name="DefaultHandler" visibility="public">
+            </methodref>
+            <methodref name="NewInstance" visibility="public">
+            </methodref>
+            <methodref name="FreeInstance" visibility="public">
+            </methodref>
+            <methodref name="Destroy" visibility="public">
+            </methodref>
+          </ancestor>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FSoundFilename" type="string" visibility="private" />
+      <field name="FFreq" type="Double" visibility="private" />
+      <field name="FSoundFilePassive" type="string" visibility="private" />
+      <field name="FProfileFile" type="string" visibility="private" />
+      <field name="FEchoLevel" type="Double" visibility="private" />
+      <function name="GetSoundFile" visibility="private">
+        <parameters>
+          <retval type="string" />
+        </parameters>
+      </function>
+      <procedure name="SetSoundFile" visibility="private">
+        <parameters>
+          <parameter name="Value" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetFreq" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="SetFreq" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetSoundFilePassive" visibility="private">
+        <parameters>
+          <parameter name="Value" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetProfileFile" visibility="private">
+        <parameters>
+          <parameter name="Value" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetEchoLevel" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <property name="SoundFile" visibility="published" read="GetSoundFile" write="SetSoundFile" type="string" />
+      <property name="Freq" visibility="published" read="GetFreq" write="SetFreq" type="Double" />
+      <property name="SoundFilePassive" visibility="published" read="FSoundFilePassive" write="SetSoundFilePassive" type="string" />
+      <property name="ProfileFile" visibility="published" read="FProfileFile" write="SetProfileFile" type="string" />
+      <property name="EchoLevel" visibility="published" read="FEchoLevel" write="SetEchoLevel" type="Double" />
+    </members>
+  </class>
+</namespace>

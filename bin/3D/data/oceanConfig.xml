@@ -1,0 +1,57 @@
+<ocean>
+    <oceansurface
+        FFT_gridsize = "64"
+        resolution = "256"
+        num_tiles = "80"
+        wind_direction = "0.4,-0.3"
+        wind_speed = "1.5"
+        depth = "10000"
+        wave_scale = "1E-9"
+        is_choppy = "false"
+        choppy_factor = "-1"
+        anim_loop_time = "10"
+        num_frames = "256"
+        foam_bottom_height = "0.5"
+        foam_top_height = "2.2"
+        enable_crest_foam = "true"
+        enable_endless_ocean = "true"
+        ocean_height = "0"
+    />
+    <skybox
+        skybox_radius = "10000"
+        skybox_longsteps = "64"
+        skybox_latsteps = "64"
+        tex_up ="../data/textures/sky_clear/up.png"
+        tex_down ="../data/textures/sky_clear/down.png"
+        tex_left ="../data/textures/sky_clear/west.png"
+        tex_right ="../data/textures/sky_clear/east.png"
+        tex_front ="../data/textures/sky_clear/north.png"
+        tex_back ="../data/textures/sky_clear/south.png"
+    />
+    <lighting
+        light_color = "0.5, 0.5, 0.6, 1"
+        sun_direction = "520.0, 1900.0, 550.0"
+        sun_diffuse_color = "0.5, 0.5, 0.5, 1"
+        sun_ambient_color = "0.3, 0.3, 0.3, 1"
+        sun_specular_color = "0.1, 0.1, 0.1, 1"
+        underwater_diffuse_color = "0.1, 0.3, 0.4, 1"
+        underwater_attenuation = "0.015, 0.0075, 0.005"
+        enable_underwater_DOF = "true"
+        enable_reflection = "false"
+        reflection_damping = "0.35"
+        enable_refraction = "false"
+        enable_godrays = "true"
+        enable_silt = "true"
+        enable_glare = "true"
+        enable_glow = "false"
+        glare_attenuation = "0.8"
+        use_default_scene_shader = "true"
+        night_scene = "false"
+    />
+    <fog
+        abovewater_fog_height = "0.00012"
+        abovewater_fog_color = "0.8, 0.89, 0.96, 1"
+        underwater_fog_height = "0.002"
+        underwater_fog_color = "0.0, 0.0f, 0.0, 1"
+    />
+</ocean>

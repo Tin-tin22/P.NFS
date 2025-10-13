@@ -1,0 +1,577 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uTDCConstan">
+  <const name="i_OwnShip" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="i_OBM_kanan" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="i_OBM_kiri" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="i_ICM_sender" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="i_ICM_penerima" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="i_Surface_Grid_Ori" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="i_Splash_Point_ASR" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="i_PHP_torpedo" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="i_Drop_Point" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="i_Offset_BTK" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="i_Kursor_Elevasi_WCC" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="i_Tanda_Tunda_Tembakan" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="i_Gerbang_Pelacakan" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="i_Sasaran_simulasi_tes" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="i_penunjukan_ASRL" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="i_plot" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="i_DATUM" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="i_min_marker" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="i_max_marker" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="C_Symbol_Char" type="Array" visibility="public" />
+  <const name="ID_Udara_Unknown" type="Char">
+    <value>
+      $41
+    </value>
+  </const>
+  <const name="ID_Udara_Hostile" type="Char">
+    <value>
+      $42
+    </value>
+  </const>
+  <const name="ID_Udara_Friendly" type="Char">
+    <value>
+      $43
+    </value>
+  </const>
+  <const name="ID_Rudal" type="Char">
+    <value>
+      $4A
+    </value>
+  </const>
+  <const name="ID_AtasAir_Unknown" type="Char">
+    <value>
+      $44
+    </value>
+  </const>
+  <const name="ID_AtasAir_Hostile" type="Char">
+    <value>
+      $45
+    </value>
+  </const>
+  <const name="ID_AtasAir_Friendly" type="Char">
+    <value>
+      $46
+    </value>
+  </const>
+  <const name="ID_AtasAir_Helicopter" type="Char">
+    <value>
+      $4B
+    </value>
+  </const>
+  <const name="ID_BawahAir_Unknown" type="Char">
+    <value>
+      $47
+    </value>
+  </const>
+  <const name="ID_BawahAir_Hostile" type="Char">
+    <value>
+      $48
+    </value>
+  </const>
+  <const name="ID_BawahAir_Friendly" type="Char">
+    <value>
+      $49
+    </value>
+  </const>
+  <const name="ID_BawahAir_NonSub" type="Char">
+    <value>
+      $52
+    </value>
+  </const>
+  <const name="ID_ESM_Fix" type="Char">
+    <value>
+      $2A
+    </value>
+  </const>
+  <const name="ID_AutomaticTrack" type="Char">
+    <value>
+      $2E
+    </value>
+  </const>
+  <const name="ID_RAMTrack" type="Char">
+    <value>
+      $20
+    </value>
+  </const>
+  <const name="ID_AcquisitionTrack" type="Char">
+    <value>
+      $4F
+    </value>
+  </const>
+  <const name="ID_DRTTrack" type="Char">
+    <value>
+      $5F
+    </value>
+  </const>
+  <const name="ID_HOLD" type="Char">
+    <value>
+      $54
+    </value>
+  </const>
+  <const name="C_START_TRACKNUM_UDARA" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="C_START_TRACKNUM_ATASAIR_TOCOS" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="C_START_TRACKNUM_ATASAIR" type="Integer">
+    <value>
+      $18
+    </value>
+  </const>
+  <const name="C_START_TRACKNUM_BAWAHAIR" type="Integer">
+    <value>
+      $28
+    </value>
+  </const>
+  <const name="C_BLINDARC_G1" type="Double" visibility="public" />
+  <const name="C_BLINDARC_G2" type="Double" visibility="public" />
+  <const name="C_BLINDARC_G3" type="Double" visibility="public" />
+  <const name="C_BLINDARC_Exocet_1" type="Double" visibility="public" />
+  <const name="C_BLINDARC_Exocet_2" type="Double" visibility="public" />
+  <const name="C_MAGNETRON_WAIT_TIME" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="C_LP_WAIT_TIME" type="Integer" visibility="public" />
+  <const name="C_FREQ_AGIL_CH_TIME" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="C_FC_READY_TIME" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="C_IMAGES_PATH" type="string">
+    <value>
+      images/wcc/
+    </value>
+  </const>
+  <const name="C_IMAGES_BSCOPE" type="string">
+    <value>
+      images/bscope/
+    </value>
+  </const>
+  <const name="C_IMAGES_ASCOPE" type="string">
+    <value>
+      images/ascope/
+    </value>
+  </const>
+  <const name="indx_FC1" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="indx_FC2" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="indx_FC3" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="indx_FC4" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="C_GUN1_RANGE" type="Integer">
+    <value>
+      $20
+    </value>
+  </const>
+  <const name="C_GUN2_RANGE" type="Integer">
+    <value>
+      $20
+    </value>
+  </const>
+  <const name="C_GUN3_RANGE" type="Integer">
+    <value>
+      $20
+    </value>
+  </const>
+  <const name="C_FC1_RANGE" type="Integer">
+    <value>
+      $30
+    </value>
+  </const>
+  <const name="C_FC2_RANGE" type="Integer">
+    <value>
+      $30
+    </value>
+  </const>
+  <const name="C_FC3_RANGE" type="Integer">
+    <value>
+      $30
+    </value>
+  </const>
+  <const name="ID_TrackingGate" type="Char">
+    <value>
+      $4D
+    </value>
+  </const>
+  <const name="ID_ElevationMark" type="Char">
+    <value>
+      $4B
+    </value>
+  </const>
+  <const name="SINBAD_DEF_RANGE" type="Integer">
+    <value>
+      $3A98
+    </value>
+  </const>
+  <const name="SINBAD_DEF_HEADING" type="Integer">
+    <value>
+      $64
+    </value>
+  </const>
+  <const name="SINBAD_DEF_SPEED" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="ID_LASTPOS" type="Char">
+    <value>
+      $54
+    </value>
+  </const>
+  <const name="ID_CSU_ATT" type="Char">
+    <value>
+      $31
+    </value>
+  </const>
+  <const name="ID_CSU_HAND" type="Char">
+    <value>
+      $32
+    </value>
+  </const>
+  <const name="ID_PRS" type="Char">
+    <value>
+      $35
+    </value>
+  </const>
+  <const name="ID_ATT_PRS" type="Char">
+    <value>
+      $36
+    </value>
+  </const>
+  <const name="ID_NAV_PRS" type="Char">
+    <value>
+      $37
+    </value>
+  </const>
+  <const name="ID_START_PNT" type="Char">
+    <value>
+      $41
+    </value>
+  </const>
+  <const name="ID_BEARINGRATE" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="ID_BEARING" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="ID_RANGE" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="ID_COURSE" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="ID_AOB" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="ID_SPEED" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="RAD_OFF" type="RADAR_STATUS">
+    <value>
+      RAD_OFF
+    </value>
+  </const>
+  <const name="RAD_STANDBY" type="RADAR_STATUS">
+    <value>
+      RAD_STANDBY
+    </value>
+  </const>
+  <const name="RAD_RADIATE" type="RADAR_STATUS">
+    <value>
+      RAD_RADIATE
+    </value>
+  </const>
+  <const name="FREQ_OFF" type="FREQ_TYPE">
+    <value>
+      FREQ_OFF
+    </value>
+  </const>
+  <const name="FREQ_FIX" type="FREQ_TYPE">
+    <value>
+      FREQ_FIX
+    </value>
+  </const>
+  <const name="FREQ_AGIL" type="FREQ_TYPE">
+    <value>
+      FREQ_AGIL
+    </value>
+  </const>
+  <const name="SCAN_OFF" type="SCAN_TYPE">
+    <value>
+      SCAN_OFF
+    </value>
+  </const>
+  <const name="SCAN_HOR" type="SCAN_TYPE">
+    <value>
+      SCAN_HOR
+    </value>
+  </const>
+  <const name="SCAN_HEL" type="SCAN_TYPE">
+    <value>
+      SCAN_HEL
+    </value>
+  </const>
+  <const name="POL_OFF" type="POLARIZATION_TYPE">
+    <value>
+      POL_OFF
+    </value>
+  </const>
+  <const name="POL_HOR" type="POLARIZATION_TYPE">
+    <value>
+      POL_HOR
+    </value>
+  </const>
+  <const name="POL_CIRC" type="POLARIZATION_TYPE">
+    <value>
+      POL_CIRC
+    </value>
+  </const>
+  <const name="PRF_OFF" type="PRF_TYPE">
+    <value>
+      PRF_OFF
+    </value>
+  </const>
+  <const name="PRF_LOW" type="PRF_TYPE">
+    <value>
+      PRF_LOW
+    </value>
+  </const>
+  <const name="PRF_HIGH" type="PRF_TYPE">
+    <value>
+      PRF_HIGH
+    </value>
+  </const>
+  <const name="BAND_OFF" type="FREQ_BAND">
+    <value>
+      BAND_OFF
+    </value>
+  </const>
+  <const name="BAND1" type="FREQ_BAND">
+    <value>
+      BAND1
+    </value>
+  </const>
+  <const name="BAND2" type="FREQ_BAND">
+    <value>
+      BAND2
+    </value>
+  </const>
+  <const name="BAND3" type="FREQ_BAND">
+    <value>
+      BAND3
+    </value>
+  </const>
+  <const name="BAND4" type="FREQ_BAND">
+    <value>
+      BAND4
+    </value>
+  </const>
+  <const name="BAND5" type="FREQ_BAND">
+    <value>
+      BAND5
+    </value>
+  </const>
+  <const name="BAND6" type="FREQ_BAND">
+    <value>
+      BAND6
+    </value>
+  </const>
+  <const name="stCU_OR_OFFCENT" type="TCursorOrigin_Status">
+    <value>
+      stCU_OR_OFFCENT
+    </value>
+  </const>
+  <const name="stCU_OR_CENT" type="TCursorOrigin_Status">
+    <value>
+      stCU_OR_CENT
+    </value>
+  </const>
+  <const name="stCENT" type="TCenter_Status">
+    <value>
+      stCENT
+    </value>
+  </const>
+  <const name="stOFFCENT" type="TCenter_Status">
+    <value>
+      stOFFCENT
+    </value>
+  </const>
+  <const name="teTrialReview" type="TEngageStatus">
+    <value>
+      teTrialReview
+    </value>
+  </const>
+  <const name="teEngage" type="TEngageStatus">
+    <value>
+      teEngage
+    </value>
+  </const>
+  <const name="teCeaseEngage" type="TEngageStatus">
+    <value>
+      teCeaseEngage
+    </value>
+  </const>
+  <enum name="RADAR_STATUS">
+    <element name="RAD_OFF" />
+    <element name="RAD_STANDBY" />
+    <element name="RAD_RADIATE" />
+  </enum>
+  <enum name="FREQ_TYPE">
+    <element name="FREQ_OFF" />
+    <element name="FREQ_FIX" />
+    <element name="FREQ_AGIL" />
+  </enum>
+  <enum name="SCAN_TYPE">
+    <element name="SCAN_OFF" />
+    <element name="SCAN_HOR" />
+    <element name="SCAN_HEL" />
+  </enum>
+  <enum name="POLARIZATION_TYPE">
+    <element name="POL_OFF" />
+    <element name="POL_HOR" />
+    <element name="POL_CIRC" />
+  </enum>
+  <enum name="PRF_TYPE">
+    <element name="PRF_OFF" />
+    <element name="PRF_LOW" />
+    <element name="PRF_HIGH" />
+  </enum>
+  <enum name="FREQ_BAND">
+    <element name="BAND_OFF" />
+    <element name="BAND1" />
+    <element name="BAND2" />
+    <element name="BAND3" />
+    <element name="BAND4" />
+    <element name="BAND5" />
+    <element name="BAND6" />
+  </enum>
+  <enum name="TCursorOrigin_Status">
+    <element name="stCU_OR_OFFCENT" />
+    <element name="stCU_OR_CENT" />
+  </enum>
+  <enum name="TCenter_Status">
+    <element name="stCENT" />
+    <element name="stOFFCENT" />
+  </enum>
+  <enum name="TEngageStatus">
+    <element name="teTrialReview" />
+    <element name="teEngage" />
+    <element name="teCeaseEngage" />
+  </enum>
+</namespace>

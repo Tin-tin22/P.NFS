@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="MSThreadTimer">
+  <class name="TMSTimer">
+    <ancestor name="TThread" namespace="Classes">
+      <methodref name="Create@" visibility="class private">
+      </methodref>
+      <methodref name="Destroy@" visibility="class private">
+      </methodref>
+      <methodref name="CallOnTerminate" visibility="private">
+      </methodref>
+      <methodref name="Synchronize" visibility="private">
+      </methodref>
+      <methodref name="GetCurrentThread" visibility="private">
+      </methodref>
+      <methodref name="InternalStart" visibility="private">
+      </methodref>
+      <methodref name="GetPriority" visibility="private">
+      </methodref>
+      <methodref name="SetPriority" visibility="private">
+      </methodref>
+      <methodref name="SetSuspended" visibility="private">
+      </methodref>
+      <methodref name="CheckThreadError" visibility="protected">
+      </methodref>
+      <methodref name="CheckThreadError" visibility="protected">
+      </methodref>
+      <methodref name="DoTerminate" visibility="public">
+      </methodref>
+      <methodref name="Execute" visibility="public">
+      </methodref>
+      <methodref name="Queue" visibility="protected">
+      </methodref>
+      <methodref name="Synchronize" visibility="protected">
+      </methodref>
+      <methodref name="Queue" visibility="protected">
+      </methodref>
+      <methodref name="Synchronize" visibility="protected">
+      </methodref>
+      <propertyref name="ReturnValue" visibility="protected">
+      </propertyref>
+      <propertyref name="Terminated" visibility="protected">
+      </propertyref>
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="Resume" visibility="public" symflags="deprecated">
+      </methodref>
+      <methodref name="Start" visibility="public">
+      </methodref>
+      <methodref name="Suspend" visibility="public" symflags="deprecated">
+      </methodref>
+      <methodref name="Terminate" visibility="public">
+      </methodref>
+      <methodref name="WaitFor" visibility="public">
+      </methodref>
+      <methodref name="Queue" visibility="public">
+      </methodref>
+      <methodref name="RemoveQueuedEvents" visibility="public">
+      </methodref>
+      <methodref name="StaticQueue" visibility="public" symflags="deprecated">
+      </methodref>
+      <methodref name="Synchronize" visibility="public">
+      </methodref>
+      <methodref name="StaticSynchronize" visibility="public" symflags="deprecated">
+      </methodref>
+      <methodref name="Queue" visibility="public">
+      </methodref>
+      <methodref name="Synchronize" visibility="public">
+      </methodref>
+      <methodref name="RemoveQueuedEvents" visibility="public">
+      </methodref>
+      <methodref name="RemoveQueuedEvents" visibility="public">
+      </methodref>
+      <methodref name="NameThreadForDebugging" visibility="public">
+      </methodref>
+      <methodref name="SpinWait" visibility="public">
+      </methodref>
+      <propertyref name="ExternalThread" visibility="public">
+      </propertyref>
+      <propertyref name="FatalException" visibility="public">
+      </propertyref>
+      <propertyref name="FreeOnTerminate" visibility="public">
+      </propertyref>
+      <propertyref name="Finished" visibility="public">
+      </propertyref>
+      <propertyref name="Handle" visibility="public">
+      </propertyref>
+      <propertyref name="Priority" visibility="public">
+      </propertyref>
+      <propertyref name="Suspended" visibility="public">
+      </propertyref>
+      <propertyref name="ThreadID" visibility="public">
+      </propertyref>
+      <eventref name="OnTerminate" visibility="public">
+      </eventref>
+      <propertyref name="CurrentThread" visibility="public">
+      </propertyref>
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="InitInstance" visibility="public">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public">
+        </methodref>
+        <methodref name="ClassName" visibility="public">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public">
+        </methodref>
+        <methodref name="ClassParent" visibility="public">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodName" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public">
+        </methodref>
+        <methodref name="UnitName" visibility="public">
+        </methodref>
+        <methodref name="Equals" visibility="public">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public">
+        </methodref>
+        <methodref name="ToString" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="Dispatch" visibility="public">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public">
+        </methodref>
+        <methodref name="NewInstance" visibility="public">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FLastPerfCount" type="Int64" visibility="private" />
+      <field name="FPerfFreq" type="Int64" visibility="private" />
+      <function name="GetEnabled" visibility="private">
+        <parameters>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="SetEnabled" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <field name="FInterval" type="Word" visibility="protected" />
+      <field name="FOnTimer" type="TNotifyEvent" visibility="protected" />
+      <field name="FOnRunning" type="TRunningEvent" visibility="protected" />
+      <procedure name="SetInterval" visibility="protected">
+        <parameters>
+          <parameter name="Value" type="Word" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Execute" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="DoByMySelf" visibility="public" procflags="virtual">
+      </procedure>
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <event name="OnTimer" visibility="published" read="FOnTimer" write="FOnTimer" type="TNotifyEvent" />
+      <event name="OnRunning" visibility="published" read="FOnRunning" write="FOnRunning" type="TRunningEvent" />
+      <property name="Interval" visibility="published" read="FInterval" write="SetInterval" type="Word" />
+      <property name="Enabled" visibility="published" read="GetEnabled" write="SetEnabled" type="Boolean" />
+    </members>
+  </class>
+</namespace>

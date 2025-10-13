@@ -1,0 +1,192 @@
+object frmDoc: TfrmDoc
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'frmDoc'
+  ClientHeight = 1095
+  ClientWidth = 1600
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pnlDoc: TPanel
+    Left = 0
+    Top = 0
+    Width = 1600
+    Height = 1200
+    Color = clMedGray
+    ParentBackground = False
+    TabOrder = 0
+    object pnlTitle: TPanel
+      Left = 0
+      Top = 0
+      Width = 1600
+      Height = 31
+      Color = clTeal
+      ParentBackground = False
+      TabOrder = 0
+      object Label1: TLabel
+        Left = 13
+        Top = 6
+        Width = 65
+        Height = 16
+        Caption = 'Document'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+    end
+    object pnlMenu: TPanel
+      Left = 0
+      Top = 30
+      Width = 1600
+      Height = 54
+      BevelInner = bvRaised
+      BevelKind = bkFlat
+      BevelOuter = bvSpace
+      Color = clMedGray
+      ParentBackground = False
+      TabOrder = 1
+      object btnView: TSpeedButton
+        Left = 168
+        Top = 7
+        Width = 121
+        Height = 36
+        Caption = 'VIEW'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        OnClick = btnViewClick
+      end
+      object btnPrint: TSpeedButton
+        Left = 368
+        Top = 7
+        Width = 121
+        Height = 36
+        Caption = 'PRINT'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object btnUSB: TSpeedButton
+        Left = 575
+        Top = 7
+        Width = 121
+        Height = 36
+        Caption = 'USB'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object btnExit: TSpeedButton
+        Left = 775
+        Top = 7
+        Width = 121
+        Height = 36
+        Caption = 'EXIT'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        OnClick = btnExitClick
+      end
+    end
+    object pnlBlank: TPanel
+      Left = 0
+      Top = 83
+      Width = 1600
+      Height = 1080
+      TabOrder = 3
+    end
+    object pnlViewValue: TPanel
+      Left = 0
+      Top = 83
+      Width = 1600
+      Height = 1080
+      TabOrder = 2
+      object Label2: TLabel
+        Left = 110
+        Top = 48
+        Width = 151
+        Height = 16
+        Caption = 'GROUP 4 (Data of ASM)'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label3: TLabel
+        Left = 110
+        Top = 96
+        Width = 96
+        Height = 16
+        Caption = 'Current Time : '
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lblCurrentTIme: TLabel
+        Left = 224
+        Top = 98
+        Width = 58
+        Height = 16
+        Caption = '00:00:00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object sgDoc: TStringGrid
+        Left = 110
+        Top = 126
+        Width = 1371
+        Height = 803
+        ColCount = 2
+        FixedColor = clWhite
+        FixedCols = 0
+        RowCount = 32
+        FixedRows = 0
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 0
+      end
+    end
+  end
+  object timerDoc: TTimer
+    Enabled = False
+    OnTimer = timerDocTimer
+    Left = 616
+    Top = 248
+  end
+end

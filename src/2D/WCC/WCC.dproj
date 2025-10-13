@@ -1,0 +1,244 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{61E7B81C-E75A-492D-BBA6-3C90667453C9}</ProjectGuid>
+			<MainSource>WCC.dpr</MainSource>
+			<Config Condition="'$(Config)'==''">Debug</Config>
+			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+			<ProjectVersion>12.0</ProjectVersion>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_DcuOutput>..\comp</DCC_DcuOutput>
+			<DCC_DcpOutput>..\comp</DCC_DcpOutput>
+			<DCC_ExeOutput>..\..\..\bin\2D\bin\</DCC_ExeOutput>
+			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;$(DCC_UnitAlias)</DCC_UnitAlias>
+			<DCC_DependencyCheckOutputName>..\..\..\bin\2D\bin\WCC.exe</DCC_DependencyCheckOutputName>
+			<DCC_ImageBase>00400000</DCC_ImageBase>
+			<DCC_Platform>x86</DCC_Platform>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+			<DCC_DebugInformation>false</DCC_DebugInformation>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+		</PropertyGroup>
+		<ItemGroup>
+			<DelphiCompile Include="WCC.dpr">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\Timer\MSThreadTimer.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\Timer\uQScheduler2.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\Timer\uVirtualTime.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uBaseConstan.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uBaseDataType.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uBaseFunction.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uBaseSimulationObject.pas"/>
+			<DCCReference Include="..\ShareLib\LibObject\uMapXSim.pas"/>
+			<DCCReference Include="..\ShareLib\LibObject\uMover.pas"/>
+			<DCCReference Include="..\ShareLib\LibNetworks\uTCPDatatype.pas"/>
+			<DCCReference Include="..\ShareLib\LibNetworks\uTCPClient.pas"/>
+			<DCCReference Include="..\ShareLib\LibNetworks\uTCPServer.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uBaseSensor.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uBaseSensorView.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uLibRadarComp.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uLibRadar.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uLibRadarView.pas"/>
+			<DCCReference Include="..\ShareLib\libGrafik\uBaseGraphicProc.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uStringFunction.pas"/>
+			<DCCReference Include="..\ShareLib\LibClientObject\uLibClientObject.pas"/>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uSimulationManager.pas"/>
+			<DCCReference Include="uWCCmanager.pas"/>
+			<DCCReference Include="..\ShareLib\LibTest\uTestShip.pas"/>
+			<DCCReference Include="..\ShareLib\LibObject\uObjectView.pas"/>
+			<DCCReference Include="..\ShareLib\LibObject\uRadarTracks.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uDetected.pas"/>
+			<DCCReference Include="..\ShareLib\LibObject\uTorpedoTrack.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uLibTDCTracks.pas"/>
+			<DCCReference Include="..\ShareLib\LibSensor\uTrackFunction.pas"/>
+			<DCCReference Include="..\ShareLib\libADLAS\vmSDK26.pas"/>
+			<DCCReference Include="..\ShareLib\AppForms\uMapTools.pas">
+				<Form>frmMapTools</Form>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\AppForms\ufrmNetSetting.pas">
+				<Form>frmNetSetting</Form>
+			</DCCReference>
+			<DCCReference Include="AppForms\uMainFormWCC.pas">
+				<Form>fMainWCC</Form>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\AppForms\uMapWindow.pas">
+				<Form>frmMapWindow</Form>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\AppForms\uDataModule.pas">
+				<Form>DataModule1</Form>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\libDisplay\uLabelDisplay.pas"/>
+			<DCCReference Include="LibWCC\uLibWCC_Nala.pas"/>
+			<DCCReference Include="WCCForms\NALA-PIT\ufWCCPanelAtas.pas">
+				<Form>frmWCCPanelAtas</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\NALA-PIT\ufWCCPanelBawah.pas">
+				<Form>frmWCCPanelBawah</Form>
+			</DCCReference>
+			<DCCReference Include="LibWCC\uLibWCCku.pas"/>
+			<DCCReference Include="WCCForms\COMMON-PIT\ufQEK.pas">
+				<Form>frmQEK</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\NALA-PIT\ufWCCPanelAtas2.pas">
+				<Form>frmWCCPanelAtas2</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\NALA-PIT\ufWCCPanelBawah2.pas">
+				<Form>frmWCCPanelBawah2</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\NALA-PIT\ufAScope.pas">
+				<Form>frmAScope</Form>
+			</DCCReference>
+			<DCCReference Include="LibWCC\uPubProc.pas"/>
+			<DCCReference Include="..\ShareLib\LibTDC_WCC\uLibTDCDisplay.pas"/>
+			<DCCReference Include="..\ShareLib\LibTDC_WCC\uTDCConstan.pas"/>
+			<DCCReference Include="..\ShareLib\LibTDC_WCC\uLibTDCClass.pas"/>
+			<DCCReference Include="LibWCC\uLibWCCClassNew.pas"/>
+			<DCCReference Include="WCCForms\NALA-PIT\ufBScope.pas">
+				<Form>frmBScope</Form>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\libGrafik\uBaseGraphicObjects.pas"/>
+			<DCCReference Include="..\ShareLib\LibUtil\uFormUtil.pas"/>
+			<DCCReference Include="LibWCC\uLibWCC_Rencong.pas"/>
+			<DCCReference Include="LibWCC\uLibWCC_Singa.pas"/>
+			<DCCReference Include="WCCForms\SINGA-PIT\ufAtas2_Singa.pas">
+				<Form>frmAtas2_Singa</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\SINGA-PIT\ufAtas_Singa.pas">
+				<Form>frmAtas_Singa</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\SINGA-PIT\ufBawah2_Singa.pas">
+				<Form>frmBawah2_Singa</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\SINGA-PIT\ufBawah_Singa.pas">
+				<Form>frmBawah_Singa</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\COMMON-PIT\ufWCCTengah.pas">
+				<Form>frmWCCTengah</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\RENCONG-PIT\ufAtas_Rencong.pas">
+				<Form>frmAtas_Rencong</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\RENCONG-PIT\ufAtas2_Rencong.pas">
+				<Form>frmAtas2_Rencong</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\RENCONG-PIT\ufBawah2_Rencong.pas">
+				<Form>frmBawah2_Rencong</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\RENCONG-PIT\ufBawah_Rencong.pas">
+				<Form>frmBawah_Rencong</Form>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\LibBaseSystem\uMapXFunction.pas"/>
+			<DCCReference Include="..\ShareLib\libDisplay\uAScopeDisplay.pas"/>
+			<DCCReference Include="..\ShareLib\libDisplay\uBScopeBaseDisplay.pas"/>
+			<DCCReference Include="AppForms\uSpecialForm.pas">
+				<Form>frmDeveloper</Form>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\LibObject\uTorpedoView.pas"/>
+			<DCCReference Include="AppForms\ufLog.pas">
+				<Form>frmLog</Form>
+			</DCCReference>
+			<DCCReference Include="AppForms\uSplash.pas">
+				<Form>frmSplash</Form>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\LibTDC_WCC\uLibTDC_Object.pas"/>
+			<DCCReference Include="RangeCorrection\uCorrection.pas"/>
+			<DCCReference Include="RangeCorrection\uData.pas"/>
+			<DCCReference Include="RangeCorrection\ufKoreksi.pas">
+				<Form>FrmKoreksi</Form>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\LibSetting\uCodecBase64.pas"/>
+			<DCCReference Include="..\ShareLib\LibSetting\uLibEmulatorSetting.pas"/>
+			<DCCReference Include="..\ShareLib\LibSetting\uLibSettings.pas"/>
+			<DCCReference Include="..\ShareLib\LibSetting\uBridgeSet.pas"/>
+			<DCCReference Include="..\ShareLib\libDisplay\uCompassDisplay.pas"/>
+			<DCCReference Include="..\ShareLib\LibObject\uDataTypes.pas"/>
+			<DCCReference Include="..\ShareLib\LibObject\uStringFunc.pas"/>
+			<DCCReference Include="..\ShareLib\LibUtil\uSettingFormToMonitorWith_ini.pas"/>
+			<DCCReference Include="WCCForms\COMMON-PIT\ufrmBckGround.pas">
+				<Form>frmBackground</Form>
+			</DCCReference>
+			<DCCReference Include="WCCForms\NALA-PIT\uAnduNala.pas">
+				<Form>frmAndu</Form>
+			</DCCReference>
+			<DCCReference Include="..\ShareLib\AppForms\uClassDatabase.pas"/>
+			<DCCReference Include="..\ShareLib\libGrafik\uGraphics.pas"/>
+			<None Include="WCC.todo"/>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType>VCLApplication</Borland.ProjectType>
+			<BorlandProject>
+				<Delphi.Personality>
+					<Source>
+						<Source Name="MainSource">WCC.dpr</Source>
+					</Source>
+					<Parameters>
+						<Parameters Name="UseLauncher">False</Parameters>
+						<Parameters Name="LoadAllSymbols">True</Parameters>
+						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+						<Parameters Name="RunParams">-192.168.1.233 -2120 -192.168.1.128 -mysql -dbNSuFs -root -admin -6 -14</Parameters>
+					</Parameters>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
+						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">0</VersionInfo>
+						<VersionInfo Name="Release">0</VersionInfo>
+						<VersionInfo Name="Build">0</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">1033</VersionInfo>
+						<VersionInfo Name="CodePage">1252</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
+						<VersionInfoKeys Name="LegalTrademarks"/>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments"/>
+					</VersionInfoKeys>
+				</Delphi.Personality>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+	</Project>

@@ -1,0 +1,51 @@
+---yang ada di kapal----
+
+switch: SwitchWeapon
+
+
+DOF_MK46L1 }
+DOF_MK46L2 } launcher sebelah kiri, putar 45derajat ke kiri
+DOF_MK46L3 }
+
+
+DOF_MK46R1 }
+DOF_MK46R2 } launcher sebelah kanan, putar 45derajat ke kanan
+DOF_MK46R3 }
+
+DOF_YakhonL1
+DOF_YakhonL2
+DOF_YakhonR1
+DOF_YakhonR2
+
+DOF_Meriam76Base
+
+DOF_C802_1 }
+DOF_C802_2 }  urut dpn k blkg... 1&2 hdp kiri.... 3&4 hadapkanan
+DOF_C802_3 }
+DOF_C802_4 }
+
+DOF_MistralBaseL
+DOF_MistralBaseR
+
+---------------------------
+
+OWAMeriam76Base.ive
+DOF_Meriam76Launcher
+
+---------------------------
+
+OWAMeriam76Launcher.ive
+DOF_Meriam76Camera1
+DOF_Meriam76Camera2
+DOF_Meriam76Missile
+
+---------------------------
+
+OWAMistralBase.ive
+DOF_TetralLauncher
+
+---------------------------
+
+OWAMistralLauncher.ive
+DOF_MistralMissile1
+DOF_MistralMissile2

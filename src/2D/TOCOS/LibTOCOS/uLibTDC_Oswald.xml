@@ -1,0 +1,319 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uLibTDC_Oswald">
+  <class name="TTDC_Oswald">
+    <ancestor name="TGenericTDCInterface" namespace="uLibTDCClass">
+      <methodref name="SetTrueMotion" visibility="protected" />
+      <methodref name="ConvertToScreen" visibility="protected" />
+      <methodref name="ConvertToMap" visibility="protected" />
+      <methodref name="AddGameLog" visibility="protected" />
+      <methodref name="ShowAllForm" visibility="public" />
+      <methodref name="CreateFormss" visibility="public" />
+      <methodref name="SetDefaultLayOut" visibility="public" />
+      <methodref name="ShowFormBawahOWA" visibility="public" />
+      <methodref name="HideFormBawahOWA" visibility="public" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="ConvertViewPosition" visibility="public" />
+      <methodref name="Draw" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <methodref name="Update" visibility="public" />
+      <methodref name="Walk" visibility="public" />
+      <methodref name="Initialize" visibility="public" />
+      <methodref name="FindMarkerByPosition" visibility="public" />
+      <methodref name="JustFindTrack_by_OBMRight" visibility="public" />
+      <methodref name="FindTrack_by_screenpos" visibility="public" />
+      <methodref name="IsHitTrack" visibility="public" />
+      <methodref name="FindTrack_by_trackID" visibility="public" />
+      <methodref name="FindTDCTrack_by_trackID" visibility="public" />
+      <methodref name="CreateDefaultMTrack" visibility="public" />
+      <methodref name="InitMTrackIdent" visibility="public" />
+      <methodref name="ChangeMTrackIdent" visibility="public" />
+      <methodref name="DeleteMTrack" visibility="public" />
+      <methodref name="SetView_RangeScale" visibility="public" />
+      <methodref name="Set_Radar_Off" visibility="public" />
+      <methodref name="SetRadar_Amplification" visibility="public" />
+      <methodref name="SetRadar_MTI_Status" visibility="public" />
+      <methodref name="SetRadarForTocos_Status" visibility="public" />
+      <methodref name="SetRadar_type" visibility="public" />
+      <methodref name="SetRadar_SubSurf_Status" visibility="public" />
+      <methodref name="SetRadar_Surf_Status" visibility="public" />
+      <methodref name="SetRadar_RangeRing" visibility="public" />
+      <methodref name="SetRadar_HeadingMarker" visibility="public" />
+      <methodref name="CU_OR_Left_SetStatus" visibility="public" />
+      <methodref name="CU_OR_Right_SetStatus" visibility="public" />
+      <methodref name="CentLeft_SetStatus" visibility="public" />
+      <methodref name="CentRight_SetStatus" visibility="public" />
+      <methodref name="OBMLeft_Reset" visibility="public" />
+      <methodref name="OBMRight_Reset" visibility="public" />
+      <methodref name="SetThreadAssesmentDuration" visibility="public" />
+      <methodref name="SetThreadAsses" visibility="public" />
+      <methodref name="OwnShipMarker_SetPosition" visibility="public" />
+      <methodref name="OBMLeft_SetPosition" visibility="public" />
+      <methodref name="OBMRight_SetPosition" visibility="public" />
+      <methodref name="CursorSetRange" visibility="public" />
+      <methodref name="CursorSetBearing" visibility="public" />
+      <methodref name="SetBlindARC" visibility="public" />
+      <methodref name="SetLPDTest" visibility="public" />
+      <methodref name="WipeOnPosition" visibility="public" />
+      <methodref name="WipeOnLeftOBM" visibility="public" />
+      <methodref name="WipeOnRightOBM" visibility="public" />
+      <methodref name="RecvWIPE" visibility="public" />
+      <methodref name="SendWIPE" visibility="public" />
+      <methodref name="SetInitDatum" visibility="public" />
+      <methodref name="setFOCPlus" visibility="public" />
+      <methodref name="setFOCMinus" visibility="public" />
+      <methodref name="setAssignASRL" visibility="public" />
+      <methodref name="setDeAssignASRL" visibility="public" />
+      <methodref name="Recv_Ident" visibility="public" />
+      <methodref name="Change_Ident" visibility="public" />
+      <methodref name="initiateTrackPacket" visibility="public" />
+      <methodref name="InitiateRAM" visibility="public" />
+      <methodref name="InitiateAuto" visibility="public" />
+      <methodref name="InitiateDR" visibility="public" />
+      <methodref name="AssignRAM" visibility="public" />
+      <methodref name="RecvAssignRAM" visibility="public" />
+      <methodref name="AssignDR" visibility="public" />
+      <methodref name="AssignAuto" visibility="public" />
+      <methodref name="CorrectRAM" visibility="public" />
+      <methodref name="CloseControl" visibility="public" />
+      <methodref name="WipeCloseControlerMarker" visibility="public" />
+      <methodref name="SetOBMRightPos_NextTrack_AtasAir" visibility="public" />
+      <methodref name="SetOBMRightPos_NextTrack_Udara" visibility="public" />
+      <methodref name="SetOBMPos_NextTrack" visibility="public" />
+      <methodref name="SetInitESMFix" visibility="public" />
+      <methodref name="setAssignSSM" visibility="public" />
+      <methodref name="SendUpdateSSM" visibility="public" />
+      <methodref name="setDeAssignSSM" visibility="public" />
+      <methodref name="SetAssignTorpedo_MK44" visibility="public" />
+      <methodref name="SetDeAssignTorpedo" visibility="public" />
+      <methodref name="SetAssignTorpedo_SUT" visibility="public" />
+      <methodref name="SetDeassignTorpedo_SUT" visibility="public" />
+      <methodref name="SetMainSymbolVisible" visibility="public" />
+      <methodref name="SetCourseVisible" visibility="public" />
+      <methodref name="SetAMPLInfoVisible" visibility="public" />
+      <methodref name="SetLINKVisible" visibility="public" />
+      <methodref name="SetTrackNumberVisible" visibility="public" />
+      <methodref name="Filter" visibility="public" />
+      <methodref name="SetAssign_FC" visibility="public" />
+      <methodref name="SetDeAssign_FC" visibility="public" />
+      <methodref name="RecvAssign_FC" visibility="public" />
+      <methodref name="RecvDeAssign_FC" visibility="public" />
+      <methodref name="RecvAssign_GenFiX" visibility="public" />
+      <methodref name="RecvAssign_BlindBomb" visibility="public" />
+      <methodref name="SetOpenFire_FC" visibility="public" />
+      <methodref name="SetHoldFire_FC" visibility="public" />
+      <methodref name="CreateCursorFix" visibility="public" />
+      <methodref name="AddCursorFix" visibility="public" />
+      <methodref name="DelCursorFix" visibility="public" />
+      <methodref name="AddCursorFixToTrack" visibility="public" />
+      <methodref name="StartICMLeft" visibility="public" />
+      <methodref name="EndICMLeft" visibility="public" />
+      <methodref name="StartICMRight" visibility="public" />
+      <methodref name="EndICMRight" visibility="public" />
+      <methodref name="UpdateICMPos" visibility="public" />
+      <methodref name="AssignTrackToDetected" visibility="public" />
+      <methodref name="RecvUpdateTrackPosition" visibility="public" />
+      <methodref name="LaunchTorpedoTo" visibility="public" />
+      <methodref name="SetToTargetBeforeFire" visibility="public" />
+      <methodref name="SetNoTargetBeforeFire" visibility="public" />
+      <methodref name="SetToTargetAfterFire" visibility="public" />
+      <methodref name="SetNoTargetAfterFire" visibility="public" />
+      <methodref name="SetDeAssignTo3D" visibility="public" />
+      <methodref name="DeleteTorpedoPHP" visibility="public" />
+      <methodref name="UpdateTorpedoPosition" visibility="public" />
+      <methodref name="DeleteTorpedoSUTTrack" visibility="public" />
+      <methodref name="DeleteTorpedoSUTTrack_OnWipeTrack" visibility="public" />
+      <methodref name="ClearSkenario" visibility="public" />
+      <methodref name="SetLPDText" visibility="public" />
+      <methodref name="DataRequest_Left" visibility="public" />
+      <methodref name="DataRequest_Right" visibility="public" />
+      <methodref name="DR_OBM_right" visibility="public" />
+      <methodref name="DR_OBM_left" visibility="public" />
+      <methodref name="DR_OCM_right" visibility="public" />
+      <methodref name="DR_OCM_left" visibility="public" />
+      <methodref name="SetBackTracking" visibility="public" />
+      <methodref name="SetBackTrackOnPos" visibility="public" />
+      <methodref name="SetDeadRecon" visibility="public" />
+      <methodref name="SetLPDStatus" visibility="public" />
+      <methodref name="SetStatus" visibility="public" />
+      <methodref name="ViewStatus" visibility="public" />
+      <methodref name="ResetStatus" visibility="public" />
+      <methodref name="SetTorpStatus" visibility="public" />
+      <methodref name="FindToBeDeletedTrack" visibility="public" />
+      <methodref name="DeleteTrack" visibility="public" />
+      <methodref name="OCC_AssignFC" visibility="public" />
+      <methodref name="OCC_DeassignFC" visibility="public" />
+      <methodref name="GetLastTrackID" visibility="public" />
+      <methodref name="SetLastTrackID" visibility="public" />
+      <methodref name="InitiateDATUM" visibility="public" />
+      <methodref name="InitiateESMFix" visibility="public" />
+      <methodref name="InitiateRefPos" visibility="public" />
+      <methodref name="initiateSurfaceGrid" visibility="public" />
+      <methodref name="setRelatifWind" visibility="public" />
+      <methodref name="GetTrueWind" visibility="public" />
+      <methodref name="GetRealtiveWind" visibility="public" />
+      <methodref name="GetTorpedoTrack" visibility="public" />
+      <methodref name="SetEngagementBox" visibility="public" />
+      <methodref name="InitiateTrack" visibility="public" />
+      <methodref name="RecvInitiateTrack" visibility="public" />
+      <methodref name="CorrectRAM_OWA" visibility="public" />
+      <methodref name="RePos_OWA" visibility="public" />
+      <methodref name="CloseControlOWA" visibility="public" />
+      <methodref name="Update_Exocet_Position" visibility="public" />
+      <methodref name="Wipe_TorpedoSUTTrack" visibility="public" />
+      <methodref name="FindTorpTrack_by_screenpos" visibility="public" />
+      <methodref name="GetTorp_fromTube" visibility="public" />
+      <methodref name="GetTorp_fromList" visibility="public" />
+      <methodref name="FireTorp_SUT" visibility="public" />
+      <methodref name="ClearStatus" visibility="public" />
+      <methodref name="TorpedoDestroy" visibility="public" />
+      <methodref name="Update_TorpedoSUT_Position" visibility="public" />
+      <methodref name="GetTorpData_From3D" visibility="public" />
+      <methodref name="ManCloseControl" visibility="public" />
+      <methodref name="Update_Bearing_TORP" visibility="public" />
+      <methodref name="Update_Depth_TORP" visibility="public" />
+      <methodref name="Update_EnDis_TORP" visibility="public" />
+      <methodref name="Update_Speed_TORP" visibility="public" />
+      <methodref name="Update_Persistence_TORP" visibility="public" />
+      <methodref name="RecvUpdateTechnicalConsole" visibility="public" />
+      <methodref name="UpdateButtonTechnical" visibility="public" />
+      <methodref name="RecvTorpSUTStatus" visibility="public" />
+      <methodref name="RemovePredictionLineView" visibility="public" />
+      <methodref name="SendEvenTOCOS" visibility="public" />
+      <methodref name="Homming_SUT" visibility="public" />
+      <methodref name="Searching_SUT" visibility="public" />
+      <methodref name="TorpShutDown_SUT" visibility="public" />
+      <methodref name="ManualControl_SUT" visibility="public" />
+      <propertyref name="TrueMotion" visibility="published" />
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="InitInstance" visibility="public">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public">
+        </methodref>
+        <methodref name="ClassName" visibility="public">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public">
+        </methodref>
+        <methodref name="ClassParent" visibility="public">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodName" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public">
+        </methodref>
+        <methodref name="UnitName" visibility="public">
+        </methodref>
+        <methodref name="Equals" visibility="public">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public">
+        </methodref>
+        <methodref name="ToString" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="Dispatch" visibility="public">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public">
+        </methodref>
+        <methodref name="NewInstance" visibility="public">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FForms" visibility="protected">
+        <array name="FForms" low="1" high="8">
+          <element type="TfrmQEK" />
+        </array>
+      </field>
+      <field name="frmMIK_Kanan" type="TfrmMIK_Owa" visibility="protected" />
+      <field name="frmDisplay_kanan" type="TfrmANDUDisplay" visibility="protected" />
+      <procedure name="CreateForms_0" visibility="protected">
+      </procedure>
+      <procedure name="CreateForms_1" visibility="protected">
+      </procedure>
+      <procedure name="CreateForms_2" visibility="protected">
+      </procedure>
+      <procedure name="CreateForms_3" visibility="protected">
+      </procedure>
+      <procedure name="CreateForms_4" visibility="protected">
+      </procedure>
+      <field name="fTengahBawah" type="TfrmQEK" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="CreateFormss" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="num" type="Byte" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="ShowAllForm" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="SetDefaultLayOut" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="ShowFormBawahOWA" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="HideFormBawahOWA" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="DataRequest_Left" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="b" type="Byte" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="DataRequest_Right" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="b" type="Byte" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="DR_OBM_right" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="b" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="DR_OBM_left" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="b" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="DR_OCM_right" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="DR_OCM_left" visibility="public" procflags="override">
+      </procedure>
+    </members>
+  </class>
+</namespace>

@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uAnduProc">
+  <const name="autman" type=":1" visibility="public" />
+  <const name="opermode" type=":2" visibility="public" />
+  <const name="onof" type=":3" visibility="public" />
+  <const name="monthdate" type=":4" visibility="public" />
+  <const name="predm" type=":5" visibility="public" />
+  <const name="speedcode" type=":6" visibility="public" />
+  <const name="homing" type=":7" visibility="public" />
+  <const name="modesursub" type=":8" visibility="public" />
+  <const name="tcomunit" type=":9" visibility="public" />
+  <const name="squarewidth" type=":01" visibility="public" />
+  <const name="indentorp" type=":11" visibility="public" />
+  <const name="codepage9" type=":21" visibility="public" />
+  <const name="logpos" type=":31" visibility="public" />
+  <const name="insert_byNIK" type="Char">
+    <value>
+      $3E
+    </value>
+  </const>
+  <const name="insert_byRolling" type="Char">
+    <value>
+      $56
+    </value>
+  </const>
+  <function name="GetStrToLength" visibility="public">
+    <parameters>
+      <parameter name="value" type="string" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetStrToVal" visibility="public">
+    <parameters>
+      <parameter name="value" type="string" />
+      <retval type="Double" />
+    </parameters>
+  </function>
+  <function name="GetStrToSpace" visibility="public">
+    <parameters>
+      <parameter name="value" type="string" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetValToStr" visibility="public">
+    <parameters>
+      <parameter name="value" type="Double" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetTrackNo" visibility="public">
+    <parameters>
+      <parameter name="aShipTID" type="Byte" paramflags="const" />
+      <parameter name="aTrackNum" type="Byte" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="SetTrackNoToAND" visibility="public">
+    <parameters>
+      <parameter name="s" type="string" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetStrToSpeedType" visibility="public">
+    <parameters>
+      <parameter name="spd" type="string" />
+      <retval type="TSpeedType" />
+    </parameters>
+  </function>
+  <function name="GetSpeedTypeToStr" visibility="public">
+    <parameters>
+      <parameter name="spd" type="TSpeedType" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetHomingTypeToStr" visibility="public">
+    <parameters>
+      <parameter name="hmg" type="THomingType" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetTargetTypeToStr" visibility="public">
+    <parameters>
+      <parameter name="ttp" type="Byte" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetLolimModeToStr" visibility="public">
+    <parameters>
+      <parameter name="llm" type="TLolimm" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetHomingBlockToStr" visibility="public">
+    <parameters>
+      <parameter name="hbt" type="THomingBlockType" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetTubeStr" visibility="public">
+    <parameters>
+      <parameter name="tube" type="TTube" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetTube_fromStr" visibility="public">
+    <parameters>
+      <parameter name="TxtTube" type="string" />
+      <retval type="TTube" />
+    </parameters>
+  </function>
+  <function name="GetPredmType_fromStr" visibility="public">
+    <parameters>
+      <parameter name="prdm" type="string" />
+      <retval type="TPredm" />
+    </parameters>
+  </function>
+  <function name="GetPredmStr" visibility="public">
+    <parameters>
+      <parameter name="pr" type="TPredm" />
+      <retval type="string" />
+    </parameters>
+  </function>
+</namespace>

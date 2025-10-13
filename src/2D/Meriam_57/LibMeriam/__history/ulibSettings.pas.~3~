@@ -1,0 +1,14 @@
+unit ulibSettings;
+
+interface
+
+type
+  TPathImageSetting = record
+    ImgPath: string;
+  end;
+
+  function LoadFF_PathImageSetting(const fName: string; var imgSet: TPathImageSetting): boolean;
+
+implementation
+
+end.

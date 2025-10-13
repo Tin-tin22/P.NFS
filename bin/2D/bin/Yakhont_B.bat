@@ -1,0 +1,1 @@
+Yakhont_B.exe -192.168.5.81 -2120 -192.168.5.22 -mysql -dbNSuFs_Armabar -root -admin -1 -10

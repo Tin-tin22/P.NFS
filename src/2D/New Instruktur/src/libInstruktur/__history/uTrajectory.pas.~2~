@@ -1,0 +1,613 @@
+unit uTrajectory;
+
+interface
+
+  uses
+    Windows, Classes, Graphics, SysUtils, Dialogs, Math,
+    uObjectView;
+
+  type
+    TTrajectory  = class
+
+      public
+        //- > pointer to Canvas in frmgamecontroller
+        aCanvas : TCanvas;
+        WidthCanvas,
+        heightCanvas : integer;
+        xStart , yStart : Integer;
+
+        //Property Missile
+        WeaponUID : string;
+        aShipID,
+        aWeaponID,
+        aLauncherID,
+        aMissileID,
+        aMissileNumber,
+        ScaleWidth : Integer;
+
+      constructor Create; virtual;
+      procedure Draw(TrailHistory : THistory; ScaleHeight, ScaleWidthZ : Integer);
+      function getScale (HeightCanvas, HeightZ : Integer): Integer;
+
+    end;
+
+    TTrajectoryAsroc = class(TTrajectory)
+
+      private
+        TypeMissile : Integer;
+        Elev, Elev2        : Double;
+        Time        : Double;
+        timeAkhirFase1, timeAwalFase2 : Double;
+        v0Fase1, v0Fase2     : Double;
+        YFase1, YFase2      : array of Double;
+        TimeFase1, TimeFase2   : array of Double;
+        graphWidth  : Integer;
+        graphHeigth : Integer;
+        IsActive    : Boolean;
+        YMax, XMax  : Double;
+
+        function InitElevationAsroc(distance : Double; missiletype : Integer) : Double;
+        function GetMissileTypeByDistanceAsroc (distance : Double) : Integer;
+        procedure Initialize_Asroc(const MissileType : Integer; const Elev : Double; distance : double);
+        procedure drawAsroc();
+        procedure drawAsroc2();
+        procedure DeleteObject;
+
+
+      public
+        distance : Double;
+        procedure PrepareDraw(TimerInterval : Integer);
+        procedure DrawAsrocTrajectory;
+
+
+        constructor Create; override;
+
+    end;
+
+    TTrajectoryRBU = class(TTrajectory)
+
+      private
+//
+      public
+//
+    end;
+
+    TTrajectoryTetral = class(TTrajectory)
+
+      private
+//
+      public
+//
+    end;
+
+    TTrajectoryYakhont = class(TTrajectory)
+
+      private
+//
+      public
+//
+    end;
+
+    TTrajectoryC802 = class(TTrajectory)
+
+      private
+//
+      public
+//
+    end;
+
+    TTRajectoryMistral = class(TTrajectory)
+
+      private
+//
+      public
+//
+    end;
+
+    TTRajectoryStrela = class(TTrajectory)
+
+      private
+//
+      public
+//
+    end;
+
+    TTrajectoryExocet = class(TTrajectory)
+
+      private
+//
+      public
+//
+    end;
+
+  const
+  NellyHigh = 1;
+  NellyLow  = 2;
+  ErikaHigh = 3;
+  ErikaLow  = 4;
+  MaxHeight = 1000;
+  MaxWidth  = 50;
+
+
+
+implementation
+
+
+{ TTrajectory }
+
+constructor TTrajectory.Create;
+begin
+    xStart := 60;
+    yStart := 45;
+    ScaleWidth := 0;
+end;
+
+procedure TTrajectory.Draw(TrailHistory : THistory; ScaleHeight, ScaleWidthZ : Integer);
+var
+  heightCount, timeCount : Integer;
+  interval, interval2,I ,J : Integer;
+  heightPos, timePos       : Integer ;
+
+  Tinggi, Lebar : Integer;
+  Rec: TRect;
+  TinggiSkala, LebarSkala, periodic : Integer;
+
+  ConvertHeight, ConvertHeight2, ConvertWidht, ConvertWidht2 : Double;
+
+
+  tl : TPoint;
+  br : TPoint;
+begin
+  with  aCanvas do
+  begin
+
+    if ScaleWidth < Round(TrailHistory.CountPoint) then
+    begin
+      ScaleWidth := ScaleWidth + ScaleWidthZ;
+    end;
+//     ScaleWidth := 200;
+
+    //Refresh Canvas
+    tl.X := 0;
+    tl.Y := 0;
+    br.X := WidthCanvas;
+    br.Y := heightCanvas;
+
+    for I := 1 to TrailHistory.CountPoint-1 do
+    begin
+      if Round(TrailHistory.Trails[i].Z)> heightCanvas then
+      begin
+         getScale(heightCanvas, Round(TrailHistory.Trails[i].Z));
+      end;
+    end;
+
+    Rec.TopLeft := tl;
+    Rec.BottomRight := br;
+    Brush.Color:= clBlack;
+    Brush.Style:= bsSolid;
+    Pen.Style:= psSolid;
+    FillRect(Rec);
+
+    //Draw Line For XYZ
+    Pen.Color := clBlue;
+    MoveTo(xStart, yStart);
+    LineTo(xStart, heightCanvas - yStart);
+
+    Pen.Color := clGreen;
+    MoveTo(xStart, heightCanvas div 2);
+    LineTo(WidthCanvas -xStart ,(heightCanvas div 2));
+
+    Tinggi := heightCanvas - (2*yStart);
+    Lebar  := WidthCanvas  - (2*xStart);
+
+    heightCount := 5;
+    timeCount   := 5;
+
+    interval    := Tinggi div heightCount;
+    TinggiSkala := ScaleHeight div heightCount;
+    periodic    := 0;
+    for I := 1 to heightCount do
+    begin
+      heightPos := (heightCanvas - yStart) - (I * interval);
+
+      Font.Color := clRed;
+      Font.Size  := 1;
+
+      MoveTo(xStart, heightPos);
+      LineTo(xStart - 7, heightPos);
+
+      //TextOut(5 , (heightPos -9), IntToStr(I * Tinggiskala)+ ' m' );
+    end;
+
+    Pen.Color := clGreen;
+    Font.Color := clRed;
+    Font.Size  := 11;
+
+    interval2 := Lebar div timeCount;
+    LebarSkala := ScaleWidth div timeCount;
+    periodic    := LebarSkala;
+
+    TextOut(xStart, (heightCanvas div 2) +7 , IntToStr(periodic));
+    periodic := periodic + LebarSkala;
+
+    for I := 1 to timeCount do
+    begin
+
+      timePos := (I * interval2);
+      MoveTo(xStart + timePos, heightCanvas div 2);
+      LineTo(xStart + timePos, (heightCanvas div 2) +5 );
+
+//      TextOut((xStart - 9) + (timeCount*interval2), (heightCanvas div 2) + 30 , IntToStr(ScaleWidth));
+      TextOut(xStart + timePos, (heightCanvas div 2) +7 , IntToStr(periodic));
+      periodic := periodic + LebarSkala;
+    end;
+
+    ConvertHeight := Round(TrailHistory.Trails[0].Z * (Tinggi div 2)) div ScaleHeight;
+    ConvertWidht  := Lebar - ((1* Lebar)div ScaleWidth);
+
+    Pen.Color := clRed;
+    MoveTo(xStart, (heightCanvas div 2) - (Round(ConvertHeight)));
+    LineTo( WidthCanvas - (Round(ConvertWidht)+xStart) ,(heightCanvas div 2) - (Round(ConvertHeight)));
+
+//    Pen.Color := clWhite;
+   // TextOut(100, 100, FloatToStr(TrailHistory.CountPoint));
+
+    for i := 0 to TrailHistory.CountPoint-2  do
+    begin
+
+      ConvertHeight := Round(TrailHistory.Trails[i].Z * (Tinggi div 2)) div ScaleHeight;
+      ConvertHeight2 := Round(TrailHistory.Trails[i+1].Z * (Tinggi div 2)) div ScaleHeight;
+      if i = 0 then
+      begin
+        ConvertWidht  := Lebar - ((i+1* Lebar)div ScaleWidth);
+      end
+      else
+      begin
+        ConvertWidht  := Lebar - ((i* Lebar)div ScaleWidth);
+      end;
+      ConvertWidht2  := Lebar - (((i+1)* Lebar)div ScaleWidth);
+
+      MoveTo(WidthCanvas - (Round(ConvertWidht) + xStart), (heightCanvas div 2 ) - (Round(ConvertHeight)));
+      LineTo(WidthCanvas - (Round(ConvertWidht2) + xStart), (heightCanvas div 2) - (Round(ConvertHeight2)));
+
+    end;
+
+  end;
+end;
+
+function TTrajectory.getScale(HeightCanvas, HeightZ: Integer): Integer;
+begin
+  if HeightZ > heightCanvas then
+  begin
+     Result := heightCanvas + heightCanvas;
+     getScale(HeightCanvas, HeightZ);
+  end;
+end;
+
+{ TTrajectoryAsroc }
+
+constructor TTrajectoryAsroc.Create;
+begin
+  inherited;
+
+  distance := 2000;
+  TypeMissile :=0;
+  Time := 0;
+
+  IsActive := False;
+
+  SetLength(TimeFase1,0);
+  SetLength(TimeFase2,0);
+  SetLength(YFase1,0);
+  SetLength(YFase2,0);
+  Time := 0;
+end;
+
+procedure TTrajectoryAsroc.drawAsroc;
+var
+  YCanvas, timeCanvas, YCanvas2, timeCanvas2, I : Integer;
+  y1, time1, y2, time2 : Double;
+begin
+  if Time <= timeAkhirFase1 then
+  begin
+    SetLength(TimeFase1, (length(TimeFase1) + 1));
+    TimeFase1[Length(TimeFase1) - 1] := Time;
+
+    SetLength(YFase1, (length(YFase1) + 1));
+    YFase1[Length(YFase1) - 1] := v0Fase1*Sin(DegToRad(Elev))*Time-5*Power(Time,2);
+  end;
+
+  if Length(YFase1) >= 1 then
+  begin
+    time1 := (TimeFase1[0] * graphWidth) / MaxWidth;
+    y1 := (YFase1[0] * (graphHeigth div 2)) / MaxHeight;
+    timeCanvas := Round(time1);
+    YCanvas := Round(y1);
+
+    aCanvas.MoveTo(xStart, (heightCanvas div 2));
+    aCanvas.LineTo(xStart + timeCanvas, (heightCanvas div 2) - YCanvas);
+
+    for I := 0 to length(YFase1) - 2 do
+    begin
+      time1 := (TimeFase1[I] * graphWidth) / MaxWidth;
+      y1 := (YFase1[I] * (graphHeigth div 2)) / MaxHeight;
+      time2 := (TimeFase1[I+1] * graphWidth) / MaxWidth;
+      y2 := (YFase1[I+1] * (graphHeigth div 2)) / MaxHeight;
+      timeCanvas := Round(time1);
+      YCanvas := Round(y1);
+      timeCanvas2 := Round(time2);
+      YCanvas2 := Round(y2);
+
+      aCanvas.MoveTo(xStart + timeCanvas, (heightCanvas div 2) - YCanvas);
+      aCanvas.LineTo(xStart + timeCanvas2, (heightCanvas div 2) - YCanvas2);
+    end;
+  end;
+
+end;
+
+procedure TTrajectoryAsroc.PrepareDraw(TimerInterval : Integer);
+begin
+  if IsActive = True then
+  begin
+    graphWidth := WidthCanvas - (2*xStart);
+    graphHeigth := heightCanvas - (2*yStart);
+
+    aCanvas.Pen.Color   := clWhite;
+    aCanvas.Brush.Color := clBlack;
+    aCanvas.FillRect(aCanvas.ClipRect);
+
+    aCanvas.MoveTo(xStart, yStart);
+    aCanvas.LineTo(xStart, heightCanvas - yStart);
+
+    aCanvas.MoveTo(xStart, (heightCanvas div 2));
+    aCanvas.LineTo(WidthCanvas - xStart, (heightCanvas div 2));
+
+    Time := Time + (TimerInterval / 1000);
+
+    drawAsroc;
+    drawAsroc2;
+  end;
+
+end;
+
+procedure TTrajectoryAsroc.drawAsroc2;
+var
+  YCanvas, timeCanvas, YCanvas2, timeCanvas2, I : Integer;
+  y1, time1, y2, time2 : Double;
+begin
+  if Time >= timeAwalFase2 then
+  begin
+    if ((Length(YFase2) >= 1) and (YFase2[Length(YFase2) - 1] >= -10)) or
+       (Length(YFase2) = 0) then
+    begin
+      SetLength(TimeFase2, (length(TimeFase2) + 1));
+      TimeFase2[Length(TimeFase2) - 1] := Time;
+
+      SetLength(YFase2, (length(YFase2) + 1));
+      YFase2[Length(YFase2) - 1] := v0Fase2*Sin(DegToRad(Elev2))*Time-5*Power(Time,2);
+    end
+    else
+    begin
+       IsActive := False;
+    end;
+  end;
+
+  if Length(YFase2) >= 1 then
+  begin
+    time1 := (TimeFase1[length(TimeFase1)-1] * graphWidth) / MaxWidth;
+    y1 := (YFase1[length(YFase1)-1] * (graphHeigth div 2)) / MaxHeight;
+    time2 := (TimeFase2[0] * graphWidth) / MaxWidth;
+    y2 := (YFase2[0] * (graphHeigth div 2)) / MaxHeight;
+    timeCanvas := Round(time1);
+    YCanvas := Round(y1);
+    timeCanvas2 := Round(time2);
+    YCanvas2 := Round(y2);
+
+    aCanvas.MoveTo(xStart + timeCanvas, (heightCanvas div 2) - YCanvas);
+    aCanvas.LineTo(xStart + timeCanvas2, (heightCanvas div 2) - YCanvas2);
+
+    for I := 0 to length(YFase2) - 2 do
+    begin
+      time1 := (TimeFase2[I] * graphWidth) / MaxWidth;
+      y1 := (YFase2[I] * (graphHeigth div 2)) / MaxHeight;
+      time2 := (TimeFase2[I+1] * graphWidth) / MaxWidth;
+      y2 := (YFase2[I+1] * (graphHeigth div 2)) / MaxHeight;
+      timeCanvas := Round(time1);
+      YCanvas := Round(y1);
+      timeCanvas2 := Round(time2);
+      YCanvas2 := Round(y2);
+
+      aCanvas.MoveTo(xStart + timeCanvas, (heightCanvas div 2) - YCanvas);
+      aCanvas.LineTo(xStart + timeCanvas2, (heightCanvas div 2) - YCanvas2);
+    end;
+  end;
+
+end;
+
+function TTrajectoryAsroc.GetMissileTypeByDistanceAsroc(
+  distance: Double): Integer;
+begin
+  if (distance >= 2350) and (distance <= 3600) then
+  begin
+    Result := 1; //nelly high
+  end
+  else if (distance >= 1620) and (distance <= 2350) then
+  begin
+    Result := 2; //nelly low
+  end
+  else if (distance >= 1620) and (distance <= 2350) then
+  begin
+    Result := 3; //Erika High
+  end
+  else if (distance >= 1040) and (distance <= 1620) then
+  begin
+    Result := 4; //Erika low
+  end
+  else
+  begin
+    Result := 0;
+  end;
+
+end;
+
+function TTrajectoryAsroc.InitElevationAsroc(distance: Double;
+  missiletype: Integer): Double;
+var
+  dir : Double;
+begin
+  if TypeMissile = NellyHigh then
+  begin
+     dir := (-0.0292 * distance )+ 113.62;
+  end
+  else if TypeMissile= NellyLow then
+  begin
+    dir := (-0.05 * distance )+ 126;
+  end
+  else if TypeMissile= ErikaHigh then
+  begin
+    dir := (-0.0628 * distance )+ 110.28;
+  end
+  else if TypeMissile= ErikaLow then
+  begin
+    dir := (-0.083 * distance )+ 94.777;
+  end;
+
+  Result := dir;
+end;
+
+
+procedure TTrajectoryAsroc.Initialize_Asroc(const MissileType: Integer;
+  const Elev: Double; distance : double);
+ var
+  v0, t2 : Double;
+  minRange, maxRange : Integer;
+  yMax2, xMax2, ElevNew, v02, tNew : Double;
+begin
+  if (MissileType = NellyHigh) then
+  begin
+    if (Elev >= 0.0) and (Elev <= 13.99) then
+    begin
+      v0 := (1.3669 * Power(Elev,2.0)) - (48.81 * Elev) + 743.19 ;
+			t2 := (-0.058 * Power(Elev,2.0)) + (0.4194* Elev) + 3.1828 ;
+    end
+    else if (Elev >= 14.0) and (Elev <= 22.0) then
+    begin
+			v0 := (-0.0179 * Power(Elev,3.0)) + (1.3537 * Power(Elev,2.0)) - (39.269 * Elev) + 660.63 ;
+			t2 := (-0.003  * Power(Elev,2.0)) + (0.3412 * Elev) + 3.7333 ;
+    end
+    else if (Elev >= 22.01) and (Elev <= 45.0) then
+    begin
+			v0 := (0.0854  * Power(Elev,2.0)) - (8.4785 * Elev) + 404.55 ;
+			t2 := (-0.0013 * Power(Elev,2.0)) + (0.2591 * Elev) + 4.7024 ;
+    end;
+
+    maxRange := 3600;
+		minRange := 2350;
+  end
+  else if (MissileType = NellyLow) then
+  begin
+    if (Elev >= 0.0) and (Elev <= 13.99) then
+    begin
+			v0 := (0.4835 * Power(elev,2.0)) - (20.385 * elev) + 440.76 ;
+			t2 := (-0.0078* Power(elev,2.0)) + (0.4601 * elev) + 1.1254 ;
+    end
+    else if (Elev >= 14.0) and (Elev <= 21.99) then
+    begin
+			v0 := (0.2055 * Power(elev,2.0)) - (12.597 * elev) + 385.81 ;
+			t2 := (-0.0034* Power(elev,2.0)) + (0.3395 * elev) + 1.9651 ;
+    end
+    else if (Elev >= 22.00) and (Elev <= 25.99) then
+    begin
+			v0 := (0.3407 * Power(elev,2.0)) - (16.821 * elev) + 378 ;
+			t2 := (-0.0013* Power(elev,2.0)) + (0.2408 * elev) + 3.1185 ;
+    end
+    else if (Elev >= 26.00) and (Elev <= 45.00) then
+    begin
+			v0 := (0.0498 * Power(elev,2.0)) - (5.2551 * elev) + 297.16 ;
+			t2 := (-0.0011* Power(elev,2.0)) + (0.2314 * elev) + 3.2883 ;
+    end;
+
+    maxRange := 2350;
+		minRange := 1620;
+
+  end
+  else if (MissileType = ErikaHigh) then
+  begin
+    if (Elev >= 0.0) and (Elev <= 22.00) then
+    begin
+			v0 := (-0.0185 * Power(elev,3.0)) + (1.1749 * Power(elev,2.0)) - (28.889 * elev) + 433.56;
+			t2 := (-0.0034* Power(elev,2.0)) + (0.2876 * elev) + 1.6881 ;
+    end
+    else if (Elev >= 22.01) and (Elev <= 45.00) then
+    begin
+			v0 := (0.0509 * Power(elev,2.0)) - (5.1012 * elev) + 257.49 ;
+			t2 := (-0.001* Power(elev,2.0)) + (0.1859 * elev) + 2.7752 ;
+    end;
+
+    maxRange := 1620;
+		minRange := 1040;
+
+  end
+  else if (MissileType = ErikaLow) then
+  begin
+    if (Elev >= 0.0) and (Elev <= 22.00) then
+    begin
+			v0 := (0.3284 * Power(elev,2.0)) - (15.658 * elev) + 320.68 ;
+			t2 := (-0.0022* Power(elev,2.0)) + (0.2009 * elev) + 1.6237 ;
+    end
+    else if (Elev >= 22.01) and (Elev <= 45.00) then
+    begin
+			v0 := (0.0424 * Power(elev,2.0)) - (4.2159 * elev) + 204.46 ;
+			t2 := (-0.0007* Power(elev,2.0)) + (0.1358 * elev) + 2.3256 ;
+    end;
+
+    maxRange := 1040;
+		minRange := 600;
+
+  end
+  else
+  begin
+    maxRange := 3600;
+		minRange := 600;
+		v0 := 0.0;
+  end;
+
+  timeAkhirFase1 := t2;
+  v0Fase1 := v0;
+
+	ymax2 := (Power(v0,2.0) * Power(sin(DegToRad(elev)),2.0)) / 20;
+	xmax2 := 2 * (maxRange + (((elev-8.5) / (45-8.5)) * (minRange-maxRange)) - ((Power(v0,2.0)*sin(DegToRad(2*elev)))/20));
+ 	ElevNew :=  DegToRad(ArcTan2((2*ymax2) , (distance - (v0 * cos (DegToRad(elev)) * t2))));
+	v02 := (1/sin(DegToRad(ElevNew))) * (sqrt(20*yMax2));
+	tnew := (v02*sin(DegToRad(ElevNew))) / 10;
+
+  YMax := yMax2;
+  XMax := xMax2;
+  Elev2 := ElevNew;
+  v0Fase2 := v02;
+  timeAwalFase2 := tNew;
+
+end;
+
+procedure TTrajectoryAsroc.DrawAsrocTrajectory;
+begin
+  distance := 2000;
+  TypeMissile := GetMissileTypeByDistanceAsroc(distance);
+  Elev := InitElevationAsroc(distance, TypeMissile);
+  Initialize_Asroc(TypeMissile, Elev, distance);
+
+  IsActive := True;
+  PrepareDraw(100);
+
+end;
+
+procedure TTrajectoryAsroc.DeleteObject;
+begin
+  SetLength(TimeFase1,0);
+  SetLength(TimeFase2,0);
+  SetLength(YFase1,0);
+  SetLength(YFase2,0);
+  Time := 0;
+end;
+
+end.

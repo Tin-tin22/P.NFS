@@ -1,0 +1,67 @@
+=> Data Manual Insertion
+	-> cursor bisa berpindah ke target data, ship data, tactical data, dan Torp n data
+	-> pada edit text jika nilai yg dimasukan melebihi batas max, secara otomatis akan dimunculkan nilai max 
+
+=> Mode BITE
+	-> fungsi masing2 tombol? (belum tahu) 
+	-> Tombol H5 da H6 tdk ada penjelasan perubahan caption 
+
+
+
+=> disengaging target (Uncheck) dg tombol CLR
+
+=> Pemilihan target dengan tombol "." / "CHN" hanya set fokus, 
+untuk pemilihan (tanda checklist) dengan tombol " ENTER"
+
+=================================================>
+
+==> Asumsi Error message pada system Sps115
+
+=>Error System
+event : any time 	
+
+disp 	Respon System
+
+1-6	panel TIU Port / Stbd set color Red
+
+=================================================>
+
+=>Error Torpedo Gyro
+event : Button "Start Gyro" Pressed
+
+disp 	Respon System
+
+N-1	Field GYRO := 'Start UP' +
+N-2	message disp 
+N-4
+N-5
+N-6
+N-10
+
+=================================================>
+ 	
+=>Error Selected Barrel
+event : Button "Select n" Pressed
+
+disp 	Respon System
+
+N-3
+N-5	message disp 
+N-6
+N-7
+N-8
+
+event : Button "FIRE" Pressed
+disp 	Respon System
+N-9	CBB Barrel := 'FAILED'
+
+=================================================>
+=> TACTICAL DATA 
+Perhitungan Optm Crs & Time Drop (Blm ada)
+
+=================================================>
+=> Tab Torpedo n Data 
+Pada pemilihan Cbb_ Wtr (on enter) , Torpedo data di set default value sesuai Type Torpedo
+
+
+

@@ -1,0 +1,80 @@
+object Frm_spsIndikator: TFrm_spsIndikator
+  Left = 0
+  Top = 0
+  Caption = 'Form spsIndikator'
+  ClientHeight = 140
+  ClientWidth = 200
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object vrld1: TVrLed
+    Left = 24
+    Top = 80
+    Width = 33
+    Height = 33
+    Palette.Low = clSilver
+    Palette.High = clRed
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    OnClick = vrld1Click
+  end
+  object vrld2: TVrLed
+    Left = 95
+    Top = 80
+    Width = 33
+    Height = 33
+    Palette.Low = clSilver
+    Palette.High = clRed
+    Color = clBlack
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    OnClick = vrld2Click
+  end
+  object lbl1: TLabel
+    Left = 47
+    Top = 8
+    Width = 146
+    Height = 33
+    AutoSize = False
+    Caption = 'SPS115C-SCE'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object lbl2: TLabel
+    Left = 91
+    Top = 61
+    Width = 37
+    Height = 13
+    Caption = 'POWER'
+  end
+  object lbl3: TLabel
+    Left = 20
+    Top = 61
+    Width = 52
+    Height = 13
+    Caption = '115V/60Hz'
+  end
+end

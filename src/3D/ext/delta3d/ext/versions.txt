@@ -1,0 +1,201 @@
+OpenDIS 2.5
+CAL3D 0.11.0 
+CPPUNIT 1.12.0
+CEGUI 0.7.2 (Xerces xml parser as default)
+Game Networking Engine 0.70
+GDAL 1.7.2
+HawkNL 1.68
+ALUT 1.1.0
+OpenAL 1.1 (binaries)
+Open Dynamics Engine 0.11.1
+OpenSceneGraph 2.8.3
+PLIB 1.8.5
+  -JS
+  -UL
+XERCES 3.1.1
+
+
+-------------------------------------------
+Change List
+-------------------------------------------
+HEAD
+-Upgraded GDAL from 1.6.2 to 1.7.2
+-Upgraded OSG from 2.8.2 to 2.8.3 (using the pre-compiled VS2005 OSG dependencies)
+-Rebuilt ALUT libraries (previous libraries might be corrupt)
+-updated CEGUI from 0.6.2b to 0.7.2
+-Updated XercesC from 2.8.0 to 3.1.1
+
+Version 2.4.0
+-Upgraded GDAL from 1.6.0 to 1.6.2
+-Upgraded OSG from 2.8.0 to 2.8.2 (using the pre-compiled VS2005 OSG dependencies)
+-Upgraded ODE from 0.10.1 to 0.11.1
+
+Version 2.3.0
+-Upgraded OSG from 2.6.1 to 2.8.0
+-Upgraded GDAL from 1.5.3 to 1.6.0
+-Removed FLTK
+-Upgraded CEGUI from 1.6.1 to 1.6.2b
+-Removed Qt, Boost (assuming developers have locally installed copy)
+
+Version 2.2.0
+-Included OpenAL32.dll (6.14.357.22) and wrap_oal.dll (2.1.8.1)
+-upgraded OSG
+-upgraded GDAL
+-upgraded Qt
+-changed DisCppJava for OpenDIS
+
+Version 2.1.0
+-Upgraded ODE
+-Upgraded Qt
+-Upgraded Boost
+-Upgraded CPPUnit
+-Upgraded CEGUI
+-Upgraded FLTK
+-Upgraded GDAL
+-Upgraded OpenSceneGraph
+-Upgraded PLIB
+-Removed ReplicantBody
+-Removed Intersense Library (source included with Delta3D now)
+
+Version 2.0.0
+-Upgraded Qt
+-Upgraded Boost
+-Upgraded GDAL
+-Upgraded ODE
+-Upgraded OSG 
+-Upgraded Xerces
+
+Version 1.5.0
+-Upgraded Qt
+-Upgraded ODE
+
+Version 1.4.0
+-Upgraded Qt
+-Upgraded CAL3D
+-Upgraded CEGUI
+-Upgraded ALUT
+-Upgraded GDAL
+-Upgraded ODE
+-Upgraded OpenSceneGraph
+-Upgraded ReplicantBody
+-Replaced custom-built OpenAL w/ binaries and headers from Creative's SDK
+-Upgraded Xerces
+-Upgraded CPP Unit Test
+
+Version 1.3.0
+-No changes
+
+Version 1.2.0
+-Upgraded CEGUI
+-Upgraded GDAL
+-Upgraded OSG (!!!)
+-Upgraded FLTK
+-Upgraded OpenAL
+-Upgraded InterSense Drivers
+-Added FreeALUT
+-Added QtWin-MSVC patch (acs4qt401p3.zip)
+
+Version 1.1.0
+-Moved plib headers into ext/inc/plib
+-Added Blender osgexport-2.37
+-Upgraded 3DS Max OSGEXp to 0.9.3pre1 (Win32)
+-Recompiled InterSense drivers with VS2003 (Win32)
+
+Version 1.0.0
+-Added CppUnit
+-Added HawkNL
+-Added Game Networking Engine
+-Upgraded ReplicantBody
+-Upgraded CEGUI
+-Upgraded Qt
+-Upgraded InterSense drivers
+-Downgraded CAL3D to a release Version
+-Removed glGUI
+-Removed TinyXML
+-Removed SG
+
+Version 0.4.2
+-Upgrade ReplicantBody to 2005-07-25
+
+Version 0.4.1
+-Upgraded CEGUI to 0.3.0
+-Removed sigslot.h (now in the Delta3D source code)
+-Added QT4.0.0 Open Source dll's
+
+Version 0.4.0
+-Added Crazy Eddie's GUI System
+-Added Xerces
+-Upgraded OSG
+-Upgraded ReplicantBody
+
+Version 0.3.0
+-Upgraded PLIB
+-Upgraded TinyXML
+-Upgraded ReplicantBody
+-Upgraded CAL3D
+-Upgraded Boost
+
+Version 0.2.2
+-Recompiled FLTK with /C7 (VS7.1)
+
+Version 0.2.1
+-Upgraded OSG, Producer, OpenThreads
+-Upgraded FLTK
+-Upgraded CAL3D
+-Upgraded ReplicantBody for new OSG/CAL3D
+-Upgraded sigslot.h for gcc3.4
+-Upgraded OpenAL using latest CVS
+
+Version 0.2.0
+-Upgraded FLTK
+-Upgraded CAL3D
+-Tweaked Rbody for texture flipping
+-Downgraded glGUI
+Windows:
+-Added msvc .dll's
+-Added Boost_Python (1.31.0) .dll's
+
+Version 0.1.1
+-Replaced sigslot.h with unix-compliant Version
+Linux:
+-Linux compatibility
+-Added hack to types.h to not conflict with ISO C++ types
+Win32:
+-switched to .dll ODE libs
+
+Version 0.1.0c
+-Added in all the Debug libraries
+
+Version 0.1.0b
+-Added GDAL
+-Added InterSense SDK (forgot it last Version)
+
+Version 0.1.0
+-Removed Debug Versions of libraries (now Release mode only)
+-Upgraded OSG
+-Upgraded ODE
+-Upgraded TinyXML
+-Upgraded FLTK
+
+Version 0.0.9
+
+Version 0.0.8
+-Removed Boost
+-Upgraded ODE (includes OPCODE)
+-Upgraded OSG (now included support for .ive, .dds, and terrain)
+-Upgraded Producer
+-Upgraded OpenThreads
+-Upgraded FLTK (removed fltkimages)
+-Upgraded PLIB
+
+Version 0.0.7
+-Added glGUI
+
+Version 0.0.6
+-Added ODE
+
+Version 0.0.5
+-Upgraded TinyXML to 2.2.1
+-Added ReplicantBody
+-Added CAL3D
+-Removed RTI library

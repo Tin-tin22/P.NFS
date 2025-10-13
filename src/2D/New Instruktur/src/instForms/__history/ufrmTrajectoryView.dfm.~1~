@@ -1,0 +1,509 @@
+object frmTrjectoryView: TfrmTrjectoryView
+  Left = 1194
+  Top = 206
+  Align = alClient
+  BorderStyle = bsNone
+  Caption = 'frmTrjectoryView'
+  ClientHeight = 741
+  ClientWidth = 1266
+  Color = clWhite
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  FormStyle = fsStayOnTop
+  OldCreateOrder = False
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object fltpnl1: TFlatPanel
+    Left = 0
+    Top = 0
+    Width = 1266
+    Height = 741
+    Color = clAppWorkSpace
+    Align = alClient
+    TabOrder = 0
+    object imgTrajectoryView: TImage
+      Left = 105
+      Top = 1
+      Width = 1160
+      Height = 628
+      Align = alClient
+    end
+    object fltpnl2: TFlatPanel
+      Left = 1
+      Top = 629
+      Width = 1264
+      Height = 111
+      Color = cl3DDkShadow
+      Align = alBottom
+      TabOrder = 0
+    end
+    object fltpnl3: TFlatPanel
+      Left = 1
+      Top = 1
+      Width = 104
+      Height = 628
+      Color = cl3DDkShadow
+      Align = alLeft
+      TabOrder = 1
+      object rzgrpbr1: TRzGroupBar
+        Left = 1
+        Top = 1
+        Width = 102
+        Height = 626
+        GradientColorStart = clBtnFace
+        GradientColorStop = clBtnShadow
+        GroupBorderSize = 0
+        Style = gbsOutlook
+        Align = alClient
+        Color = clBtnShadow
+        ParentColor = False
+        TabOrder = 0
+        object rzgrpProfileAsroc: TRzGroup
+          Items = <>
+          Opened = True
+          OpenedHeight = 506
+          DividerVisible = False
+          Caption = 'Asroc'
+          ParentColor = False
+          object btnOkAsroc: TRzButton
+            Left = 167
+            Top = 69
+            Width = 28
+            Color = clActiveCaption
+            TabOrder = 0
+          end
+          object btnClose: TRzButton
+            Tag = 1
+            Left = 11
+            Top = 63
+            Width = 79
+            Caption = 'CLOSE'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+            OnClick = btnCloseClick
+          end
+          object btn3: TRzButton
+            Tag = 2
+            Left = 11
+            Top = 32
+            Width = 79
+            Caption = 'PROFIL'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 2
+            OnClick = btnAsrocOK1Click
+          end
+          object btn4: TRzButton
+            Tag = 3
+            Left = 9
+            Top = 301
+            Width = 79
+            Caption = 'OK'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 3
+            Visible = False
+            OnClick = btnAsrocOK1Click
+          end
+          object btn5: TRzButton
+            Tag = 4
+            Left = 5
+            Top = 355
+            Width = 79
+            Caption = 'OK'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 4
+            Visible = False
+            OnClick = btnAsrocOK1Click
+          end
+        end
+        object rzgrpProfileRBU6000: TRzGroup
+          Items = <>
+          Opened = False
+          OpenedHeight = 546
+          DividerVisible = False
+          Caption = 'RBU 6000'
+          ParentColor = False
+          object btnRBU3: TRzButton
+            Tag = 2
+            Left = 12
+            Top = 30
+            Width = 77
+            Caption = 'PROFIL'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            OnClick = btnRBU1Click
+          end
+          object btnClose_2: TRzButton
+            Tag = 1
+            Left = 11
+            Top = 63
+            Width = 79
+            Caption = 'CLOSE'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+            OnClick = btnCloseClick
+          end
+        end
+        object rzgrpProfileA244: TRzGroup
+          Items = <>
+          Opened = False
+          OpenedHeight = 506
+          DividerVisible = False
+          Caption = 'SPS115'
+          ParentColor = False
+          object RzButton3: TRzButton
+            Tag = 1
+            Left = 12
+            Top = 32
+            Width = 77
+            Height = 24
+            Caption = 'CLOSE'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            OnClick = btnCloseClick
+          end
+        end
+        object rzgrpProfileTocos: TRzGroup
+          Items = <>
+          Opened = False
+          OpenedHeight = 506
+          DividerVisible = False
+          Caption = 'Tocos'
+          ParentColor = False
+          object btnTOCOS: TRzButton
+            Tag = 1
+            Left = 12
+            Top = 31
+            Width = 78
+            Caption = 'Profil'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            OnClick = btnTOCOSClick
+          end
+          object RzButton2: TRzButton
+            Tag = 1
+            Left = 13
+            Top = 64
+            Width = 77
+            Height = 24
+            Caption = 'CLOSE'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+            OnClick = btnCloseClick
+          end
+        end
+        object rzgrpProfileYakhont: TRzGroup
+          Items = <>
+          Opened = False
+          OpenedHeight = 506
+          DividerVisible = False
+          Caption = 'Yakhont'
+          ParentColor = False
+          object btnYakhontB1: TRzButton
+            Tag = 1
+            Left = 12
+            Top = 31
+            Width = 78
+            Caption = 'B 1'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            OnClick = btnYakhontB1Click
+          end
+          object btnYakhontB1n: TRzButton
+            Tag = 2
+            Left = 13
+            Top = 69
+            Width = 77
+            Height = 24
+            Caption = 'B 1N'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+            OnClick = btnYakhontB1Click
+          end
+          object btnYakhontB2: TRzButton
+            Tag = 3
+            Left = 13
+            Top = 106
+            Width = 77
+            Caption = 'B 2'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 2
+            OnClick = btnYakhontB1Click
+          end
+          object btnYakhontB2n: TRzButton
+            Tag = 4
+            Left = 13
+            Top = 143
+            Width = 77
+            Caption = 'B 2N'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 3
+            OnClick = btnYakhontB1Click
+          end
+          object btnClose_3: TRzButton
+            Tag = 1
+            Left = 13
+            Top = 177
+            Width = 77
+            Caption = 'CLOSE'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 4
+            OnClick = btnCloseClick
+          end
+        end
+        object rzgrpProfileC802: TRzGroup
+          Items = <>
+          Opened = False
+          OpenedHeight = 506
+          DividerVisible = False
+          Caption = 'C802'
+          ParentColor = False
+          object btnC802OK: TRzButton
+            Tag = 1
+            Left = 12
+            Top = 32
+            Width = 78
+            Caption = 'PROFIL'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            OnClick = btnC802OKClick
+          end
+          object btnClose_5: TRzButton
+            Tag = 1
+            Left = 13
+            Top = 64
+            Width = 77
+            Height = 24
+            Caption = 'CLOSE'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+            OnClick = btnCloseClick
+          end
+        end
+        object rzgrpProfileExocet: TRzGroup
+          Items = <>
+          Opened = False
+          OpenedHeight = 546
+          DividerVisible = False
+          Caption = 'Exocet'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+          object btnExocetOK: TRzButton
+            Tag = 1
+            Left = 13
+            Top = 37
+            Width = 76
+            Height = 33
+            Caption = 'PROFIL'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            OnClick = btnExocetOKClick
+          end
+          object RzButton1: TRzButton
+            Tag = 2
+            Left = 12
+            Top = 146
+            Width = 76
+            Height = 33
+            Caption = 'Initial Step Mode'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 1
+            Visible = False
+            OnClick = btnExocetOKClick
+          end
+          object btn1: TRzButton
+            Tag = 3
+            Left = 36
+            Top = 215
+            Width = 26
+            Caption = 'OK'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 2
+            ThemeAware = False
+            Visible = False
+            OnClick = btnExocetOKClick
+          end
+          object btn2: TRzButton
+            Tag = 4
+            Left = 47
+            Top = 271
+            Width = 26
+            Caption = 'OK'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 3
+            Visible = False
+            OnClick = btnExocetOKClick
+          end
+          object btnClose_4: TRzButton
+            Tag = 1
+            Left = 12
+            Top = 76
+            Width = 76
+            Height = 32
+            Caption = 'CLOSE'
+            Color = clActiveCaption
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindow
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 4
+            OnClick = btnCloseClick
+          end
+        end
+      end
+    end
+    object shckwvflsh1: TShockwaveFlash
+      Left = 105
+      Top = 1
+      Width = 1160
+      Height = 628
+      Align = alClient
+      TabOrder = 2
+      ExplicitLeft = 110
+      ExplicitTop = 2
+      ControlData = {
+        67556655000E0000E4770000E840000008000200000000000800000000000800
+        0000000008000E000000570069006E0064006F00770000000800060000002D00
+        310000000800060000002D003100000008000A00000048006900670068000000
+        08000200000000000800060000002D0031000000080000000000080002000000
+        0000080010000000530068006F00770041006C006C0000000800040000003000
+        0000080004000000300000000800020000000000080000000000080002000000
+        00000D0000000000000000000000000000000000080004000000310000000800
+        0400000030000000080000000000080004000000300000000800080000006100
+        6C006C00000008000C000000660061006C0073006500000008000C0000006600
+        61006C0073006500000008000A0000003200390032003800000008000C000000
+        7300630061006C00650000000800060000002D0031000000}
+    end
+  end
+end

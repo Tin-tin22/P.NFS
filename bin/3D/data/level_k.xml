@@ -1,0 +1,24 @@
+<level>
+    <terrain
+        name ="Terrain Karimun"
+        mesh ="../data/mesh/Karimun/Terrain.ive"
+        translation ="-1012385.000000,-738195.000000,0.000000"
+        rotation ="0.000000, 0.0, 0.0"
+    />
+    <static_buildings>
+        <building
+            name ="Building Karimun"
+            mesh ="../data/mesh/Karimun/Building.ive"
+            translation ="-1012385.000000,-738195.000000,0.000000"
+            rotation ="0.000000, 0.0, 0.0"
+        />
+    </static_buildings>
+    <static_ships>
+        <ship
+            name ="Kapal Umum Karimun"
+            mesh ="../data/mesh/Karimun/Kapal.ive"
+            translation ="-1012385.000000,-738195.000000,0.000000"
+            rotation ="0.000000, 0.0, 0.0"
+        />
+    </static_ships>
+</level>

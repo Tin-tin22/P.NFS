@@ -1,0 +1,402 @@
+unit uTCPClient;
+
+interface
+
+uses
+  Classes, SysUtils,
+
+  OverbyteIcsWSocket,
+
+  uTCPDataType,
+  uPacketRegister,
+  UPacketProtocol,
+  uDataBuffer,
+  UHelper;
+
+type
+  TOnFinishBuffer = procedure(const b: Boolean) of object;
+
+  // ==============================================================================
+  TTCPClient = class
+  private
+    WSocket: TWSocket;
+    FLogStat, FLogSend, FLogRecv: TGetStrProc;
+
+    FLongXAddress: Cardinal;
+    FHostName: string;
+    FIPLists: TStrings;
+
+    FRegProcs: TRegisterPacket;
+    FDataBuffer: TDataBuffer;
+
+    FLogData: TGetStrProc;
+
+    FPacketizer: TPacketProtocol;
+
+    FReceiveBuffer: TBytes;
+
+    FOnConnected: TNotifyEvent;
+    FOnDisConnected: TNotifyEvent;
+
+    function getMyHostName: string;
+    procedure DefStrLog(const s: string);
+    procedure SetStrLog(const index: integer; const Value: TGetStrProc);
+    function GetChangeState: TChangeState;
+    procedure SetChangeState(const Value: TChangeState);
+    procedure HandleException(AE: exception; AClient: TWSocket);
+
+    function getConnected: Boolean;
+    procedure SetLogData(const Value: TGetStrProc);
+
+    procedure MessageArrived(const AData: TBytes);
+
+    function getState: TSocketState;
+    procedure WSocket_OnDataAvailable(Sender: TObject; Error: Word);
+    procedure WSocket_OnSessionConnected(Sender: TObject; Error: Word);
+    procedure WSocket_OnSessionClosed(Sender: TObject; Error: Word);
+    // procedure WSocket_OnSessionAvailable(Sender: TObject; Error: Word);
+
+    procedure WSocket_OnDataSent(Sender: TObject; Error: Word);
+
+    procedure CloseSocket;
+
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure Connect(aAddr, aPort: string);
+    procedure Disconnect;
+
+    // procedure SendData(const aID: Word; aBuffer: PAnsiChar);
+    procedure SendData<T>(const aID: Word; Data: T);
+    procedure FlushSendData;
+
+    procedure RegisterProcedure(const aType: Word;
+      aProcedure: TRegPacketHandlerProc);
+    procedure UnRegisterProcedure(const aType: Word);
+    procedure UnregisterAllProcedure;
+
+    procedure GetPacket();
+    property Connected: Boolean read getConnected;
+    property State: TSocketState read getState;
+    property OnStateChange: TChangeState read GetChangeState
+      write SetChangeState;
+    property MyLongIP: LongWord read FLongXAddress;
+    property OnConnected: TNotifyEvent read FOnConnected write FOnConnected;
+    property OnDisConnected: TNotifyEvent read FOnDisConnected
+      write FOnDisConnected;
+    property OnlogRecv: TGetStrProc read FLogData write SetLogData;
+
+    property OnGetStatusLog: TGetStrProc index 1 read FLogStat write SetStrLog;
+    property OnGetSendLog: TGetStrProc index 2 read FLogSend write SetStrLog;
+    property OnGetRecvLog: TGetStrProc index 3 read FLogRecv write SetStrLog;
+    property MyHostName: string read getMyHostName;
+  end;
+
+implementation
+
+uses
+  Windows,
+  Messages,
+  DateUtils;
+
+{ TTCPClient }
+constructor TTCPClient.Create;
+begin
+  inherited;
+
+  FLogStat := DefStrLog;
+  FLogSend := DefStrLog;
+  FLogRecv := DefStrLog;
+
+  FPacketizer := TPacketProtocol.Create(10000);
+  FPacketizer.MessageArrived := MessageArrived;
+  FRegProcs := TRegisterPacket.Create;
+
+  FIPLists := TStringList.Create;
+  GetHostandIPList(FHostName, FIPLists);
+
+  SetLength(FReceiveBuffer, 4 * 1024);
+
+  WSocket := TWSocket.Create(nil);
+
+  WSocket.OnDataSent := WSocket_OnDataSent;
+  WSocket.OnSessionConnected := WSocket_OnSessionConnected;
+  WSocket.OnSessionClosed := WSocket_OnSessionClosed;
+
+  FDataBuffer := TDataBuffer.Create;
+  FDataBuffer.RegProcs := FRegProcs;
+end;
+
+destructor TTCPClient.Destroy;
+begin
+  FRegProcs.Free;
+  FIPLists.Free;
+
+  WSocket.OnDataSent := nil;
+  CloseSocket;
+  WSocket.Free;
+  WSocket := nil;
+
+  FDataBuffer.Clear;
+  FDataBuffer.Free;
+  FPacketizer.MessageArrived := nil;
+  FPacketizer.DisposeOf;
+  inherited;
+end;
+
+function TTCPClient.getMyHostName: string;
+begin
+  var i: Integer := Length(FHostName);
+  if i > 32 then
+    result := Copy(FHostName, 1, 32)
+  else
+    result := FHostName;
+end;
+
+procedure TTCPClient.DefStrLog(const s: string);
+begin
+  // do nothing
+  // LogFile_net(s);
+end;
+
+procedure TTCPClient.HandleException(AE: exception; AClient: TWSocket);
+begin
+  if (AE is ESocketException) then
+  begin
+    FLogStat(TimeStr + '  Error : ' + AClient.Addr + AE.Message);
+    AClient.Close;
+  end
+  else
+  begin
+    FLogStat(TimeStr + ': Unhandled exception raised!');
+  end;
+end;
+
+procedure TTCPClient.MessageArrived(const AData: TBytes);
+begin
+  if Assigned(FLogRecv) then
+    FLogRecv('Packet Found.');
+  FDataBuffer.PutPacket(AData);
+end;
+
+procedure TTCPClient.SetStrLog(const index: integer; const Value: TGetStrProc);
+begin
+  var
+    x: TGetStrProc;
+  if not Assigned(Value) then
+    x := DefStrLog
+  else
+    x := Value;
+  case index of
+    1:
+      FLogStat := x;
+    2:
+      FLogSend := x;
+    3:
+      FLogRecv := x;
+  end;
+end;
+
+procedure TTCPClient.Connect(aAddr, aPort: string);
+begin
+  if (WSocket.State <> wsConnected) and (WSocket.State <> wsConnecting) then
+  begin
+    WSocket.OnDataAvailable := WSocket_OnDataAvailable;
+    WSocket.Proto := CSOCK_DEF_PROTO;
+    WSocket.LineMode := False;
+    WSocket.LineEdit := False;
+    WSocket.LineEcho := False;
+    WSocket.Port := aPort;
+    WSocket.Addr := aAddr;
+    FLogStat(DateStr + ': ' + 'Connecting to ' + aAddr + ' port ' + aPort);
+    WSocket.Connect;
+  end;
+end;
+
+procedure TTCPClient.CloseSocket;
+begin
+  PostMessage(WSocket.Handle, WM_QUIT, 0, 0);
+end;
+
+procedure TTCPClient.Disconnect;
+begin
+  FLogStat(DateStr + ': ' + 'Disconnecting ...');
+  WSocket.OnDataAvailable := nil;
+  WSocket.Close;
+end;
+
+procedure TTCPClient.SendData<T>(const aID: Word; Data: T);
+begin
+  if not FRegProcs.IsRegistered(aID) then
+  begin
+    FLogSend(TimeStr + ': Unregistered Packet ID ' + inttostr(aID));
+    Exit;
+  end;
+  var
+    h: TPacketHeader;
+  var
+    dtutc: TDateTime:= TTimeZone.Local.ToUniversalTime(Now);
+
+  h.PacketID := aID;
+  h.SenderAddress := FLongXAddress;
+  h.SenderPort := StrToInt(WSocket.GetXPort);
+  h.SentTime := DateTimeToUnixMs(dtutc, False);
+  var
+    bytes: TBytes := TPacketProtocol.WrapMessage
+      (UHelper.TComposer.ComposePacket(h, Data));
+  if WSocket.State = wsConnected then
+  begin
+    if not WSocket.AllSent then
+    begin
+      WSocket.Flush;
+      FLogSend(TimeStr + ': flush!');
+    end;
+    var
+      sz: integer := Length(bytes);
+    FLogSend(TimeStr + ': Send id ' + inttostr(aID) + ' -  ' + inttostr(sz)
+      + ' byte');
+    try
+      WSocket.Send(bytes, sz);
+    except
+      on e: exception do
+        HandleException(e, WSocket);
+    end;
+  end;
+end;
+
+procedure TTCPClient.WSocket_OnSessionConnected(Sender: TObject; Error: Word);
+begin
+  var
+    s: string;
+  if WSocket.State = wsConnected then
+  begin
+    try
+      s := WSocket.PeerAddr;
+    except
+      on ESocketException do
+      begin
+        Exit;
+      end;
+    end;
+    // connect temenan rek..
+    s := WSocket.GetXAddr;
+    FLongXAddress := StrIp_To_LongIp(s);
+    if Assigned(FOnConnected) then
+      FOnConnected(self);
+    FLogStat(TimeStr + ': ' + 'Connected to ' + s);
+  end;
+end;
+
+procedure TTCPClient.WSocket_OnSessionClosed(Sender: TObject; Error: Word);
+begin
+  var
+    s: string := TimeStr + ': ' +
+      'DisConnected from ' + LongIp_To_StrIp(FLongXAddress);
+  FLongXAddress := 0;
+  if Assigned(FOnDisConnected) then
+    FOnDisConnected(self);
+  FLogStat(s);
+end;
+
+// procedure TTCPClient.WSocket_OnSessionAvailable(Sender: TObject; Error: Word);
+// var
+// s: string;
+// begin
+// if WSocket.State = wsConnected then
+// begin
+// s := WSocket.GetXAddr;
+// FLongXAddress := StrIp_To_LongIp(s);
+// FLogStat(TimeStr + ': ' + 'available ' + s);
+// end;
+// end;
+
+procedure TTCPClient.WSocket_OnDataAvailable(Sender: TObject; Error: Word);
+begin
+  if Error <> 0 then
+    Exit;
+
+  try
+    FillChar(FReceiveBuffer[0], Length(FReceiveBuffer), 0);
+    var receivedByte: Integer := TWSocket(Sender).Receive(FReceiveBuffer,
+      Length(FReceiveBuffer));
+    FLogRecv(TimeStr + ': ReceivedBytes = ' + inttostr(receivedByte));
+    if receivedByte < 1 then
+      Exit;
+
+    // svrIP := TWSocket(Sender).Addr;
+
+    var readBytes: TBytes;
+    SetLength(readBytes, receivedByte);
+    Move(FReceiveBuffer[0], readBytes[0], receivedByte);
+    FPacketizer.DataReceived(readBytes);
+
+  finally
+
+  end;
+end;
+
+function TTCPClient.getState: TSocketState;
+begin
+  result := WSocket.State;
+end;
+
+procedure TTCPClient.WSocket_OnDataSent(Sender: TObject; Error: Word);
+begin
+  if Error = 0 then
+    FLogSend('Data sent: ')
+  else
+    FLogSend('Data sent Error : ' + inttostr(Error));
+end;
+
+function TTCPClient.getConnected: Boolean;
+begin
+  result := WSocket.State = wsConnected;
+end;
+
+procedure TTCPClient.GetPacket;
+begin
+  FDataBuffer.GetPacket;
+end;
+
+function TTCPClient.GetChangeState: TChangeState;
+begin
+  result := WSocket.OnChangeState;
+end;
+
+procedure TTCPClient.SetChangeState(const Value: TChangeState);
+begin
+  WSocket.OnChangeState := Value;
+end;
+
+procedure TTCPClient.SetLogData(const Value: TGetStrProc);
+begin
+  FLogData := Value;
+  FDataBuffer.LogRecv := Value;
+end;
+
+procedure TTCPClient.FlushSendData;
+begin
+  if (WSocket.State = wsConnected) and not WSocket.AllSent then
+  begin
+    WSocket.Flush;
+  end;
+end;
+
+procedure TTCPClient.RegisterProcedure(const aType: Word;
+  aProcedure: TRegPacketHandlerProc);
+begin
+  FRegProcs.RegisterProcedure(aType, aProcedure);
+end;
+
+procedure TTCPClient.UnRegisterProcedure(const aType: Word);
+begin
+  FRegProcs.UnRegisterProcedure(aType);
+end;
+
+procedure TTCPClient.UnregisterAllProcedure;
+begin
+  FRegProcs.UnregisterALL;
+end;
+
+end.

@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uBaseGraphicProc">
+  <const name="C_DefaultPixelFormat" type="TPixelFormat">
+    <value>
+      pf24bit
+    </value>
+  </const>
+  <array name="TPolygon">
+    <element type="TPoint" />
+  </array>
+  <pointer name="PDWordArray" type="TDWordArray" indircnt="1" />
+  <array name="TDWordArray" low="0" high="2047">
+    <element type="Cardinal" />
+  </array>
+  <array name="TRgbArray" low="0" high="2047">
+    <element type="tagRGBTRIPLE" />
+  </array>
+  <pointer name="PRGBArray" type="TRgbArray" indircnt="1" />
+  <procedure name="OffsetPolygon" visibility="public">
+    <parameters>
+      <parameter name="aPoly" type="TPolygon" paramflags="var" />
+      <parameter name="aOff" type="TPoint" paramflags="const" />
+    </parameters>
+  </procedure>
+  <function name="PtToRect" visibility="public">
+    <parameters>
+      <parameter name="pt" type="TPoint" paramflags="const" />
+      <parameter name="rx" type="Integer" paramflags="const" />
+      <parameter name="ry" type="Integer" paramflags="const" />
+      <retval type="TRect" />
+    </parameters>
+  </function>
+  <procedure name="BitmapFillBlack" visibility="public" procflags="overload">
+    <parameters>
+      <parameter name="bmp" type="TBitmap" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapFillBlack" visibility="public" procflags="overload">
+    <parameters>
+      <parameter name="bmp" type="TBitmap" />
+      <parameter name="x" type="Integer" paramflags="const" />
+      <parameter name="y" type="Integer" paramflags="const" />
+      <parameter name="width" type="Integer" paramflags="const" />
+      <parameter name="height" type="Integer" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapBlur" visibility="public">
+    <parameters>
+      <parameter name="bmp" type="TBitmap" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapMultiply" visibility="public">
+    <parameters>
+      <parameter name="bmp" type="TBitmap" />
+      <parameter name="aAmt" type="Single" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapAdd" visibility="public">
+    <parameters>
+      <parameter name="bmp" type="TBitmap" />
+      <parameter name="aAmt" type="Single" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapSubstract" visibility="public">
+    <parameters>
+      <parameter name="bmp" type="TBitmap" />
+      <parameter name="aAmt" type="Byte" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapMonochromeFilter" visibility="public">
+    <parameters>
+      <parameter name="bmp" type="TBitmap" />
+      <parameter name="t" type="Byte" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapNoise" visibility="public">
+    <parameters>
+      <parameter name="bmp" type="TBitmap" />
+      <parameter name="percentage" type="Single" paramflags="const" />
+      <parameter name="maxColor" type="TColor" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapNoiseLine" visibility="public">
+    <parameters>
+      <parameter name="bmp" type="TBitmap" />
+      <parameter name="y" type="Integer" paramflags="const" />
+      <parameter name="percentage" type="Single" paramflags="const" />
+      <parameter name="maxColor" type="TColor" paramflags="const" />
+      <parameter name="maxLength" type="Integer" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapBlend" visibility="public">
+    <parameters>
+      <parameter name="bmpDst" type="TBitmap" />
+      <parameter name="leftdst" type="Integer" paramflags="const" />
+      <parameter name="topdst" type="Integer" paramflags="const" />
+      <parameter name="bmpSrc" type="TBitmap" paramflags="const" />
+      <parameter name="leftsrc" type="Integer" paramflags="const" />
+      <parameter name="topsrc" type="Integer" paramflags="const" />
+      <parameter name="srcWidth" type="Integer" paramflags="const" />
+      <parameter name="srcHeight" type="Integer" paramflags="const" />
+      <parameter name="maxColor" type="TColor" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapChangeMonochromeColor" visibility="public">
+    <parameters>
+      <parameter name="bmp" type="TBitmap" />
+      <parameter name="maxColor" type="TColor" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="DestroyBitmap" visibility="public">
+    <parameters>
+      <parameter name="bmp" type="TBitmap" paramflags="var" />
+    </parameters>
+  </procedure>
+  <procedure name="DrawTransparent" visibility="public">
+    <parameters>
+      <parameter name="aCnv" type="TCanvas" />
+      <parameter name="r" type="TRect" paramflags="const" />
+      <parameter name="aValue" type="Byte" paramflags="const" />
+      <parameter name="abmp" type="TBitmap" paramflags="var" />
+    </parameters>
+  </procedure>
+  <procedure name="LightColor" visibility="public">
+    <parameters>
+      <parameter name="acl" type="TColor" paramflags="var" />
+      <parameter name="amt" type="Byte" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="DarkColor" visibility="public">
+    <parameters>
+      <parameter name="acl" type="TColor" paramflags="var" />
+      <parameter name="amt" type="Byte" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="Bitmap_COPY" visibility="public">
+    <parameters>
+      <parameter name="bSrc" type="TBitmap" />
+      <parameter name="bDst" type="TBitmap" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapBlend_AVG" visibility="public">
+    <parameters>
+      <parameter name="bSrc" type="TBitmap" />
+      <parameter name="bDst" type="TBitmap" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapBlend_AND" visibility="public">
+    <parameters>
+      <parameter name="bSrc" type="TBitmap" />
+      <parameter name="bDst" type="TBitmap" />
+    </parameters>
+  </procedure>
+  <procedure name="BitmapBlend_MAX" visibility="public">
+    <parameters>
+      <parameter name="bSrc" type="TBitmap" />
+      <parameter name="bDst" type="TBitmap" />
+    </parameters>
+  </procedure>
+</namespace>

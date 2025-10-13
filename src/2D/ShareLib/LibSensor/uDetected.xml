@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uDetected">
+  <struct name="tSignal">
+    <field name="Frequency" type="Double" visibility="public" />
+    <field name="Power" type="Double" visibility="public" />
+  </struct>
+  <class name="TDetectedObject">
+    <ancestor name="TDisplayTrack" namespace="uRadarTracks">
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="CreateDefaultView" visibility="public" />
+      <methodref name="TestViewHit" visibility="public" />
+      <ancestor name="TRadarTrack" namespace="uRadarTracks">
+        <methodref name="SetX" visibility="public" />
+        <methodref name="SetY" visibility="public" />
+        <methodref name="SetZ" visibility="public" />
+        <methodref name="getIsMoving" visibility="protected" />
+        <methodref name="GetSpeed" visibility="protected" />
+        <methodref name="SetSpeed" visibility="protected" />
+        <methodref name="getCourse" visibility="protected" />
+        <methodref name="setCourse" visibility="protected" />
+        <methodref name="getHeight" visibility="protected" />
+        <methodref name="setHeight" visibility="protected" />
+        <methodref name="Create" visibility="public" />
+        <methodref name="Destroy" visibility="public" />
+        <methodref name="Update" visibility="public" />
+        <methodref name="Run" visibility="public" />
+        <methodref name="SetPosition" visibility="public" />
+        <propertyref name="Speed" visibility="public" />
+        <propertyref name="Course" visibility="public" />
+        <propertyref name="Height" visibility="public" />
+        <propertyref name="PositionX" visibility="public" />
+        <propertyref name="PositionY" visibility="public" />
+        <propertyref name="PositionZ" visibility="public" />
+        <propertyref name="IsMoving" visibility="public" />
+        <ancestor name="TSimClassOnMapX" namespace="uMapXSim">
+          <methodref name="CreateDefaultView" visibility="public" />
+          <methodref name="ConvertViewsPosition" visibility="public" />
+          <methodref name="DrawViews" visibility="public" />
+          <ancestor name="TSimulationClass" namespace="uBaseSimulationObject">
+            <methodref name="Create" visibility="public" />
+            <methodref name="Destroy" visibility="public" />
+            <methodref name="MarkAs_NeedToBeFree" visibility="public" />
+            <methodref name="DeleteAllChildren" visibility="public" />
+            <methodref name="Update" visibility="public" />
+            <methodref name="Run" visibility="public" />
+            <propertyref name="PositionX" visibility="public" />
+            <propertyref name="PositionY" visibility="public" />
+            <propertyref name="PositionZ" visibility="public" />
+            <propertyref name="UniqueID" visibility="public" />
+            <ancestor name="TObject" namespace="System">
+              <methodref name="Create" visibility="public">
+              </methodref>
+              <methodref name="Free" visibility="public">
+              </methodref>
+              <methodref name="InitInstance" visibility="public">
+              </methodref>
+              <methodref name="CleanupInstance" visibility="public">
+              </methodref>
+              <methodref name="ClassType" visibility="public">
+              </methodref>
+              <methodref name="ClassName" visibility="public">
+              </methodref>
+              <methodref name="ClassNameIs" visibility="public">
+              </methodref>
+              <methodref name="ClassParent" visibility="public">
+              </methodref>
+              <methodref name="ClassInfo" visibility="public">
+              </methodref>
+              <methodref name="InstanceSize" visibility="public">
+              </methodref>
+              <methodref name="InheritsFrom" visibility="public">
+              </methodref>
+              <methodref name="MethodAddress" visibility="public">
+              </methodref>
+              <methodref name="MethodAddress" visibility="public">
+              </methodref>
+              <methodref name="MethodName" visibility="public">
+              </methodref>
+              <methodref name="FieldAddress" visibility="public">
+              </methodref>
+              <methodref name="FieldAddress" visibility="public">
+              </methodref>
+              <methodref name="GetInterface" visibility="public">
+              </methodref>
+              <methodref name="GetInterfaceEntry" visibility="public">
+              </methodref>
+              <methodref name="GetInterfaceTable" visibility="public">
+              </methodref>
+              <methodref name="UnitName" visibility="public">
+              </methodref>
+              <methodref name="Equals" visibility="public">
+              </methodref>
+              <methodref name="GetHashCode" visibility="public">
+              </methodref>
+              <methodref name="ToString" visibility="public">
+              </methodref>
+              <methodref name="SafeCallException" visibility="public">
+              </methodref>
+              <methodref name="AfterConstruction" visibility="public">
+              </methodref>
+              <methodref name="BeforeDestruction" visibility="public">
+              </methodref>
+              <methodref name="Dispatch" visibility="public">
+              </methodref>
+              <methodref name="DefaultHandler" visibility="public">
+              </methodref>
+              <methodref name="NewInstance" visibility="public">
+              </methodref>
+              <methodref name="FreeInstance" visibility="public">
+              </methodref>
+              <methodref name="Destroy" visibility="public">
+              </methodref>
+            </ancestor>
+          </ancestor>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FVisibles" type="Boolean" visibility="private" />
+      <procedure name="SetVisibles" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="getMaxColor" visibility="private">
+        <parameters>
+          <retval type="Byte" />
+        </parameters>
+      </function>
+      <procedure name="setmaxColor" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Byte" paramflags="const" />
+        </parameters>
+      </procedure>
+      <field name="FRawVideo" type="TRawVideoView" visibility="protected" />
+      <field name="FDetPosTick" type="Cardinal" visibility="protected" />
+      <field name="FLastDetPosTick" type="Cardinal" visibility="protected" />
+      <field name="FLifeCounter" type="Double" visibility="protected" />
+      <field name="DetRange" type="Double" visibility="public" />
+      <field name="DetRangeBef" type="Double" visibility="public" />
+      <field name="DetBearing" type="Double" visibility="public" />
+      <field name="DetTrackNumber" type="Integer" visibility="public" />
+      <field name="DetSpeed" type="Double" visibility="public" />
+      <field name="DetHead" type="Double" visibility="public" />
+      <field name="DetDepth" type="Double" visibility="public" />
+      <field name="DetName" type="string" visibility="public" />
+      <field name="VisSubSurf" type="Boolean" visibility="public" />
+      <field name="VisSurf" type="Boolean" visibility="public" />
+      <field name="ReceivedSignal" type="tSignal" visibility="public" />
+      <field name="ReturnSignal" type="tSignal" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="CreateDefaultView" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aMap" type="TMap" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Update" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="SetDetectedPosition" visibility="public">
+        <parameters>
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+          <parameter name="z" type="Double" paramflags="const" />
+          <parameter name="gTimeMs" type="Cardinal" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Run" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aDeltaMs" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <property name="Visibles" visibility="public" read="FVisibles" write="SetVisibles" type="Boolean" />
+      <property name="MaxColors" visibility="public" read="getMaxColor" write="setmaxColor" type="Byte" />
+    </members>
+  </class>
+  <class name="TSonarDetectedObject">
+    <ancestor name="TDetectedObject" namespace="uDetected">
+      <methodref name="SetVisibles" visibility="private" />
+      <methodref name="getMaxColor" visibility="private" />
+      <methodref name="setmaxColor" visibility="private" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="CreateDefaultView" visibility="public" />
+      <methodref name="Update" visibility="public" />
+      <methodref name="SetDetectedPosition" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <propertyref name="Visibles" visibility="public" />
+      <propertyref name="MaxColors" visibility="public" />
+      <ancestor name="TDisplayTrack" namespace="uRadarTracks">
+        <methodref name="Destroy" visibility="public" />
+        <methodref name="CreateDefaultView" visibility="public" />
+        <methodref name="TestViewHit" visibility="public" />
+        <ancestor name="TRadarTrack" namespace="uRadarTracks">
+          <methodref name="SetX" visibility="public" />
+          <methodref name="SetY" visibility="public" />
+          <methodref name="SetZ" visibility="public" />
+          <methodref name="getIsMoving" visibility="protected" />
+          <methodref name="GetSpeed" visibility="protected" />
+          <methodref name="SetSpeed" visibility="protected" />
+          <methodref name="getCourse" visibility="protected" />
+          <methodref name="setCourse" visibility="protected" />
+          <methodref name="getHeight" visibility="protected" />
+          <methodref name="setHeight" visibility="protected" />
+          <methodref name="Create" visibility="public" />
+          <methodref name="Destroy" visibility="public" />
+          <methodref name="Update" visibility="public" />
+          <methodref name="Run" visibility="public" />
+          <methodref name="SetPosition" visibility="public" />
+          <propertyref name="Speed" visibility="public" />
+          <propertyref name="Course" visibility="public" />
+          <propertyref name="Height" visibility="public" />
+          <propertyref name="PositionX" visibility="public" />
+          <propertyref name="PositionY" visibility="public" />
+          <propertyref name="PositionZ" visibility="public" />
+          <propertyref name="IsMoving" visibility="public" />
+          <ancestor name="TSimClassOnMapX" namespace="uMapXSim">
+            <methodref name="CreateDefaultView" visibility="public" />
+            <methodref name="ConvertViewsPosition" visibility="public" />
+            <methodref name="DrawViews" visibility="public" />
+            <ancestor name="TSimulationClass" namespace="uBaseSimulationObject">
+              <methodref name="Create" visibility="public" />
+              <methodref name="Destroy" visibility="public" />
+              <methodref name="MarkAs_NeedToBeFree" visibility="public" />
+              <methodref name="DeleteAllChildren" visibility="public" />
+              <methodref name="Update" visibility="public" />
+              <methodref name="Run" visibility="public" />
+              <propertyref name="PositionX" visibility="public" />
+              <propertyref name="PositionY" visibility="public" />
+              <propertyref name="PositionZ" visibility="public" />
+              <propertyref name="UniqueID" visibility="public" />
+              <ancestor name="TObject" namespace="System">
+                <methodref name="Create" visibility="public">
+                </methodref>
+                <methodref name="Free" visibility="public">
+                </methodref>
+                <methodref name="InitInstance" visibility="public">
+                </methodref>
+                <methodref name="CleanupInstance" visibility="public">
+                </methodref>
+                <methodref name="ClassType" visibility="public">
+                </methodref>
+                <methodref name="ClassName" visibility="public">
+                </methodref>
+                <methodref name="ClassNameIs" visibility="public">
+                </methodref>
+                <methodref name="ClassParent" visibility="public">
+                </methodref>
+                <methodref name="ClassInfo" visibility="public">
+                </methodref>
+                <methodref name="InstanceSize" visibility="public">
+                </methodref>
+                <methodref name="InheritsFrom" visibility="public">
+                </methodref>
+                <methodref name="MethodAddress" visibility="public">
+                </methodref>
+                <methodref name="MethodAddress" visibility="public">
+                </methodref>
+                <methodref name="MethodName" visibility="public">
+                </methodref>
+                <methodref name="FieldAddress" visibility="public">
+                </methodref>
+                <methodref name="FieldAddress" visibility="public">
+                </methodref>
+                <methodref name="GetInterface" visibility="public">
+                </methodref>
+                <methodref name="GetInterfaceEntry" visibility="public">
+                </methodref>
+                <methodref name="GetInterfaceTable" visibility="public">
+                </methodref>
+                <methodref name="UnitName" visibility="public">
+                </methodref>
+                <methodref name="Equals" visibility="public">
+                </methodref>
+                <methodref name="GetHashCode" visibility="public">
+                </methodref>
+                <methodref name="ToString" visibility="public">
+                </methodref>
+                <methodref name="SafeCallException" visibility="public">
+                </methodref>
+                <methodref name="AfterConstruction" visibility="public">
+                </methodref>
+                <methodref name="BeforeDestruction" visibility="public">
+                </methodref>
+                <methodref name="Dispatch" visibility="public">
+                </methodref>
+                <methodref name="DefaultHandler" visibility="public">
+                </methodref>
+                <methodref name="NewInstance" visibility="public">
+                </methodref>
+                <methodref name="FreeInstance" visibility="public">
+                </methodref>
+                <methodref name="Destroy" visibility="public">
+                </methodref>
+              </ancestor>
+            </ancestor>
+          </ancestor>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="ShipPositionX" type="Double" visibility="public" />
+      <field name="ShipPositionY" type="Double" visibility="public" />
+      <field name="oObj" type="TObject" visibility="public" />
+      <field name="initvalue" type="Boolean" visibility="public" />
+      <procedure name="SetDetectedPosition" visibility="public" procflags="overload">
+        <parameters>
+          <parameter name="x" type="Double" paramflags="const" />
+          <parameter name="y" type="Double" paramflags="const" />
+          <parameter name="z" type="Double" paramflags="const" />
+          <parameter name="gTimeMs" type="Cardinal" paramflags="const" />
+          <parameter name="ShipPosX" type="Double" paramflags="const" />
+          <parameter name="ShipPosY" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+</namespace>

@@ -1,0 +1,35 @@
+Bodi (363.ive)
+
+- SwitchWeapon
+
+- DOF_Meriam120Base
+- DOF_AsrocBase
+- DOF_Meriam40BaseL (kiri)
+- DOF_Meriam40BaseR (kanan)
+- DOF_Exocet1
+- DOF_Exocet2
+- DOF_Exocet3
+- DOF_Exocet4
+
+FatahMeriam120Base.ive
+- DOF_Meriam120Launcher
+
+FatahMeriam120Launcher.ive
+- DOF_Meriam120Camera1
+- DOF_Meriam120Camera2
+- DOF_Meriam120Missile
+
+AsrocBase.ive
+- DOF_AsrocLauncher
+
+AsrocLauncher.ive
+- DOF_AsrocMissileL
+- DOF_AsrocMissileR
+
+Meriam40Base.ive
+- DOF_Meriam40Launcher
+
+Meriam40Launcher.ive
+- DOF_Meriam40Camera1
+- DOF_Meriam40Camera2
+- DOF_Meriam40Missile

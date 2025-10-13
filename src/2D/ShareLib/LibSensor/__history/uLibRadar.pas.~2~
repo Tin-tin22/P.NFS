@@ -1,0 +1,903 @@
+unit uLibRadar;
+(*
+  Created       : 14 August 2007
+  Last Modified : 14 August 2007
+
+  Author        : Andy Sucipto
+  Description   : Radar class for Emulator Client2D
+
+*)
+
+
+interface
+
+  uses
+    Windows, Graphics, MapXLib_TLB,
+    uBaseSimulationObject, uBaseSensor, uLibRadarComp, uLibRadarView, uMapXSim,
+    uDetected, uBaseGraphicProc;
+
+  const
+    C_Max_Freq_Slot = 16;
+
+
+//==============================================================================
+  type
+
+
+  TRadar_Type = (rtDA_05, rtWM_28, rtLW_03, rtVESTA, rtDECCA_1229, tes_Radar);
+  TRadar_Amp  = (raLiner, raLogarithmic);
+
+//==============================================================================
+    // radar pulsed signal
+{    tRadarSignal = class
+    private
+      FFrequency: double;
+      FWavelength: double;
+      procedure SetFrequency(const Value: double);
+      procedure SetWavelength(const Value: double);
+
+    public
+      property Frequency   : double read FFrequency write SetFrequency;
+      property Wavelength  : double read FWavelength write SetWavelength;  //from freq
+    end;
+}
+
+//==============================================================================
+    TClientRadar = class(TSimClassOnMapX)
+    private
+
+      FDirection : double;
+
+      FCurTimeBasePos,
+      FPrevTimeBasePos  : double;
+      FHorizontalBeamWidth: double;
+      FVerticalBeamWidth: double;
+      FAveratePower: double;
+
+      FFrequencyMode: tFrequencyMode;
+      FMin_Frequency: double;
+      FMax_Frequency: double;
+
+      FRadiate: boolean;
+      FDetObj  :  TSimulationClass;
+
+//      DirectionMode : TDirectionMode;
+      function GetDirection: double;                    // Compass
+      procedure SetDirection(const Value: double);
+      procedure SetFrequencyMode(const Value: tFrequencyMode);
+      procedure SetMax_Frequency(const Value: double);
+      procedure SetMin_Frequency(const Value: double);
+
+      function getMaxIntens: byte;
+      procedure setIntens(const Value: byte);
+      function GetRadiate: boolean;
+      procedure setRadiate(const Value: boolean);
+
+    protected
+      FrequencySlot  : array [0 .. C_Max_Freq_Slot] of double;
+      FrequencyIndex : byte;
+
+      FFrequency      : double;
+      FWavelength     : double;
+
+      FPRF            : double;
+      FDetectionRange : double;                              // Cartesian 0 .. 360
+
+      FPulseWidth       : double;
+      FRangeResolution  : double;
+
+      FMTI_ON: boolean;
+
+      {Prince}
+      FSubSurf_On : Boolean;
+      FSurf_On  : Boolean;
+      FRadarForTocos : Boolean;
+
+      procedure SetFrequency(const Value: double);
+      procedure SetWavelength(const Value: double);
+
+      procedure SetDetectionRange(const Value: double);
+      procedure SetPRF(const Value: double);
+
+      procedure SetPulseWidth(const Value: double);
+      procedure SetRangeResolution(const Value: double);
+
+      procedure SetHorizontalBeamWidth(const Value: double);
+      procedure SetVerticalBeamWidth(const Value: double);
+
+      procedure SetAveratePower(const Value: double);
+      // Radar Mode Operation
+      // 1. transmittion mode
+{     procedure Scan_HORIZONTAL;
+      procedure Scan_HELICAL;
+
+      procedure Polarization_HORIZONTAL;
+      procedure Polarization_CIRCULAR;
+
+      procedure Frequency_FIX;
+      procedure Frequency_AGILITY;
+
+      procedure PulseRepetitionFreq_LOW;
+      procedure PulseRepetitionFreq__HIGH;
+
+      procedure AUTO_ON;
+
+      procedure RADAR_SILENCE_ON;
+
+      // 2. wm radar receiver
+      procedure Search_Amplifier_LOGARITHMIC;
+      procedure Search_Amplifier_LINEAR;
+      procedure Search_DICKE_FIX;
+
+      procedure Pulse_Length_Dicrimination;
+
+      procedure Interference_Supression_Unit;
+      procedure Quantiser;
+
+      procedure Sensitif_Time_Control;
+
+      procedure Moving_Target_Indicator;
+      procedure MTI_Correction_COURSE;
+      procedure MTI_Correction_SPEED;
+
+      procedure Pulse_Amplitude_Tracking;
+      procedure Pulse_Doppler_Tracking;
+
+}
+//      procedure ProcessObjectOnHitByTimeBase();
+      procedure SetMTI_ON(const Value: boolean);
+      procedure SetSubSurf_On(const Value: boolean);
+      procedure SetSurf_On(const Value: boolean);
+      procedure SetRadarForTocos(Value: boolean);
+
+    protected
+    // dipanggil dari RadarProcess(org: TObjectContainer);
+      {1.x}
+      function FindByRangeBearing(const r, b: double; var obj: TDetectedObject): boolean;
+      procedure RangeBearingToCoord(const r, b: double; var mx, my : double);
+      {1.1}
+      procedure RadarProcess_MTI;
+      procedure RadarTocosProses;
+      procedure RadarProcess_SubSurf(status : Boolean);
+      procedure RadarProcess_Surf(status : Boolean);
+      {1.2}
+      procedure RadarProcess_FrequencyAgile;
+      {1.3}
+      procedure RadarProcess_Signal;
+
+    public
+      // Radar parts............................................................
+      DisplayArea   : TRadarAreaView;     //ok
+
+      TimeBase      : TRadarTimebase;     //ok
+      TimeBaseView  : TRadarTimeBaseView; //ok
+
+      SectorView    : TRadarSectorView;   //ok
+      PolarView     : TRadarPolarView;    //ok
+
+      LastTrackNumber :integer;
+
+      FRadarType : TRadar_Type;
+
+      AntenaHeight : double; // feet
+
+      CalculateHorizon: boolean;
+
+      constructor Create;
+      destructor Destroy; override;
+
+      {0}
+      procedure Run(const aDeltaMs: double);   override;
+      procedure Update; override;
+
+      procedure CreateDefaultView(const aMap: TMap); override;
+
+      procedure ConvertViewsPosition(); override;
+      procedure DrawViews(aCnv: TCanvas); override;
+
+      procedure DrawObjects(aCnv : TCanvas);
+
+      function FindDetectedObjectByView(
+       const x, y: integer;
+       var det: TDetectedObject): boolean;
+
+      procedure SetAllSymbolVisible(const value: boolean);
+
+    public
+      // Detected object ............................................................
+      DetObjects : TObjectContainer;
+      TmpDet     : TDetectedObject;
+
+      {1}
+      procedure RadarProcess(org: TObjectContainer; const gCount: LongWord; Run : boolean);
+      {2}
+
+
+      function CreateSimulatedDetected(const x, y: double): TDetectedObject;
+
+    published
+      property Direction: double                // arah radar, bukan arah timebase
+          read GetDirection write SetDirection; // jika radar kapal, ikut halu kapal
+
+  //------------------------------------
+      property Frequency   : double                     // MHz
+          read FFrequency write SetFrequency;
+      property Wavelength  : double                     //
+          read FWavelength;   // write SetWavelength;
+      property Max_Frequency : double read FMax_Frequency write SetMax_Frequency;
+      property Min_Frequency : double read FMin_Frequency write SetMin_Frequency;
+
+  //------------------------------------
+     property DetectionRange: double                   // nautical miles
+          read FDetectionRange write SetDetectionRange;
+
+      property PRF : double                             // pulse per second
+          read FPRF write SetPRF;
+
+  //------------------------------------
+      property PulseWidth :double                       // micro second
+          read FPulseWidth write SetPulseWidth;
+      property RangeResolution: double
+          read FRangeResolution; //write SetRangeResolution;
+
+  //------------------------------------
+      property VerticalBeamWidth     : double                  // degree
+          read FVerticalBeamWidth write SetVerticalBeamWidth;
+      property HorizontalBeamWidth   : double                  // degree
+          read FHorizontalBeamWidth write SetHorizontalBeamWidth;
+
+  //------------------------------------
+     property MTI_ON: boolean read FMTI_ON write SetMTI_ON;
+     property SubSurf_On: boolean read FSubSurf_On write SetSubSurf_On;
+     property Surf_On: boolean read FSurf_On write SetSurf_On;
+     property RadarForTocos: boolean read FRadarForTocos write SetRadarForTocos;
+     property FrequencyMode : tFrequencyMode read FFrequencyMode write SetFrequencyMode;
+
+
+  // BELUM //------------------------------------
+      property AveratePower: double read FAveratePower write SetAveratePower;
+      //property EffectivePower : double; // KW
+
+      //AntenaType   : string;
+      //PolarizationDirection : tPolarizationDirection;
+
+      property MaxIntensity: byte read getMaxIntens write setIntens;
+      property Radiate: boolean read GetRadiate write setRadiate;
+
+  //-------------------------------------
+    end;
+
+///////////////////////////////////////////////////////////////////////////////
+   TWM_Radar = class(TClientRadar)
+
+   public
+      constructor Create;
+
+   end;
+
+   TDA_Radar = class (TClientRadar)
+
+   end;
+
+   TNav_Radar = class(TClientRadar)
+
+
+   end;
+///////////////////////////////////////////////////////////////////////////////
+
+implementation
+
+uses
+  Classes, uBaseConstan, uBaseDataType, uBaseFunction, Math, SysUtils, uLibClientObject;
+
+//==============================================================================
+// radar function
+//function Calc
+
+
+//==============================================================================
+//==============================================================================
+{ TClientRadar }
+
+constructor TClientRadar.Create;
+var i: integer;
+    deltaf:  double;
+begin
+  inherited;
+
+//-display area;
+
+  DetObjects := TObjectContainer.Create;
+//  DetViews   := TViewContainer.Create;
+
+
+  FMin_Frequency :=  9000.0; // MHz;
+  FMax_Frequency := 12000.0; // MHz;
+
+  deltaf := (FMax_Frequency - FMin_Frequency) / C_Max_Freq_Slot;
+  for i := 0 to C_Max_Freq_Slot do begin
+    FrequencySlot[i] := FMin_Frequency + i * deltaf;
+  end;
+
+  FrequencyIndex := 0;
+  SetFrequency(FrequencySlot[0]);
+
+// time base
+  TimeBase     := TRadarTimebase.Create;
+  TimeBase.Enabled := TRUE;
+  ObjectContainer.AddObject(TimeBase);
+
+  FMTI_ON := FALSE;
+
+  LastTrackNumber := 1;
+  FRadarType := rtDA_05;
+
+  FRadiate := TRUE;
+  CalculateHorizon := false;
+  //nala 83.85 x 11.1 x 3.3 meters/275.1 x 36.4 x 10.8 feet
+  AntenaHeight     := 90.0;  //feet;
+end;
+
+destructor TClientRadar.Destroy;
+begin
+  ViewContainer.ClearObject;
+  ObjectContainer.ClearObject;
+
+  DetObjects.ClearObject;
+  DetObjects.Free;
+
+
+  inherited;
+end;
+
+// =============================================================================
+function TClientRadar.GetDirection: double;
+begin
+  Result := ConvCartesian_To_Compass(FDirection);
+end;
+
+procedure TClientRadar.SetDirection(const Value: double);
+begin
+  FDirection := ConvCompass_To_Cartesian(Value);
+//  if DirectionMode = then
+  TimeBase.DirectionOffset := Value;
+end;
+//  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+procedure TClientRadar.SetFrequency(const Value: double);
+begin
+  FFrequency := Value;
+  FWavelength := ifThen(IsAlmostZero(Value), 0.0, (C_SPEED_OF_LIGHT / Value));
+end;
+
+procedure TClientRadar.SetWavelength(const Value: double);
+begin
+  FWavelength := Value;
+  FFrequency  := ifThen(IsAlmostZero(Value), 0.0, (C_SPEED_OF_LIGHT / Value));
+end;
+//  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+procedure TClientRadar.SetDetectionRange(const Value: double);
+begin
+  FDetectionRange := Value;
+  FPRF :=ifThen(IsAlmostZero(Value), 0.0,
+    0.5 * C_SPEED_OF_LIGHT / (Value * C_NauticalMiles_TO_Meter));
+//  if Assigned(PolarView) then
+//    PolarView.RangeInterval := Value * 0.25;
+end;
+
+procedure TClientRadar.SetPRF(const Value: double);
+begin
+  FPRF := Value;
+  FDetectionRange :=  IfThen(IsAlmostZero(Value), 0.0,
+    (C_Meter_To_NauticalMiles * 0.5 * C_SPEED_OF_LIGHT / Value));
+
+end;
+//  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+procedure TClientRadar.SetPulseWidth(const Value: double);
+begin // input in Micro Second
+  FPulseWidth := Value;
+  FRangeResolution :=(0.5*(C_SPEED_OF_LIGHT*Value))
+end;
+
+procedure TClientRadar.SetRadarForTocos(Value: boolean);
+begin
+  FRadarForTocos := Value;
+end;
+
+procedure TClientRadar.SetRangeResolution(const Value: double);
+begin
+  FRangeResolution := Value;
+  FPulseWidth := 2.0 * Value / C_SPEED_OF_LIGHT;
+end;
+procedure TClientRadar.SetSubSurf_On(const Value: boolean);
+begin
+  FSubSurf_On := Value;
+end;
+
+procedure TClientRadar.SetSurf_On(const Value: boolean);
+begin
+  FSurf_On := Value;
+end;
+
+//  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// =============================================================================
+procedure TClientRadar.Update;
+//var i : integer;
+begin
+  inherited;
+  if not Enabled then exit;
+
+  DetObjects.UpdateAllMemberObject;
+
+end;
+
+procedure TClientRadar.Run(const aDeltaMs: double);
+begin
+//  inherited;
+//  ObjectContainer.RunAllMemberObject(aDeltaMs);
+//  TimeBase.CurrentDirection
+  if not Enabled then exit;
+
+  FPrevTimeBasePos := ValidateDegree(TimeBase.CurrentDirection); // compass
+  TimeBase.Run(aDeltaMs);
+  FCurTimeBasePos  := ValidateDegree(TimeBase.CurrentDirection); //
+
+end;
+
+procedure TClientRadar.CreateDefaultView(const aMap: TMap);
+begin
+  inherited;
+
+  TimeBaseView := TRadarTimeBaseView.CreateOnMapX(self, aMap);
+  TimeBaseView.Color :=  C_defColor;
+  TimeBaseView.Visible := TRUE;
+  ViewContainer.AddObject(TimeBaseView);
+
+
+  DisplayArea   := TRadarAreaView.CreateOnMapX(self, aMap);
+  DisplayArea.Visible := FALSE;
+  ViewContainer.AddObject(DisplayArea);
+
+
+  SectorView := TRadarSectorView.CreateOnMapX(self, aMap);
+  ViewContainer.AddObject(SectorView);
+  SectorView.Visible := faLSE;
+
+  PolarView := TRadarPolarView.CreateOnMapX(self, aMap);
+  ViewContainer.AddObject(PolarView);
+  //PolarView.Visible := true;
+
+end;
+
+procedure TClientRadar.ConvertViewsPosition();
+var i: integer;
+    list: TList;
+    obj : TSimClassOnMapX;
+begin
+  //inherited;  //-> convert self.viewcontainer.ConvertAllDataPosition;
+  if  not Enabled then exit;
+
+  viewcontainer.ConvertAllDataPosition;
+
+  //-> convert member's  view container.
+  List := DetObjects.GetList;
+  for i := 0 to List.Count-1 do begin
+    obj := List[i];
+    obj.ViewContainer.ConvertAllDataPosition;
+   end;
+
+  DetObjects.ReturnList;
+end;
+
+procedure TClientRadar.DrawViews(aCnv: TCanvas);
+var i: integer;
+    list: TList;
+    obj : TSimClassOnMapX;
+    bmpRotate : TBitmap;
+begin
+//  inherited;  //-> convert self.viewcontainer.DrawAllview;
+
+  ViewContainer.DrawAllview(aCnv);
+
+  // DrawDetectedObjects;
+  List := DetObjects.GetList;
+  for i := 0 to List.Count-1 do begin
+    obj := List[i];
+    obj.ViewContainer.DrawAllView(aCnv);
+  end;
+  DetObjects.ReturnList;
+end;
+
+procedure TClientRadar.DrawObjects(aCnv: TCanvas);
+var i: integer;
+    list: TList;
+    obj : TSimClassOnMapX;
+begin
+  // DrawDetectedObjects;
+  List := DetObjects.GetList;
+  for i := 0 to List.Count-1 do begin
+    obj := List[i];
+    obj.ViewContainer.DrawAllView(aCnv);
+  end;
+  DetObjects.ReturnList;
+end;
+
+
+//==============================================================================
+procedure TClientRadar.RangeBearingToCoord(const r, b: double; var mx, my : double);
+var dRad  : extended;
+    sinx, cosx: extended;
+begin  // return *relatif* coord to radar center
+  dRad := C_DegToRad * ConvCompass_To_Cartesian(b);
+  SinCos(dRad, sinx, cosx);
+
+  mx := r * cosx;
+  my := r * sinx;
+end;
+
+function TClientRadar.FindByRangeBearing(const r, b: double; var obj: TDetectedObject): boolean;
+var i: integer;
+    found : boolean;
+    list : TList;
+begin  // bearingnya belum;
+
+  list := DetObjects.GetList;
+  found := false;
+  i := 0;
+  while not found and (i < list.Count) do begin
+    obj := TDetectedObject(list[i]);
+
+    found :=  abs(obj.DetRange -r) < FRangeResolution;
+
+    inc(i);
+  end;
+  DetObjects.ReturnList;
+
+  result :=  found;
+end;
+
+procedure TClientRadar.RadarProcess_MTI;
+const
+  C_MTI_Speed_tolerance = 10.0; // knots
+var i : integer;
+    list : TList;
+    dObj : TDetectedObject;
+begin
+  list := DetObjects.GetList;
+  for i := list.Count-1 downto 0 do
+  begin
+    dObj := list.Items[i];
+    if dObj.DetSpeed < C_MTI_Speed_tolerance then
+      dObj.Visibles :=  false;
+  end;
+  DetObjects.ReturnList;
+end;
+
+procedure TClientRadar.RadarProcess_SubSurf(status : Boolean);
+const
+  C_Depth_tolerance = 0; //meter
+var i : integer;
+    list : TList;
+    dObj : TDetectedObject;
+begin
+  list := DetObjects.GetList;
+  for i := list.Count-1 downto 0 do
+  begin
+    dObj := list.Items[i];
+
+    {jarak maksimal sonar 7 nm}
+    if (dObj.DetDepth < C_Depth_tolerance) and (dObj.DetRange <= 7) and (status) then
+    begin
+      dObj.Visibles :=  True;
+      dObj.VisSubSurf := True;
+    end
+    else
+    begin
+      dObj.Visibles :=  False;
+      dObj.VisSubSurf := False;
+    end;
+  end;
+  DetObjects.ReturnList;
+end;
+
+procedure TClientRadar.RadarProcess_Surf(status : Boolean);
+const
+  C_Depth_tolerance = -1; //meter
+var i : integer;
+    list : TList;
+    dObj : TDetectedObject;
+begin
+  list := DetObjects.GetList;
+  for i := list.Count-1 downto 0 do
+  begin
+    dObj := list.Items[i];
+    if (dObj.DetDepth >= C_Depth_tolerance) and (status) then
+    begin
+      dObj.Visibles :=  True;
+    end
+    else
+    begin
+      if (dObj.VisSubSurf) then
+        dObj.Visibles := True
+      else
+        dObj.Visibles :=  False;
+    end;
+
+  end;
+  DetObjects.ReturnList;
+end;
+
+procedure TClientRadar.RadarTocosProses;
+begin
+  if SubSurf_On and not Surf_On then
+  begin
+    TimeBaseView.BackgroundVisible := False;
+    TimeBaseView.TimeBaseVisible := False;
+  end
+  else
+  begin
+    TimeBaseView.BackgroundVisible := True;
+    TimeBaseView.TimeBaseVisible := True;
+  end;
+
+  RadarProcess_SubSurf(SubSurf_On);
+  RadarProcess_Surf(Surf_On);
+end;
+
+procedure TClientRadar.RadarProcess_FrequencyAgile;
+begin
+  FrequencyIndex := RANDOM(C_Max_Freq_Slot+1);
+  SetFrequency(FrequencySlot[FrequencyIndex]);
+end;
+
+procedure TClientRadar.RadarProcess_Signal;
+var i : integer;
+    list : TList;
+    dObj : TDetectedObject;
+begin
+  list := DetObjects.GetList;
+
+  for i := list.Count-1 downto 0 do begin
+
+    dObj := list.Items[i];
+
+  end;
+
+  DetObjects.ReturnList;
+end;
+
+
+procedure TClientRadar.RadarProcess(org: TObjectContainer; const gCount: LongWord; Run : boolean);
+{ radar processing routine
+  input  : org -> 'real' object -> syncrhonized with network ;
+  output : in ObjectContainer, processes & viewed;
+}
+var i: integer;
+    rObj, dObj : TSimulationClass;
+    list : TList;
+    dpt1 : t2DPoint;
+    range, bearing, elev, px, py : double;
+begin
+  if not Enabled then exit;
+
+  list := org.GetList;
+
+  // Detect object by range and bearing;
+
+  for i := 0 to list.Count -1  do begin
+    rObj := list[i];
+
+    range   := CalcRange(PositionX, PositionY, rObj.PositionX, rObj.PositionY);
+    bearing := CalcBearing(PositionX, PositionY, rObj.PositionX, rObj.PositionY);
+
+    RangeBearingToCoord(range, bearing, dPt1.X, dPt1.Y);
+
+    pX := PositionX + dPt1.X * C_NauticalMile_To_Degree;
+    pY := PositionY + dPt1.Y * C_NauticalMile_To_Degree;
+
+    elev    := CalcElevation(range, PositionZ, rObj.PositionZ);
+    //if not  elev in VerticalBeamWidth
+
+//    if elev < -5 then
+//      Continue;
+
+    if not DegComp_IsBeetwen(bearing, FPrevTimeBasePos, FCurTimeBasePos) then
+      Continue;
+
+//  if not (DegComp_IsBeetwen(bearing, FPrevTimeBasePos, FCurTimeBasePos) or
+//      DegComp_IsBeetwen(bearing, FCurTimeBasePos, FPrevTimeBasePos) ) then
+//      Continue;
+
+    if (range > FDetectionRange) then
+      Continue;
+
+{    if CalculateHorizon then begin
+      if not IsVisibleByHorizon(PositionX, PositionY, AntenaHeight,
+       rObj.PositionX, rObj.PositionY, rObj.Dimension.height) then
+         continue;
+    end
+}
+    dObj := DetObjects.FindObjectByUid(rObj.UniqueID);
+    if (dObj = nil) then begin
+      TmpDet := TDetectedObject.Create;
+      TmpDet.UniqueID := rObj.UniqueID;
+      TmpDet.DetDepth := rObj.PositionZ;
+      TmpDet.DetRange := range;
+
+      inc(LastTrackNumber);
+      TmpDet.CreateDefaultView(FMap);
+      TmpDet.Enabled   := TRUE;
+      TmpDet.MaxColors := TimeBaseView.Darkness;
+      DetObjects.AddObject(tmpDet);
+    end
+    else
+    begin
+      TmpDet := dObj as TDetectedObject;
+
+    end;
+
+    TmpDet.DetDepth   := rObj.PositionZ;
+    TmpDet.DetRange   := range;
+    TmpDet.DetBearing := bearing;
+
+//    TmpDet.SetDetectedPosition(px, pY, rObj.PositionZ, gCount);
+    TmpDet.SetDetectedPosition(rObj.PositionX, rObj.PositionY, rObj.PositionZ, gCount);
+     if rObj is TClientObject then
+    with (rObj as TClientObject) do begin
+      TmpDet.DetSpeed := Speed;
+      TmpDet.DetHead := Heading;
+    end;
+    TmpDet.Visibles := Run;
+  end;
+
+  // hasil proces di atas a da di list DetObject;
+  // isinya semua object yg berada di dalam range radar.
+  org.ReturnList;
+
+  RadarProcess_Signal;
+
+  if FrequencyMode = fmAgile then begin
+    // return warning MTI NOT AVAILABLE;
+     RadarProcess_FrequencyAgile;
+
+  end;
+
+  if FFrequencyMode = fmFixed then begin
+
+    if RadarForTocos then
+      RadarTocosProses;
+
+    if FMTI_ON then
+      RadarProcess_MTI;
+  end;
+
+end;
+
+procedure TClientRadar.SetHorizontalBeamWidth(const Value: double);
+begin
+  FHorizontalBeamWidth := Value;
+end;
+
+procedure TClientRadar.SetVerticalBeamWidth(const Value: double);
+begin
+  FVerticalBeamWidth := Value;
+end;
+
+procedure TClientRadar.SetAveratePower(const Value: double);
+begin
+  FAveratePower := Value;
+end;
+
+procedure TClientRadar.SetMTI_ON(const Value: boolean);
+begin
+  FMTI_ON := Value;
+end;
+
+procedure TClientRadar.SetFrequencyMode(const Value: tFrequencyMode);
+begin
+  FFrequencyMode := Value;
+end;
+
+procedure TClientRadar.SetMax_Frequency(const Value: double);
+begin
+  FMax_Frequency := Value;
+end;
+
+procedure TClientRadar.SetMin_Frequency(const Value: double);
+begin
+  FMin_Frequency := Value;
+end;
+
+//----------------------------------------------------------------------------
+function TClientRadar.FindDetectedObjectByView(
+       const x, y: integer;
+       var det: TDetectedObject): boolean;
+var i: integer;
+    found : boolean;
+    list : TList;
+begin
+
+  list := DetObjects.GetList;
+  found := false;
+  i := 0;
+  while not found and (i < list.Count) do begin
+    det := TDetectedObject(list[i]);
+    found :=  det.TestViewHit(x, y);
+
+    inc(i);
+  end;
+  DetObjects.ReturnList;
+  result :=  found;
+end;
+
+procedure TClientRadar.SetAllSymbolVisible(const value: boolean);
+var i : integer;
+    list : TList;
+    dObj : TDetectedObject;
+begin
+  list := DetObjects.GetList;
+
+  for i := list.Count-1 downto 0 do begin
+    dObj := list.Items[i];
+    //dObj.SetSymbolVisible(Value);
+  end;
+
+  DetObjects.ReturnList;
+end;
+
+function TClientRadar.getMaxIntens: byte;
+begin
+  result := TimeBaseView.Darkness;
+end;
+
+procedure TClientRadar.setIntens(const Value: byte);
+var i  : integer;
+    dt : TDetectedObject;
+    l  : TList;
+begin
+  TimeBaseView.Darkness := Value;
+
+  l := DetObjects.GetList;
+  for i := 0 to l.Count-1 do begin
+    dt := l.Items[i];
+    dt.MaxColors :=  255 - Value;
+  end;
+  DetObjects.ReturnList;
+end;
+
+function TClientRadar.GetRadiate: boolean;
+begin
+  result := FRadiate;
+end;
+
+procedure TClientRadar.setRadiate(const Value: boolean);
+begin
+  FRadiate := Value;
+  TimeBaseView.BackgroundVisible := FRadiate;
+end;
+
+function TClientRadar.CreateSimulatedDetected(const x, y: double): TDetectedObject;
+var TmpDet : TDetectedObject;
+begin
+  TmpDet := TDetectedObject.Create;
+  TmpDet.UniqueID := '';
+
+  inc(LastTrackNumber);
+  TmpDet.CreateDefaultView(FMap);
+  TmpDet.Enabled   := TRUE;
+  TmpDet.MaxColors := TimeBaseView.Darkness;
+  DetObjects.AddObject(tmpDet);
+
+end;
+
+{ TWM_Radar }
+
+constructor TWM_Radar.Create;
+begin
+  inherited;
+  TimeBase.RotationSpeed := 60;
+end;
+
+end.
+
+

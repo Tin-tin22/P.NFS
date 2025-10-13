@@ -1,0 +1,109 @@
+object Form1: TForm1
+  Left = 1617
+  Top = 187
+  Width = 123
+  Height = 332
+  Caption = 'Form1'
+  Color = clBtnFace
+  Font.Charset = ANSI_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Verdana'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Button1: TButton
+    Left = 19
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'satu'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Verdana'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 21
+    Top = 40
+    Width = 73
+    Height = 25
+    Caption = 'dua'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Verdana'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    OnClick = Button2Click
+  end
+  object Button3: TButton
+    Left = 21
+    Top = 72
+    Width = 73
+    Height = 25
+    Caption = 'tiga'
+    TabOrder = 2
+    OnClick = Button3Click
+  end
+  object Button4: TButton
+    Left = 21
+    Top = 104
+    Width = 73
+    Height = 25
+    Caption = 'empat'
+    TabOrder = 3
+    OnClick = Button4Click
+  end
+  object Button5: TButton
+    Left = 22
+    Top = 136
+    Width = 73
+    Height = 25
+    Caption = 'lima'
+    TabOrder = 4
+    OnClick = Button5Click
+  end
+  object Button6: TButton
+    Left = 24
+    Top = 168
+    Width = 73
+    Height = 25
+    Caption = 'enam'
+    TabOrder = 5
+    OnClick = Button6Click
+  end
+  object Button7: TButton
+    Left = 24
+    Top = 200
+    Width = 73
+    Height = 25
+    Caption = 'tujuh'
+    TabOrder = 6
+    OnClick = Button7Click
+  end
+  object Button8: TButton
+    Left = 24
+    Top = 232
+    Width = 73
+    Height = 25
+    Caption = 'delapan'
+    TabOrder = 7
+    OnClick = Button8Click
+  end
+  object Button9: TButton
+    Left = 24
+    Top = 264
+    Width = 73
+    Height = 25
+    Caption = 'sembilan'
+    TabOrder = 8
+    OnClick = Button9Click
+  end
+end

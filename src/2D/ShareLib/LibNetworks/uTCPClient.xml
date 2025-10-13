@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uTCPClient">
+  <const name="BUFFER_SIZE" type="Integer">
+    <value>
+      $4000
+    </value>
+  </const>
+  <array name="TCPT_ARRAY_PROCEDURE">
+    <element type="TCPT_PROCEDURE" />
+  </array>
+  <class name="TTCPClient">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <field name="FLog" type="TStringList" visibility="protected" />
+      <field name="FRealLog" type="TStringList" visibility="protected" />
+      <field name="WSocket" type="TWSocket" visibility="protected" />
+      <field name="FBuffer" type="PAnsiChar" visibility="protected" />
+      <field name="FBufferSize" type="Cardinal" visibility="protected" />
+      <field name="FBufferNow" type="Cardinal" visibility="protected" />
+      <field name="FBufferSizeKnown" type="Boolean" visibility="protected" />
+      <field name="arrayProcedure" type="TCPT_ARRAY_PROCEDURE" visibility="protected" />
+      <field name="arrSize" type=":TTCPClient.:1" visibility="protected" />
+      <field name="FLargestRecordSize" type="Integer" visibility="protected" />
+      <function name="getState" visibility="protected">
+        <parameters>
+          <retval type="TSocketState" />
+        </parameters>
+      </function>
+      <procedure name="HandleException" visibility="protected">
+        <parameters>
+          <parameter name="AE" type="Exception" />
+          <parameter name="AClient" type="TWSocket" />
+        </parameters>
+      </procedure>
+      <property name="State" visibility="public" read="getState" type="TSocketState" />
+      <property name="Log" visibility="public" read="FLog" type="TStringList" />
+      <property name="Socket" visibility="public" read="WSocket" type="TWSocket" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="Connect" visibility="public">
+        <parameters>
+          <parameter name="aAddr" type="string" />
+          <parameter name="aPort" type="string" />
+        </parameters>
+      </procedure>
+      <procedure name="Disconnect" visibility="public">
+      </procedure>
+      <procedure name="sendData" visibility="public">
+        <parameters>
+          <parameter name="buffer" type="PAnsiChar" />
+          <parameter name="size" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="sendDataEx" visibility="public">
+        <parameters>
+          <parameter name="aID" type="Byte" />
+          <parameter name="aBuffer" type="PAnsiChar" />
+        </parameters>
+      </procedure>
+      <procedure name="setLog" visibility="public">
+        <parameters>
+          <parameter name="aLog" type="TStringList" />
+        </parameters>
+      </procedure>
+      <procedure name="dataAvailable" visibility="public">
+        <parameters>
+          <parameter name="Sender" type="TObject" />
+          <parameter name="Error" type="Word" />
+        </parameters>
+      </procedure>
+      <procedure name="PacketRecognizer" visibility="public">
+        <parameters>
+          <parameter name="aP" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="DataSent" visibility="public">
+        <parameters>
+          <parameter name="Sender" type="TObject" />
+          <parameter name="Error" type="Word" />
+        </parameters>
+      </procedure>
+      <procedure name="RegisterProcedure" visibility="public">
+        <parameters>
+          <parameter name="aType" type="Word" />
+          <parameter name="aProcedure" type="TCPT_PROCEDURE" />
+          <parameter name="recordSize" type="Word" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+</namespace>

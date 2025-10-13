@@ -1,0 +1,485 @@
+object FrmLinkY_monitoring_and_control: TFrmLinkY_monitoring_and_control
+  Left = 40
+  Top = 142
+  Width = 379
+  Height = 419
+  Caption = 'Link-Y monitoring and control'
+  Color = clMedGray
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Menu = MainMenu1
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 369
+    Height = 361
+    Color = clMedGray
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 8
+      Top = 9
+      Width = 50
+      Height = 13
+      Alignment = taCenter
+      Caption = 'Terminal'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 8
+      Top = 73
+      Width = 47
+      Height = 13
+      Alignment = taCenter
+      Caption = 'Network'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label12: TLabel
+      Left = 8
+      Top = 185
+      Width = 47
+      Height = 13
+      Alignment = taCenter
+      Caption = 'Gridlock'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -11
+      Font.Name = 'Verdana'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Bevel1: TBevel
+      Left = 0
+      Top = 320
+      Width = 369
+      Height = 2
+    end
+    object GroupBox1: TGroupBox
+      Left = 8
+      Top = 21
+      Width = 353
+      Height = 44
+      TabOrder = 0
+      object Label2: TLabel
+        Left = 8
+        Top = 17
+        Width = 35
+        Height = 13
+        Alignment = taCenter
+        Caption = 'Mode:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label3: TLabel
+        Left = 56
+        Top = 17
+        Width = 113
+        Height = 13
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Stand-by'
+        Color = clGreen
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label4: TLabel
+        Left = 184
+        Top = 17
+        Width = 33
+        Height = 13
+        Alignment = taCenter
+        Caption = 'Avail:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label5: TLabel
+        Left = 224
+        Top = 17
+        Width = 113
+        Height = 13
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Available'
+        Color = clGreen
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+      end
+    end
+    object GroupBox2: TGroupBox
+      Left = 8
+      Top = 85
+      Width = 353
+      Height = 92
+      TabOrder = 1
+      object Label7: TLabel
+        Left = 8
+        Top = 17
+        Width = 35
+        Height = 13
+        Alignment = taCenter
+        Caption = 'DLRP:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label9: TLabel
+        Left = 8
+        Top = 38
+        Width = 35
+        Height = 13
+        Alignment = taCenter
+        Caption = 'Mode:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label10: TLabel
+        Left = 56
+        Top = 17
+        Width = 113
+        Height = 13
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Available'
+        Color = clGreen
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label8: TLabel
+        Left = 8
+        Top = 68
+        Width = 20
+        Height = 13
+        Alignment = taCenter
+        Caption = 'PU:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label11: TLabel
+        Left = 56
+        Top = 38
+        Width = 86
+        Height = 13
+        Alignment = taCenter
+        Caption = 'Radio silence'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Edit1: TEdit
+        Left = 33
+        Top = 64
+        Width = 32
+        Height = 21
+        AutoSize = False
+        Color = clGray
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+      end
+      object VrDemoButton1: TVrDemoButton
+        Left = 233
+        Top = 14
+        Width = 104
+        Height = 25
+        FontEnter.Charset = DEFAULT_CHARSET
+        FontEnter.Color = clWhite
+        FontEnter.Height = -11
+        FontEnter.Name = 'Verdana'
+        FontEnter.Style = [fsBold]
+        FontLeave.Charset = DEFAULT_CHARSET
+        FontLeave.Color = clWhite
+        FontLeave.Height = -11
+        FontLeave.Name = 'Verdana'
+        FontLeave.Style = [fsBold]
+        Caption = 'Single report'
+        Color = clMedGray
+        TabOrder = 1
+      end
+      object VrDemoButton2: TVrDemoButton
+        Left = 81
+        Top = 61
+        Width = 104
+        Height = 25
+        FontEnter.Charset = DEFAULT_CHARSET
+        FontEnter.Color = clWhite
+        FontEnter.Height = -11
+        FontEnter.Name = 'Verdana'
+        FontEnter.Style = [fsBold]
+        FontLeave.Charset = DEFAULT_CHARSET
+        FontLeave.Color = clWhite
+        FontLeave.Height = -11
+        FontLeave.Name = 'Verdana'
+        FontLeave.Style = [fsBold]
+        Caption = 'Update req'
+        Color = clMedGray
+        TabOrder = 2
+      end
+      object VrDemoButton3: TVrDemoButton
+        Left = 233
+        Top = 61
+        Width = 104
+        Height = 25
+        FontEnter.Charset = DEFAULT_CHARSET
+        FontEnter.Color = clWhite
+        FontEnter.Height = -11
+        FontEnter.Name = 'Verdana'
+        FontEnter.Style = [fsBold]
+        FontLeave.Charset = DEFAULT_CHARSET
+        FontLeave.Color = clWhite
+        FontLeave.Height = -11
+        FontLeave.Name = 'Verdana'
+        FontLeave.Style = [fsBold]
+        Caption = 'Retransmit'
+        Color = clMedGray
+        TabOrder = 3
+      end
+    end
+    object GroupBox3: TGroupBox
+      Left = 8
+      Top = 197
+      Width = 353
+      Height = 116
+      TabOrder = 2
+      object Label13: TLabel
+        Left = 8
+        Top = 17
+        Width = 99
+        Height = 13
+        Alignment = taCenter
+        Caption = 'Gridlock method:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label14: TLabel
+        Left = 112
+        Top = 83
+        Width = 30
+        Height = 13
+        Alignment = taCenter
+        Caption = 'Own:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label15: TLabel
+        Left = 8
+        Top = 81
+        Width = 73
+        Height = 13
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Ready'
+        Color = clGreen
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label16: TLabel
+        Left = 112
+        Top = 52
+        Width = 28
+        Height = 13
+        Alignment = taCenter
+        Caption = 'LRO:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label17: TLabel
+        Left = 232
+        Top = 52
+        Width = 71
+        Height = 13
+        Alignment = taCenter
+        Caption = 'Last update:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+      end
+      object VrClock1: TVrClock
+        Left = 232
+        Top = 72
+        Width = 57
+        Height = 25
+        Threaded = True
+        Palette.Low = clBlack
+        Palette.High = clWhite
+        Style = ns7x13
+        Color = clMedGray
+        ParentColor = False
+      end
+      object Edit2: TEdit
+        Left = 145
+        Top = 48
+        Width = 56
+        Height = 21
+        AutoSize = False
+        Color = clGray
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        Text = 'R  1234'
+      end
+      object VrDemoButton4: TVrDemoButton
+        Left = 9
+        Top = 48
+        Width = 80
+        Height = 25
+        FontEnter.Charset = DEFAULT_CHARSET
+        FontEnter.Color = clWhite
+        FontEnter.Height = -11
+        FontEnter.Name = 'Verdana'
+        FontEnter.Style = [fsBold]
+        FontLeave.Charset = DEFAULT_CHARSET
+        FontLeave.Color = clWhite
+        FontLeave.Height = -11
+        FontLeave.Name = 'Verdana'
+        FontLeave.Style = [fsBold]
+        Caption = 'Gridlock'
+        Color = clMedGray
+        TabOrder = 1
+      end
+      object ComboBox1: TComboBox
+        Left = 142
+        Top = 15
+        Width = 139
+        Height = 21
+        Color = clMedGray
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ItemHeight = 13
+        ParentFont = False
+        TabOrder = 2
+        Text = 'Separate tracks'
+      end
+      object Edit3: TEdit
+        Left = 145
+        Top = 77
+        Width = 56
+        Height = 21
+        AutoSize = False
+        Color = clGray
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 3
+        Text = 's  396'
+      end
+    end
+    object VrDemoButton5: TVrDemoButton
+      Left = 297
+      Top = 329
+      Width = 64
+      Height = 25
+      FontEnter.Charset = DEFAULT_CHARSET
+      FontEnter.Color = clWhite
+      FontEnter.Height = -11
+      FontEnter.Name = 'Verdana'
+      FontEnter.Style = [fsBold]
+      FontLeave.Charset = DEFAULT_CHARSET
+      FontLeave.Color = clWhite
+      FontLeave.Height = -11
+      FontLeave.Name = 'Verdana'
+      FontLeave.Style = [fsBold]
+      Caption = 'Help'
+      Color = clMedGray
+      TabOrder = 3
+    end
+  end
+  object MainMenu1: TMainMenu
+    Left = 464
+    Top = 40
+    object Settings1: TMenuItem
+      Caption = 'Settings'
+    end
+    object Monitoring1: TMenuItem
+      Caption = 'Monitoring'
+    end
+    object Control1: TMenuItem
+      Caption = 'Control'
+    end
+  end
+end

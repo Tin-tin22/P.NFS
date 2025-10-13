@@ -1,0 +1,24 @@
+Tambahan :
+
+- file2 ini untuk titik2 awan
+- Luasan dihitung berdasarkan luas segi  empat dari sebuah titik paling atas dan paling kiri dan sebuah titik paling kanan dan paling bawah
+- Jadi kalo bisa bentuk awan dibuat se'kotak' mungkin
+
+- Bentuk sembarang, mulai dari titik pertama sampai titik terakhir
+
+- untuk membuat awan, Cari luasan asal dari file awan, sesuaikan titik2 untuk luasan awan 1 nm2, sesuaikan lagi dengan FACTOR perkalian bentuk awan.
+
+- Luas awan default di hardcode = 1 nm2
+
+Kecepatan angin untuk semua -> Knot= nm/h
+
+Turbulence : 
+- Dalam Object :Kerapatan= Jumlah Turb per 100 nm2 
+
+
+Rancangan Setting Cuaca :
+- Nama
+- Komposisi awan
+- Boleh Hujan ?
+- Boleh Turbulence ?
+- dll ?

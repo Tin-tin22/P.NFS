@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uMapXFunction">
+  <const name="TOOL_DISTANCE" type="Integer">
+    <value>
+      $64
+    </value>
+  </const>
+  <const name="TOOL_MOVE_UNIT" type="Integer">
+    <value>
+      $65
+    </value>
+  </const>
+  <procedure name="SetAllLayerVisibility" visibility="public">
+    <parameters>
+      <parameter name="map" type="TMap" />
+      <parameter name="v" type="Boolean" paramflags="const" />
+    </parameters>
+  </procedure>
+  <function name="GetMapUnitStr" visibility="public">
+    <parameters>
+      <parameter name="i" type="Integer" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+</namespace>

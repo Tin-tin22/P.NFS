@@ -1,0 +1,545 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uTorpedoTrack">
+  <const name="tsOff" type="TStatusWeapon">
+    <value>
+      tsOff
+    </value>
+  </const>
+  <const name="tsLoading" type="TStatusWeapon">
+    <value>
+      tsLoading
+    </value>
+  </const>
+  <const name="tsLaunch" type="TStatusWeapon">
+    <value>
+      tsLaunch
+    </value>
+  </const>
+  <const name="stLow" type="TSpeedType">
+    <value>
+      stLow
+    </value>
+  </const>
+  <const name="stMedium" type="TSpeedType">
+    <value>
+      stMedium
+    </value>
+  </const>
+  <const name="stHigh" type="TSpeedType">
+    <value>
+      stHigh
+    </value>
+  </const>
+  <const name="ttNone" type="TTube">
+    <value>
+      ttNone
+    </value>
+  </const>
+  <const name="ttPort" type="TTube">
+    <value>
+      ttPort
+    </value>
+  </const>
+  <const name="ttStarBoard" type="TTube">
+    <value>
+      ttStarBoard
+    </value>
+  </const>
+  <const name="mNone" type="TPredm">
+    <value>
+      mNone
+    </value>
+  </const>
+  <const name="mIntercept" type="TPredm">
+    <value>
+      mIntercept
+    </value>
+  </const>
+  <const name="mBearingRider" type="TPredm">
+    <value>
+      mBearingRider
+    </value>
+  </const>
+  <const name="mManualNavigate" type="TPredm">
+    <value>
+      mManualNavigate
+    </value>
+  </const>
+  <const name="mTargetSearchProgram" type="TPredm">
+    <value>
+      mTargetSearchProgram
+    </value>
+  </const>
+  <const name="mHoming" type="TPredm">
+    <value>
+      mHoming
+    </value>
+  </const>
+  <const name="smSur" type="TSearchm">
+    <value>
+      smSur
+    </value>
+  </const>
+  <const name="smSub" type="TSearchm">
+    <value>
+      smSub
+    </value>
+  </const>
+  <const name="lmOn" type="TLolimm">
+    <value>
+      lmOn
+    </value>
+  </const>
+  <const name="lmOff" type="TLolimm">
+    <value>
+      lmOff
+    </value>
+  </const>
+  <const name="htPas" type="THomingType">
+    <value>
+      htPas
+    </value>
+  </const>
+  <const name="htAct" type="THomingType">
+    <value>
+      htAct
+    </value>
+  </const>
+  <const name="htCmb" type="THomingType">
+    <value>
+      htCmb
+    </value>
+  </const>
+  <const name="hbOn" type="THomingBlockType">
+    <value>
+      hbOn
+    </value>
+  </const>
+  <const name="hbOff" type="THomingBlockType">
+    <value>
+      hbOff
+    </value>
+  </const>
+  <struct name="TTarget">
+    <field name="Speed" type="Double" visibility="public" />
+    <field name="Course" type="Double" visibility="public" />
+    <field name="Bearing" type="Double" visibility="public" />
+    <field name="Distance" type="Double" visibility="public" />
+  </struct>
+  <struct name="TPHPData">
+    <field name="hitRange" type="Double" visibility="public" />
+    <field name="hitBearing" type="Double" visibility="public" />
+    <field name="hitTime" type="Double" visibility="public" />
+  </struct>
+  <enum name="TStatusWeapon">
+    <element name="tsOff" />
+    <element name="tsLoading" />
+    <element name="tsLaunch" />
+  </enum>
+  <enum name="TSpeedType">
+    <element name="stLow" />
+    <element name="stMedium" />
+    <element name="stHigh" />
+  </enum>
+  <enum name="TTube">
+    <element name="ttNone" />
+    <element name="ttPort" />
+    <element name="ttStarBoard" />
+  </enum>
+  <enum name="TPredm">
+    <element name="mNone" />
+    <element name="mIntercept" />
+    <element name="mBearingRider" />
+    <element name="mManualNavigate" />
+    <element name="mTargetSearchProgram" />
+    <element name="mHoming" />
+  </enum>
+  <enum name="TSearchm">
+    <element name="smSur" />
+    <element name="smSub" />
+  </enum>
+  <enum name="TLolimm">
+    <element name="lmOn" />
+    <element name="lmOff" />
+  </enum>
+  <enum name="THomingType">
+    <element name="htPas" />
+    <element name="htAct" />
+    <element name="htCmb" />
+  </enum>
+  <enum name="THomingBlockType">
+    <element name="hbOn" />
+    <element name="hbOff" />
+  </enum>
+  <class name="TLoadStatus">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <field name="Port" type="TStatusWeapon" visibility="public" />
+      <field name="StarBoard" type="TStatusWeapon" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+    </members>
+  </class>
+  <class name="TTorpedoTrack">
+    <ancestor name="TDisplayTrack" namespace="uRadarTracks">
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="CreateDefaultView" visibility="public" />
+      <methodref name="TestViewHit" visibility="public" />
+      <ancestor name="TRadarTrack" namespace="uRadarTracks">
+        <methodref name="SetX" visibility="public" />
+        <methodref name="SetY" visibility="public" />
+        <methodref name="SetZ" visibility="public" />
+        <methodref name="getIsMoving" visibility="protected" />
+        <methodref name="GetSpeed" visibility="protected" />
+        <methodref name="SetSpeed" visibility="protected" />
+        <methodref name="getCourse" visibility="protected" />
+        <methodref name="setCourse" visibility="protected" />
+        <methodref name="getHeight" visibility="protected" />
+        <methodref name="setHeight" visibility="protected" />
+        <methodref name="Create" visibility="public" />
+        <methodref name="Destroy" visibility="public" />
+        <methodref name="Update" visibility="public" />
+        <methodref name="Run" visibility="public" />
+        <methodref name="SetPosition" visibility="public" />
+        <propertyref name="Speed" visibility="public" />
+        <propertyref name="Course" visibility="public" />
+        <propertyref name="Height" visibility="public" />
+        <propertyref name="PositionX" visibility="public" />
+        <propertyref name="PositionY" visibility="public" />
+        <propertyref name="PositionZ" visibility="public" />
+        <propertyref name="IsMoving" visibility="public" />
+        <ancestor name="TSimClassOnMapX" namespace="uMapXSim">
+          <methodref name="CreateDefaultView" visibility="public" />
+          <methodref name="ConvertViewsPosition" visibility="public" />
+          <methodref name="DrawViews" visibility="public" />
+          <ancestor name="TSimulationClass" namespace="uBaseSimulationObject">
+            <methodref name="Create" visibility="public" />
+            <methodref name="Destroy" visibility="public" />
+            <methodref name="MarkAs_NeedToBeFree" visibility="public" />
+            <methodref name="DeleteAllChildren" visibility="public" />
+            <methodref name="Update" visibility="public" />
+            <methodref name="Run" visibility="public" />
+            <propertyref name="PositionX" visibility="public" />
+            <propertyref name="PositionY" visibility="public" />
+            <propertyref name="PositionZ" visibility="public" />
+            <propertyref name="UniqueID" visibility="public" />
+            <ancestor name="TObject" namespace="System">
+              <methodref name="Create" visibility="public">
+              </methodref>
+              <methodref name="Free" visibility="public">
+              </methodref>
+              <methodref name="InitInstance" visibility="public">
+              </methodref>
+              <methodref name="CleanupInstance" visibility="public">
+              </methodref>
+              <methodref name="ClassType" visibility="public">
+              </methodref>
+              <methodref name="ClassName" visibility="public">
+              </methodref>
+              <methodref name="ClassNameIs" visibility="public">
+              </methodref>
+              <methodref name="ClassParent" visibility="public">
+              </methodref>
+              <methodref name="ClassInfo" visibility="public">
+              </methodref>
+              <methodref name="InstanceSize" visibility="public">
+              </methodref>
+              <methodref name="InheritsFrom" visibility="public">
+              </methodref>
+              <methodref name="MethodAddress" visibility="public">
+              </methodref>
+              <methodref name="MethodAddress" visibility="public">
+              </methodref>
+              <methodref name="MethodName" visibility="public">
+              </methodref>
+              <methodref name="FieldAddress" visibility="public">
+              </methodref>
+              <methodref name="FieldAddress" visibility="public">
+              </methodref>
+              <methodref name="GetInterface" visibility="public">
+              </methodref>
+              <methodref name="GetInterfaceEntry" visibility="public">
+              </methodref>
+              <methodref name="GetInterfaceTable" visibility="public">
+              </methodref>
+              <methodref name="UnitName" visibility="public">
+              </methodref>
+              <methodref name="Equals" visibility="public">
+              </methodref>
+              <methodref name="GetHashCode" visibility="public">
+              </methodref>
+              <methodref name="ToString" visibility="public">
+              </methodref>
+              <methodref name="SafeCallException" visibility="public">
+              </methodref>
+              <methodref name="AfterConstruction" visibility="public">
+              </methodref>
+              <methodref name="BeforeDestruction" visibility="public">
+              </methodref>
+              <methodref name="Dispatch" visibility="public">
+              </methodref>
+              <methodref name="DefaultHandler" visibility="public">
+              </methodref>
+              <methodref name="NewInstance" visibility="public">
+              </methodref>
+              <methodref name="FreeInstance" visibility="public">
+              </methodref>
+              <methodref name="Destroy" visibility="public">
+              </methodref>
+            </ancestor>
+          </ancestor>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FMaxBatt" type="Double" visibility="private" />
+      <field name="FMaxWire" type="Double" visibility="private" />
+      <field name="FEndis" type="Double" visibility="private" />
+      <field name="FSafeDist" type="Double" visibility="private" />
+      <field name="FRunTime" type="Double" visibility="private" />
+      <field name="FDepth" type="Double" visibility="private" />
+      <field name="FShipDistance" type="Double" visibility="private" />
+      <field name="FIsManual" type="Boolean" visibility="private" />
+      <field name="FTube" type="TTube" visibility="private" />
+      <field name="FSpeedType" type="TSpeedType" visibility="private" />
+      <procedure name="setShipDist" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="getShipDist" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="setBatt" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="getBatt" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="setWire" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="getWire" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="setTube" visibility="private">
+        <parameters>
+          <parameter name="Value" type="TTube" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="getTube" visibility="private">
+        <parameters>
+          <retval type="TTube" />
+        </parameters>
+      </function>
+      <procedure name="setEnbDist" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="getEnbDist" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="SetSafeDist" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetSafeDist" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="SetSpeedType" visibility="private">
+        <parameters>
+          <parameter name="Value" type="TSpeedType" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetRunTime" visibility="private">
+        <parameters>
+          <parameter name="value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="getRunTime" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="SetDepth" visibility="private">
+        <parameters>
+          <parameter name="value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="getDepth" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <field name="tgtPos" type="tDouble2DPoint" visibility="protected" />
+      <field name="TargetType" type="Byte" visibility="public" />
+      <field name="ComUnit" type="Byte" visibility="public" />
+      <field name="Ladis" type="Double" visibility="public" />
+      <field name="Uplim" type="Double" visibility="public" />
+      <field name="Lolim" type="Double" visibility="public" />
+      <field name="SREEL" type="Double" visibility="public" />
+      <field name="TREEL" type="Double" visibility="public" />
+      <field name="BearingToDraw" type="Double" visibility="public" />
+      <field name="RangeToDraw" type="Double" visibility="public" />
+      <field name="JarakTempuh" type="Double" visibility="public" />
+      <field name="LastPositionX" type="Double" visibility="public" />
+      <field name="LastPositionY" type="Double" visibility="public" />
+      <field name="TempSpeed" type="Double" visibility="public" />
+      <field name="TargetID" type="Integer" visibility="public" />
+      <field name="IsNoTarget" type="Boolean" visibility="public" />
+      <field name="IsLoadTube" type="Boolean" visibility="public" />
+      <field name="Is_inTargetArea" type="Boolean" visibility="public" />
+      <field name="IsnotActive_Torp" type="Boolean" visibility="public" />
+      <field name="isSafedistance" type="Boolean" visibility="public" />
+      <field name="Launched" type="Boolean" visibility="public" />
+      <field name="IsHoaming" type="Boolean" visibility="public" />
+      <field name="isShutdown" type="Boolean" visibility="public" />
+      <field name="isSearch" type="Boolean" visibility="public" />
+      <field name="isDetectTarget" type="Boolean" visibility="public" />
+      <field name="TrackView" type="TTorpedoView" visibility="public" />
+      <field name="Target" type="TTarget" visibility="public" />
+      <field name="TargetTrack" type="TManualTrack" visibility="public" />
+      <field name="PhpData" type="TPHPData" visibility="public" />
+      <field name="PredMod" type="TPredm" visibility="public" />
+      <field name="LolimMode" type="TLolimm" visibility="public" />
+      <field name="SearchMode" type="TSearchm" visibility="public" />
+      <field name="TempSpeedType" type="TSpeedType" visibility="public" />
+      <field name="HomingType" type="THomingType" visibility="public" />
+      <field name="HomingBlockType" type="THomingBlockType" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="Set_Pos_Symbol" visibility="public">
+      </procedure>
+      <procedure name="CreateDefaultView" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aMap" type="TMap" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Update" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="Run" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aDeltaMs" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="visPHP" visibility="public">
+        <parameters>
+          <parameter name="aVis" type="Boolean" />
+        </parameters>
+      </procedure>
+      <procedure name="CalcPHP" visibility="public">
+      </procedure>
+      <procedure name="UpdateTrack" visibility="public">
+        <parameters>
+          <parameter name="heading" type="Double" />
+        </parameters>
+      </procedure>
+      <procedure name="visTrackView" visibility="public">
+        <parameters>
+          <parameter name="aVis" type="Boolean" />
+        </parameters>
+      </procedure>
+      <property name="ShipDistance" visibility="public" read="getShipDist" write="setShipDist" type="Double" />
+      <property name="EnablingDistance" visibility="public" read="getEnbDist" write="setEnbDist" type="Double" />
+      <property name="SafeDistance" visibility="public" read="GetSafeDist" write="SetSafeDist" type="Double" />
+      <property name="WireDistance" visibility="public" read="getWire" write="setWire" type="Double" />
+      <property name="BatteryDistance" visibility="public" read="getBatt" write="setBatt" type="Double" />
+      <property name="SpeedType" visibility="public" read="FSpeedType" write="SetSpeedType" type="TSpeedType" />
+      <property name="Tube" visibility="public" read="getTube" write="setTube" type="TTube" />
+      <property name="RunTime" visibility="public" read="getRunTime" write="SetRunTime" type="Double" />
+      <property name="Depth" visibility="public" read="getDepth" write="SetDepth" type="Double" />
+      <property name="IsManual" visibility="public" read="FIsManual" write="FIsManual" type="Boolean" />
+    </members>
+  </class>
+</namespace>

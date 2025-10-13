@@ -1,0 +1,297 @@
+unit ufrmTrajectoryView;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, TFlatPanelUnit, RzGroupBar, StdCtrls, RzButton, GIFImage,
+  AdvGroupBox, AdvOfficeButtons,
+
+  uInstrukturManager, jpeg, OleCtrls, ShockwaveFlashObjects_TLB;
+
+type
+  TfrmTrjectoryView = class(TForm)
+    fltpnl1: TFlatPanel;
+    fltpnl2: TFlatPanel;
+    fltpnl3: TFlatPanel;
+    imgTrajectoryView: TImage;
+    rzgrpbr1: TRzGroupBar;
+    rzgrpProfileAsroc: TRzGroup;
+    rzgrpProfileRBU6000: TRzGroup;
+    rzgrpProfileA244: TRzGroup;
+    rzgrpProfileTocos: TRzGroup;
+    rzgrpProfileYakhont: TRzGroup;
+    rzgrpProfileC802: TRzGroup;
+    rzgrpProfileExocet: TRzGroup;
+    btnOkAsroc: TRzButton;
+    btnExocetOK: TRzButton;
+    RzButton1: TRzButton;
+    btn1: TRzButton;
+    btn2: TRzButton;
+    btnC802OK: TRzButton;
+    btnClose: TRzButton;
+    btnRBU3: TRzButton;
+    btnYakhontB1: TRzButton;
+    btnYakhontB1n: TRzButton;
+    btnYakhontB2: TRzButton;
+    btnYakhontB2n: TRzButton;
+    btn3: TRzButton;
+    btn4: TRzButton;
+    btn5: TRzButton;
+    btnClose_2: TRzButton;
+    btnClose_3: TRzButton;
+    btnClose_4: TRzButton;
+    btnClose_5: TRzButton;
+    btnTOCOS: TRzButton;
+    RzButton2: TRzButton;
+    RzButton3: TRzButton;
+    shckwvflsh1: TShockwaveFlash;
+    procedure btnExocetOKClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnC802OKClick(Sender: TObject);
+    procedure btnAsrocOK1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnRBU1Click(Sender: TObject);
+    procedure btnYakhontB1Click(Sender: TObject);
+    procedure btnCloseClick(Sender: TObject);
+    procedure btnTOCOSClick(Sender: TObject);
+  private
+    { Private declarations }
+
+  public
+    { Public declarations }
+    FGIFImage : TGIFImage;
+    procedure SetFormLayout;
+
+    procedure LoadImageTrajectoryView (image : string);
+    procedure loadFlashTrajectoryView (image : string);
+  end;
+
+const
+  Asroc1       = '..\data\images\NFS instruktur - interface\trajectory\ASROC-01 trajectory.swf';
+  Asroc2       = '..\data\images\NFS instruktur - interface\trajectory\ASROC-02 trajectory.swf';
+  Asroc3       = '..\data\images\NFS instruktur - interface\trajectory\ASROC-03 trajectory.swf';
+  Asroc4       = '..\data\images\NFS instruktur - interface\trajectory\ASROC-04 trajectory.swf';
+  RBU1         = '..\data\images\NFS instruktur - interface\trajectory\RBU-01 trajectory.swf';
+  RBU2         = '..\data\images\NFS instruktur - interface\trajectory\RBU-02 trajectory.swf';
+  RBU3         = '..\data\images\NFS instruktur - interface\trajectory\RBU-03 trajectory.swf';
+  RBU4         = '..\data\images\NFS instruktur - interface\trajectory\RBU-04 trajectory.swf';
+  C802         = '..\data\images\NFS instruktur - interface\trajectory\C802 trajectory.swf';
+  Exocet1      = '..\data\images\NFS instruktur - interface\trajectory\exocet-01 trajectory.swf';
+  Exocet2      = '..\data\images\NFS instruktur - interface\trajectory\exocet-02 trajectory.swf';
+  Exocet3      = '..\data\images\NFS instruktur - interface\trajectory\exocet-03 trajectory.swf';
+  Exocet4      = '..\data\images\NFS instruktur - interface\trajectory\exocet-04 trajectory.swf';
+  YakhontB1    = '..\data\images\NFS instruktur - interface\trajectory\Yakhont-B1 trajectory.swf';
+  YakhontB1n    = '..\data\images\NFS instruktur - interface\trajectory\Yakhont-B1n trajectory.swf';
+  YakhontB2    = '..\data\images\NFS instruktur - interface\trajectory\Yakhont-B2 trajectory.swf';
+  YakhontB2n    = '..\data\images\NFS instruktur - interface\trajectory\Yakhont-B2n trajectory.swf';
+  TOCOS        =  '..\data\images\NFS instruktur - interface\trajectory\torpedo sut-01 trajectory.swf';
+//  SPS          =  '..\data\images\NFS instruktur - interface\trajectory\xxx.swf';
+
+  aAsroc1  = 1;
+  aAsroc2  = 2;
+  aAsroc3  = 3;
+  aAsroc4  = 4;
+  aRBU1    = 5;
+  aRBU2    = 6;
+  aRBU3    = 7;
+  aRBU4    = 8;
+  aC802    = 9;
+  aExocet1 = 10;
+  aExocet2 = 11;
+  aExocet3 = 12;
+  aExocet4 = 13;
+  aYakhontB1  = 14;
+  aYakhontB1n = 15;
+  aYakhontB2  = 16;
+  aYakhontB2n = 17;
+  aTOCOS       = 18;
+  aSPS         = 19;
+
+
+var
+  frmTrjectoryView: TfrmTrjectoryView;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmTrjectoryView.LoadImageTrajectoryView(image: string);
+var
+  screen : TScreen;
+begin
+    imgTrajectoryView.Visible := True;
+    shckwvflsh1.Visible := False;
+    FGIFImage.Free;
+    imgTrajectoryView.Picture := nil;
+    FGIFImage := TGIFImage.Create;
+    FGIFImage.LoadFromFile(image);
+
+    imgTrajectoryView.Width := frmTrjectoryView.Width;
+    imgTrajectoryView.Height := frmTrjectoryView.Height;
+    imgTrajectoryView.Left := frmTrjectoryView.Left;
+    imgTrajectoryView.Top := frmTrjectoryView.Top;
+
+    FGIFImage.Paint(imgTrajectoryView.Canvas, Rect(0, 0, imgTrajectoryView.Width,
+    imgTrajectoryView.Height), FGIFImage.DrawOptions);
+end;
+
+procedure TfrmTrjectoryView.btnExocetOKClick(Sender: TObject);
+begin
+  case TComponent(sender).Tag of
+    1 : begin
+          LoadImageTrajectoryView(Exocet1);
+          SimManager.NetSend_TrajectoryView(aExocet1,1);
+        end;
+    2 : begin
+          LoadImageTrajectoryView(Exocet2);
+          SimManager.NetSend_TrajectoryView(aExocet2,1);
+        end;
+    3 : begin
+          LoadImageTrajectoryView(Exocet3);
+          SimManager.NetSend_TrajectoryView(aExocet3,1);
+        end;
+    4 : begin
+          LoadImageTrajectoryView(Exocet4);
+          SimManager.NetSend_TrajectoryView(aExocet4,1);
+        end;
+  end;
+
+
+end;
+
+procedure TfrmTrjectoryView.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+//  SimManager.NetSend_TrajectoryView(0,3);
+//  frmTrjectoryView.Visible := False;
+//  FGIFImage.Free;
+//  imgTrajectoryView.Picture := nil;
+end;
+
+procedure TfrmTrjectoryView.btnC802OKClick(Sender: TObject);
+begin
+  LoadImageTrajectoryView(C802);
+  SimManager.NetSend_TrajectoryView(aC802,1);
+end;
+
+procedure TfrmTrjectoryView.btnAsrocOK1Click(Sender: TObject);
+begin
+  case TComponent(sender).Tag of
+    1 : begin
+          LoadImageTrajectoryView(Asroc1);
+          SimManager.NetSend_TrajectoryView(aAsroc1,1);
+        end;
+    2 : begin
+          LoadImageTrajectoryView(Asroc2);
+          SimManager.NetSend_TrajectoryView(aAsroc2,1);
+        end;
+    3 : begin
+          LoadImageTrajectoryView(Asroc3);
+          SimManager.NetSend_TrajectoryView(aAsroc3,1);
+        end;
+    4 : begin
+          LoadImageTrajectoryView(Asroc4);
+          SimManager.NetSend_TrajectoryView(aAsroc4,1);
+        end;
+  end;
+end;
+
+procedure TfrmTrjectoryView.FormShow(Sender: TObject);
+begin
+  FGIFImage := TGIFImage.Create;
+  imgTrajectoryView.Visible := False;
+  shckwvflsh1.Visible := False;
+end;
+
+procedure TfrmTrjectoryView.btnRBU1Click(Sender: TObject);
+begin
+  case TComponent(sender).Tag of
+    1 : begin
+          LoadImageTrajectoryView(RBU1);
+          SimManager.NetSend_TrajectoryView(aRBU1,1);
+        end;
+    2 : begin
+          LoadImageTrajectoryView(RBU2);
+          SimManager.NetSend_TrajectoryView(aRBU2,1)
+        end;
+    3 : begin
+          LoadImageTrajectoryView(RBU3);
+          SimManager.NetSend_TrajectoryView(aRBU3,1)
+        end;
+    4 : begin
+          LoadImageTrajectoryView(RBU4);
+          SimManager.NetSend_TrajectoryView(aRBU4,1)
+        end;
+  end;
+
+end;
+
+procedure TfrmTrjectoryView.btnYakhontB1Click(Sender: TObject);
+begin
+  case TComponent(sender).Tag of
+    1 : begin
+          LoadImageTrajectoryView(YakhontB1);
+          SimManager.NetSend_TrajectoryView(aYakhontB1,1)
+        end;
+    2 : begin
+          LoadImageTrajectoryView(YakhontB1n);
+          SimManager.NetSend_TrajectoryView(aYakhontB1n,1)
+        end;
+    3 : begin
+          LoadImageTrajectoryView(YakhontB2);
+          SimManager.NetSend_TrajectoryView(aYakhontB2,1)
+        end;
+    4 : begin
+          LoadImageTrajectoryView(YakhontB2n);
+          SimManager.NetSend_TrajectoryView(aYakhontB2n,1)
+        end;
+  end;
+end;
+
+
+procedure TfrmTrjectoryView.btnCloseClick(Sender: TObject);
+begin
+  SimManager.NetSend_TrajectoryView(0,3);
+  frmTrjectoryView.Close;
+  frmTrjectoryView.Visible := False;
+
+  FGIFImage.Free;
+  imgTrajectoryView.Picture := nil;
+end;
+
+procedure TfrmTrjectoryView.SetFormLayout;
+begin
+   DefaultMonitor := dmDesktop;
+   Height         := Screen.Monitors[0].Height;
+   Top            := Screen.Monitors[0].Top;
+   Left           := Screen.Monitors[0].Left;
+   width          := Screen.Monitors[0].Width;
+end;
+
+procedure TfrmTrjectoryView.btnTOCOSClick(Sender: TObject);
+begin
+  LoadImageTrajectoryView(TOCOS);
+  SimManager.NetSend_TrajectoryView(aTOCOS,1);
+end;
+
+procedure TfrmTrjectoryView.loadFlashTrajectoryView(image: string);
+var
+  screen : TScreen;
+begin
+  imgTrajectoryView.Visible := False;
+  shckwvflsh1.Visible := True;
+  shckwvflsh1.SetFocus;
+  shckwvflsh1.Realign;
+  shckwvflsh1.Menu := False;
+
+
+  //shckwvflsh1.Width := 1260;
+
+  shckwvflsh1.Movie := ExtractFilePath(Application.ExeName) + image;
+//  shckwvflsh1.LoadMovie(1, ExtractFilePath(Application.ExeName) + image);
+
+
+end;
+
+end.

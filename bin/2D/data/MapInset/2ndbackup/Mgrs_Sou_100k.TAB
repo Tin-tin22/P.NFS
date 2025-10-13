@@ -1,0 +1,49 @@
+!table
+!version 300
+!charset WindowsLatin1
+
+Definition Table
+  Type NATIVE Charset "WindowsLatin1"
+  Fields 1
+    ID Char (5) Index 1 ;
+ReadOnly
+begin_metadata
+"\IsReadOnly" = "FALSE"
+"\Quality" = ""
+"\Quality\Lineage" = ""
+"\Quality\Lineage\Source" = ""
+"\Quality\Lineage\Source\Vintage" = "2002"
+"\Quality\Lineage\Source\Citation" = "MapInfo"
+"\Spatial Reference" = ""
+"\Spatial Reference\Geographic" = ""
+"\Spatial Reference\Geographic\Projection" = ""
+"\Spatial Reference\Geographic\Projection\Name" = "UPS South Zone"
+"\Spatial Reference\Geographic\Projection\Clause" = "CoordSys Earth Projection 20, 104, ""m"", 0, -90, 0.994, 2000000, 2000000 Bounds (-98000000, -98000000) (102000000, 102000000)"
+"\Spatial Reference\Geographic\Coordinate Units" = "m"
+"\Identification" = ""
+"\Identification\Description" = ""
+"\Identification\Description\Abstract" = "Military Grid Reference System South Polar region"
+"\Identification\Use Constraints" = "For Use with MapX"
+"\Identification\Access Constraints" = "Licensed Users"
+"\Identification\Domain" = ""
+"\Identification\Domain\Bounds" = ""
+"\Identification\Domain\Bounds\minx" = "-360"
+"\Identification\Domain\Bounds\maxx" = "360"
+"\Identification\Domain\Bounds\maxy" = "-75.89"
+"\Identification\Domain\Bounds\miny" = "-90"
+"\Identification\Citation" = "MapX Bundled Data"
+"\Identification\Time Period" = ""
+"\Identification\Time Period\Currentness" = "2002"
+"\Spatial Organization" = ""
+"\Spatial Organization\Object" = ""
+"\Spatial Organization\Object\Type1" = "Regions"
+"\Spatial Organization\Object\Type1\Count" = "432"
+"\Spatial Organization\Object\Type2" = "Points"
+"\Spatial Organization\Object\Type2\Count" = "0"
+"\Spatial Organization\Object\Type3" = "Polylines"
+"\Spatial Organization\Object\Type3\Count" = "0"
+"\Spatial Organization\Object\Type4" = "Lines"
+"\Spatial Organization\Object\Type4\Count" = "0"
+"\Spatial Organization\Object\All" = "Sum of all objects"
+"\Spatial Organization\Object\All\Count" = "432"
+end_metadata

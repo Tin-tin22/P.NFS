@@ -1,0 +1,1307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uBaseConstan">
+  <const name="TOOL_DISTANCE" type="Integer">
+    <value>
+      $64
+    </value>
+  </const>
+  <const name="TOOL_MOVE_UNIT" type="Integer">
+    <value>
+      $65
+    </value>
+  </const>
+  <const name="TOOL_SELECT_UNIT" type="Integer">
+    <value>
+      $66
+    </value>
+  </const>
+  <const name="TOOL_SET_POSITION_ONDATABASE" type="Integer">
+    <value>
+      $67
+    </value>
+  </const>
+  <const name="TOOL_SELECT_RBUTARGET" type="Integer">
+    <value>
+      $68
+    </value>
+  </const>
+  <const name="TOOL_SELECT_3DPOS" type="Integer">
+    <value>
+      $69
+    </value>
+  </const>
+  <const name="TOOL_SELECT_SPSTARGET" type="Integer">
+    <value>
+      $6A
+    </value>
+  </const>
+  <const name="TOOL_SELECT_COORD" type="Integer">
+    <value>
+      $6B
+    </value>
+  </const>
+  <const name="TOOL_SELECT_ASROCTARGET" type="Integer">
+    <value>
+      $6C
+    </value>
+  </const>
+  <const name="TOOL_SELECT_YAKHONTTARGET" type="Integer">
+    <value>
+      $6D
+    </value>
+  </const>
+  <const name="TOOL_SELECT_C802TARGET" type="Integer">
+    <value>
+      $6E
+    </value>
+  </const>
+  <const name="TOOL_DATABASE_POS" type="Integer">
+    <value>
+      $6F
+    </value>
+  </const>
+  <const name="TOOL_SELECT_COORD_C802" type="Integer">
+    <value>
+      $70
+    </value>
+  </const>
+  <const name="TOOL_SELECT_COORD_YAKHONT" type="Integer">
+    <value>
+      $71
+    </value>
+  </const>
+  <const name="TOOL_SELECT_COORD_STRELLA" type="Integer">
+    <value>
+      $72
+    </value>
+  </const>
+  <const name="TOOL_SELECT_COORD_MISTRAL" type="Integer">
+    <value>
+      $73
+    </value>
+  </const>
+  <const name="TOOL_REPOST_OBJECT" type="Integer">
+    <value>
+      $74
+    </value>
+  </const>
+  <const name="TOOL_SELECT_COORD_RBU" type="Integer">
+    <value>
+      $75
+    </value>
+  </const>
+  <const name="TOOL_SELECT_TORPSUT_TARGET" type="Integer">
+    <value>
+      $76
+    </value>
+  </const>
+  <const name="TOOL_SELECT_ASROC_TARGET" type="Integer">
+    <value>
+      $78
+    </value>
+  </const>
+  <const name="TOOL_SELECT_CANON_TARGET" type="Integer">
+    <value>
+      $79
+    </value>
+  </const>
+  <const name="TOOL_SELECT_TETRAL_TARGET" type="Integer">
+    <value>
+      $7A
+    </value>
+  </const>
+  <const name="TOOL_MAP_VIEW" type="Integer">
+    <value>
+      $7B
+    </value>
+  </const>
+  <const name="TOOL_SELECT_WAYPOINT" type="Integer">
+    <value>
+      $7C
+    </value>
+  </const>
+  <const name="C_Degree_To_Meter" type="Extended">
+    <value>
+      1.113e+05
+    </value>
+  </const>
+  <const name="C_Degree_To_NauticalMile" type="Comp">
+    <value>
+      60
+    </value>
+  </const>
+  <const name="C_NauticalMile_To_Degree" type="Extended">
+    <value>
+      0.01667
+    </value>
+  </const>
+  <const name="C_NauticalMiles_TO_Meter" type="Comp">
+    <value>
+      1852
+    </value>
+  </const>
+  <const name="C_Meter_To_NauticalMiles" type="Extended">
+    <value>
+      0.00054
+    </value>
+  </const>
+  <const name="C_NauticalMiles_To_KiloMeter" type="Comp">
+    <value>
+      1.852
+    </value>
+  </const>
+  <const name="C_KiloMeter_To_NauticalMiles" type="Extended">
+    <value>
+      0.54
+    </value>
+  </const>
+  <const name="C_NauticalMile_To_Feet" type="Comp">
+    <value>
+      6076
+    </value>
+  </const>
+  <const name="C_Feet_To_NauticalMile" type="Extended">
+    <value>
+      0.0001646
+    </value>
+  </const>
+  <const name="C_HourToMinute" type="Comp">
+    <value>
+      60
+    </value>
+  </const>
+  <const name="C_MinuteToHour" type="Extended">
+    <value>
+      0.01667
+    </value>
+  </const>
+  <const name="C_MilliSecondToHour" type="Double" visibility="public" />
+  <const name="C_HourToMilliSecond" type="Double" visibility="public" />
+  <const name="C_SecondToHour" type="Double" visibility="public" />
+  <const name="C_HourToSecond" type="Double" visibility="public" />
+  <const name="C_MilliSecondToMinute" type="Double" visibility="public" />
+  <const name="C_MinuteToMilliSecond" type="Double" visibility="public" />
+  <const name="C_MilliSecondToSecond" type="Double" visibility="public" />
+  <const name="C_SecondToMilliSecond" type="Double" visibility="public" />
+  <const name="C_Meter_To_Feet" type="Extended">
+    <value>
+      3.281
+    </value>
+  </const>
+  <const name="C_Feet_To_Meter" type="Extended">
+    <value>
+      0.3048
+    </value>
+  </const>
+  <const name="C_NauticalMiles_To_Yard" type="Comp">
+    <value>
+      2025
+    </value>
+  </const>
+  <const name="C_Yard_To_NauticalMiles" type="Extended">
+    <value>
+      0.0004938
+    </value>
+  </const>
+  <const name="C_NauticalMile_To_Fathom" type="Extended">
+    <value>
+      1013
+    </value>
+  </const>
+  <const name="C_Fathom_To_NauticalMile" type="Extended">
+    <value>
+      0.0009875
+    </value>
+  </const>
+  <const name="C_DM_To_Yard" type="Integer">
+    <value>
+      $7D0
+    </value>
+  </const>
+  <const name="C_DM_To_NM" type="Extended">
+    <value>
+      0.9875
+    </value>
+  </const>
+  <const name="C_NM_To_DM" type="Extended">
+    <value>
+      1.013
+    </value>
+  </const>
+  <const name="C_Meter_To_Yard" type="Extended">
+    <value>
+      1.094
+    </value>
+  </const>
+  <const name="C_Yard_To_Meter" type="Extended">
+    <value>
+      0.9144
+    </value>
+  </const>
+  <const name="C_NauticalMile_To_Cable" type="Comp">
+    <value>
+      10
+    </value>
+  </const>
+  <const name="C_Cable_To_NauticalMile" type="Comp">
+    <value>
+      0.1
+    </value>
+  </const>
+  <const name="C_Meter_To_Cable" type="Extended">
+    <value>
+      0.0054
+    </value>
+  </const>
+  <const name="C_Cable_To_Meter" type="Comp">
+    <value>
+      185.2
+    </value>
+  </const>
+  <const name="C_Mile_To_Cable" type="Extended">
+    <value>
+      8.69
+    </value>
+  </const>
+  <const name="C_Cable_To_Mile" type="Extended">
+    <value>
+      0.1151
+    </value>
+  </const>
+  <const name="C_Pi" type="Double" visibility="public" />
+  <const name="C_2_Pi" type="Double" visibility="public" />
+  <const name="C_180_per_Pi" type="Extended">
+    <value>
+      57.3
+    </value>
+  </const>
+  <const name="C_Pi_per_180" type="Extended">
+    <value>
+      0.01745
+    </value>
+  </const>
+  <const name="C_RadToDeg" type="Extended">
+    <value>
+      57.3
+    </value>
+  </const>
+  <const name="C_DegToRad" type="Extended">
+    <value>
+      0.01745
+    </value>
+  </const>
+  <const name="C_MinZero" type="Extended">
+    <value>
+      1e-09
+    </value>
+  </const>
+  <const name="C_SPEED_OF_LIGHT" type="Comp">
+    <value>
+      2.998e+08
+    </value>
+  </const>
+  <const name="C_SPEED_OF_SOUND_IN_SEA" type="Comp">
+    <value>
+      1500
+    </value>
+  </const>
+  <const name="C_SPEED_OF_SOUND_IN_SEA_Y" type="Comp">
+    <value>
+      1610
+    </value>
+  </const>
+  <const name="C_RANGE_OF_SOUND_IN_20M" type="Integer">
+    <value>
+      $17318
+    </value>
+  </const>
+  <const name="C_Degree_To_Mils" type="Extended">
+    <value>
+      17.78
+    </value>
+  </const>
+  <const name="C_Mils_To_Degree" type="Extended">
+    <value>
+      0.05625
+    </value>
+  </const>
+  <const name="C_Degree_To_TD" type="Comp">
+    <value>
+      16.6
+    </value>
+  </const>
+  <const name="C_TD_To_Degree" type="Extended">
+    <value>
+      0.06024
+    </value>
+  </const>
+  <const name="C_Ms_To_knot" type="Extended">
+    <value>
+      1.944
+    </value>
+  </const>
+  <const name="C_Knot_To_ms" type="Extended">
+    <value>
+      0.5144
+    </value>
+  </const>
+  <const name="C_Map_Section" type="string">
+    <value>
+      map
+    </value>
+  </const>
+  <const name="C_gst_ident" type="string">
+    <value>
+      geoset
+    </value>
+  </const>
+  <const name="C_grd_ident" type="string">
+    <value>
+      grid
+    </value>
+  </const>
+  <const name="C_mult_sect" type="string">
+    <value>
+      multiplayer
+    </value>
+  </const>
+  <const name="C_servip_id" type="string">
+    <value>
+      serverip
+    </value>
+  </const>
+  <const name="C_servport_id" type="string">
+    <value>
+      serverport
+    </value>
+  </const>
+  <const name="C_autoconnect" type="string">
+    <value>
+      autoconnect
+    </value>
+  </const>
+  <const name="C_game_sect" type="string">
+    <value>
+      game
+    </value>
+  </const>
+  <const name="C_playmode_id" type="string">
+    <value>
+      playmode
+    </value>
+  </const>
+  <const name="C_Ship_section" type="string">
+    <value>
+      ship
+    </value>
+  </const>
+  <const name="C_posx_id" type="string">
+    <value>
+      posx
+    </value>
+  </const>
+  <const name="C_posy_id" type="string">
+    <value>
+      posy
+    </value>
+  </const>
+  <const name="C_posz_id" type="string">
+    <value>
+      posz
+    </value>
+  </const>
+  <const name="C_speed_id" type="string">
+    <value>
+      speed
+    </value>
+  </const>
+  <const name="C_heading_id" type="string">
+    <value>
+      heading
+    </value>
+  </const>
+  <const name="C_wmradar_Section" type="string">
+    <value>
+      wm_radar
+    </value>
+  </const>
+  <const name="C_daradar_Section" type="string">
+    <value>
+      da_radar
+    </value>
+  </const>
+  <const name="C_freq_id" type="string">
+    <value>
+      frequency
+    </value>
+  </const>
+  <const name="C_range_id" type="string">
+    <value>
+      range
+    </value>
+  </const>
+  <const name="C_prf_id" type="string">
+    <value>
+      prf
+    </value>
+  </const>
+  <const name="C_pw_id" type="string">
+    <value>
+      pulsewidth
+    </value>
+  </const>
+  <const name="C_avpow_id" type="string">
+    <value>
+      averagepower
+    </value>
+  </const>
+  <const name="C_defColor" type="Integer">
+    <value>
+      $50D0FF
+    </value>
+  </const>
+  <const name="C_ShipC_Fatahillah" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="C_ShipID_Nala" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="C_ShipID_Fatahillah" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="C_ShipC_AhmadYani" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="C_ShipC_Mandau" type="Integer">
+    <value>
+      $551
+    </value>
+  </const>
+  <const name="C_ShipC_Singa" type="Integer">
+    <value>
+      $554
+    </value>
+  </const>
+  <const name="C_ShipC_Sigma" type="Integer">
+    <value>
+      $50A
+    </value>
+  </const>
+  <const name="C_ShipC_Kilo" type="Integer">
+    <value>
+      $270F
+    </value>
+  </const>
+  <const name="C_ShipC_Cakra" type="Integer">
+    <value>
+      $15
+    </value>
+  </const>
+  <const name="FGLOBALWEATHER" type="string">
+    <value>
+      .\LibWeather\WEATHERGLOBAL.INI
+    </value>
+  </const>
+  <const name="FWEATHER" type="string">
+    <value>
+      .\LibWeather\WEATHER.INI
+    </value>
+  </const>
+  <const name="FTURBULENCE" type="string">
+    <value>
+      .\LibWeather\TURBULENCE.INI
+    </value>
+  </const>
+  <const name="FWEATHERPATH" type="string">
+    <value>
+      .\LibWeather\
+    </value>
+  </const>
+  <const name="i_OwnShip" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="i_OBM_kanan" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="i_OBM_kiri" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="i_ICM_sender" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="i_ICM_receiver" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="i_Surface_Grid_Ori" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="i_Splash_Point_ASR" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="i_PHP_torpedo" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="i_Drop_Point" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="i_Offset_BTK" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="i_Kursor_Elevasi_WCC" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="i_Tanda_Tunda_Tembakan" type="Integer">
+    <value>
+      $B
+    </value>
+  </const>
+  <const name="i_Gerbang_Pelacakan" type="Integer">
+    <value>
+      $C
+    </value>
+  </const>
+  <const name="i_Sasaran_simulasi_tes" type="Integer">
+    <value>
+      $D
+    </value>
+  </const>
+  <const name="i_penunjukan_ASRL" type="Integer">
+    <value>
+      $E
+    </value>
+  </const>
+  <const name="i_plot" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="i_DATUM" type="Integer">
+    <value>
+      $10
+    </value>
+  </const>
+  <const name="i_ThrowOff" type="Integer">
+    <value>
+      $11
+    </value>
+  </const>
+  <const name="i_min_marker" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="i_max_marker" type="Integer">
+    <value>
+      $11
+    </value>
+  </const>
+  <const name="C_Symbol_Char" type="Array" visibility="public" />
+  <const name="ID_Udara_Unknown" type="Char">
+    <value>
+      $41
+    </value>
+  </const>
+  <const name="ID_Udara_Hostile" type="Char">
+    <value>
+      $42
+    </value>
+  </const>
+  <const name="ID_Udara_Friendly" type="Char">
+    <value>
+      $43
+    </value>
+  </const>
+  <const name="ID_Rudal" type="Char">
+    <value>
+      $4A
+    </value>
+  </const>
+  <const name="ID_AtasAir_Unknown" type="Char">
+    <value>
+      $44
+    </value>
+  </const>
+  <const name="ID_AtasAir_Hostile" type="Char">
+    <value>
+      $45
+    </value>
+  </const>
+  <const name="ID_AtasAir_Friendly" type="Char">
+    <value>
+      $46
+    </value>
+  </const>
+  <const name="ID_AtasAir_Helicopter" type="Char">
+    <value>
+      $4B
+    </value>
+  </const>
+  <const name="ID_BawahAir_Unknown" type="Char">
+    <value>
+      $47
+    </value>
+  </const>
+  <const name="ID_BawahAir_Hostile" type="Char">
+    <value>
+      $48
+    </value>
+  </const>
+  <const name="ID_BawahAir_Friendly" type="Char">
+    <value>
+      $49
+    </value>
+  </const>
+  <const name="ID_BawahAir_NonSub" type="Char">
+    <value>
+      $52
+    </value>
+  </const>
+  <const name="ID_ESM_Fix" type="Char">
+    <value>
+      $2A
+    </value>
+  </const>
+  <const name="ID_REFF_POS" type="Char">
+    <value>
+      $2B
+    </value>
+  </const>
+  <const name="ID_AutomaticTrack" type="Char">
+    <value>
+      $55
+    </value>
+  </const>
+  <const name="ID_RAMTrack" type="Char">
+    <value>
+      $20
+    </value>
+  </const>
+  <const name="ID_AcquisitionTrack" type="Char">
+    <value>
+      $56
+    </value>
+  </const>
+  <const name="ID_DRTTrack" type="Char">
+    <value>
+      $5F
+    </value>
+  </const>
+  <const name="ID_RA" type="Char">
+    <value>
+      $2B
+    </value>
+  </const>
+  <const name="ID_FC" type="Char">
+    <value>
+      $2A
+    </value>
+  </const>
+  <const name="ID_Astris" type="Char">
+    <value>
+      $57
+    </value>
+  </const>
+  <const name="ID_HOLD" type="Char">
+    <value>
+      $54
+    </value>
+  </const>
+  <const name="ID_ASS_ASRL" type="Char">
+    <value>
+      $53
+    </value>
+  </const>
+  <const name="ID_CLOSE_CONTROLER" type="Char">
+    <value>
+      $4C
+    </value>
+  </const>
+  <const name="ID_Max_Wire" type="Char">
+    <value>
+      $69
+    </value>
+  </const>
+  <const name="ID_Max_Batt" type="Char">
+    <value>
+      $61
+    </value>
+  </const>
+  <const name="ID_Endis" type="Char">
+    <value>
+      $62
+    </value>
+  </const>
+  <const name="ID_WireRupture" type="Char">
+    <value>
+      $41
+    </value>
+  </const>
+  <const name="ID_GeneralStatus" type="Char">
+    <value>
+      $65
+    </value>
+  </const>
+  <const name="ID_TargetDet" type="Char">
+    <value>
+      $66
+    </value>
+  </const>
+  <const name="ID_TurnAround" type="Char">
+    <value>
+      $67
+    </value>
+  </const>
+  <const name="ID_Power_Supply_Not_Correct" type="Char">
+    <value>
+      $45
+    </value>
+  </const>
+  <const name="ID_SteeringAllowed" type="Char">
+    <value>
+      $63
+    </value>
+  </const>
+  <const name="ID_IgnitionFree" type="Char">
+    <value>
+      $64
+    </value>
+  </const>
+  <const name="ID_Prox_Fuze_effect" type="Char">
+    <value>
+      $47
+    </value>
+  </const>
+  <const name="ID_Close_controller" type="Char">
+    <value>
+      $67
+    </value>
+  </const>
+  <const name="C_START_TRACKNUM_UDARA" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="C_START_TRACKNUM_ATASAIR" type="Integer">
+    <value>
+      $18
+    </value>
+  </const>
+  <const name="C_START_TRACKNUM_BAWAHAIR" type="Integer">
+    <value>
+      $28
+    </value>
+  </const>
+  <const name="C_BLINDARC_G1" type="Double" visibility="public" />
+  <const name="C_BLINDARC_G2" type="Double" visibility="public" />
+  <const name="C_BLINDARC_G3" type="Double" visibility="public" />
+  <const name="C_BLINDARC_Exocet_1" type="Double" visibility="public" />
+  <const name="C_BLINDARC_Exocet_2" type="Double" visibility="public" />
+  <const name="C_key_kiri" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="C_key_kanan" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="C_LauncherRBU_Kanan" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="C_LauncherRBU_Kiri" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="c_klik_map_scene" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="c_klik_map_ship" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="c_klik_map_ojk" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="c_klik_map_oll" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="c_klik_databaseship" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="C_RocketErika_LOW_Min" type="Integer">
+    <value>
+      $258
+    </value>
+  </const>
+  <const name="C_RocketErika_LOW_Max" type="Integer">
+    <value>
+      $410
+    </value>
+  </const>
+  <const name="C_RocketErika_HIGH_Min" type="Integer">
+    <value>
+      $410
+    </value>
+  </const>
+  <const name="C_RocketErika_HIGH_Max" type="Integer">
+    <value>
+      $654
+    </value>
+  </const>
+  <const name="C_RocketNelly_LOW_Min" type="Integer">
+    <value>
+      $654
+    </value>
+  </const>
+  <const name="C_RocketNelly_LOW_Max" type="Integer">
+    <value>
+      $92E
+    </value>
+  </const>
+  <const name="C_RocketNelly_HIGH_Min" type="Integer">
+    <value>
+      $92E
+    </value>
+  </const>
+  <const name="C_RocketNelly_HIGH_Max" type="Integer">
+    <value>
+      $E10
+    </value>
+  </const>
+  <const name="C_V_RocketErika_LOW" type="Comp">
+    <value>
+      100
+    </value>
+  </const>
+  <const name="C_V_RocketErika_HIGH" type="Comp">
+    <value>
+      130
+    </value>
+  </const>
+  <const name="C_V_RocketNelly_LOW" type="Comp">
+    <value>
+      166
+    </value>
+  </const>
+  <const name="C_V_RocketNelly_HIGH" type="Comp">
+    <value>
+      207
+    </value>
+  </const>
+  <const name="C_Val_scaleGreen" type="Integer">
+    <value>
+      $41
+    </value>
+  </const>
+  <const name="C_start_scaleGreen" type="Integer">
+    <value>
+      $F
+    </value>
+  </const>
+  <const name="C_ScaleWidth_on_Bscope" type="Extended">
+    <value>
+      0.5625
+    </value>
+  </const>
+  <const name="C_ScaleHeight_on_Bscope" type="Extended">
+    <value>
+      0.9877
+    </value>
+  </const>
+  <const name="C_NauticalMiles_To_Bscope_ScaleHeight" type="Extended">
+    <value>
+      1.013
+    </value>
+  </const>
+  <const name="C_Degree_To_Bscope_ScaleWidth" type="Extended">
+    <value>
+      1.778
+    </value>
+  </const>
+  <const name="tdAtasAir" type="TTrackDomain">
+    <value>
+      tdAtasAir
+    </value>
+  </const>
+  <const name="tdBawahAir" type="TTrackDomain">
+    <value>
+      tdBawahAir
+    </value>
+  </const>
+  <const name="tdUdara" type="TTrackDomain">
+    <value>
+      tdUdara
+    </value>
+  </const>
+  <const name="tdEW" type="TTrackDomain">
+    <value>
+      tdEW
+    </value>
+  </const>
+  <const name="tdDontCare" type="TTrackDomain">
+    <value>
+      tdDontCare
+    </value>
+  </const>
+  <const name="tdDatum" type="TTrackDomain">
+    <value>
+      tdDatum
+    </value>
+  </const>
+  <const name="tdRP" type="TTrackDomain">
+    <value>
+      tdRP
+    </value>
+  </const>
+  <const name="tdCursor" type="TTrackDomain">
+    <value>
+      tdCursor
+    </value>
+  </const>
+  <const name="tdGEN" type="TTrackDomain">
+    <value>
+      tdGEN
+    </value>
+  </const>
+  <const name="tdESM" type="TTrackDomain">
+    <value>
+      tdESM
+    </value>
+  </const>
+  <const name="tdECM" type="TTrackDomain">
+    <value>
+      tdECM
+    </value>
+  </const>
+  <const name="tdASW" type="TTrackDomain">
+    <value>
+      tdASW
+    </value>
+  </const>
+  <const name="tdVIS" type="TTrackDomain">
+    <value>
+      tdVIS
+    </value>
+  </const>
+  <const name="tdTOP" type="TTrackDomain">
+    <value>
+      tdTOP
+    </value>
+  </const>
+  <const name="tdPointGen" type="TTrackDomain">
+    <value>
+      tdPointGen
+    </value>
+  </const>
+  <const name="tdPointEW" type="TTrackDomain">
+    <value>
+      tdPointEW
+    </value>
+  </const>
+  <const name="tdPointAir" type="TTrackDomain">
+    <value>
+      tdPointAir
+    </value>
+  </const>
+  <const name="tdPointASW" type="TTrackDomain">
+    <value>
+      tdPointASW
+    </value>
+  </const>
+  <const name="tbmNone" type="TBSMark">
+    <value>
+      tbmNone
+    </value>
+  </const>
+  <const name="tbmDefault" type="TBSMark">
+    <value>
+      tbmDefault
+    </value>
+  </const>
+  <const name="tbmShip" type="TBSMark">
+    <value>
+      tbmShip
+    </value>
+  </const>
+  <const name="tbmIsland" type="TBSMark">
+    <value>
+      tbmIsland
+    </value>
+  </const>
+  <const name="tamNone" type="TASMark">
+    <value>
+      tamNone
+    </value>
+  </const>
+  <const name="tamEcho" type="TASMark">
+    <value>
+      tamEcho
+    </value>
+  </const>
+  <const name="tamBGate" type="TASMark">
+    <value>
+      tamBGate
+    </value>
+  </const>
+  <const name="tamBGateEcho" type="TASMark">
+    <value>
+      tamBGateEcho
+    </value>
+  </const>
+  <const name="tamNGate" type="TASMark">
+    <value>
+      tamNGate
+    </value>
+  </const>
+  <const name="atoBreak" type="ATOStat">
+    <value>
+      atoBreak
+    </value>
+  </const>
+  <const name="atoLockOn" type="ATOStat">
+    <value>
+      atoLockOn
+    </value>
+  </const>
+  <const name="atoAuto1" type="ATOStat">
+    <value>
+      atoAuto1
+    </value>
+  </const>
+  <const name="atoAuto2" type="ATOStat">
+    <value>
+      atoAuto2
+    </value>
+  </const>
+  <const name="atoReady" type="ATOStat">
+    <value>
+      atoReady
+    </value>
+  </const>
+  <const name="AtoLost1" type="ATOStat">
+    <value>
+      AtoLost1
+    </value>
+  </const>
+  <const name="AtoLost2" type="ATOStat">
+    <value>
+      AtoLost2
+    </value>
+  </const>
+  <const name="AtoGone" type="ATOStat">
+    <value>
+      AtoGone
+    </value>
+  </const>
+  <const name="bsShow" type="BscopeStat">
+    <value>
+      bsShow
+    </value>
+  </const>
+  <const name="bsHide" type="BscopeStat">
+    <value>
+      bsHide
+    </value>
+  </const>
+  <const name="ttoMin12" type="TThrowOff">
+    <value>
+      ttoMin12
+    </value>
+  </const>
+  <const name="ttoMin6" type="TThrowOff">
+    <value>
+      ttoMin6
+    </value>
+  </const>
+  <const name="tto0" type="TThrowOff">
+    <value>
+      tto0
+    </value>
+  </const>
+  <const name="ttoPlus6" type="TThrowOff">
+    <value>
+      ttoPlus6
+    </value>
+  </const>
+  <const name="ttoPlus12" type="TThrowOff">
+    <value>
+      ttoPlus12
+    </value>
+  </const>
+  <const name="tsShip" type="TSIMType">
+    <value>
+      tsShip
+    </value>
+  </const>
+  <const name="tsPlane" type="TSIMType">
+    <value>
+      tsPlane
+    </value>
+  </const>
+  <enum name="TTrackDomain">
+    <element name="tdAtasAir" />
+    <element name="tdBawahAir" />
+    <element name="tdUdara" />
+    <element name="tdEW" />
+    <element name="tdDontCare" />
+    <element name="tdDatum" />
+    <element name="tdRP" />
+    <element name="tdCursor" />
+    <element name="tdGEN" />
+    <element name="tdESM" />
+    <element name="tdECM" />
+    <element name="tdASW" />
+    <element name="tdVIS" />
+    <element name="tdTOP" />
+    <element name="tdPointGen" />
+    <element name="tdPointEW" />
+    <element name="tdPointAir" />
+    <element name="tdPointASW" />
+  </enum>
+  <enum name="TBSMark">
+    <element name="tbmNone" />
+    <element name="tbmDefault" />
+    <element name="tbmShip" />
+    <element name="tbmIsland" />
+  </enum>
+  <enum name="TASMark">
+    <element name="tamNone" />
+    <element name="tamEcho" />
+    <element name="tamBGate" />
+    <element name="tamBGateEcho" />
+    <element name="tamNGate" />
+  </enum>
+  <enum name="ATOStat">
+    <element name="atoBreak" />
+    <element name="atoLockOn" />
+    <element name="atoAuto1" />
+    <element name="atoAuto2" />
+    <element name="atoReady" />
+    <element name="AtoLost1" />
+    <element name="AtoLost2" />
+    <element name="AtoGone" />
+  </enum>
+  <enum name="BscopeStat">
+    <element name="bsShow" />
+    <element name="bsHide" />
+  </enum>
+  <enum name="TThrowOff">
+    <element name="ttoMin12" />
+    <element name="ttoMin6" />
+    <element name="tto0" />
+    <element name="ttoPlus6" />
+    <element name="ttoPlus12" />
+  </enum>
+  <enum name="TSIMType">
+    <element name="tsShip" />
+    <element name="tsPlane" />
+  </enum>
+  <const name="C_SIM_RANGE" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="C_SIM_BEARING" type="Integer">
+    <value>
+      $0
+    </value>
+  </const>
+  <const name="C_MuzzleVel1" type="Integer">
+    <value>
+      $320
+    </value>
+  </const>
+  <const name="C_MuzzleVel2" type="Integer">
+    <value>
+      $2BC
+    </value>
+  </const>
+  <const name="C_MuzzleVel3" type="Integer">
+    <value>
+      $2BC
+    </value>
+  </const>
+  <const name="C_EMarkMin" type="Integer">
+    <value>
+      $10E
+    </value>
+  </const>
+  <const name="C_EMarkMax" type="Integer">
+    <value>
+      $15E
+    </value>
+  </const>
+  <const name="C_WRangeGateID" type="string">
+    <value>
+      wrg
+    </value>
+  </const>
+  <const name="C_WRangeGateWithEcho" type="string">
+    <value>
+      wrge
+    </value>
+  </const>
+  <const name="C_NRangeGateID" type="string">
+    <value>
+      nrg
+    </value>
+  </const>
+  <const name="C_EchoID" type="Char">
+    <value>
+      $65
+    </value>
+  </const>
+  <const name="C_SIMUID_Ship" type="string">
+    <value>
+      uid_ship
+    </value>
+  </const>
+  <const name="C_SIMUID_Plane" type="string">
+    <value>
+      uid_plane
+    </value>
+  </const>
+</namespace>

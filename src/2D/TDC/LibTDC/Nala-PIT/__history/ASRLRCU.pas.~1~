@@ -1,0 +1,806 @@
+unit ASRLRCU;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, VrControls, VrMeter, ExtCtrls, Buttons, SpeedButtonImage, StdCtrls,
+  VrLeds, Spin, Sockets, uSimulationManager, uTCPClient,  ImgList,
+  VrDesign, uLibTDCClass;
+
+Type
+
+  Tindikator = class
+  public
+    Status : boolean;
+    Imgobj : TImage;
+    ImgON,imgOFF : string;
+    constructor create;
+    destructor Destroy; override;
+  end;
+
+ Trocket = (Erika_LOW, Erika_HIGH, Nelly_LOW, Nelly_HIGH);
+
+  TfrmASRL = class(TForm)
+    img1: TImage;
+    vrmtrRestRangeMtr: TVrMeter;
+    pnlLauncherStat: TPanel;
+    pnlTimeProx: TPanel;
+    pnlDispersion: TPanel;
+    pnlFE: TPanel;
+    pnl_NoRes: TPanel;
+    PnlBtnFire: TPanel;
+    lbl1: TLabel;
+    lbl2: TLabel;
+    lbl3: TLabel;
+    pnlLowHigh: TPanel;
+    imgNoRes: TImage;
+    btn50yds: TSpeedButton;
+    btnFire: TVrBitmapButton;
+    img2: TImage;
+    lbl4: TLabel;
+    imgBLDARC: TImage;
+    imgHYDR: TImage;
+    imgLNCRRDY: TImage;
+    imgLNCRSYNC: TImage;
+    imgRKT1: TImage;
+    imgRKT2: TImage;
+    btnErika: TSpeedButton;
+    imgNLOAD: TImage;
+    btnNelly: TSpeedButton;
+    imgELOAD: TImage;
+    btnFE1: TSpeedButton;
+    btnFE2: TSpeedButton;
+    BtnProx: TSpeedButton;
+    BtnTime: TSpeedButton;
+    BtnHigh: TSpeedButton;
+    BtnLow: TSpeedButton;
+    PnlRocket: TPanel;
+    mmo1: TMemo;
+    tmr1: TTimer;
+    imgHigh: TImage;
+    imgLow: TImage;
+    imgProx: TImage;
+    imgTime: TImage;
+    btnX: TVrBitmapButton;
+    procedure FormCreate(Sender: TObject);
+    procedure btnErikaClick(Sender: TObject);
+    procedure btnNellyClick(Sender: TObject);
+    procedure btnFE1Click(Sender: TObject);
+    procedure btnFE2Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnFireClick(Sender: TObject);
+    procedure btn50ydsClick(Sender: TObject);
+    procedure btnFireMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure btnFireMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure PnlBtnFireClick(Sender: TObject);
+    procedure tmr1Timer(Sender: TObject);
+    procedure vrmtrRestRangeMtrChange(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure btnXClick(Sender: TObject);
+    procedure img1DblClick(Sender: TObject);
+  private
+    { Private declarations }
+    IslauncherSelected : Boolean;
+
+    procedure loadimage(img: TImage; Pic:string);
+    procedure loadGlyph(Sb: TSpeedButton; bmp:string);
+    procedure changeImgOnclick(bt: TSpeedButton; img1: string; img2: string);
+    function  CekReadyCondition :boolean;
+
+  public
+    { Public declarations }
+    dir_path          : string;
+
+    OwnHeading        : Single;
+
+    Target_Bearing,
+    Target_Range      : double;
+
+    TDC               : TGenericTDCInterface;
+
+    HYDR,
+    LncrRdy,
+    BldArc,
+    LncrSync,
+    RKT2Rdy,
+    RKT1Rdy,
+    NoRes,
+    Time,
+    Prox,
+    Low,
+    High             : Tindikator;
+    ListIndikator     : Tlist;
+    Rocket            : Integer;
+ 
+
+    Launcher          : Integer;
+    Fuse              : Boolean; // ganti enumerate kalo perlu
+    Salvomode         : boolean;
+
+    btnprotec         : boolean;
+
+    IsRocketSelected  : boolean;
+   procedure FillImgIndikator;
+   procedure SetChangeImageIndikator(var Aimage : TImage; imgOn,ImgOff : string; const stat : boolean);
+   procedure SetRestRangeMtr;
+   procedure SetAssignIndikator(st : boolean; aHeading : single; aRange, aBearing : double);
+   procedure SetIndikator(ind: Tindikator);
+   function ShootArea(aHeading, aViewAngle, aBearing : double):boolean;
+   function SetValRangeMeter(aHeading, aViewAngle, aBearing: double;
+      rockettype: integer; aRange : double):integer;
+   function GetRocketSpeed(Rck : integer):single;
+   function CekBlindArc(ValIndikator : integer):boolean;
+   procedure AfterFire;
+   procedure ReAssign(MslType : word);
+
+  end;
+
+const
+  ShootAreaASROCK = 220;
+
+implementation
+
+uses
+  uBaseConstan, uTCPDatatype,  uFormUtil,  ufTDC1Kanan, ufTDC1Kiri,
+  ufTDC2Kanan, ufTDC2Kiri, uBaseFunction, ufTDCTengah_Nala,
+  ufDisplay_Nala, uTrackFunction, Math, uLibTDC_Nala, ufQEK;
+
+{$R *.dfm}
+
+procedure TfrmASRL.SetChangeImageIndikator(var Aimage : TImage; imgOn,ImgOff : string; const stat : boolean);
+begin
+  if stat then
+    Aimage.Picture.LoadFromFile(imgOn)
+  else
+    Aimage.Picture.LoadFromFile(imgOff);
+end;
+
+
+function TfrmASRL.CekReadyCondition :boolean;
+Var HYDR_on, LncrRdy_on, BldArc_off, LncrSync_on,
+    RKTRdy_on, NoRes_off : Boolean;
+begin
+  Result := false;
+  HYDR_on     := HYDR.Status;
+  LncrRdy_on  := LncrRdy.Status;
+  BldArc_off  := not BldArc.Status;
+  LncrSync_on := LncrSync.Status;
+  NoRes_off   := not NoRes.Status;
+  RKTRdy_on   := RKT2Rdy.Status or RKT1Rdy.Status;
+
+  if  HYDR_on and  LncrRdy_on
+    and BldArc_off and LncrSync_on and NoRes_off and RKTRdy_on then
+    Result := true;
+end;
+
+procedure TfrmASRL.btnFireClick(Sender: TObject);
+var aRec : TRecTrackOrder;
+    Spd  : Single;
+begin
+  if btnprotec then Exit;
+
+  IslauncherSelected := False;
+
+  {LOG}
+   (TDC as TTDC_NalaInterface).SendEvenAsroc(10);
+
+  if btnFE1.down then begin
+    Launcher:= 1;
+    IslauncherSelected := True;
+  end
+  else if btnFE2.down then begin
+    Launcher:= 2;
+    IslauncherSelected := True;
+  end;
+
+//  Spd:= GetRocketSpeed(Rocket);
+
+  aRec.X := TDC.OBMLeft.mPos.X;
+  aRec.Y := TDC.OBMLeft.mPos.Y;
+
+  if CekReadyCondition and IslauncherSelected then begin
+    TDC.SetFireAsroc(aRec, Launcher, 1, Rocket ,Salvomode,  TDC.HaveToSend);
+  end;
+
+
+  AfterFire;
+end;
+
+
+procedure TfrmASRL.AfterFire;
+begin
+   btnprotec := True;
+   PnlBtnFire.Color:= clDefault;
+
+   btnFE1.down   := false;
+   btnFE2.down   := false;
+   btn50yds.Down := False;
+
+   Salvomode := false;
+
+   changeImgOnclick(btn50yds,'50 yds on.bmp', '50 yds off.bmp');
+   changeImgOnclick(btnFE1,'FE 1 on.bmp', 'FE 1 off.bmp');
+   changeImgOnclick(btnFE2,'FE 2 on.bmp', 'FE 2 off.bmp');
+end;
+
+
+procedure TfrmASRL.btnFireMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   btnFire.Glyph.LoadFromFile(dir_path +  'FIRE on.bmp');
+end;
+
+procedure TfrmASRL.btnFireMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  btnFire.Glyph.LoadFromFile(dir_path +  'FIRE off.bmp');
+end;
+
+procedure TfrmASRL.btn50ydsClick(Sender: TObject);
+begin
+   changeImgOnclick(btn50yds,'50 yds on.bmp', '50 yds off.bmp');
+
+   if btn50yds.down then
+      Salvomode := true
+   else
+      Salvomode := false;
+
+   btnFE1.Down  := btn50yds.down;
+   btnFE2.Down  := btn50yds.down;
+
+   changeImgOnclick(btnFE1,'FE 1 on.bmp', 'FE 1 off.bmp');
+   changeImgOnclick(btnFE2,'FE 2 on.bmp', 'FE 2 off.bmp');
+
+   {LOG}
+   (TDC as TTDC_NalaInterface).SendEvenAsroc(7);
+end;
+
+procedure TfrmASRL.btnFE1Click(Sender: TObject);
+begin
+  if btn50yds.Down  then
+  begin
+    btnFE1.Down := True;
+    Exit;
+  end;
+
+  btnFE2.Down   := false;
+  //Rocket        := 1;
+  //Launcher      := 1;
+
+  changeImgOnclick(btnFE1,'FE 1 on.bmp', 'FE 1 off.bmp');
+  changeImgOnclick(btnFE2,'FE 2 on.bmp', 'FE 2 off.bmp');
+  {LOG}
+   (TDC as TTDC_NalaInterface).SendEvenAsroc(8);
+end;
+
+procedure TfrmASRL.btnFE2Click(Sender: TObject);
+begin
+
+  if btn50yds.Down  then
+  begin
+    btnFE2.Down := True;
+    Exit;
+  end;
+
+  btnFE1.Down   := false;
+ // Rocket        := 2;
+  //Launcher      := 2;
+
+  changeImgOnclick(btnFE1,'FE 1 on.bmp', 'FE 1 off.bmp');
+  changeImgOnclick(btnFE2,'FE 2 on.bmp', 'FE 2 off.bmp');
+
+  {LOG}
+   (TDC as TTDC_NalaInterface).SendEvenAsroc(9);
+end;
+
+procedure TfrmASRL.btnErikaClick(Sender: TObject);
+Var Fuze : Byte;
+begin
+  if btnErika.Down then begin
+     btnNelly.Down := False;
+     btnNellyClick(self);
+     if (TDC as TTDC_NalaInterface).Erika.Available = 1 then begin
+       loadimage(imgELOAD,'E LOAD ED on.bmp');     //
+  //     Rocket := 3 - (TDC as TTDC_NalaInterface).Erika.Speed;
+  //     SetChangeImageIndikator(Low.Imgobj , Low.ImgON, Low.imgOFF, Rocket = 1);
+  //     SetChangeImageIndikator(High.Imgobj , High.ImgON, High.imgOFF, Rocket = 2);
+       Fuse   := (TDC as TTDC_NalaInterface).Erika.Fuze = 1;
+       SetChangeImageIndikator(Time.Imgobj , Time.ImgON, Time.imgOFF, not Fuse);
+       SetChangeImageIndikator(Prox.Imgobj , Prox.ImgON, Prox.imgOFF, Fuse);
+
+       IsRocketSelected := True;
+       ReAssign(1);
+     end
+     else begin
+       btnErika.Down := False;
+       loadimage(imgELOAD,'E LOAD ED off.bmp');
+
+       SetChangeImageIndikator(Low.Imgobj , Low.ImgON, Low.imgOFF, false);
+       SetChangeImageIndikator(High.Imgobj , High.ImgON, High.imgOFF, false);
+
+       SetChangeImageIndikator(Time.Imgobj , Time.ImgON, Time.imgOFF, false);
+       SetChangeImageIndikator(Prox.Imgobj , Prox.ImgON, Prox.imgOFF, false);
+
+       IsRocketSelected := False;
+     end;
+     {LOG}
+      (TDC as TTDC_NalaInterface).SendEvenAsroc(5);
+
+  end
+  else begin
+    loadimage(imgELOAD,'E LOAD ED off.bmp');
+    SetChangeImageIndikator(Low.Imgobj , Low.ImgON, Low.imgOFF, false);
+    SetChangeImageIndikator(High.Imgobj , High.ImgON, High.imgOFF, false);
+
+    SetChangeImageIndikator(Time.Imgobj , Time.ImgON, Time.imgOFF, false);
+    SetChangeImageIndikator(Prox.Imgobj , Prox.ImgON, Prox.imgOFF, false);
+
+    IsRocketSelected := False;
+  end;
+  SetRestRangeMtr;
+  changeImgOnclick(btnErika,'ERIKA on.bmp', 'ERIKA off.bmp');
+
+  // tmr1.Enabled := IsRocketSelected;
+end;
+
+procedure TfrmASRL.btnNellyClick(Sender: TObject);
+begin
+
+   if btnNelly.Down then begin
+     btnErika.Down := False;
+     btnErikaClick(self);
+
+     if (TDC as TTDC_NalaInterface).Nelly.Available = 1 then begin
+       loadimage(imgNLOAD,'N LOAD ED on.bmp');
+//       Rocket := 5 - (TDC as TTDC_NalaInterface).Nelly.Speed ;
+//       SetChangeImageIndikator(Low.Imgobj , Low.ImgON, Low.imgOFF, Rocket = 3);
+//       SetChangeImageIndikator(High.Imgobj , High.ImgON, High.imgOFF, Rocket = 4);//
+       Fuse   := (TDC as TTDC_NalaInterface).Nelly.Fuze=1;
+       SetChangeImageIndikator(Time.Imgobj , Time.ImgON, Time.imgOFF, not Fuse);
+       SetChangeImageIndikator(Prox.Imgobj , Prox.ImgON, Prox.imgOFF,  Fuse);
+
+       IsRocketSelected := True;
+       ReAssign(3);
+     end
+     else begin
+       btnNelly.Down := False;
+       loadimage(imgELOAD,'N LOAD ED off.bmp');
+
+       SetChangeImageIndikator(Low.Imgobj , Low.ImgON, Low.imgOFF, false);
+       SetChangeImageIndikator(High.Imgobj , High.ImgON, High.imgOFF, false);
+
+       SetChangeImageIndikator(Time.Imgobj , Time.ImgON, Time.imgOFF, false);
+       SetChangeImageIndikator(Prox.Imgobj , Prox.ImgON, Prox.imgOFF, false);
+
+       IsRocketSelected := False;
+     end;
+     (TDC as TTDC_NalaInterface).SendEvenAsroc(6);
+
+   end
+   else begin
+      loadimage(imgNLOAD,'N LOAD ED off.bmp');
+      SetChangeImageIndikator(Low.Imgobj , Low.ImgON, Low.imgOFF, false);
+      SetChangeImageIndikator(High.Imgobj , High.ImgON, High.imgOFF, false);
+
+      SetChangeImageIndikator(Time.Imgobj , Time.ImgON, Time.imgOFF, false);
+      SetChangeImageIndikator(Prox.Imgobj , Prox.ImgON, Prox.imgOFF, false);
+      IsRocketSelected := False;
+   end;
+ //   tmr1.Enabled := IsRocketSelected;
+   SetRestRangeMtr;
+   changeImgOnclick(btnNelly,'NELLI on.bmp', 'NELLI off.bmp');
+
+end;
+
+procedure TfrmASRL.btnXClick(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
+procedure TfrmASRL.FormCreate(Sender: TObject);
+var
+  i: Integer;
+  Ind : Tindikator;
+begin
+
+  dir_path := '..\data\images\asroc\';
+
+  rocket            := 0;
+  Launcher          := 0;
+  Fuse              := False;
+  Salvomode         := false;
+
+  btnprotec         := true;
+  IsRocketSelected  := False;
+
+  ListIndikator := TList.Create;
+  HYDR     := Tindikator.create;
+  LncrRdy  := Tindikator.create;
+  BldArc   := Tindikator.create;
+  LncrSync := Tindikator.create;
+  RKT2Rdy  := Tindikator.create;
+  RKT1Rdy  := Tindikator.create;
+  NoRes    := Tindikator.create;
+  Time     := Tindikator.create;
+  Prox     := Tindikator.create;
+  Low      := Tindikator.create;
+  High     := Tindikator.create;
+
+  FillImgIndikator;
+
+  HYDR.Status     := False;
+  LncrRdy.Status  := False;
+  BldArc.Status   := False;
+  LncrSync.Status := False;
+  RKT2Rdy.Status  := False;
+  RKT1Rdy.Status  := False;
+  NoRes.Status    := False;
+
+
+  ListIndikator.Add(HYDR);
+  ListIndikator.Add(LncrRdy);
+  ListIndikator.Add(BldArc);
+  ListIndikator.Add(LncrSync);
+  ListIndikator.Add(RKT2Rdy);
+  ListIndikator.Add(RKT1Rdy);
+  ListIndikator.Add(NoRes);
+
+  for i := 0 to ListIndikator.Count - 1 do begin
+    Ind := ListIndikator[i];
+    with Ind do
+        SetChangeImageIndikator(Imgobj, ImgON, imgOFF, Status);
+  end;
+end;
+
+procedure TfrmASRL.FormDestroy(Sender: TObject);
+begin
+  HYDR.Free;
+  LncrRdy.Free;
+  BldArc.Free;
+  LncrSync.Free;
+  RKT2Rdy.Free;
+  RKT1Rdy.Free;
+  NoRes.Free;
+  Time.Free;
+  Prox.Free;
+  Low.Free;
+  High.Free;
+end;
+
+procedure TfrmASRL.FormShow(Sender: TObject);
+begin
+  Color := RGB(136,236,186);
+end;
+
+function TfrmASRL.GetRocketSpeed(Rck: integer): single;
+begin
+  case Rck of
+    1: begin
+      result := C_V_RocketErika_LOW ;    //Diluar area tembak roket
+    end;
+    2: begin
+      result := C_V_RocketErika_HIGH;
+    end;
+    3: begin
+      result := C_V_RocketNelly_LOW;
+    end;
+    4: begin
+      result := C_V_RocketNelly_HIGH;
+    end;
+  end;
+end;
+
+procedure TfrmASRL.img1DblClick(Sender: TObject);
+var
+  isShow : Boolean;
+begin
+  inherited;
+
+  isShow := not isShow;
+  btnX.Visible := isShow;
+end;
+
+procedure TfrmASRL.loadimage(img: TImage; Pic:string);
+begin
+  img.Picture.LoadFromFile(dir_path + Pic);
+end;
+
+procedure TfrmASRL.PnlBtnFireClick(Sender: TObject);
+begin
+  btnprotec:= not btnprotec;
+
+  if btnprotec then
+    PnlBtnFire.Color:= clDefault
+  else
+    PnlBtnFire.Color :=clRed;
+end;
+
+procedure TfrmASRL.ReAssign(MslType : word);
+var aRec: TRecTrackOrder;
+spdInd : Integer;
+begin
+   (TDC as TTDC_NalaInterface).GetCurrentDataTrackASRL(OwnHeading,Target_Range,Target_Bearing);
+
+   case MslType  of
+     1 :begin
+       if (Target_Range >= C_RocketErika_LOW_Min) and (Target_Range <= C_RocketErika_LOW_Max) then
+          MslType := 1
+       else  if (Target_Range >= C_RocketErika_HIGH_Min) and (Target_Range <= C_RocketErika_HIGH_Max) then
+          MslType := 2;
+     end;
+     3 :begin
+       if (Target_Range >= C_RocketNelly_LOW_Min) and (Target_Range <= C_RocketNelly_LOW_Max) then
+          MslType := 3
+       else  if (Target_Range >= C_RocketNelly_HIGH_Min) and (Target_Range <= C_RocketNelly_HIGH_Max) then
+          MslType := 4;
+     end;
+   end;
+
+   Rocket := MslType;
+   spdInd := Rocket mod 2;
+   SetChangeImageIndikator(Low.Imgobj , Low.ImgON, Low.imgOFF, spdInd = 1);
+   SetChangeImageIndikator(High.Imgobj , High.ImgON, High.imgOFF, spdInd = 0);
+
+  aRec.X := TDC.OBMLeft.mPos.X;
+  aRec.Y := TDC.OBMLeft.mPos.Y;
+//  (TDC as TTDC_NalaInterface).setAssignASRLToFC5(aRec, MslType);
+  (TDC as TTDC_NalaInterface).ReAssignASRL(MslType);
+//  TDC.setAssignASRL(aRec, MslType, TDC.HaveToSend);
+
+end;
+
+procedure TfrmASRL.SetAssignIndikator(st : boolean; aHeading : single; aRange, aBearing : double);
+begin
+
+end;
+
+procedure TfrmASRL.SetIndikator(ind: Tindikator);
+begin
+  if ind.Status  then
+    ind.Imgobj.Picture.LoadFromFile(dir_path + ind.ImgON)
+  else
+    ind.Imgobj.Picture.LoadFromFile(dir_path + ind.imgOFF);
+end;
+
+procedure TfrmASRL.SetRestRangeMtr;
+begin
+//  if not tmr1.Enabled then
+  //  tmr1.Enabled := True;
+  tmr1.Enabled := IsRocketSelected;
+//  if IsRocketSelected then begin
+//    (TDC as TTDC_NalaInterface).GetCurrentDataTrackASRL(OwnHeading,Target_Range,Target_Bearing);
+//     vrmtrRestRangeMtr.Position := SetValRangeMeter(OwnHeading,ShootAreaASROCK,Target_Bearing,Rocket,Target_Range);
+//  end;
+end;
+
+function TfrmASRL.SetValRangeMeter(aHeading, aViewAngle, aBearing: double;
+  rockettype: integer; aRange : double):integer;
+var MinLim, MaxLim : Integer;
+begin
+  MinLim := 0;
+  MaxLim := 0;
+   if ShootArea( aHeading, aViewAngle, aBearing) then begin
+      case rockettype  of
+        1 : begin
+          if (aRange >= C_RocketErika_LOW_Min) and (aRange <= C_RocketErika_LOW_Max) then
+            begin
+              MinLim := C_RocketErika_LOW_Min;
+              MaxLim := C_RocketErika_HIGH_Max;
+            end
+          else
+            result := 4;    //Diluar area tembak roket
+        end;
+        2: begin
+          if (aRange >= C_RocketErika_HIGH_Min) and (aRange <= C_RocketErika_HIGH_Max) then
+            begin
+              MinLim := C_RocketErika_HIGH_Min;
+              MaxLim := C_RocketErika_HIGH_Max;
+            end
+          else
+            result := 4;
+        end;
+        3 : begin
+          if (aRange >= C_RocketNelly_LOW_Min) and (aRange <= C_RocketNelly_LOW_Max) then
+            begin
+              MinLim := C_RocketNelly_LOW_Min;
+              MaxLim := C_RocketNelly_LOW_Max;
+            end
+          else
+            result := 4;
+        end;
+        4: begin
+          if (aRange >= C_RocketNelly_HIGH_Min) and (aRange <= C_RocketNelly_HIGH_Max) then
+            begin
+              MinLim := C_RocketNelly_HIGH_Min;
+              MaxLim := C_RocketNelly_HIGH_Max;
+            //result := 60    //hijau
+            end
+          else
+            result := 4;
+        end;
+      end;
+
+      if  (MaxLim < C_RocketErika_LOW_Min) or (MaxLim > C_RocketNelly_HIGH_Max) then
+        Result := 0
+      else
+      Result := Round(((aRange - MinLim)/(MaxLim - MinLim)) * 65 + 15);
+   end
+   else
+   Result := 100;  // Keluar Area sudut Tembak
+   BldArc.Status := CekBlindArc(Result);
+end;
+
+function TfrmASRL.CekBlindArc(ValIndikator: integer): boolean;
+begin
+  Result := False;
+   if ( ValIndikator <= 5 ) or (ValIndikator >= 95) then begin
+//    loadimage(imgBLDARC,  'BLD ARC on.bmp');
+    Result := True;
+    end else begin
+//    loadimage(imgBLDARC,  'BLD ARC off.bmp');
+    BldArc.Status := false;
+   end;
+   SetChangeImageIndikator(BldArc.Imgobj, BldArc.ImgON, BldArc.imgOFF, BldArc.Status);
+end;
+
+
+procedure TfrmASRL.tmr1Timer(Sender: TObject);
+var Msl, spdInd : Integer;
+begin
+
+ if not (TDC as TTDC_NalaInterface).IsASRLAssigned then begin
+   vrmtrRestRangeMtr.Position := 0;
+   tmr1.Enabled := false;
+ end
+ else begin
+   (TDC as TTDC_NalaInterface).GetCurrentDataTrackASRL(OwnHeading,Target_Range,Target_Bearing);
+
+   if IsRocketSelected then begin
+      case Rocket  of
+        1,2 :begin
+           if (Target_Range >= C_RocketErika_LOW_Min) and (Target_Range <= C_RocketErika_LOW_Max) then
+              Msl := 1
+           else  if (Target_Range >= C_RocketErika_HIGH_Min) and (Target_Range <= C_RocketErika_HIGH_Max) then
+              Msl := 2;
+         end;
+         3,4 :begin
+           if (Target_Range >= C_RocketNelly_LOW_Min) and (Target_Range <= C_RocketNelly_LOW_Max) then
+              Msl := 3
+           else  if (Target_Range >= C_RocketNelly_HIGH_Min) and (Target_Range <= C_RocketNelly_HIGH_Max) then
+              Msl := 4;
+         end;
+      end;
+
+     if (Msl >= 1) and (Msl <= 4) and (Msl <> Rocket) then begin
+       (TDC as TTDC_NalaInterface).ReAssignASRL(Msl);
+       Rocket := Msl;
+
+       spdInd := Rocket mod 2;
+       SetChangeImageIndikator(Low.Imgobj , Low.ImgON, Low.imgOFF, spdInd = 1);
+       SetChangeImageIndikator(High.Imgobj , High.ImgON, High.imgOFF, spdInd = 0);
+     end;
+
+     vrmtrRestRangeMtr.Position := SetValRangeMeter(OwnHeading,ShootAreaASROCK ,Target_Bearing,Rocket,Target_Range);
+   end;
+
+ end;
+end;
+
+procedure TfrmASRL.vrmtrRestRangeMtrChange(Sender: TObject);
+begin
+// if (vrmtrRestRangeMtr.Position  <= 5 ) or (vrmtrRestRangeMtr.Position >= 95) then begin
+//    loadimage(imgBLDARC,  'BLD ARC on.bmp');
+//    BldArc.Status := True;
+////    loadimage(imgNoRes,  'NO RES on.bmp');
+// end else begin
+//    loadimage(imgBLDARC,  'BLD ARC off.bmp');
+//    BldArc.Status := false;
+////    loadimage(imgNoRes,  'NO RES off.bmp');
+// end;
+end;
+
+
+procedure TfrmASRL.FillImgIndikator;
+begin
+    //image objek
+    HYDR.Imgobj     := imgHYDR;
+    LncrRdy.Imgobj  := imgLNCRRDY;
+    BldArc.Imgobj   := imgBLDARC;
+    LncrSync.Imgobj := imgLNCRSYNC ;
+    RKT2Rdy.Imgobj  := imgRKT2 ;
+    RKT1Rdy.Imgobj  := imgRKT1 ;
+    NoRes.Imgobj    := imgNoRes;
+    Time.Imgobj     := imgTime;
+    Prox.Imgobj     := imgProx;
+    Low.Imgobj      := imgLow;
+    High.Imgobj     := imgHigh;
+
+     // image on
+    HYDR.ImgON    := dir_path + 'HYDR on.bmp';
+    LncrRdy.ImgON := dir_path + 'LNCR RDY on.bmp';
+    BldArc.ImgON  := dir_path + 'BLD ARC on.bmp';
+    LncrSync.ImgON:= dir_path + 'LNCR SYNC on.bmp';
+    RKT2Rdy.ImgON := dir_path + 'RKT2 on.bmp';
+    RKT1Rdy.ImgON := dir_path + 'RKT1 on.bmp';
+    NoRes.ImgON   := dir_path + 'NO RES on.bmp';
+    Time.ImgON    := dir_path + 'TIME on.bmp';
+    Prox.ImgON    := dir_path + 'PROX on.bmp';
+    Low.ImgON     := dir_path + 'LOW on.bmp';
+    High.ImgON    := dir_path + 'HIGH on.bmp';
+
+    //image off
+    HYDR.imgOFF     := dir_path + 'HYDR off.bmp';
+    LncrRdy.imgOFF  := dir_path + 'LNCR RDY off.bmp';
+    BldArc.imgOFF   := dir_path + 'BLD ARC off.bmp';
+    LncrSync.imgOFF := dir_path + 'LNCR SYNC off.bmp';
+    RKT2Rdy.imgOFF  := dir_path + 'RKT2 off.bmp';
+    RKT1Rdy.imgOFF  := dir_path + 'RKT1 off.bmp';
+    NoRes.ImgOFF    := dir_path + 'NO RES off.bmp';
+    Time.imgOFF      := dir_path + 'TIME off.bmp';
+    Prox.imgOFF      := dir_path + 'PROX off.bmp';
+    Low.imgOFF       := dir_path + 'LOW off.bmp';
+    High.imgOFF      := dir_path + 'HIGH off.bmp';
+
+end;
+
+procedure TfrmASRL.loadGlyph(Sb: TSpeedButton; bmp:string);
+begin
+  Sb.Glyph.LoadFromFile(dir_path  + bmp);
+end;
+// change image button
+procedure TfrmASRL.changeImgOnclick(bt: TSpeedButton; img1: string; img2: string);
+begin
+   if bt.Down then
+    bt.Glyph.LoadFromFile(dir_path  + img1)
+   else
+    bt.Glyph.LoadFromFile(dir_path  + img2);
+end;
+
+function TfrmASRL.ShootArea(aHeading, aViewAngle, aBearing : double):boolean;
+var
+  minAngle, maxAngle : double;
+  isInside : boolean;
+begin
+ isInside := False;
+
+ minAngle := aHeading - (aViewAngle / 2);
+ maxAngle := aHeading + (aViewAngle / 2);
+
+ if minAngle < 0 then begin
+    minAngle := 360 + minAngle;
+    if (aBearing <= 360) and (aBearing >= minAngle) then
+       isInside := ((minAngle) <= aBearing) and (aBearing <= 360)
+    else if (aBearing >= 0) and (aBearing <= maxAngle) then
+       isInside := (0 <= aBearing) and (aBearing <= maxAngle)
+ end
+ else if maxAngle > 360 then begin
+    maxAngle := maxAngle-360;
+   if (aBearing <= 360) and (aBearing >= minAngle) then
+       isInside := ((minAngle) <= aBearing) and (aBearing <= 360)
+    else if (aBearing >= 0) and (aBearing <= maxAngle) then
+       isInside := (0 <= aBearing) and (aBearing <= maxAngle);
+ end
+ else
+    isInside := (minAngle <= aBearing) and (aBearing <= maxAngle);
+
+ result := isInside;
+end;
+
+{ Tindikator }
+
+constructor Tindikator.create;
+begin
+  Status := false;
+//  Imgobj := TImage.Create(nil);
+end;
+
+destructor Tindikator.Destroy;
+begin
+//  Imgobj.Free;
+  inherited;
+end;
+
+end.

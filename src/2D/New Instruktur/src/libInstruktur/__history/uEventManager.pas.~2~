@@ -1,0 +1,1988 @@
+{ This Unit For Handle Event In Form Unit
+  InstrukturManager, FrmMainInstruktur, FrmGameController , Frame dll
+  DONT Uses Forms In Instruktur Manager }
+
+unit uEventManager;
+
+interface
+
+uses
+  Windows, Classes, OverbyteIcsWsocket, SysUtils, Menus, Math,
+
+  MapXLib_TLB, uClassDatabase, uTCPDatatype, ufrmMainInstruktur, ufrmGameController, uInstrukturManager, ufWeaponStatus, uReplayControl,
+  uDataModule, uInstrukturObjects, uGlobalVar, uBridgeSet, uBaseSimulationObject, ufEventLog, uDistance, ufInstLog, Dialogs,
+  uTrajectory, Forms, ufrmTrajectoryView ;
+
+const
+  SockStateS: array[TSocketState] of string
+  = (' InvalidState',
+    ' Opened', ' Bound',
+    ' Connecting', 'SocksConnected', ' Connected',
+    ' Accepting', ' Listening',
+    ' Closed');
+    
+type
+  TEventManager = class
+  private
+    function getConsoleName(aID : Integer): string;
+    function GetMessage(LogEvent: TLogEvent; IDConsole,IDEvent: Integer):string; 
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure AssignEvent;
+
+    procedure OnReceiveMissilePos( Rec : TRec3DMissilePos );
+    procedure OnReceiveShipPos( Rec : TRecData3DPosition );
+    procedure OnReceiveClientMg( Rec : TRecData2DOrder );
+    procedure OnReceive3DOrder( Rec : TRecData3DOrder );
+    procedure OnReceiveMapCommand( Rec : TRecMapCommand );
+    procedure OnReceiveComConsole( Rec : TRecComConsole );
+    procedure OnReceiveStatConsole( Rec : TRecStatus_Console );
+    procedure OnReceiveReport( Rec : TRecEventLog );
+    procedure OnUpdateRuler(Sender : TObject);
+    procedure OnReceiveStatConnect(const Cmd : String);
+    procedure OnReceiveStatusGame (rec : TRecStatusGame);
+    procedure OnReceiveEnableWeapon (rec : TRecEnableWeapon);
+    procedure OnReceiveAsrocMT (rec : TRecAsrocMissileType);
+
+    procedure OnTCPChangeState( Sender: TObject; OldState, NewState: TSocketState );
+    procedure OnReplyUpdate(Sender : TObject);
+    procedure OnGetPortRply(aID : Integer);
+    procedure OnWindowState(Value : Byte);
+    procedure OnStatusReplay(Value : Byte);
+    procedure OnTrajectoryView(aWeapon,Value : Byte);
+
+    procedure StopSimulation;
+  published
+  end;
+
+var
+  EventManager  : TEventManager;
+
+implementation
+
+uses ComCtrls, uSimulationManager;
+
+{ TEventManager }
+
+procedure TEventManager.AssignEvent;
+begin
+  SimManager.OnReceiveMissilePos    := OnReceiveMissilePos;
+  SimManager.OnReceiveShipPos       := OnReceiveShipPos;
+  SimManager.OnReceiveClientMg      := OnReceiveClientMg;
+  SimManager.OnReceive3DOrder       := OnReceive3DOrder;
+  SimManager.OnReceiveMapCommand    := OnReceiveMapCommand;
+  SimManager.OnReceiveComConsole    := OnReceiveComConsole;
+  SimManager.OnReceiveStatConsole   := OnReceiveStatConsole;
+  SimManager.OnUpdateRuler          := OnUpdateRuler;
+  SimManager.OnReceiveStatusConnect := OnReceiveStatConnect;
+  SimManager.OnReceiveStatusGame    := OnReceiveStatusGame;
+  SimManager.OnReceiveEnableWeapon  := OnReceiveEnableWeapon;
+  SimManager.OnReceiveAsrocMT       := OnReceiveAsrocMT;
+  SimManager.OnUpdateReplay         := OnReplyUpdate;
+  SimManager.OnGetPortReplay        := OnGetPortRply;
+  SimManager.OnWindowState          := OnWindowState;
+  SimManager.OnStatusReplay         := OnStatusReplay;
+  SimManager.OnTrajectoryView       := OnTrajectoryView;
+  SimManager.OnReceiveReport        := OnReceiveReport;
+
+  SimManager.TCPClient.Socket.OnChangeState     := OnTCPChangeState;
+end;
+
+constructor TEventManager.Create;
+begin
+
+end;
+
+destructor TEventManager.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TEventManager.OnReceive3DOrder(Rec: TRecData3DOrder);
+var
+  i,
+  newDir  : integer;
+  suid    : string;
+  theObj  : TSimulationClass;
+
+  Vehicle : TVehicle;
+  Weapon  : TWeapon;
+
+  floatTmp : double;
+begin
+  suid := dbID_to_UniqueID(Rec.ShipID);
+
+  if Rec.sOrder = ORD_SHIP_DEL then
+  begin
+    theObj := SimManager.MainObjList.FindObjectByUid(suid);
+
+    if theObj <> nil then
+    begin
+      theObj.MarkAs_NeedToBeFree;
+
+      if SimManager.FGamePlayType = gpmScenAndRecord then
+       SimManager.DeleteObjectRecord(Rec.ShipID,0,0,0,0);
+    end;
+
+    { Set Nil All Pointer }
+    if Assigned(SimManager.TrackObject) then
+    begin
+      if SimManager.TrackObject.FDataBaseID = Rec.shipID then
+      begin
+        frmMainInstruktur.FrameControlLeft.NillAllSet;
+        SimManager.TrackObject := nil;
+      end;
+    end;
+
+    if Assigned(SimManager.DatabaseObject) then
+    begin
+      if SimManager.DatabaseObject.FDataBaseID = Rec.shipID then
+      begin
+        SimManager.DatabaseObject := nil;
+      end;
+    end;
+
+    if Assigned(SimManager.DragObject) then
+    begin
+      if SimManager.DragObject.FDataBaseID = Rec.shipID then
+      begin
+        SimManager.DragObject := nil;
+      end;
+    end;
+
+    { Delete List Runtime Ship }
+    if frmGameController.lvRuntimeShip.Selected <> nil then
+    begin
+      if Assigned(frmGameController.lvRuntimeShip.Selected.Data) then
+      begin
+        Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+
+        if Vehicle.Vehicle_ID = Rec.shipID then
+        begin
+          frmGameController.VisibleStatusShip(False, 1);
+          frmGameController.lvRuntimeShip.Selected := nil;
+
+          { Weapon }
+          for i:= frmGameController.lvWeapon.Items.Count -1 downto 0 do
+          begin
+            if Assigned(frmGameController.lvWeapon.Items[i].Data) then
+            begin
+              Weapon := TWeapon(frmGameController.lvWeapon.Items[i].Data);
+              Weapon.Free;
+            end;
+            frmGameController.lvWeapon.Items[i].Delete;
+          end;
+          frmGameController.lvWeapon.Items.Clear;
+        end;
+      end;
+    end;
+
+    for i:= 0 to frmGameController.lvRuntimeShip.Items.Count -1 do
+    begin
+      if Assigned(frmGameController.lvRuntimeShip.Items[i].Data) then
+      begin
+        Vehicle := TVehicle(frmGameController.lvRuntimeShip.Items[i].Data);
+
+        if Vehicle.Vehicle_ID = Rec.shipID then
+        begin
+          Vehicle.Free;
+
+          frmGameController.DeleteMenuWithShipID(Rec.shipID);
+          frmGameController.lvRuntimeShip.Items[i].Delete;
+
+          Break;
+        end;
+      end;
+    end;
+
+    for i:= 0 to frmGameController.lvRuntimeShipTrajectory.Items.Count -1 do
+    begin
+      if Assigned(frmGameController.lvRuntimeShipTrajectory.Items[i].Data) then
+      begin
+        Vehicle := TVehicle(frmGameController.lvRuntimeShipTrajectory.Items[i].Data);
+
+        if Vehicle.Vehicle_ID = Rec.shipID then
+        begin
+          Vehicle.Free;
+
+          frmGameController.DeleteMenuWithShipID(Rec.shipID);
+          frmGameController.lvRuntimeShipTrajectory.Items[i].Delete;
+
+          Break;
+        end;
+      end;
+    end;
+
+  end
+  else
+  if Rec.sOrder = ORD_SEA_STATE then
+  begin
+
+      //frmGameController.tbSeaState.OnMouseUp := nil;
+      frmGameController.tbSeaState.Position := Round(Rec.mValue)+1;
+      //frmGameController.tbSeaState.OnMouseUp := frmGameController.tbSeaStateChange;
+      frmGameController.lblSeaState.Caption := IntToStr(Round(Rec.mValue)+1);
+
+  end
+  else
+  if Rec.sOrder = ORD_ENVI then
+  begin
+
+      floatTmp :=(((0.08-(Rec.mValue))/0.07995)*2);
+
+      //frmGameController.tbFogH.OnChange := nil;
+      frmGameController.tbFogH.Position := round(100-(power(10,floatTmp)))+1;
+      //frmGameController.tbFogH.OnChange := frmGameController.tbFogHChange;
+      frmGameController.lblFogHeight.Caption := inttostr(round(100-(power(10,floatTmp)))+1);
+
+  end
+  else
+  if Rec.sOrder = ORD_HUMIDITY  then
+  begin
+
+      //frmGameController.tbHumidity.OnChange := nil;
+      frmGameController.tbHumidity.Position := Round(Rec.mValue);
+      //frmGameController.tbHumidity.OnChange := frmGameController.tbHumidityChange;
+      frmGameController.lblHumidity.Caption := IntToStr(Round(Rec.mValue));
+
+  end
+  else
+  if Rec.sOrder = ORD_BAROPRESSURE  then
+  begin
+
+      //frmGameController.tbBaroPressure.OnChange := nil;
+      frmGameController.tbBaroPressure.Position := Round(Rec.mValue);
+      //frmGameController.tbBaroPressure.OnChange := frmGameController.tbBaroPressureChange;
+      frmGameController.lblBaroPresure.Caption := IntToStr(Round(Rec.mValue));
+
+  end
+  else
+  if Rec.sOrder = ORD_CURSPEED  then
+  begin
+
+      //frmGameController.tbSeaSpeed.OnChange := nil;
+      frmGameController.tbSeaSpeed.Position := Round(Rec.mValue);
+      //frmGameController.tbSeaSpeed.OnChange := frmGameController.tbSeaSpeedChange;
+      frmGameController.lblCurrentSpeed.Caption := IntToStr(Round(Rec.mValue));
+
+  end
+  else
+  if Rec.sOrder = ORD_TEMPERATURE  then
+  begin
+
+      //frmGameController.tbTemp.OnChange := nil;
+      frmGameController.tbTemp.Position := Round(Rec.mValue);
+      //frmGameController.tbTemp.OnChange := frmGameController.tbTempChange;
+      frmGameController.lblTemperature.Caption := IntToStr(Round(Rec.mValue));
+
+  end
+  else
+  if Rec.sOrder = ORD_WINDSPEED  then
+  begin
+
+      //frmGameController.tbWindSpeed.OnChange := nil;
+      frmGameController.tbWindSpeed.Position := Round(Rec.mValue);
+      //frmGameController.tbWindSpeed.OnChange := frmGameController.tbWindSpeedChange;
+      frmGameController.lblWindSpeed.Caption := IntToStr(Round(Rec.mValue));
+
+  end
+  else
+  if Rec.sOrder = ORD_WINDDIRECTION   then
+  begin
+
+    //  frmGameController.vrwhlWindDirec.OnChange := nil;
+      if Rec.mValue < 180 then
+      begin
+        newDir := Round(180 + Rec.mValue);
+      end
+      else
+      begin
+        newDir := Round(Rec.mValue - 180);
+      end;
+      frmGameController.vrwhlWindDirec.Position := Round(newDir);
+     // frmGameController.vrwhlWindDirec.OnChange := frmGameController.vrwhlWindDirecChange;
+      frmGameController.lblWindDirection.Caption := IntToStr(Round(Rec.mValue));
+
+  end
+  else
+  if Rec.sOrder = ORD_CURDIRECTION    then
+  begin
+
+     // frmGameController.vrwhlSeaDirection.OnChange := nil;
+      if Rec.mValue < 180 then
+      begin
+        newDir := Round(180 + Rec.mValue);
+      end
+      else
+      begin
+        newDir := Round(Rec.mValue - 180);
+      end;
+      frmGameController.vrwhlSeaDirection.Position := Round(newDir);
+     // frmGameController.vrwhlSeaDirection.OnChange := frmGameController.vrwhlSeaDirectionChange;
+      frmGameController.lblCurrentDirection.Caption := IntToStr(Round(Rec.mValue));
+
+  end
+  else
+  if Rec.sOrder = ORD_REFRESH_CLIENT then
+  begin
+     frmGameController.AutoRefresh;
+  end;
+
+end;
+
+procedure TEventManager.OnReceiveClientMg(Rec: TRecData2DOrder);
+var
+  i : Integer;
+  Dx, Dy : Double;
+  RecEnvy : TScenario;
+begin
+  case Rec.OrderID of
+
+    _CM_CLIENT_APP :
+    begin
+       case Rec.numValue of
+
+        __CM_CLIENT_STOP :
+        begin
+          if not SimManager.isDatabaseMode then
+          begin
+            StopSimulation;
+          end;
+        end;
+
+        __CM_CLIENT_LAUNCHALL :
+        begin
+          CurrentScenarioID := StrToInt(Rec.strValue);
+          DataModule1.GetSceneOffSetFromPortID(DataModule1.GetMapById(CurrentScenarioID), Dx, Dy);
+
+          { Set Map }
+
+          if frmMainInstruktur.lblCekRunning.Caption <> 'Editing' then
+          begin
+            SimManager.instMapSet.useOffset := true;
+            SimManager.instMapSet.xOffset   := Dx;
+            SimManager.instMapSet.yOffset   := Dy;
+            SimManager.instMapSet.xCenter   := Dx;
+            SimManager.instMapSet.yCenter   := Dy;
+
+            frmMainInstruktur.MainMap.ZoomTo( 32, Dx, Dy );
+            frmGameController.MiniMap1.ZoomTo( 32, Dx, Dy );
+
+          end;
+
+        end;
+        __CM_CLIENT_STATUS:
+        begin
+
+        end;
+      end;
+    end;
+
+    _CM_CLIENT_CHECKSCENARIOID :
+    begin
+      if SimManager.fGamePlayType = gpmReplay then
+      exit;
+
+      CurrentScenarioID := StrToInt(Rec.strValue);
+      DataModule1.GetSceneOffSetFromPortID(DataModule1.GetMapById(CurrentScenarioID), Dx, Dy);
+
+      RecEnvy := TScenario.Create;
+      DataModule1.GetEnviBySceID(CurrentScenarioID, RecEnvy);
+      DataModule1.GetPortNameNoById(RecEnvy.Scenario_Port);
+
+
+      case Rec.numValue of
+        //Game Status Stop (Idle)
+        0 :
+        begin
+          frmMainInstruktur.lblCekRunning.Caption := 'Stop';
+        end;
+
+        //Game Status play
+        1 :
+        begin
+          frmMainInstruktur.lblCekRunning.Caption := 'Play';
+          //frmMainInstruktur.Caption := 'Firing System Instruktur - '+DataModule1.GetScenarioByID(0);
+
+          frmGameController.lblPortEnv.Caption         := DataModule1.GetPortNameNoById(RecEnvy.Scenario_Port);
+
+          frmGameController.tbSeaState.Position        := Round(RecEnvy.Scenario_SeaState);
+          frmGameController.lblSeaState.Caption        := IntToStr(Round(RecEnvy.Scenario_SeaState));
+
+          frmGameController.tbWindSpeed.Position       := Round(RecEnvy.Scenario_WindSpeed);
+          frmGameController.lblWindSpeed.Caption        := IntToStr(Round(RecEnvy.Scenario_WindSpeed));
+
+          frmGameController.tbSeaSpeed.Position        := Round(RecEnvy.Scenario_CurrSpeed);
+          frmGameController.lblCurrentSpeed.Caption        := IntToStr(Round(RecEnvy.Scenario_CurrSpeed));
+
+          frmGameController.tbTemp.Position            := Round(RecEnvy.Scenario_Temperature);
+          frmGameController.lblTemperature.Caption        := IntToStr(Round(RecEnvy.Scenario_Temperature));
+
+          frmGameController.tbBaroPressure.Position    := Round(RecEnvy.Scenario_BaroPressure);
+          frmGameController.lblBaroPresure.Caption        := IntToStr(Round(RecEnvy.Scenario_BaroPressure));
+
+          frmGameController.tbHumidity.Position        := Round(RecEnvy.Scenario_Humidity);
+          frmGameController.lblHumidity.Caption        := IntToStr(Round(RecEnvy.Scenario_Humidity));
+
+          frmGameController.tbFogH.Position            := Round(RecEnvy.Scenario_FogHeight_Persen);
+          frmGameController.lblFogHeight.Caption        := IntToStr(Round(RecEnvy.Scenario_FogHeight_Persen));
+
+          frmGameController.vrwhlSeaDirection.Position := Round(RecEnvy.Scenario_CurrDir_Deg);
+          frmGameController.vrwhlWindDirec.Position    := Round(RecEnvy.Scenario_WindDir_Deg);
+        end;
+      end;
+
+      { Set Map }
+      SimManager.instMapSet.useOffset := true;
+      SimManager.instMapSet.xOffset   := Dx;
+      SimManager.instMapSet.yOffset   := Dy;
+      SimManager.instMapSet.xCenter   := Dx;
+      SimManager.instMapSet.yCenter   := Dy;
+
+      frmMainInstruktur.MainMap.ZoomTo( 32, Dx, Dy );
+      frmGameController.MiniMap1.ZoomTo( 32, Dx, Dy );
+
+      frmGameController.AutoRefresh;
+    end;
+
+    _CM_CLIENT_MANAGE:
+    begin
+      case Rec.numValue of
+
+        __CM_CLIENT_CONNECT, __CM_CLIENT_DISCONNECT:
+        begin
+
+        end;
+      end;
+    end;
+
+    _CM_CLIENT_CONNECT :
+    begin
+      case Rec.numValue of
+        __CM_CLIENT_INST :
+        begin
+
+          SimManager.isCheckConnect         := True;
+          SimManager.TimeCheckConnect.Accum := 0;
+          SimManager.isCheckRespone         := False;
+
+          frmMainLog.mmoConnection.Lines.Add('Connection Succes')
+        end;
+      end
+    end;
+  end;
+end;
+
+procedure TEventManager.OnReceiveMapCommand(Rec: TRecMapCommand);
+var
+  aObj : TInsObject;
+  uid  : string;
+begin
+  if not SimManager.InsUtils.MapMode then
+  begin
+    if (Rec.OrderID = OID_MAP) then
+    begin
+      case Rec.ToolID of
+        miZoomInTool:
+        begin
+          case Rec.MapID of
+            1 :
+            begin
+              frmGameController.MiniMap1.Zoom := Rec.Scale;
+              
+            end;
+          end;
+        end;
+      end;
+    end;
+  end
+  else
+  begin
+    if Rec.MapID = SimManager.InsUtils.MapID then
+    begin
+      if (Rec.OrderID = OID_MAP) then
+      begin
+        case Rec.ToolID of
+          miZoomInTool:
+          begin
+            frmMainInstruktur.MainMap.Zoom := Rec.Scale;
+          end;
+        end;
+      end
+      else
+      if Rec.OrderID = OID_OBJ_Select then
+      begin
+        uid := dbID_to_UniqueID(Rec.ShipID);
+
+        aObj := SimManager.MainObjList.FindObjectByUid(uid) as TInsObject;
+
+        if Assigned(aObj) then
+        begin
+          frmMainInstruktur.MainMap.CenterX := aObj.PositionX;
+          frmMainInstruktur.MainMap.CenterY := aObj.PositionY;
+        end;
+      end
+      else
+      if Rec.OrderID = OID_MAP_CENTER then
+      begin
+        frmMainInstruktur.MainMap.Zoom := Rec.Scale; 
+        frmMainInstruktur.MainMap.CenterX := Rec.X;
+        frmMainInstruktur.MainMap.CenterY := Rec.Y;
+      end;
+
+    end;
+  end;
+end;
+
+procedure TEventManager.OnReceiveMissilePos(Rec : TRec3DMissilePos);  //dendy mampir
+var
+  i,j         : integer;
+  isFound   : Boolean;
+  tempUID   : string;
+
+  shipID,
+  WeaponID,
+  LauncherID,
+  MissileID,
+  MissileNumber : integer ;
+
+  Weapon : TWeapon;
+  Trajectory : TTrajectory;
+
+  shipInst : TInsObject;
+  WeaponTOCOS      : TWeaponOn_TOCOS;
+  WeaponSPS        : TWeaponOn_SPS;
+  WeaponAsroc      : TWeaponOn_ASROC;
+  WeaponC802       : TWeaponOn_C802;
+  WeaponYakhont    : TWeaponOn_Yakhont;
+  WeaponMistral    : TWeaponOn_Mistral;
+  WeaponStrela     : TWeaponOn_Strella;
+  WeaponTetral     : TWeaponOn_Tetral;
+  WeaponExocet40   : TWeaponOn_EXOCET40;
+  WeaponRBU        : TWeaponOn_RBU;
+
+  WeaponShip : TWeaponOnShip;
+begin
+  shipID        := Rec.shipID ;
+  WeaponID      := Rec.WeaponID ;
+  launcherID    := Rec.launcherID;
+  missileID     := Rec.missileID;
+  missileNumber := Rec.MissileNumber;
+
+  tempUID := SimManager.dbID_to_MissileUniqueID( shipID, WeaponID, LauncherID, missileID, MissileNumber);
+
+  case Rec.status   of
+    ST_MISSILE_RUN :
+    begin
+      isFound := false;
+      for i := 0 to frmGameController.lvRuntimeMissile.Items.Count - 1 do
+      begin
+        if Assigned(frmGameController.lvRuntimeMissile.Items[i].Data) then
+        begin
+          Weapon := TWeapon(frmGameController.lvRuntimeMissile.Items[i].Data);
+
+          if Weapon.MissileUID = tempUID then
+          begin
+            isFound := true;
+
+            Weapon.X        := Rec.X;
+            Weapon.Y        := Rec.Y;
+            Weapon.Z        := Rec.Z;
+            Weapon.heading  := Rec.heading;
+            Weapon.speed    := 1.944 * Rec.speed;
+
+            Break;
+          end;
+
+        end;
+      end;
+
+      if not isFound then
+      begin
+        Weapon := TWeapon.Create;
+        Weapon.ParentName     := DataModule1.GetShipName(Rec.shipID);
+        Weapon.MissileUID     := tempUID;
+        Weapon.MissileName    := DataModule1.GetNameWeaponByID(Rec.WeaponID);
+        Weapon.shipID         := Rec.shipID;
+        Weapon.WeaponID       := Rec.WeaponID;
+        Weapon.launcherID     := Rec.launcherID;
+        Weapon.missileID      := Rec.missileID;
+        Weapon.MissileNumber  := Rec.MissileNumber;
+        Weapon.X              := Rec.X;
+        Weapon.Y              := Rec.Y;
+        Weapon.Z              := Rec.Z;
+
+        with frmGameController.lvRuntimeMissile.Items.Add do
+        begin
+          Data    := Weapon;
+          Caption := Weapon.MissileName;
+          SubItems.Add(Weapon.ParentName);
+          SubItems.Add(IntToStr(Weapon.launcherID));
+        end;
+      end;
+
+      isFound := false;
+      for i := 0 to frmGameController.lvRuntimeMissileTrajectory.Items.Count - 1 do
+      begin
+        if Assigned(frmGameController.lvRuntimeMissileTrajectory.Items[i].Data) then
+        begin
+          Trajectory := TTrajectory(frmGameController.lvRuntimeMissileTrajectory.Items[i].Data);
+
+          if Trajectory.WeaponUID = tempUID then
+          begin
+            isFound := true;
+            Break;
+          end;
+
+        end;
+      end;
+
+      if not isFound then
+      begin
+        Trajectory := TTrajectory.Create;
+
+        Trajectory.WidthCanvas := frmGameController.imgTrajectory.Width;
+        Trajectory.heightCanvas := frmGameController.imgTrajectory.Height;
+        Trajectory.aCanvas := frmGameController.imgTrajectory.Canvas;
+
+        Trajectory.WeaponUID       := tempUID;
+        Trajectory.aShipID         := Rec.shipID;
+        Trajectory.aWeaponID       := Rec.WeaponID;
+        Trajectory.alauncherID     := Rec.launcherID;
+        Trajectory.amissileID      := Rec.missileID;
+        Trajectory.aMissileNumber  := Rec.MissileNumber;
+
+        with frmGameController.lvRuntimeMissileTrajectory.Items.Add do
+        begin
+          Data    := Trajectory;
+          Caption := DataModule1.GetNameWeaponByID(Rec.WeaponID);
+          SubItems.Add(DataModule1.GetShipName(Rec.shipID));
+          SubItems.Add(IntToStr(Rec.launcherID));
+        end;
+      end;
+
+      { Update handle Object}
+      if frmGameController.lvRuntimeMissile.Selected <> nil then
+      begin
+        if Assigned(frmGameController.lvRuntimeMissile.Selected.Data) then
+        begin
+          Weapon := TWeapon(frmGameController.lvRuntimeMissile.Selected.Data);
+
+          if Weapon.MissileUID = tempUID then
+          begin
+            frmGameController.lblLatValue.Caption.Text    := FormatFloat('0.0000',Rec.Y);
+            frmGameController.lblLongVal.Caption.Text     := FormatFloat('0.0000',Rec.X);
+            frmGameController.lblZVal.Caption.Text        := FormatFloat('0.00',Abs(Rec.Z));
+            frmGameController.lblHeadingVal.Caption.Text  := FormatFloat('0.00',Rec.heading);
+            frmGameController.lblSpeedVal.Caption.Text    := FormatFloat('0.0000',Rec.speed);
+          end;
+        end;
+      end;
+
+      // cek status Image Red
+//      if Assigned(SimManager.TrackObject) then
+//      begin
+//        if SimManager.TrackObject.FDataBaseID = shipID then
+//        begin
+//          if SimManager.TrackObject.HookedWeaponID = WeaponID then
+//          begin
+//
+//          end;
+//        end;
+//      end;
+        frmMainInstruktur.FrameControlLeft.FrameWeaponStatus.LoadingStatus(shipID, WeaponID, LauncherID, MissileID, tsLaunch);
+    end;
+
+    ST_MISSILE_HIT :
+    begin
+
+    end;
+
+    ST_MISSILE_DEL :
+    begin
+      if frmGameController.lvRuntimeMissile.Selected <> nil then
+      begin
+        if Assigned(frmGameController.lvRuntimeMissile.Selected.Data) then
+        begin
+          Weapon := TWeapon(frmGameController.lvRuntimeMissile.Selected.Data);
+
+          if Weapon.MissileName = tempUID then
+          begin
+            frmGameController.VisibleStatusShip(False, 1);
+            frmGameController.lvRuntimeMissile.Selected := nil;
+          end;
+        end;
+      end;
+
+      for i := 0 to frmGameController.lvRuntimeMissile.Items.Count - 1 do
+      begin
+        if Assigned(frmGameController.lvRuntimeMissile.Items[i].Data) then
+        begin
+          Weapon := TWeapon(frmGameController.lvRuntimeMissile.Items[i].Data);
+
+          if Weapon.MissileUID = tempUID then
+          begin
+            Weapon.Free;
+
+            frmGameController.lvRuntimeMissile.Items[i].Delete;
+            break;
+          end;
+        end;
+      end;
+
+      if frmGameController.lvRuntimeMissileTrajectory.Selected <> nil then
+      begin
+        if Assigned(frmGameController.lvRuntimeMissileTrajectory.Selected.Data) then
+        begin
+          Weapon := TWeapon(frmGameController.lvRuntimeMissileTrajectory.Selected.Data);
+
+          if Weapon.MissileName = tempUID then
+          begin
+            frmGameController.VisibleStatusShip(False, 1);
+            frmGameController.lvRuntimeMissileTrajectory.Selected := nil;
+          end;
+        end;
+      end;
+
+      for i := 0 to frmGameController.lvRuntimeMissileTrajectory.Items.Count - 1 do
+      begin
+        if Assigned(frmGameController.lvRuntimeMissileTrajectory.Items[i].Data) then
+        begin
+          Trajectory := TTrajectory(frmGameController.lvRuntimeMissileTrajectory.Items[i].Data);
+
+          if Trajectory.WeaponUID = tempUID then
+          begin
+            Trajectory.Free;
+
+            frmGameController.lvRuntimeMissileTrajectory.Items[i].Delete;
+            break;
+          end;
+        end;
+      end;
+
+      // cek status Image Gray
+      frmMainInstruktur.FrameControlLeft.FrameWeaponStatus.LoadingStatus(shipID, WeaponID, LauncherID, MissileID, tsOff);
+      frmMainInstruktur.FrameControlLeft.FrameWeaponStatus.LabelingAsrocMT(shipID, WeaponID, LauncherID, MissileID, tsEmpty);
+
+    end;
+
+    ST_MISSILE_LOADED :
+    begin
+
+      // cek status Green
+      frmMainInstruktur.FrameControlLeft.FrameWeaponStatus.LoadingStatus(shipID, WeaponID, LauncherID, MissileID, tsLoading);
+    end;
+
+
+  end;
+end;
+
+procedure TEventManager.OnReceiveShipPos(Rec : TRecData3DPosition);
+var
+  i : Integer;
+  isFound : Boolean;
+  Vehicle : TVehicle;
+
+  suid : string;
+  InstObject  : TInsObject;
+
+  WeaponShip : TWeaponOnShip;
+  WeaponSPS  : TWeaponOn_SPS;
+begin
+  { Update To Game Controller }
+  isFound := false;
+  for i:=0 to frmGameController.lvRuntimeShip.Items.Count - 1 do
+  begin
+    if Assigned(frmGameController.lvRuntimeShip.Items[i].Data) then
+    begin
+      Vehicle := TVehicle(frmGameController.lvRuntimeShip.Items[i].Data);
+
+      if Vehicle.Vehicle_ID = Rec.ShipID then
+      begin
+        isFound := True;
+
+        Vehicle.Vehicle_X         := Rec.X;
+        Vehicle.Vehicle_Y         := Rec.Y;
+        Vehicle.Vehicle_Z         := Rec.Z;
+        Vehicle.Vehicle_Heading   := Rec.Heading;
+        Vehicle.Vehicle_Speed     := Rec.Speed;
+        Vehicle.Vehicle_Pitch     := Rec.pitch;
+        Vehicle.Vehicle_Roll      := Rec.roll;
+        Vehicle.Vehicle_Rudder    := Rec.rudder;
+
+        Break;
+      end;
+    end;
+  end;
+
+  if not isFound then
+  begin
+    { Add To Lv Ship Runtime }
+    Vehicle := TVehicle.Create;
+    Vehicle.Vehicle_ID        := Rec.ShipID;
+    Vehicle.Vehicle_Name      := DataModule1.GetShipName(Rec.ShipID);
+    Vehicle.Vehicle_Maxspeed  := DataModule1.GetShipMaxSpeed(Rec.ShipID);
+    Vehicle.Vehicle_Minspeed  := DataModule1.GetShipMinSpeed(Rec.ShipID);
+    Vehicle.Vehicle_Type      := DataModule1.GetShipDomain(Rec.ShipID);
+    Vehicle.Vehicle_Target    := DataModule1.GetShipTarget(Rec.ShipID);
+    Vehicle.Vehicle_X         := Rec.X;
+    Vehicle.Vehicle_Y         := Rec.Y;
+    Vehicle.Vehicle_Z         := Rec.Z;
+    Vehicle.Vehicle_Heading   := Rec.Heading;
+    Vehicle.Vehicle_Speed     := Rec.Speed;
+    Vehicle.Vehicle_Pitch     := Rec.pitch;
+    Vehicle.Vehicle_Roll      := Rec.roll;
+    Vehicle.Vehicle_Rudder    := Rec.rudder;
+
+    { Add To Listview }
+    with frmGameController.lvRuntimeShip.Items.Add do
+    begin
+      Data    := Vehicle;
+      Caption := Vehicle.Vehicle_Name;
+
+      case Vehicle.Vehicle_Type of
+        1 : SubItems.Add('SURFACE');
+        2 : SubItems.Add('AIR');
+        3 : SubItems.Add('SUBSURFACE');
+      end;
+
+      case Vehicle.Vehicle_Target of
+        0 : SubItems.Add('KRI');
+        1 : SubItems.Add('TARGET');
+      end;
+
+      { Add Pop Up Menu }
+      frmGameController.AddMenuWithShipID(Vehicle.Vehicle_ID);
+    end;
+  end;
+
+  { Update To Game Controller }
+  isFound := false;
+  for i:=0 to frmGameController.lvRuntimeShipTrajectory.Items.Count - 1 do
+  begin
+    if Assigned(frmGameController.lvRuntimeShipTrajectory.Items[i].Data) then
+    begin
+      Vehicle := TVehicle(frmGameController.lvRuntimeShipTrajectory.Items[i].Data);
+
+      if Vehicle.Vehicle_ID = Rec.ShipID then
+      begin
+        isFound := True;
+
+        Vehicle.Vehicle_X         := Rec.X;
+        Vehicle.Vehicle_Y         := Rec.Y;
+        Vehicle.Vehicle_Z         := Rec.Z;
+        Vehicle.Vehicle_Heading   := Rec.Heading;
+        Vehicle.Vehicle_Speed     := Rec.Speed;
+        Vehicle.Vehicle_Pitch     := Rec.pitch;
+        Vehicle.Vehicle_Roll      := Rec.roll;
+        Vehicle.Vehicle_Rudder    := Rec.rudder;
+
+        Break;
+      end;
+    end;
+  end;
+
+  if not isFound then
+  begin
+    { Add To Lv Ship Runtime }
+    Vehicle := TVehicle.Create;
+    Vehicle.Vehicle_ID        := Rec.ShipID;
+    Vehicle.Vehicle_Name      := DataModule1.GetShipName(Rec.ShipID);
+    Vehicle.Vehicle_Maxspeed  := DataModule1.GetShipMaxSpeed(Rec.ShipID);
+    Vehicle.Vehicle_Minspeed  := DataModule1.GetShipMinSpeed(Rec.ShipID);
+    Vehicle.Vehicle_Type      := DataModule1.GetShipDomain(Rec.ShipID);
+    Vehicle.Vehicle_Target    := DataModule1.GetShipTarget(Rec.ShipID);
+    Vehicle.Vehicle_X         := Rec.X;
+    Vehicle.Vehicle_Y         := Rec.Y;
+    Vehicle.Vehicle_Z         := Rec.Z;
+    Vehicle.Vehicle_Heading   := Rec.Heading;
+    Vehicle.Vehicle_Speed     := Rec.Speed;
+    Vehicle.Vehicle_Pitch     := Rec.pitch;
+    Vehicle.Vehicle_Roll      := Rec.roll;
+    Vehicle.Vehicle_Rudder    := Rec.rudder;
+
+    { Add To Listview }
+    with frmGameController.lvRuntimeShipTrajectory.Items.Add do
+    begin
+      Data    := Vehicle;
+      Caption := Vehicle.Vehicle_Name;
+
+      case Vehicle.Vehicle_Type of
+        1 : SubItems.Add('SURFACE');
+        2 : SubItems.Add('AIR');
+        3 : SubItems.Add('SUBSURFACE');
+      end;
+
+      case Vehicle.Vehicle_Target of
+        0 : SubItems.Add('KRI');
+        1 : SubItems.Add('TARGET');
+      end;
+
+      { Add Pop Up Menu }
+      frmGameController.AddMenuWithShipID(Vehicle.Vehicle_ID);
+    end;
+  end;
+
+  { Update handle Object}
+  if frmGameController.lvRuntimeShip.Selected <> nil then
+  begin
+    if Assigned(frmGameController.lvRuntimeShip.Selected.Data) then
+    begin
+      Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+      if Vehicle.Vehicle_ID = Rec.ShipID then
+      begin
+        frmGameController.lblLatValue.Caption.Text    := FormatFloat('0.0000',Rec.Y);
+        frmGameController.lblLongVal.Caption.Text     := FormatFloat('0.0000',Rec.X);
+        frmGameController.lblZVal.Caption.Text        := FormatFloat('0.00',Abs(Rec.Z));
+        frmGameController.lblHeadingVal.Caption.Text  := FormatFloat('0.00',Rec.heading);
+        frmGameController.lblSpeedVal.Caption.Text    := FormatFloat('0.00',Rec.speed);
+        frmGameController.lblPitchVal.Caption.Text    := FormatFloat('0.00',Rec.pitch);
+        frmGameController.lblRollVal.Caption.Text     := FormatFloat('0.00',Rec.roll);
+      end;
+    end;
+  end;
+
+  frmMainInstruktur.FrameControlLeft.FrameGuidance.RefreshGuidance;
+
+  { Update Draw Object }
+  suid := dbID_to_UniqueID(rec.ShipID);
+  InstObject := SimManager.MainObjList.FindObjectByUid(suid) as TInsObject;
+
+  if InstObject <> nil then
+  begin
+    for i := 0 to InstObject.WeaponOnShip_List.Count - 1 do
+    begin
+      WeaponShip := TWeaponOnShip(InstObject.WeaponOnShip_List[i]);
+
+      if WeaponShip is TWeaponOn_SPS then
+      begin
+        WeaponSPS := TWeaponOn_SPS(WeaponShip);
+
+        if WeaponSPS.SPS_TrackObject <> nil then
+        begin
+          if WeaponSPS.isDrawAdvice then
+          begin
+            WeaponSPS.AdviceOn_SPS.TgtSpeed     := WeaponSPS.SPS_TrackObject.Speed;
+            WeaponSPS.AdviceOn_SPS.TgtCourse    := WeaponSPS.SPS_TrackObject.Course;
+            WeaponSPS.AdviceOn_SPS.TgtPosX      := WeaponSPS.SPS_TrackObject.PositionX;
+            WeaponSPS.AdviceOn_SPS.TgtPosY      := WeaponSPS.SPS_TrackObject.PositionY;
+            WeaponSPS.AdviceOn_SPS.A244Course   := InstObject.Course;
+            WeaponSPS.AdviceOn_SPS.ShipSpeed    := InstObject.Speed;
+          end;
+        end;
+
+        Break;
+      end;
+    end;
+  end;
+end;
+
+procedure TEventManager.OnReceiveComConsole(Rec: TRecComConsole); //dendy mampir
+var
+  i               : integer;
+  kapal           : String;
+  LauncherClient  : string;
+
+  Client : TClientList;
+begin
+  for i := 0 to frmGameController.lvClient.Items.Count -1 do
+  begin
+    if frmGameController.lvClient.Items[i].SubItems[3] = Rec.IpSender then
+    begin
+      if Assigned(frmGameController.lvClient.Items[i].Data) then
+      begin
+        Client := TClientList(frmGameController.lvClient.Items[i].Data);
+        Client.Cli_SHIPID := rec.ShipID;
+        Client.Cli_LAUNCHERID := rec.launcherID;
+
+        case rec.OrderID of
+          0 :
+          begin
+            frmGameController.lvClient.Items[i].SubItems[4] := 'ONLINE';
+            frmGameController.lvClient.Items[i].SubItems[5] := '';
+            Client.Cli_Status := 'ONLINE';
+          end;
+          1 :
+          begin
+            frmGameController.lvClient.Items[i].SubItems[4] := 'RUNNING';
+            kapal := DataModule1.GetShipName(Rec.ShipID);
+            LauncherClient := IntToStr(Rec.launcherID);
+            Client.Cli_Status := 'RUNNING';
+
+            if (Rec.ShipID <> 0) and (i > 4)  then
+            begin
+              frmGameController.lvClient.Items[i].SubItems[5] := kapal;
+            end;
+
+            if Rec.launcherID <> 0 then
+            begin
+              frmGameController.lvClient.Items[i].SubItems[6] := LauncherClient;
+            end;
+          end;
+        end;
+        frmGameController.CekLight;
+      end;
+
+
+    end
+  end;
+end;
+
+procedure TEventManager.OnTCPChangeState(Sender: TObject; OldState,
+  NewState: TSocketState);
+var
+  i : integer;
+begin
+  frmMainInstruktur.lblConnect.Caption.Text := SockStateS[newState];
+
+  if (OldState = wsConnected) and (NewState = wsClosed) then
+  begin
+    if (SimManager <> nil) then
+    begin
+      SimManager.isCheckConnect := false;
+      SimManager.isCheckRespone := false;
+      SimManager.ConnectToBridge;
+
+      if not SimManager.isDatabaseMode then
+      begin
+        StopSimulation;
+      end;
+    end;
+  end;
+end;
+
+procedure TEventManager.OnReceiveStatConsole(Rec: TRecStatus_Console);
+var
+  cmd           : ^TRecStatus_Console;
+  ShipObject    : TInsObject;
+  WeaponOnShip  : TWeaponOnShip;
+
+  i : integer;
+
+  //Weapon List
+  WeaponASROC       : TWeaponOn_ASROC;
+  WeaponRBU         : TWeaponOn_RBU;
+  WeaponTorpA244    : TWeaponOn_SPS;
+  WeaponTorpSUT     : TWeaponOn_TOCOS;
+  WeaponTetral      : TWeaponOn_Tetral;
+  WeaponYakhont     : TWeaponOn_Yakhont;
+  WeaponC802        : TWeaponOn_C802;
+  WeaponMistral     : TWeaponOn_Mistral;
+  WeaponStrela      : TWeaponOn_Strella;
+  WeaponExocetMM40  : TWeaponOn_EXOCET40;
+  WeaponExocetMM38  : TWeaponOn_EXOCET38;
+  WeaponCannon40    : TWeaponOn_Cannon40;
+  WeaponCannon57    : TWeaponOn_Cannon57;
+  WeaponCannon76    : TWeaponOn_Cannon76;
+  WeaponCannon120   : TWeaponOn_Cannon120;
+  weaponMoc         : TWeaponOn_MOC;
+
+  WeaponStat      : Boolean;
+begin
+  ShipObject := TInsObject(SimManager.MainObjList.FindObjectByUid(Rec.OWN_SHIP_UID));
+
+  if Assigned(ShipObject) then
+  begin
+    for i:= 0 to ShipObject.WeaponOnShip_List.Count -1 do
+    begin
+      WeaponOnShip := TWeaponOnShip(ShipObject.WeaponOnShip_List.Items[i]);
+
+      if Rec.ParamError = 1 then WeaponStat := True
+      else if Rec.ParamError = 2 then WeaponStat := False;
+
+      if Rec.WeaponID = WeaponOnShip.Weapon_ID then
+      begin
+        case WeaponOnShip.Weapon_ID of
+          C_DBID_ASROC :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_ASROC then
+            begin
+              WeaponASROC := TWeaponOn_ASROC(WeaponOnShip);
+
+              case Rec.ErrorID of
+                __STAT_ASROCK_HYDR            : WeaponASROC.isHydr            := WeaponStat ;
+                __STAT_ASROCK_LAUNCHER        : WeaponASROC.isLauncher        := WeaponStat ;
+                __STAT_ASROCK_LAUNCHER_SYNC   : WeaponASROC.isLauncherSync    := WeaponStat ;
+                __STAT_ASROCK_ROCKET1_READY   : WeaponASROC.isRocket1         := WeaponStat ;
+                __STAT_ASROCK_ROCKET2_READY   : WeaponASROC.isRocket2         := WeaponStat ;
+                __STAT_ASROCK_AVAILABLE_ERIKA : WeaponASROC.isAvailable_Erika := WeaponStat ;
+                __STAT_ASROCK_SPEED_ERIKA     : WeaponASROC.isSpeed_Erika     := WeaponStat ;
+                __STAT_ASROCK_FUZE_ERIKA      : WeaponASROC.isFuze_Erika      := WeaponStat ;
+                __STAT_ASROCK_AVAILABLE_NELLY : WeaponASROC.isAvailable_Nelly := WeaponStat ;
+                __STAT_ASROCK_SPEED_NELLY     : WeaponASROC.isSpeed_Nelly     := WeaponStat ;
+                __STAT_ASROCK_FUZE_NELLY      : WeaponASROC.isFuze_Nelly      := WeaponStat ;
+              end;
+            end;
+          end;
+
+          C_DBID_RBU6000 :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_RBU then
+            begin
+              WeaponRBU := TWeaponOn_RBU(WeaponOnShip);
+
+              case Rec.ErrorID of
+                __STAT_RBU_ALIRAN_KAPAL               : WeaponRBU.ShipSignal      := WeaponStat;
+                __STAT_RBU_UNFORMER_I_LEFT            : WeaponRBU.Unformer1Left   := WeaponStat;
+                __STAT_RBU_UNFORMER_II_LEFT           : WeaponRBU.Unformer2Left   := WeaponStat;
+                __STAT_RBU_UNFORMER_I_RIGHT           : WeaponRBU.Unformer1Right  := WeaponStat;
+                __STAT_RBU_UNFORMER_II_RIGHT          : WeaponRBU.Unformer2Right  := WeaponStat;
+
+                __STAT_RBU_LAUNCHER1_MISSILE1_FAULT   : WeaponRBU.LAUNCHER1_MISSILE1_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER1_MISSILE2_FAULT   : WeaponRBU.LAUNCHER1_MISSILE2_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER1_MISSILE3_FAULT   : WeaponRBU.LAUNCHER1_MISSILE3_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER1_MISSILE4_FAULT   : WeaponRBU.LAUNCHER1_MISSILE4_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER1_MISSILE5_FAULT   : WeaponRBU.LAUNCHER1_MISSILE5_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER1_MISSILE6_FAULT   : WeaponRBU.LAUNCHER1_MISSILE6_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER1_MISSILE7_FAULT   : WeaponRBU.LAUNCHER1_MISSILE7_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER1_MISSILE8_FAULT   : WeaponRBU.LAUNCHER1_MISSILE8_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER1_MISSILE9_FAULT   : WeaponRBU.LAUNCHER1_MISSILE9_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER1_MISSILE10_FAULT  : WeaponRBU.LAUNCHER1_MISSILE10_FAULT  := WeaponStat;
+                __STAT_RBU_LAUNCHER1_MISSILE11_FAULT  : WeaponRBU.LAUNCHER1_MISSILE11_FAULT  := WeaponStat;
+                __STAT_RBU_LAUNCHER1_MISSILE12_FAULT  : WeaponRBU.LAUNCHER1_MISSILE12_FAULT  := WeaponStat;
+
+                __STAT_RBU_LAUNCHER2_MISSILE1_FAULT   : WeaponRBU.LAUNCHER2_MISSILE1_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER2_MISSILE2_FAULT   : WeaponRBU.LAUNCHER2_MISSILE2_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER2_MISSILE3_FAULT   : WeaponRBU.LAUNCHER2_MISSILE3_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER2_MISSILE4_FAULT   : WeaponRBU.LAUNCHER2_MISSILE4_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER2_MISSILE5_FAULT   : WeaponRBU.LAUNCHER2_MISSILE5_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER2_MISSILE6_FAULT   : WeaponRBU.LAUNCHER2_MISSILE6_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER2_MISSILE7_FAULT   : WeaponRBU.LAUNCHER2_MISSILE7_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER2_MISSILE8_FAULT   : WeaponRBU.LAUNCHER2_MISSILE8_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER2_MISSILE9_FAULT   : WeaponRBU.LAUNCHER2_MISSILE9_FAULT   := WeaponStat;
+                __STAT_RBU_LAUNCHER2_MISSILE10_FAULT  : WeaponRBU.LAUNCHER2_MISSILE10_FAULT  := WeaponStat;
+                __STAT_RBU_LAUNCHER2_MISSILE11_FAULT  : WeaponRBU.LAUNCHER2_MISSILE11_FAULT  := WeaponStat;
+                __STAT_RBU_LAUNCHER2_MISSILE12_FAULT  : WeaponRBU.LAUNCHER2_MISSILE12_FAULT  := WeaponStat;
+              end;
+            end;
+          end;
+
+          C_DBID_TORPEDO_A244S :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_SPS then
+            begin
+              WeaponTorpA244 := TWeaponOn_SPS(WeaponOnShip);
+
+              case Rec.ErrorID of
+                __STAT_SPS_115V              : WeaponTorpA244.is115V := WeaponStat;
+                __STAT_SPS_NDS               : WeaponTorpA244.isNDS  := WeaponStat;
+                __STAT_SPS_TIU_PORT          : WeaponTorpA244.TIU_Port           := Rec.ParamError;
+                __STAT_SPS_TIU_STARBOARD     : WeaponTorpA244.TIU_StarBoard      := Rec.ParamError;
+                __STAT_SPS_TEMP_PORT         : WeaponTorpA244.isTemp_Port        := WeaponStat;
+                __STAT_SPS_TEMP_STARBOARD    : WeaponTorpA244.isTemp_StarBoard   := WeaponStat;
+                __STAT_SPS_45_DEG_PORT       : WeaponTorpA244.isDeg45_Port       := WeaponStat;
+                __STAT_SPS_45_DEG_STARBOARD  : WeaponTorpA244.isDeg45_StarBoard  := WeaponStat;
+
+                __STAT_SPS_GYRO_1            : WeaponTorpA244.Gyro1 := Rec.ParamError;
+                __STAT_SPS_GYRO_2            : WeaponTorpA244.Gyro2 := Rec.ParamError;
+                __STAT_SPS_GYRO_3            : WeaponTorpA244.Gyro3 := Rec.ParamError;
+                __STAT_SPS_GYRO_4            : WeaponTorpA244.Gyro4 := Rec.ParamError;
+                __STAT_SPS_GYRO_5            : WeaponTorpA244.Gyro5 := Rec.ParamError;
+                __STAT_SPS_GYRO_6            : WeaponTorpA244.Gyro6 := Rec.ParamError;
+
+                __STAT_SPS_BARREL_1          : WeaponTorpA244.Barrel1 := Rec.ParamError;
+                __STAT_SPS_BARREL_2          : WeaponTorpA244.Barrel2 := Rec.ParamError;
+                __STAT_SPS_BARREL_3          : WeaponTorpA244.Barrel3 := Rec.ParamError;
+                __STAT_SPS_BARREL_4          : WeaponTorpA244.Barrel4 := Rec.ParamError;
+                __STAT_SPS_BARREL_5          : WeaponTorpA244.Barrel5 := Rec.ParamError;
+                __STAT_SPS_BARREL_6          : WeaponTorpA244.Barrel6 := Rec.ParamError;
+
+                __STAT_SPS_SELFTEST          : WeaponTorpA244.isSelf := WeaponStat;
+              end;
+            end;
+          end;
+
+          C_DBID_TORPEDO_SUT :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_TOCOS then
+            begin
+              WeaponTorpSUT := TWeaponOn_TOCOS(WeaponOnShip);
+
+              case Rec.ErrorID of
+
+                __STAT_TOCOS_NUG_1                   : WeaponTorpSUT.NUG_1               := WeaponStat;
+                __STAT_TOCOS_NUG_2                   : WeaponTorpSUT.NUG_2               := WeaponStat;
+                __STAT_TOCOS_Port_Indikator_Port     : WeaponTorpSUT.Port_Indikator_Port := WeaponStat;
+                __STAT_TOCOS_StbPort_Indikator_Port  : WeaponTorpSUT.STB_Indikator_Port  := WeaponStat;
+                __STAT_TOCOS_Port_ToSupply           : WeaponTorpSUT.Port_ToSupply       := WeaponStat;
+                __STAT_TOCOS_StbPort_ToSupply        : WeaponTorpSUT.STB_ToSupply        := WeaponStat;
+                __STAT_TOCOS_Port_120_BAR            : WeaponTorpSUT.Port_120_BAR        := WeaponStat;
+                __STAT_TOCOS_StbPort_120_BAR         : WeaponTorpSUT.STB_120_BAR         := WeaponStat;
+                __STAT_TOCOS_Port_20_BAR             : WeaponTorpSUT.Port_20_BAR         := WeaponStat;
+                __STAT_TOCOS_StbPort_20_BAR          : WeaponTorpSUT.STB_20_BAR          := WeaponStat;
+                __STAT_TOCOS_Port_DOOR_Open          : WeaponTorpSUT.Port_DOOR_Open      := WeaponStat;
+                __STAT_TOCOS_StbPort_DOOR_Open       : WeaponTorpSUT.STB_DOOR_Open       := WeaponStat;
+                __STAT_TOCOS_Port_TORP_On            : WeaponTorpSUT.Port_TORP_On        := WeaponStat;
+                __STAT_TOCOS_StbPort_TORP_On         : WeaponTorpSUT.STB_TORP_On         := WeaponStat;
+                __STAT_TOCOS_Port_Ready_To_Fire      : WeaponTorpSUT.Port_Ready_To_Fire  := WeaponStat;
+                __STAT_TOCOS_StbPort_Ready_To_Fire   : WeaponTorpSUT.STB_Ready_To_Fire   := WeaponStat;
+
+                __STAT_TOCOS_EXTSTABAVL         : WeaponTorpSUT.EXTSTABAVL         := WeaponStat;
+                __STAT_TOCOS_CASSTABAVL         : WeaponTorpSUT.CASSTABAVL         := WeaponStat;
+                __STAT_TOCOS_TempWEC            : WeaponTorpSUT.TempWEC            := WeaponStat;
+                __STAT_TOCOS_TempTCC            : WeaponTorpSUT.TempTCC            := WeaponStat;
+                __STAT_TOCOS_FuseWEC            : WeaponTorpSUT.FuseWEC            := WeaponStat;
+                __STAT_TOCOS_FuseTCC            : WeaponTorpSUT.FuseTCC            := WeaponStat;
+                __STAT_TOCOS_PowerResetWEC      : WeaponTorpSUT.PowerResetWEC      := WeaponStat;
+                __STAT_TOCOS_PowerResetTCC      : WeaponTorpSUT.PowerResetTCC      := WeaponStat;
+                __STAT_TOCOS_CMPTR              : WeaponTorpSUT.CMPTR              := WeaponStat;
+                __STAT_TOCOS_SOFTW              : WeaponTorpSUT.SOFTW              := WeaponStat;
+
+                __STAT_TOCOS_AntiCondensHeating : WeaponTorpSUT.AntiCondensHeating := WeaponStat;
+                __STAT_TOCOS_LOADPROGR          : WeaponTorpSUT.CASSTABAVL         := WeaponStat;
+
+              end;
+            end;
+          end;
+
+          C_DBID_TETRAL :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_Tetral then
+            begin
+              WeaponTetral := TWeaponOn_Tetral(WeaponOnShip);
+              case Rec.ErrorID of
+                  __STAT_TETRAL_FWD : WeaponTetral.TetralFwd := WeaponStat;
+                  __STAT_TETRAL_AFT : WeaponTetral.TetralAft := WeaponStat;
+              end;
+            end;
+          end;
+          C_DBID_YAKHONT :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_Yakhont then
+            begin
+              WeaponYakhont := TWeaponOn_Yakhont(WeaponOnShip);
+              case Rec.ErrorID of
+                __STAT_YAKHONT_PRINTER     : WeaponYakhont.STAT_YAKHONT_PRINTER    := WeaponStat;
+                __STAT_YAKHONT_CONSOLE_N1  : WeaponYakhont.STAT_YAKHONT_CONSOLE_N1 := WeaponStat;
+                __STAT_YAKHONT_CONSOLE_N2  : WeaponYakhont.STAT_YAKHONT_CONSOLE_N2 := WeaponStat;
+                __STAT_YAKHONT_RIGHT_1     : WeaponYakhont.STAT_YAKHONT_RIGHT_1    := WeaponStat;
+                __STAT_YAKHONT_RIGHT_3     : WeaponYakhont.STAT_YAKHONT_RIGHT_3    := WeaponStat;
+                __STAT_YAKHONT_LEFT_2      : WeaponYakhont.STAT_YAKHONT_LEFT_2     := WeaponStat;
+                __STAT_YAKHONT_LEFT_4      : WeaponYakhont.STAT_YAKHONT_LEFT_4     := WeaponStat;
+                __STAT_YAKHONT_KR231       : WeaponYakhont.STAT_YAKHONT_KR231      := WeaponStat;
+                __STAT_YAKHONT_GYRO        : WeaponYakhont.STAT_YAKHONT_GYRO       := WeaponStat;
+                __STAT_YAKHONT_INS300V     : WeaponYakhont.STAT_YAKHONT_INS300V    := WeaponStat;
+                __STAT_YAKHONT_INS27V      : WeaponYakhont.STAT_YAKHONT_INS27V     := WeaponStat;
+              end;
+            end;
+          end;
+
+          C_DBID_C802 :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_C802 then
+            begin
+              WeaponC802 := TWeaponOn_C802(WeaponOnShip);
+              case Rec.ErrorID of
+                __STAT_C802_PRECHECK_LAUNCHER1        : WeaponC802.STAT_C802_PRECHECK_LAUNCHER1       := WeaponStat;
+                __STAT_C802_PRECHECK_LAUNCHER2        : WeaponC802.STAT_C802_PRECHECK_LAUNCHER2       := WeaponStat;
+                __STAT_C802_PRECHECK_LAUNCHER3        : WeaponC802.STAT_C802_PRECHECK_LAUNCHER3       := WeaponStat;
+                __STAT_C802_PRECHECK_LAUNCHER4        : WeaponC802.STAT_C802_PRECHECK_LAUNCHER4       := WeaponStat;
+
+                __STAT_C802_READYCONDITION_LAUNCHER1  : WeaponC802.STAT_C802_READYCONDITION_LAUNCHER1 := WeaponStat;
+                __STAT_C802_READYCONDITION_LAUNCHER2  : WeaponC802.STAT_C802_READYCONDITION_LAUNCHER2 := WeaponStat;
+                __STAT_C802_READYCONDITION_LAUNCHER3  : WeaponC802.STAT_C802_READYCONDITION_LAUNCHER3 := WeaponStat;
+                __STAT_C802_READYCONDITION_LAUNCHER4  : WeaponC802.STAT_C802_READYCONDITION_LAUNCHER4 := WeaponStat;
+
+                __STAT_C802_LAUNCH_LAUNCHER1          : WeaponC802.STAT_C802_LAUNCH_LAUNCHER1         := WeaponStat;
+                __STAT_C802_LAUNCH_LAUNCHER2          : WeaponC802.STAT_C802_LAUNCH_LAUNCHER2         := WeaponStat;
+                __STAT_C802_LAUNCH_LAUNCHER3          : WeaponC802.STAT_C802_LAUNCH_LAUNCHER3         := WeaponStat;
+                __STAT_C802_LAUNCH_LAUNCHER4          : WeaponC802.STAT_C802_LAUNCH_LAUNCHER4         := WeaponStat;
+
+              end;
+            end;
+          end;
+
+          C_DBID_MISTRAL :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_Mistral then
+            begin
+              WeaponMistral := TWeaponOn_Mistral(WeaponOnShip);
+              case Rec.ErrorID of
+                  __STAT_MISTRAL_LAUNCER1 : WeaponMistral.MistralLaunch1 := WeaponStat;
+                  __STAT_MISTRAL_LAUNCER2 : WeaponMistral.MistralLaunch2  := WeaponStat;
+              end;
+            end;
+          end;
+
+          C_DBID_STRELA :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_Strella then
+            begin
+              WeaponStrela := TWeaponOn_Strella(WeaponOnShip);
+              case Rec.ErrorID of
+                  __STAT_STRELA_LAUNCER1 : WeaponStrela.StrelaLauncer1 := WeaponStat;
+                  __STAT_STRELA_LAUNCER2 : WeaponStrela.StrelaLauncer2 := WeaponStat;
+                  __STAT_STRELA_LAUNCER3 : WeaponStrela.StrelaLauncer3 := WeaponStat;
+                  __STAT_STRELA_LAUNCER4 : WeaponStrela.StrelaLauncer4 := WeaponStat;
+              end;
+            end;
+          end;
+
+          C_DBID_EXOCET_MM40 :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_EXOCET40 then
+            begin
+               WeaponExocetMM40 := TWeaponOn_EXOCET40(WeaponOnShip);
+                case Rec.ErrorID of
+                  __STAT_EXOCET40_ENABLE    : WeaponExocetMM40.EnableExocet40 := WeaponStat;
+                  __STAT_EXOCET40_SafetyFA  : WeaponExocetMM40.SafetyFA       := WeaponStat;
+                  __STAT_EXOCET40_ControlFA : WeaponExocetMM40.ControlFA      := WeaponStat;
+                  __STAT_EXOCET40_FIRING    : WeaponExocetMM40.Firing         := WeaponStat;
+                end;
+            end;
+          end;
+
+          C_DBID_EXOCET_MM38 :
+          begin
+
+          end;
+
+          C_DBID_CANNON40 :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_Cannon40 then
+            begin
+               WeaponCannon40 := TWeaponOn_Cannon40(WeaponOnShip);
+                case Rec.ErrorID of
+                  __STAT_CANNON40_ENABLE : WeaponCannon40.EnableCannon40 := WeaponStat;
+                end;
+            end;
+
+          end;
+
+          C_DBID_CANNON57 :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_Cannon57 then
+            begin
+               WeaponCannon57 := TWeaponOn_Cannon57(WeaponOnShip);
+                case Rec.ErrorID of
+                  __STAT_CANNON57_ENABLE : WeaponCannon57.EnableCannon57 := WeaponStat;
+                end;
+            end;
+          end;
+
+          C_DBID_CANNON76 :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_Cannon76 then
+            begin
+               WeaponCannon76 := TWeaponOn_Cannon76(WeaponOnShip);
+                case Rec.ErrorID of
+                  __STAT_CANNON76_ENABLE : WeaponCannon76.EnableCannon76 := WeaponStat;
+                end;
+            end;
+          end;
+
+          C_DBID_CANNON120 :
+          begin
+
+          end;
+
+          C_DBID_MOCCONSOLE :
+          begin
+            frmMainInstruktur.cekStatusWeapon := 0;
+            if WeaponOnShip is TWeaponOn_MOC then
+            begin
+              weaponMoc := TWeaponOn_MOC(WeaponOnShip);
+              case Rec.ErrorID of
+                  __STAT_MOC_RadarARPA  : weaponMoc.RadarARPA     := WeaponStat;
+                  __STAT_MOC_MW08       : weaponMoc.RadarMW       := WeaponStat;
+                  __STAT_MOC_LIROD_MK2  : weaponMoc.LirodMK2      := WeaponStat;
+                  __STAT_MOC_Kingklip   : weaponMoc.SonarKingklip := WeaponStat;
+              end;
+            end;
+          end;
+        end;
+
+        frmMainInstruktur.FrameControlLeft.FrameWeaponStatus.ShowWeaponPanel(WeaponOnShip.Weapon_Name);
+      end;
+    end;
+  end;
+
+end;
+
+procedure TEventManager.OnReceiveReport(Rec: TRecEventLog);
+var
+  ReclogEvent : TLogEvent;
+  str: string;
+  ScenarioName, MessageClient, ShipName, ConsoleName : string;
+begin
+  ReclogEvent := TLogEvent.Create;
+
+  with ReclogEvent do
+  begin
+    ScenarioID := CurrentScenarioID;
+    GameID     := IDGame;
+    NameGame   := GameName;
+
+    tanggal    := DateToStr(Date);
+    jam        := TimeToStr(Time);
+
+    ShipID     := Rec.ShipID;
+    ConsoleID  := Rec.consoleID;
+    EventID    := Rec.eventID;
+    Param1     := Rec.param1;
+    Param2     := Rec.param2;
+    param3     := Rec.param3;
+  end;
+
+  if SimManager.InsUtils.InsID = 2 then
+    DataModule1.SaveLogEvent(ReclogEvent);
+
+  //isi ke form event log
+  frmEventLog.InsertEventlog(ReclogEvent);
+
+  ConsoleName := getConsoleName(ReclogEvent.ConsoleID);
+
+
+  ScenarioName  := DataModule1.GetScenarioByID(ReclogEvent.ScenarioID);
+  MessageClient := GetMessage(ReclogEvent,ReclogEvent.ConsoleID,ReclogEvent.EventID);
+  ShipName      := DataModule1.GetShipNameByID(ReclogEvent.ShipID);
+
+  frmGameController.mmoReport.lines.add(ReclogEvent.jam+' >> '+
+  'Scenario Name : '+ScenarioName+', '+
+  'GameID : '+inttostr(ReclogEvent.GameID)+', '+
+  'Console Name : '+ConsoleName);//+' '+
+  frmGameController.mmoReport.lines.add('             Message : '+MessageClient);
+  frmGameController.mmoReport.lines.add('');
+end;
+
+procedure TEventManager.StopSimulation;
+var
+  i : integer;
+
+  Vehicle : TVehicle;
+  Weapon  : TWeapon;
+
+  MenuItem : TMenuItem;
+begin
+  { Stop Simulation }
+  frmMainInstruktur.deleteLeftFrame;
+  { Delete Listview Ship/Missile }
+  { Ship }
+  for i:= frmGameController.lvRuntimeShip.Items.Count - 1 downto 0 do
+  begin
+    if Assigned(frmGameController.lvRuntimeShip.Items[i].Data) then
+    begin
+      Vehicle := TVehicle(frmGameController.lvRuntimeShip.Items[i].Data);
+      Vehicle.Free;
+    end;
+
+    frmGameController.lvRuntimeShip.Items[i].Delete;
+  end;
+  frmGameController.lvRuntimeShip.Items.Clear;
+
+  { Ship2 }
+  for i:= frmGameController.lvRuntimeShipTrajectory.Items.Count - 1 downto 0 do
+  begin
+    if Assigned(frmGameController.lvRuntimeShipTrajectory.Items[i].Data) then
+    begin
+      Vehicle := TVehicle(frmGameController.lvRuntimeShipTrajectory.Items[i].Data);
+      Vehicle.Free;
+    end;
+
+    frmGameController.lvRuntimeShipTrajectory.Items[i].Delete;
+  end;
+  frmGameController.lvRuntimeShipTrajectory.Items.Clear;
+
+  { Missile }
+  for i:= frmGameController.lvRuntimeMissile.Items.Count - 1 downto 0 do
+  begin
+    if Assigned(frmGameController.lvRuntimeMissile.Items[i].Data) then
+    begin
+      Weapon := TWeapon(frmGameController.lvRuntimeMissile.Items[i].Data);
+      Weapon.Free;
+    end;
+
+    frmGameController.lvRuntimeMissile.Items[i].Delete;
+  end;
+  frmGameController.lvRuntimeMissile.Items.Clear;
+
+  { Missile2 }
+  for i:= frmGameController.lvRuntimeMissileTrajectory.Items.Count - 1 downto 0 do
+  begin
+    if Assigned(frmGameController.lvRuntimeMissileTrajectory.Items[i].Data) then
+    begin
+      Weapon := TWeapon(frmGameController.lvRuntimeMissileTrajectory.Items[i].Data);
+      Weapon.Free;
+    end;
+
+    frmGameController.lvRuntimeMissileTrajectory.Items[i].Delete;
+  end;
+  frmGameController.lvRuntimeMissile.Items.Clear;
+
+  { Waepon }
+  for i:= frmGameController.lvWeapon.Items.Count -1 downto 0 do
+  begin
+    if Assigned(frmGameController.lvWeapon.Items[i].Data) then
+    begin
+      Weapon := TWeapon(frmGameController.lvWeapon.Items[i].Data);
+      Weapon.Free;
+    end;
+
+    frmGameController.lvWeapon.Items[i].Delete;
+  end;
+  frmGameController.lvWeapon.Items.Clear;
+
+  for i:= frmGameController.pmClient.Items.Count -1 downto 0 do
+  begin
+    MenuItem := TMenuItem(frmGameController.pmClient.Items[i]);
+    if MenuItem.Tag <= 0 then Continue;
+
+    frmGameController.pmClient.Items.Delete(i);
+    FreeAndNil(MenuItem);
+  end;
+
+  for i:= frmGameController.pmClient2.Items.Count -1 downto 0 do
+  begin
+    MenuItem := TMenuItem(frmGameController.pmClient2.Items[i]);
+    if MenuItem.Tag <= 0 then Continue;
+
+    frmGameController.pmClient2.Items.Delete(i);
+    FreeAndNil(MenuItem);
+  end;
+
+  frmGameController.VisibleStatusShip(False, 1);
+  frmGameController.ShowDefaultPageWeapon(true);
+  frmMainInstruktur.FrameControlLeft.NillAllSet;
+
+  { Delete All View On Map }
+  if not (SimManager.fGamePlayType = gpmReplay) then
+    SimManager.StopScenario;
+
+  frmMainInstruktur.lblCekRunning.Caption := 'Stop';
+  frmMainInstruktur.Caption := 'Firing System Instruktur';
+  frmMainInstruktur.FrameControlLeft.FrameWeaponStatus.SetWeaponGroupBar;
+end;
+
+procedure TEventManager.OnUpdateRuler(Sender: TObject);
+var
+  i : integer;
+  startX, startY,
+  endX, endY : Double;
+  sX, SY, eX, eY : Single;
+  ptStart, ptEnd : Windows.TPoint;
+
+  insObj      : TInsObject;
+  insObjStart : TInsObject;
+  insObjEnd   : TInsObject;
+begin
+  insObjStart := nil;
+  insObjEnd   := nil;
+
+  for i:= 0 to SimManager.MainObjList.ItemCount -1 do
+  begin
+    insObj := TInsObject(SimManager.MainObjList.getObject(i));
+
+    if Assigned(insObj) then
+    begin
+      if not (insObj is TIMissileObject) then
+      begin
+        if insObj.isRulerStart then
+        begin
+          insObjStart := insObj;
+          break;
+        end;
+      end;
+    end;
+  end;
+
+  for i:= 0 to SimManager.MainObjList.ItemCount -1 do
+  begin
+    insObj := TInsObject(SimManager.MainObjList.getObject(i));
+
+    if Assigned(insObj) then
+    begin
+      if not (insObj is TIMissileObject) then
+      begin
+        if insObj.isRulerEnd then
+        begin
+          insObjEnd := insObj;
+          break;
+        end;
+      end;
+    end;
+  end;
+
+  if Assigned(insObjStart) and Assigned(insObjEnd) then
+  begin
+    //start ruler
+    startX := insObjStart.PositionX;
+    startY := insObjStart.PositionY;
+    frmMainInstruktur.MainMap.ConvertCoord(sX, sY, startX, startY, miMapToScreen);
+
+    frmDistance.startX := round(sx);
+    frmDistance.startY := round(sy);
+
+    ptStart.X := round(sx);
+    ptStart.Y := round(sy);
+
+    //end ruler
+    endX := insObjEnd.PositionX;
+    endY := insObjEnd.PositionY;
+    frmMainInstruktur.MainMap.ConvertCoord(eX, eY, endX, endY, miMapToScreen);
+
+    frmDistance.endX := round(ex);
+    frmDistance.endY := round(ey);
+
+    ptEnd.X := round(ex);
+    ptEnd.Y := round(ey);
+
+
+    SimManager.VRuler.ptStart := ptStart;
+    SimManager.VRuler.ptEnd := ptEnd;
+    SimManager.VRuler.Range := frmDistance.Range;
+  end;
+end;
+
+procedure TEventManager.OnReceiveStatConnect(const Cmd : String);
+begin
+  frmMainLog.mmoConnection.Lines.Add(Cmd);
+end;
+
+procedure TEventManager.OnReceiveStatusGame(rec: TRecStatusGame);
+var
+  recEnvy : TScenario;
+begin
+
+  RecEnvy := TScenario.Create;
+  DataModule1.GetEnviBySceID(CurrentScenarioID, RecEnvy);
+  DataModule1.GetPortNameNoById(RecEnvy.Scenario_Port);
+
+
+  case rec.StatusConnect of
+    1 : begin
+          if frmMainInstruktur.lblCekRunning.Caption <> 'Editing' then
+          begin
+             frmMainInstruktur.lblCekRunning.Caption := 'Play';
+          end;
+
+          frmMainInstruktur.cekStatusKonek := 'Play';
+          frmMainInstruktur.Caption := 'Firing System Instruktur - ' + DataModule1.GetScenarioByID(rec.ScenarioID);
+          frmMainInstruktur.cekCaption := frmMainInstruktur.Caption;
+
+          frmGameController.lblPortEnv.Caption         := DataModule1.GetPortNameNoById(RecEnvy.Scenario_Port);
+          frmGameController.tbSeaState.Position        := Round(RecEnvy.Scenario_SeaState);
+
+          SimManager.NetSendTo3D_SetCommandOrder(0, ORD_SEA_STATE, frmGameController.tbSeaState.Position-1, 0,0,0,0) ;
+
+          frmGameController.tbWindSpeed.Position       := Round(RecEnvy.Scenario_WindSpeed);
+          frmGameController.tbSeaSpeed.Position        := Round(RecEnvy.Scenario_CurrSpeed);
+          frmGameController.tbTemp.Position            := Round(RecEnvy.Scenario_Temperature);
+          frmGameController.tbBaroPressure.Position    := Round(RecEnvy.Scenario_BaroPressure);
+          frmGameController.tbHumidity.Position        := Round(RecEnvy.Scenario_Humidity);
+          frmGameController.tbFogH.Position            := Round(RecEnvy.Scenario_FogHeight_Persen);
+          frmGameController.vrwhlSeaDirection.Position := Round(RecEnvy.Scenario_CurrDir_Deg);
+          frmGameController.vrwhlWindDirec.Position    := Round(RecEnvy.Scenario_WindDir_Deg);
+
+          frmGameController.lblSeaState.Caption         :=  IntToStr(Round(RecEnvy.Scenario_SeaState));
+          frmGameController.lblWindSpeed.Caption        :=  IntToStr(Round(RecEnvy.Scenario_WindSpeed));
+          frmGameController.lblCurrentSpeed.Caption     :=  IntToStr(Round(RecEnvy.Scenario_CurrSpeed));
+          frmGameController.lblTemperature.Caption      :=  IntToStr(Round(RecEnvy.Scenario_Temperature));
+          frmGameController.lblBaroPresure.Caption      :=  IntToStr(Round(RecEnvy.Scenario_BaroPressure));
+          frmGameController.lblHumidity.Caption         :=  IntToStr(Round(RecEnvy.Scenario_Humidity));
+          frmGameController.lblFogHeight.Caption        :=  IntToStr(Round(RecEnvy.Scenario_FogHeight_Persen));
+          frmGameController.lblWindDirection.Caption    :=  IntToStr(Round(RecEnvy.Scenario_CurrDir_Deg));
+          frmGameController.lblCurrentDirection.Caption :=  IntToStr(Round(RecEnvy.Scenario_WindDir_Deg));
+
+        end;
+    2 : begin
+          if frmMainInstruktur.lblCekRunning.Caption <> 'Editing' then
+          begin
+             frmMainInstruktur.lblCekRunning.Caption := 'Stop';
+          end;
+
+          frmMainInstruktur.Caption := 'Firing System Instruktur';
+          frmMainInstruktur.cekCaption := frmMainInstruktur.Caption;
+          
+          frmMainInstruktur.cekStatusKonek := 'Stop';
+
+          frmGameController.lblPortEnv.Caption         := '-';
+          frmGameController.tbSeaState.Position        := 1;
+          frmGameController.tbWindSpeed.Position       := 0;
+          frmGameController.tbSeaSpeed.Position        := 0;
+          frmGameController.tbTemp.Position            := 0;
+          frmGameController.tbBaroPressure.Position    := 0;
+          frmGameController.tbHumidity.Position        := 0;
+          frmGameController.tbFogH.Position            := 1;
+          frmGameController.vrwhlSeaDirection.Position := 180;
+          frmGameController.vrwhlWindDirec.Position    := 180;
+
+          frmGameController.SetDefaultEnvirontment;
+
+
+          frmMainInstruktur.deleteLeftFrame;
+        end ;
+  end
+end;
+
+procedure TEventManager.OnReceiveEnableWeapon(rec: TRecEnableWeapon);
+var
+  i            : Integer;
+  Weapon       : TWeapon;
+  ClientConsole : TClientList;
+begin
+  if  rec.Value = 0 then
+  begin
+    for i := 0 to frmGameController.lvClient.Items.Count-1 do
+    begin
+      if Assigned(frmGameController.lvClient.Items[i].Data) then
+      begin
+        ClientConsole :=  TClientList(frmGameController.lvClient.Items[i].Data);
+        if(rec.Shipid = ClientConsole.Cli_SHIPID) and
+          (rec.WeaponID = C_DBID_ASROC)then
+        begin
+           SimManager.InstrukturSendStopCommandIP(ClientConsole.Cli_IP);
+        end
+        else if(rec.Shipid = ClientConsole.Cli_SHIPID) and
+          (rec.WeaponID = C_DBID_RBU6000)then
+        begin
+           SimManager.InstrukturSendStopCommandIP(ClientConsole.Cli_IP);
+        end
+        else if(rec.Shipid = ClientConsole.Cli_SHIPID) and
+          (rec.WeaponID = C_DBID_CANNON120)then
+        begin
+           SimManager.InstrukturSendStopCommandIP(ClientConsole.Cli_IP);
+        end;
+
+        if (rec.Shipid = ClientConsole.Cli_SHIPID) and
+           (rec.Launcher = ClientConsole.Cli_LAUNCHERID) and
+           (rec.WeaponID = ClientConsole.WeaponID)
+             then
+        begin
+           SimManager.InstrukturSendStopCommandIP(ClientConsole.Cli_IP);
+        end;
+
+      end;
+    end;
+  end;
+
+  frmGameController.StatusWeapon(Rec.shipID, rec.WeaponID, Rec.Value, Rec.Launcher);
+
+end;
+
+procedure TEventManager.OnReplyUpdate(Sender: TObject);
+begin
+  frmReplayControl.UpdateControl(false);
+end;
+
+procedure TEventManager.OnGetPortRply(aID: Integer);
+var
+  Dx, Dy : Double;
+begin
+  DataModule1.GetSceneOffSetFromPortID(DataModule1.GetMapById(aID), Dx, Dy);
+
+  { Set Map }
+
+  SimManager.instMapSet.useOffset := true;
+  SimManager.instMapSet.xOffset   := Dx;
+  SimManager.instMapSet.yOffset   := Dy;
+  SimManager.instMapSet.xCenter   := Dx;
+  SimManager.instMapSet.yCenter   := Dy;
+
+  frmMainInstruktur.MainMap.ZoomTo( 32, Dx, Dy );
+  frmGameController.MiniMap1.ZoomTo( 32, Dx, Dy );
+end;
+
+procedure TEventManager.OnWindowState(Value: Byte);
+begin
+
+  if value = 0 then
+  begin
+    if frmMainInstruktur.WindowState = wsMinimized then
+    exit;
+
+    frmMainInstruktur.WindowState := wsMinimized;
+    frmMainInstruktur.FormStyle := fsNormal;
+  end
+  else
+  begin
+    if frmMainInstruktur.WindowState = wsNormal then
+    exit;
+
+    frmMainInstruktur.WindowState := wsNormal;
+    frmMainInstruktur.FormStyle := fsStayOnTop;
+  end;
+
+end;
+
+procedure TEventManager.OnReceiveAsrocMT(rec: TRecAsrocMissileType);
+var
+  shipID,
+  WeaponID,
+  LauncherID,
+  MissileID,
+  MissileType    : Byte;
+begin
+  shipID := rec.ShipId;
+  WeaponID := rec.WeaponID;
+  LauncherID := rec.LauncherID;
+  MissileID  := rec.MissileID;
+  MissileType  := rec.MissileType;
+
+  if MissileType = 5 then
+  begin
+    frmMainInstruktur.FrameControlLeft.FrameWeaponStatus.LabelingAsrocMT(shipID, WeaponID, LauncherID, MissileID, tsErika);
+  end
+  else if MissileType = 6 then
+  begin
+    frmMainInstruktur.FrameControlLeft.FrameWeaponStatus.LabelingAsrocMT(shipID, WeaponID, LauncherID, MissileID, tsNelly);
+  end;
+
+end;
+
+procedure TEventManager.OnTrajectoryView(aWeapon, Value: Byte);
+begin
+  if (value = 1) then
+  begin
+    frmTrjectoryView.Visible := True;
+    frmTrjectoryView.fltpnl2.Visible := false;
+    frmTrjectoryView.fltpnl3.Visible := false;
+
+    frmTrjectoryView.BorderStyle := bsNone;
+    frmTrjectoryView.WindowState := wsMaximized;
+    frmTrjectoryView.Show;
+
+   { aAsroc1  = 1;
+    aAsroc2  = 2;
+    aAsroc3  = 3;
+    aAsroc4  = 4;
+    aRBU1    = 5;
+    aRBU2    = 6;
+    aRBU3    = 7;
+    aRBU4    = 8;
+    aC802    = 9;
+    aExocet1 = 10;
+    aExocet2 = 11;
+    aExocet3 = 12;
+    aExocet4 = 13;
+    aYakhontB1  = 14;
+    aYakhontB1n = 15;
+    aYakhontB2  = 16;
+    aYakhontB2n = 17;  }
+
+
+    if aWeapon = 1 then
+      frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\ASROC-01 trajectory.gif')
+    else if aWeapon = 2 then
+      frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\ASROC-02 trajectory.gif')
+    else if aWeapon = 3 then
+      frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\ASROC-03 trajectory.gif')
+    else if aWeapon = 4 then
+      frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\ASROC-04 trajectory.gif')
+    else if aWeapon = 5 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\RBU-01 trajectory.gif')
+    else if aWeapon = 6 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\RBU-02 trajectory.gif')
+    else if aWeapon = 7 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\RBU-03 trajectory.gif')
+    else if aWeapon = 8 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\RBU-04 trajectory.gif')
+    else if aWeapon = 9 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\C802 trajectory.gif')
+    else if aWeapon = 10 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\exocet-01 trajectory.gif')
+    else if aWeapon = 11 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\exocet-02 trajectory.gif')
+    else if aWeapon = 12 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\exocet-03 trajectory.gif')
+    else if aWeapon = 13 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\exocet-04 trajectory.gif')
+    else if aWeapon = 14 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\Yakhont-B1 trajectory.gif')
+    else if aWeapon = 15 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\Yakhont-B1n trajectory.gif')
+    else if aWeapon = 16 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\Yakhont-B2 trajectory.gif')
+    else if aWeapon = 17 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\Yakhont-B2n trajectory.gif')
+    else if aWeapon = 18 then
+    frmTrjectoryView.LoadImageTrajectoryView('..\data\images\NFS instruktur - interface\trajectory\torpedo sut-01 trajectory.gif')
+  end
+  else if (value = 3) then begin
+//    frmTrjectoryView.Visible := False;
+//    frmTrjectoryView.Close;
+//    frmTrjectoryView.WindowState := wsMinimized;
+
+
+    frmTrjectoryView.Close;
+    frmTrjectoryView.Visible := False;
+
+    frmTrjectoryView.FGIFImage.Free;
+    frmTrjectoryView.imgTrajectoryView.Picture := nil;
+
+  end
+  else
+  begin
+    frmMainInstruktur.Show;
+    frmTrjectoryView.WindowState := wsMinimized;
+  end;
+end;
+
+procedure TEventManager.OnStatusReplay(Value: Byte);
+begin
+  if value = 0 then  //stop
+  begin
+    frmMainInstruktur.lblCekRunning.Caption := 'Stop';
+  end
+  else           //replay
+  begin
+    frmMainInstruktur.lblCekRunning.Caption := 'Replay';
+  end;
+
+end;
+
+function TEventManager.getConsoleName(aID: Integer): string;
+begin
+  Result := '';
+  case aID of
+    1 : Result := 'ASROC';
+    2 : Result := 'RBU6000';
+    3 : Result := 'TORPEDO_A244S';
+    4 : Result := 'TORPEDO_SUT';
+    5 : Result := 'TETRAL';
+    6 : Result := 'YAKHONT';
+    7 : Result := 'C802';
+    8 : Result := 'MISTRAL';
+    9 : Result := 'STRELA';
+    10 : Result := 'EXOCET_MM40';
+    11 : Result := 'EXOCET_MM38';
+    12 : Result := 'CANNON40';
+    13 : Result := 'CANNON57';
+    14 : Result := 'CANNON76';
+    15 : Result := 'CANNON120';
+  end;
+
+end;
+
+function TEventManager.GetMessage(LogEvent: TLogEvent; IDConsole,
+  IDEvent: Integer): string;
+var
+  MessageTemp, MessageEvent : string;
+begin
+  MessageTemp   := DataModule1.GetMessageFromEventID(LogEvent.ConsoleID,LogEvent.EventID);
+  MessageEvent  := StringReplace(MessageTemp, '<1>', FloatToStr(LogEvent.Param1),
+                          [rfReplaceAll, rfIgnoreCase]);
+  MessageEvent  := StringReplace(MessageEvent, '<2>', FloatToStr(LogEvent.Param2),
+                          [rfReplaceAll, rfIgnoreCase]);
+  MessageEvent  := StringReplace(MessageEvent, '<3>', FloatToStr(LogEvent.Param3),
+                          [rfReplaceAll, rfIgnoreCase]);
+  result := MessageEvent;
+end;
+
+
+end.

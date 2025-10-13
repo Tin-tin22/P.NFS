@@ -1,0 +1,36 @@
+!table
+!version 300
+!charset WindowsLatin1
+
+Definition Table
+  Type NATIVE Charset "WindowsLatin1"
+  Fields 13
+    LAYER Char (8) ;
+    GM_TYPE Char (17) ;
+    RCID Decimal (5, 0) ;
+    PRIM Decimal (1, 0) ;
+    GRUP Decimal (1, 0) ;
+    OBJL Decimal (3, 0) ;
+    RVER Decimal (1, 0) ;
+    AGEN Decimal (3, 0) ;
+    FIDN Decimal (10, 0) ;
+    FIDS Decimal (1, 0) ;
+    CATCOV___C Char (21) ;
+    SORDAT___S Decimal (8, 0) ;
+    SORIND___S Char (60) ;
+ReadOnly
+begin_metadata
+"\SNAPTHIN" = ""
+"\SNAPTHIN\EnableSnap" = "TRUE"
+"\SNAPTHIN\Node" = "10"
+"\SNAPTHIN\Vec" = "10"
+"\SNAPTHIN\TolUnit" = "0"
+"\SNAPTHIN\EnableThin" = "FALSE"
+"\SNAPTHIN\Bend" = "0"
+"\SNAPTHIN\Dist" = "0"
+"\SNAPTHIN\ThinUnit" = "0"
+"\SNAPTHIN\EnableArea" = "FALSE"
+"\SNAPTHIN\Area" = "0"
+"\SNAPTHIN\AreaUnit" = "14"
+"\IsReadOnly" = "FALSE"
+end_metadata

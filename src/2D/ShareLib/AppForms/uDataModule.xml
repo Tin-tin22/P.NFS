@@ -1,0 +1,933 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uDataModule">
+  <const name="CAT_SUBMARINES" type="string">
+    <value>
+      SUBMARINE
+    </value>
+  </const>
+  <const name="CAT_HELICOPTER" type="string">
+    <value>
+      HELICOPTER
+    </value>
+  </const>
+  <const name="CAT_AIRCRAFT" type="string">
+    <value>
+      AIRCRAFT
+    </value>
+  </const>
+  <class name="TDataModule1">
+    <ancestor name="TDataModule" namespace="Classes">
+      <methodref name="ReadHeight" visibility="private">
+      </methodref>
+      <methodref name="ReadHorizontalOffset" visibility="private">
+      </methodref>
+      <methodref name="ReadVerticalOffset" visibility="private">
+      </methodref>
+      <methodref name="ReadWidth" visibility="private">
+      </methodref>
+      <methodref name="WriteWidth" visibility="private">
+      </methodref>
+      <methodref name="WriteHorizontalOffset" visibility="private">
+      </methodref>
+      <methodref name="WriteVerticalOffset" visibility="private">
+      </methodref>
+      <methodref name="WriteHeight" visibility="private">
+      </methodref>
+      <methodref name="DoCreate" visibility="public">
+      </methodref>
+      <methodref name="DoDestroy" visibility="public">
+      </methodref>
+      <methodref name="DefineProperties" visibility="public">
+      </methodref>
+      <methodref name="GetChildren" visibility="protected">
+      </methodref>
+      <methodref name="HandleCreateException" visibility="protected">
+      </methodref>
+      <methodref name="ReadState" visibility="public">
+      </methodref>
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="CreateNew" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <propertyref name="DesignOffset" visibility="public">
+      </propertyref>
+      <propertyref name="DesignSize" visibility="public">
+      </propertyref>
+      <propertyref name="OldCreateOrder" visibility="published">
+      </propertyref>
+      <eventref name="OnCreate" visibility="published">
+      </eventref>
+      <eventref name="OnDestroy" visibility="published">
+      </eventref>
+      <ancestor name="TComponent" namespace="Classes">
+        <methodref name="GetComObject" visibility="private">
+        </methodref>
+        <methodref name="GetComponent" visibility="private">
+        </methodref>
+        <methodref name="GetComponentCount" visibility="private">
+        </methodref>
+        <methodref name="GetComponentIndex" visibility="private">
+        </methodref>
+        <methodref name="Insert" visibility="private">
+        </methodref>
+        <methodref name="ReadLeft" visibility="private">
+        </methodref>
+        <methodref name="ReadTop" visibility="private">
+        </methodref>
+        <methodref name="Remove" visibility="private">
+        </methodref>
+        <methodref name="RemoveNotification" visibility="private">
+        </methodref>
+        <methodref name="SetComponentIndex" visibility="private">
+        </methodref>
+        <methodref name="SetReference" visibility="private">
+        </methodref>
+        <methodref name="WriteLeft" visibility="private">
+        </methodref>
+        <methodref name="WriteTop" visibility="private">
+        </methodref>
+        <methodref name="IntfGetComponent" visibility="private">
+        </methodref>
+        <methodref name="FindSortedComponent" visibility="private">
+        </methodref>
+        <methodref name="AddSortedComponent" visibility="private">
+        </methodref>
+        <methodref name="RemoveSortedComponent" visibility="private">
+        </methodref>
+        <methodref name="ChangeName" visibility="protected">
+        </methodref>
+        <methodref name="DefineProperties" visibility="public">
+        </methodref>
+        <methodref name="GetChildren" visibility="protected">
+        </methodref>
+        <methodref name="GetChildOwner" visibility="protected">
+        </methodref>
+        <methodref name="GetChildParent" visibility="protected">
+        </methodref>
+        <methodref name="GetOwner" visibility="protected">
+        </methodref>
+        <methodref name="Loaded" visibility="public">
+        </methodref>
+        <methodref name="Notification" visibility="public">
+        </methodref>
+        <methodref name="PaletteCreated" visibility="protected">
+        </methodref>
+        <methodref name="ReadState" visibility="public">
+        </methodref>
+        <methodref name="SetAncestor" visibility="protected">
+        </methodref>
+        <methodref name="SetDesigning" visibility="protected">
+        </methodref>
+        <methodref name="SetInline" visibility="protected">
+        </methodref>
+        <methodref name="SetDesignInstance" visibility="protected">
+        </methodref>
+        <methodref name="SetName" visibility="public">
+        </methodref>
+        <methodref name="SetChildOrder" visibility="protected">
+        </methodref>
+        <methodref name="SetParentComponent" visibility="protected">
+        </methodref>
+        <methodref name="Updating" visibility="protected">
+        </methodref>
+        <methodref name="Updated" visibility="protected">
+        </methodref>
+        <methodref name="UpdateRegistry" visibility="public">
+        </methodref>
+        <methodref name="ValidateRename" visibility="public">
+        </methodref>
+        <methodref name="ValidateContainer" visibility="protected">
+        </methodref>
+        <methodref name="ValidateInsert" visibility="protected">
+        </methodref>
+        <methodref name="WriteState" visibility="public">
+        </methodref>
+        <methodref name="RemoveFreeNotifications" visibility="protected">
+        </methodref>
+        <methodref name="QueryInterface" visibility="public">
+        </methodref>
+        <methodref name="_AddRef" visibility="protected">
+        </methodref>
+        <methodref name="_Release" visibility="protected">
+        </methodref>
+        <methodref name="GetTypeInfoCount" visibility="protected">
+        </methodref>
+        <methodref name="GetTypeInfo" visibility="protected">
+        </methodref>
+        <methodref name="GetIDsOfNames" visibility="protected">
+        </methodref>
+        <methodref name="Invoke" visibility="protected">
+        </methodref>
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="DestroyComponents" visibility="public">
+        </methodref>
+        <methodref name="Destroying" visibility="public">
+        </methodref>
+        <methodref name="ExecuteAction" visibility="public">
+        </methodref>
+        <methodref name="FindComponent" visibility="public">
+        </methodref>
+        <methodref name="FreeNotification" visibility="public">
+        </methodref>
+        <methodref name="RemoveFreeNotification" visibility="public">
+        </methodref>
+        <methodref name="FreeOnRelease" visibility="public">
+        </methodref>
+        <methodref name="GetEnumerator" visibility="public">
+        </methodref>
+        <methodref name="GetParentComponent" visibility="public">
+        </methodref>
+        <methodref name="GetNamePath" visibility="public">
+        </methodref>
+        <methodref name="HasParent" visibility="public">
+        </methodref>
+        <methodref name="InsertComponent" visibility="public">
+        </methodref>
+        <methodref name="RemoveComponent" visibility="public">
+        </methodref>
+        <methodref name="SetSubComponent" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="UpdateAction" visibility="public">
+        </methodref>
+        <methodref name="IsImplementorOf" visibility="public">
+        </methodref>
+        <methodref name="ReferenceInterface" visibility="public">
+        </methodref>
+        <propertyref name="ComObject" visibility="public">
+        </propertyref>
+        <propertyref name="Components" visibility="public">
+        </propertyref>
+        <propertyref name="ComponentCount" visibility="public">
+        </propertyref>
+        <propertyref name="ComponentIndex" visibility="public">
+        </propertyref>
+        <propertyref name="ComponentState" visibility="public">
+        </propertyref>
+        <propertyref name="ComponentStyle" visibility="public">
+        </propertyref>
+        <propertyref name="DesignInfo" visibility="public">
+        </propertyref>
+        <propertyref name="Owner" visibility="public">
+        </propertyref>
+        <propertyref name="VCLComObject" visibility="public">
+        </propertyref>
+        <propertyref name="Name" visibility="published">
+        </propertyref>
+        <propertyref name="Tag" visibility="published">
+        </propertyref>
+        <ancestor name="TPersistent" namespace="Classes">
+          <methodref name="AssignError" visibility="private">
+          </methodref>
+          <methodref name="AssignTo" visibility="public">
+          </methodref>
+          <methodref name="DefineProperties" visibility="public">
+          </methodref>
+          <methodref name="GetOwner" visibility="protected">
+          </methodref>
+          <methodref name="Destroy" visibility="public">
+          </methodref>
+          <methodref name="Assign" visibility="public">
+          </methodref>
+          <methodref name="GetNamePath" visibility="public">
+          </methodref>
+          <ancestor name="TObject" namespace="System">
+            <methodref name="Create" visibility="public">
+            </methodref>
+            <methodref name="Free" visibility="public">
+            </methodref>
+            <methodref name="InitInstance" visibility="public">
+            </methodref>
+            <methodref name="CleanupInstance" visibility="public">
+            </methodref>
+            <methodref name="ClassType" visibility="public">
+            </methodref>
+            <methodref name="ClassName" visibility="public">
+            </methodref>
+            <methodref name="ClassNameIs" visibility="public">
+            </methodref>
+            <methodref name="ClassParent" visibility="public">
+            </methodref>
+            <methodref name="ClassInfo" visibility="public">
+            </methodref>
+            <methodref name="InstanceSize" visibility="public">
+            </methodref>
+            <methodref name="InheritsFrom" visibility="public">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public">
+            </methodref>
+            <methodref name="MethodAddress" visibility="public">
+            </methodref>
+            <methodref name="MethodName" visibility="public">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public">
+            </methodref>
+            <methodref name="FieldAddress" visibility="public">
+            </methodref>
+            <methodref name="GetInterface" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceEntry" visibility="public">
+            </methodref>
+            <methodref name="GetInterfaceTable" visibility="public">
+            </methodref>
+            <methodref name="UnitName" visibility="public">
+            </methodref>
+            <methodref name="Equals" visibility="public">
+            </methodref>
+            <methodref name="GetHashCode" visibility="public">
+            </methodref>
+            <methodref name="ToString" visibility="public">
+            </methodref>
+            <methodref name="SafeCallException" visibility="public">
+            </methodref>
+            <methodref name="AfterConstruction" visibility="public">
+            </methodref>
+            <methodref name="BeforeDestruction" visibility="public">
+            </methodref>
+            <methodref name="Dispatch" visibility="public">
+            </methodref>
+            <methodref name="DefaultHandler" visibility="public">
+            </methodref>
+            <methodref name="NewInstance" visibility="public">
+            </methodref>
+            <methodref name="FreeInstance" visibility="public">
+            </methodref>
+            <methodref name="Destroy" visibility="public">
+            </methodref>
+          </ancestor>
+        </ancestor>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="EmuConn" type="TZConnection" visibility="published" />
+      <field name="DS" type="TZQuery" visibility="published" />
+      <field name="DQ" type="TZQuery" visibility="published" />
+      <field name="DGen" type="TZQuery" visibility="published" />
+      <procedure name="DataModuleCreate" visibility="published">
+        <parameters>
+          <parameter name="Sender" type="TObject" />
+        </parameters>
+      </procedure>
+      <function name="GetShipCategoryID" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetShipCategoryName" visibility="public">
+        <parameters>
+          <parameter name="catid" type="Integer" paramflags="const" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="GetShipType" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" paramflags="const" />
+          <parameter name="shipName" type="string" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetShipName" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" paramflags="const" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="GetShipDomain" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetShipTarget" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetShipMinSpeed" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" paramflags="const" />
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <function name="GetShipMaxSpeed" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" paramflags="const" />
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <function name="getMacAddress" visibility="public">
+        <parameters>
+          <parameter name="ip" type="string" paramflags="const" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="InitZDB" visibility="public">
+        <parameters>
+          <parameter name="zDbServer" type="string" paramflags="const" />
+          <parameter name="zDBProto" type="string" paramflags="const" />
+          <parameter name="zDBname" type="string" paramflags="const" />
+          <parameter name="zDBuser" type="string" paramflags="const" />
+          <parameter name="zDBPass" type="string" paramflags="const" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="GetStatusconDB" visibility="public">
+        <parameters>
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="GetShipData_symbol" visibility="public">
+        <parameters>
+          <parameter name="shipclassid" type="Integer" paramflags="const" />
+          <parameter name="aSym" type="Char" paramflags="var" />
+          <parameter name="aFontName" type="string" paramflags="var" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <procedure name="GetSteeringProfile" visibility="public">
+        <parameters>
+          <parameter name="idShip" type="Integer" paramflags="const" />
+          <parameter name="aMaxAhead" type="Double" paramflags="var" />
+          <parameter name="aMinAstern" type="Double" paramflags="var" />
+          <parameter name="aMaxRudder" type="Double" paramflags="var" />
+          <parameter name="aMinRudder" type="Double" paramflags="var" />
+          <parameter name="aPanjang" type="Double" paramflags="var" />
+          <parameter name="aLebar" type="Double" paramflags="var" />
+          <parameter name="aTinggi" type="Double" paramflags="var" />
+        </parameters>
+      </procedure>
+      <function name="GetNameWeaponByID" visibility="public">
+        <parameters>
+          <parameter name="IdWeapon" type="Integer" paramflags="const" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="GetListWeaponOnShip" visibility="public">
+        <parameters>
+          <parameter name="IdShip" type="Integer" paramflags="const" />
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetListWeaponRangeDetail" visibility="public">
+        <parameters>
+          <parameter name="idShip" type="Integer" paramflags="const" />
+          <parameter name="idWeapon" type="Integer" paramflags="const" />
+          <parameter name="idLauncher" type="Integer" paramflags="const" />
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetListMissileOnWeapon" visibility="public">
+        <parameters>
+          <parameter name="Id" type="Integer" paramflags="const" />
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetListWeaponOnShipBySceID" visibility="public">
+        <parameters>
+          <parameter name="idScen" type="Integer" paramflags="const" />
+          <parameter name="idShip" type="Integer" paramflags="const" />
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetListWeaponDetail" visibility="public">
+        <parameters>
+          <parameter name="idWeapon" type="Integer" paramflags="const" />
+          <parameter name="idDet" type="Integer" paramflags="const" />
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetAllShipFromScen" visibility="public">
+        <parameters>
+          <parameter name="SceID" type="Integer" paramflags="const" />
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetAllWarShip" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetAllGeneralShip" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetAllTargetSurface" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetAllTargetSubsurface" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetAllTargetAir" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetAllPort" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetAllWeapon" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetALLTypeWeapon" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetAllModel3D" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetAllDOF3D" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetAllSwitch" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetModelIDByName" visibility="public">
+        <parameters>
+          <parameter name="mName" type="string" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetDofIDByName" visibility="public">
+        <parameters>
+          <parameter name="mName" type="string" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetSwitchIDByName" visibility="public">
+        <parameters>
+          <parameter name="mName" type="string" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetPortNameNoById" visibility="public">
+        <parameters>
+          <parameter name="portID" type="Double" paramflags="const" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="GetWarShipInScenario" visibility="public">
+        <parameters>
+          <parameter name="ScenarioID" type="Integer" paramflags="const" />
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetGeneralShipInScenario" visibility="public">
+        <parameters>
+          <parameter name="ScenarioID" type="Integer" paramflags="const" />
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GettAllScenario" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetAllGame" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetShipNoById" visibility="public">
+        <parameters>
+          <parameter name="ShipID" type="Integer" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetMapById" visibility="public">
+        <parameters>
+          <parameter name="Sce_ID" type="Integer" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetDesById" visibility="public">
+        <parameters>
+          <parameter name="Sce_ID" type="Integer" paramflags="const" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="GetConsoleListBySceID" visibility="public">
+        <parameters>
+          <parameter name="Sce_ID" type="Integer" paramflags="const" />
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <procedure name="DeleteDefaultScenario" visibility="public">
+      </procedure>
+      <procedure name="FillListDefaultScenario" visibility="public">
+        <parameters>
+          <parameter name="SceID" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="SaveScenario" visibility="public">
+        <parameters>
+          <parameter name="rec" type="TScenario" paramflags="const" />
+          <parameter name="ListShip" type="TList" />
+          <parameter name="ListConsole" type="TList" />
+          <parameter name="ListWeapon" type="TList" />
+        </parameters>
+      </procedure>
+      <procedure name="SaveWeaponShip" visibility="public">
+        <parameters>
+          <parameter name="Rec" type="TWeaponGetList" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="UpdateWeaponShip" visibility="public">
+        <parameters>
+          <parameter name="Rec" type="TWeaponGetList" paramflags="const" />
+          <parameter name="IDNumber" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SaveMissileWeapon" visibility="public">
+        <parameters>
+          <parameter name="Rec" type="TMissile" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="DeleteMissileWeapon" visibility="public">
+        <parameters>
+          <parameter name="IDM" type="Integer" paramflags="const" />
+          <parameter name="MissileID" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="DeleteWeaponShip" visibility="public">
+        <parameters>
+          <parameter name="IdShIp" type="Integer" paramflags="const" />
+          <parameter name="IdWeapon" type="Integer" paramflags="const" />
+          <parameter name="idLauncher" type="Integer" paramflags="const" />
+          <parameter name="IDnumber" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetPortIDfromSceID" visibility="public">
+        <parameters>
+          <parameter name="SceID" type="Integer" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <procedure name="DeleteScenario" visibility="public">
+        <parameters>
+          <parameter name="idScen" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="UpdateCurrentDatabase" visibility="public">
+        <parameters>
+          <parameter name="IdScenario" type="Integer" paramflags="const" />
+          <parameter name="ListShip" type="TList" />
+          <parameter name="ListConsole" type="TList" />
+          <parameter name="ListWeapon" type="TList" />
+        </parameters>
+      </procedure>
+      <function name="GetPC_Client" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <procedure name="UpdateEnvi" visibility="public">
+        <parameters>
+          <parameter name="SceID" type="Integer" paramflags="const" />
+          <parameter name="SceEnvi" type="TScenario" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="GetEnviBySceID" visibility="public">
+        <parameters>
+          <parameter name="SceID" type="Integer" paramflags="const" />
+          <parameter name="Rec" type="TScenario" paramflags="var" />
+        </parameters>
+      </procedure>
+      <function name="GetCanonTOFbyRange" visibility="public">
+        <parameters>
+          <parameter name="GuntType" type="Integer" />
+          <parameter name="iRange" type="Double" />
+          <retval type="Single" />
+        </parameters>
+      </function>
+      <function name="GetModelNameByID" visibility="public">
+        <parameters>
+          <parameter name="IDModel" type="Integer" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="GetDOFNameByID" visibility="public">
+        <parameters>
+          <parameter name="IDDOF" type="Integer" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="GetSwitchNameByID" visibility="public">
+        <parameters>
+          <parameter name="IDSwitch" type="Integer" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="GetLethalityByID" visibility="public">
+        <parameters>
+          <parameter name="IdWeapon" type="Integer" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <procedure name="GetOffsetMapByEnvMap" visibility="public">
+        <parameters>
+          <parameter name="EnvMap" type="Integer" paramflags="const" />
+          <parameter name="OffX" type="Double" paramflags="var" />
+          <parameter name="OffY" type="Double" paramflags="var" />
+        </parameters>
+      </procedure>
+      <procedure name="SaveLogEvent" visibility="public">
+        <parameters>
+          <parameter name="rec" type="TLogEvent" paramflags="const" />
+        </parameters>
+      </procedure>
+      <function name="GetScenarioIDByName" visibility="public">
+        <parameters>
+          <parameter name="NameScen" type="string" />
+          <parameter name="aRec" type="TList" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetGameID" visibility="public">
+        <parameters>
+          <parameter name="ScenID" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GameNameAlreadyExist" visibility="public">
+        <parameters>
+          <parameter name="aGameName" type="string" />
+          <retval type="Boolean" />
+        </parameters>
+      </function>
+      <function name="GetScenarioByID" visibility="public">
+        <parameters>
+          <parameter name="IDScenario" type="Integer" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="GetMessageFromEventID" visibility="public">
+        <parameters>
+          <parameter name="IDConsole" type="Integer" />
+          <parameter name="IDEvent" type="Integer" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="GetShipNameByID" visibility="public">
+        <parameters>
+          <parameter name="IDShip" type="Integer" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <function name="GetShipDemensiLENGTHByID" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" paramflags="const" />
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <function name="GetShipDemensiWIDTHByID" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" paramflags="const" />
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <function name="GetShipDemensiHEIGHTByID" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" paramflags="const" />
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <function name="GetShipDamageByID" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" paramflags="const" />
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <function name="GetGameNameBySceID" visibility="public">
+        <parameters>
+          <parameter name="aSceID" type="Integer" />
+          <parameter name="aRec" type="TList" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetGameNameByDate" visibility="public">
+        <parameters>
+          <parameter name="date" type="string" />
+          <parameter name="aRec" type="TList" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetGameNameBySceIDDate" visibility="public">
+        <parameters>
+          <parameter name="aSceID" type="Integer" />
+          <parameter name="aTanggal" type="string" />
+          <parameter name="aRec" type="TList" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="GetVehicleProperties" visibility="public">
+        <parameters>
+          <parameter name="ShipID" type="Integer" paramflags="const" />
+          <retval type="TVehicle" />
+        </parameters>
+      </function>
+      <function name="CheckObjectCatDomainByCatID" visibility="public">
+        <parameters>
+          <parameter name="CatID" type="Integer" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <procedure name="GetSceneOffSetFromPortID" visibility="public">
+        <parameters>
+          <parameter name="id" type="Integer" paramflags="const" />
+          <parameter name="x" type="Double" paramflags="var" />
+          <parameter name="y" type="Double" paramflags="var" />
+        </parameters>
+      </procedure>
+      <function name="CheckObjectCatDomain" visibility="public">
+        <parameters>
+          <parameter name="shipID" type="Integer" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <procedure name="GetAllListClient" visibility="public">
+        <parameters>
+          <parameter name="aRec" type="TList" paramflags="var" />
+        </parameters>
+      </procedure>
+      <function name="GetCubicleNameFromID" visibility="public">
+        <parameters>
+          <parameter name="id" type="Integer" paramflags="const" />
+          <retval type="string" />
+        </parameters>
+      </function>
+      <procedure name="AddDetailWeapon" visibility="public">
+        <parameters>
+          <parameter name="rec" type="TWeaponDetail" />
+        </parameters>
+      </procedure>
+      <procedure name="DeleteDetailWeapon" visibility="public">
+        <parameters>
+          <parameter name="rec" type="TWeaponDetail" />
+        </parameters>
+      </procedure>
+      <function name="getSceConsoleList" visibility="public">
+        <parameters>
+          <parameter name="sce_id" type="Integer" />
+          <parameter name="aRec" type="TList" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <procedure name="updateShipStart" visibility="public">
+        <parameters>
+          <parameter name="ship_id" type="Integer" />
+          <parameter name="ship_console" type="Integer" />
+        </parameters>
+      </procedure>
+      <function name="getRangDeg" visibility="public">
+        <parameters>
+          <parameter name="ship_id" type="Integer" />
+          <parameter name="weapon_id" type="Integer" />
+          <parameter name="launcher" type="Integer" />
+          <parameter name="aRec" type="TList" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="getShipWeaponScen" visibility="public">
+        <parameters>
+          <parameter name="sceID" type="Integer" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="getShipIDByName" visibility="public">
+        <parameters>
+          <parameter name="shipName" type="string" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="getWeaponIDByName" visibility="public">
+        <parameters>
+          <parameter name="weaponName" type="string" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <procedure name="updateSceWeapon" visibility="public">
+        <parameters>
+          <parameter name="idScen" type="Integer" />
+          <parameter name="idShip" type="Integer" />
+          <parameter name="idWeapon" type="Integer" />
+          <parameter name="idDet" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="deleteSceWeapon" visibility="public">
+        <parameters>
+          <parameter name="idScen" type="Integer" />
+          <parameter name="idShip" type="Integer" />
+          <parameter name="idWeapon" type="Integer" />
+          <parameter name="idDet" type="Integer" />
+        </parameters>
+      </procedure>
+      <function name="UpdateShipEditor" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" paramflags="const" />
+          <parameter name="vehicle" type="TVehicle" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <function name="IDclassbyName" visibility="public">
+        <parameters>
+          <parameter name="shipid" type="Integer" />
+          <retval type="string" />
+        </parameters>
+      </function>
+    </members>
+  </class>
+  <variable name="DataModule1" type="TDataModule1" />
+</namespace>

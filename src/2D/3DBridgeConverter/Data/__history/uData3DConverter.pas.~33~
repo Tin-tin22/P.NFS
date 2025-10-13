@@ -1,0 +1,749 @@
+unit uData3DConverter;
+
+interface
+uses
+  Grijjy.Bson,
+  Grijjy.Bson.IO,
+  Grijjy.Bson.Serialization;
+
+const
+  REC_SCEID = 0;
+  REC3D_POSITION = 1;
+  REC_3D_ORDER                    = 3;
+  REC_3D_EXOCET = 4;
+  REC_3D_CHAFF = 5;
+  REC_3D_ASROCK                   = 6;
+    __ORD_ASROCK_ASSIGNED       = 1;
+    __ORD_ASROCK_DEASSIGNED     = 2;
+    __ORD_ASROCK_FIRE           = 3;
+    __ORD_ASROCK_LOADING        = 4;
+    __ORD_ASROCK_ON             = 5;
+    __ORD_ASROCK_OFF            = 6;
+
+  REC_SET_CANNON                  = 7;
+    __ORD_CANNON_LR             = 1;  // meriam left-right
+    __ORD_CANNON_UD             = 2;  // meriam up-down
+    __ORD_CANNON_F              = 3;  // meriam fire
+    __ORD_CANNON_DIRECT_LR      = 4;  // meriam direct left-right
+    __ORD_CANNON_DIRECT_UD      = 5;  // meriam direct up-down
+    __ORD_CANNON_DIRECT_F       = 6;  // meriam direct fire
+    __ORD_CANNON_START_F        = 7;  // meriam start fire
+    __ORD_CANNON_STOP_F         = 8;  // meriam stop fire
+    __ORD_CANNON_ASSIGNED       = 9;  // meriam assigned
+    __ORD_CANNON_DEASSIGNED     = 10; // meriam deassigned
+    __ORD_CANNON_AUTOCORRECT    = 11; // meriam correction
+    __ORD_CANNON_ON             = 13; // meriam on
+    __ORD_CANNON_OFF            = 14; // meriam off
+    __ORD_CANNON_UNLOCK         = 15;
+    __ORD_CANNON_LOCK           = 16;
+
+
+    {Mode ID GUN}
+    M_DirBomb           = 1;
+    M_IndBomb_BlindBomb = 2;
+    M_AirTarget         = 3;
+  REC_3D_TORPEDO_MK44             = 8;
+  REC_3D_TORPEDO_SUT              = 9;
+
+    {ORD TORP SUT}
+    __ORD_TORPEDOSUT_FIRED		  = 1;  // FIRE
+    __ORD_TORPEDOSUT_NAVIGATE   = 2;  // NAVIGATE -> UPDATE COURSE, ENDIS DAN DEPTH
+    __ORD_TORPEDOSUT_HOMING     = 3;  // HOMMING ->
+    __ORD_TORPEDOSUT_SEARCH     = 4;  // ACTIVE SEARCH SONAR TORPEDO -> Pergerakan based on Intercept or Bearing mode
+    __ORD_TORPEDOSUT_MANUAL     = 5;  // MANUALY UPDATE COURSE DAN DEPTH
+    __ORD_TORPEDOSUT_SHUTDOWN   = 6;  // KILL TORP SUT
+    __ORD_TORPEDOSUT_LOADING    = 7;  // LOADING
+    __ORD_TORPEDOSUT_ON         = 8;
+    __ORD_TORPEDOSUT_OFF        = 9;
+    __ORD_TORPEDOSUT_DELETE     = 10;
+    __ORD_TORPEDOSUT_TARGETSEARCHPROGRAM = 11;
+    {ORD TORP SUT}
+
+    __TORPEDOSUT_TARGET_SURFACE    = 1;   // search surface
+    __TORPEDOSUT_TARGET_SUBSURFACE = 2;   // search subsurface
+
+  REC_3D_RBU                      = 19;
+    __ORD_RBU_ASSIGNED          = 1; // RBU Assign
+    __ORD_RBU_DEASSIGNED        = 2; // RBU Deassign
+    __ORD_RBU_FIRE              = 3; // RBU Fire
+    __ORD_RBU_LOADING           = 4; // RBU Loading
+    __ORD_RBU_AUTO              = 5; // RBU Auto
+    __ORD_RBU_STARTF            = 6; // RBU Start Fire
+    __ORD_RBU_STOPF             = 7; // RBU Stop Fire
+    __ORD_RBU_FIRE_SALVO        = 6; // RBU Fire
+    __ORD_RBU_ON                = 8;
+    __ORD_RBU_OFF               = 9;
+
+  REC_DATA_C802         = 20; //------- End C802 -----------
+    __ORD_C802_FIRE          = 1;
+    __ORD_C802_RADAR_ASSIGN  = 2;
+    __ORD_C802_LOADING       = 3;
+    __ORD_C802_ON            = 4;
+    __ORD_C802_OFF           = 5;
+
+  //----- Tetral, Mistral, Strella -----
+  REC_CMD_TETRAL      = 21;
+    __ORD_TETRAL_FIRE     = 1;
+    __ORD_TETRAL_ASSIGN   = 2;
+    __ORD_TETRAL_LOADING  = 8;
+    __ORD_TETRAL_ON      = 9;
+    __ORD_TETRAL_OFF     = 10;
+
+  REC_CMD_MISTRAL     = 22;
+    __ORD_MISTRAL_FIRE    = 1;
+    __ORD_MISTRAL_ASSIGN  = 2;
+    __ORD_MISTRAL_LOADING = 8;
+    __ORD_MISTRAL_ON      = 9;
+    __ORD_MISTRAL_OFF     = 10;
+    __ORD_MISTRAL_UNLOCK   = 11;
+    __ORD_MISTRAL_LOCK     = 12;
+
+  REC_CMD_STRELLA     = 23;
+    __ORD_STRELLA_FIRE    = 1;
+    __ORD_STRELLA_ASSIGN  = 2;
+    __ORD_STRELLA_LOADING = 8;
+    __ORD_STRELA_ON       = 9;
+    __ORD_STRELA_OFF      = 10;
+    __ORD_STRELA_UNLOCK   = 11;
+    __ORD_STRELA_LOCK     = 12;
+
+  REC_DATA_Yakhont        = 24; //------ End Yakhont ---------
+     __ORD_Yahkont_FIRE    = 1;
+     __ORD_Yahkont_RELEASE = 2;
+     __ORD_Yahkont_LOADING = 3;
+     __ORD_YAKHONT_ON      = 4;
+     __ORD_YAKHONT_OFF     = 5;
+
+  REC_CMD_EXOCET_40       = 27;
+    __ORD_EXOCET_40_FIRE     = 1;
+    __ORD_EXOCET_40_LOADING  = 2;
+    __ORD_EXOCET_40_ON      = 3;
+    __ORD_EXOCET_40_OFF     = 4;
+
+  REC_3D_MISSILEPOS = 50;
+  REC_3D_SETCONTROL               = 51;
+  REC_3D_UTIL_TOOLS               = 53;
+  REC_SPSS_ORDER			            = 57;
+    _ORD_SPS_FIRE           = 1;
+    _ORD_SPS_LOADING        = 3;
+    __ORD_SPS_ON            = 4;
+    __ORD_SPS_OFF           = 5;
+
+  REC_3D_WCC        = 63;
+  REC_GUIDANCE                    = 77;
+  REC3D_STATUS_GAME = 84;
+
+type
+
+  TRecStatusGame3D = record
+    [BsonElement('ScenarioID')]
+    ScenarioID: Word;
+    [BsonElement('StatusConnect')]
+    StatusConnect: byte;
+  end;
+  TRecDataPosition3D = record
+    [BsonElement('ShipID')]
+    ShipID: word;
+    [BsonElement('X')]
+    X: double;
+    [BsonElement('Y')]
+    Y: double;
+    [BsonElement('Z')]
+    Z: double;
+    [BsonElement('Heading')]
+    Heading: double;
+    [BsonElement('Speed')]
+    Speed: double;
+    [BsonElement('pitch')]
+    pitch: double;
+    [BsonElement('roll')]
+    roll: double;
+    [BsonElement('rudder')]
+    rudder: double;
+    [BsonElement('fuel')]
+    fuel: double;
+    [BsonElement('status')]
+    status: double;
+  end;
+  TRecRequestScenario = record
+    [BsonElement('ScenarioID')]
+    ScenarioID : word;
+    [BsonElement('StatusSce')]
+    StatusSce : byte;
+  end;
+
+  //missile pos
+  TRecMissilePos3D = record
+    [BsonElement('shipID')]
+    shipID: word;
+    [BsonElement('WeaponID')]
+    WeaponID      : word;
+    [BsonElement('launcherID')]
+    launcherID    : word;
+    [BsonElement('missileID')]
+    missileID     : word;
+    [BsonElement('MissileNumber')]
+    MissileNumber : word;
+
+    [BsonElement('status')]
+    status: byte;
+    [BsonElement('X')]
+    X: double;
+    [BsonElement('Y')]
+    Y: double;
+    [BsonElement('Z')]
+    Z: double;
+    [BsonElement('heading')]
+    heading: single;
+    [BsonElement('speed')]
+    speed: single;
+  end;
+
+  TRecSetExocet3D = record
+    [BsonElement('shipID')]
+    shipID          : word;
+    [BsonElement('mWeaponID')]
+    mWeaponID       : Word; //Diisi sesuai Database
+    [BsonElement('mLauncherID')]
+    mLauncherID     : word;
+    [BsonElement('mMissileID')]
+    mMissileID      : word;
+    [BsonElement('mMissileNumber')]
+    mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+
+    [BsonElement('sOrder')]
+    sOrder          : byte;
+
+    [BsonElement('mProxFuze')]
+    mProxFuze       : single;
+    [BsonElement('mAltitude')]
+    mAltitude       : single;
+    [BsonElement('mSearchArea')]
+    mSearchArea     : single;
+    [BsonElement('mRTG')]
+    mRTG            : single;
+    [BsonElement('mManualWidth')]
+    mManualWidth    : single;
+    [BsonElement('mSelecDepth')]
+    mSelecDepth     : single;
+    [BsonElement('mTBearing')]
+    mTBearing       : single;
+    [BsonElement('mTRange')]
+    mTRange         : single;
+  end;
+
+  TRecSetExocet3D_40 = record
+    [BsonElement('shipID')]
+    shipID            : word;
+    [BsonElement('mWeaponID')]
+    mWeaponID         : Word;
+    [BsonElement('mLauncherID')]
+    mLauncherID       : word;
+    [BsonElement('mMissileID')]
+    mMissileID        : word;
+    [BsonElement('mMissileNumber')]
+    mMissileNumber    : Word;
+
+    [BsonElement('sOrder')]
+    sOrder            : byte;
+
+    [BsonElement('mTRange')]
+    mTRange           : single;
+    [BsonElement('mTBearing')]
+    mTBearing         : single;
+
+    [BsonElement('mAngular_Mode')]
+    mAngular_Mode     : Byte;
+    [BsonElement('mAgility_Mode')]
+    mAgility_Mode     : Byte;
+    [BsonElement('mInitialStep_Mode')]
+    mInitialStep_Mode : Byte;
+
+    [BsonElement('mObstacle_Alt')]
+    mObstacle_Alt     : Single;
+    [BsonElement('mObstacle_Range')]
+    mObstacle_Range   : Single;
+
+    [BsonElement('mApproach_Range')]
+    mApproach_Range   : Single;
+    [BsonElement('mTerminal_Range')]
+    mTerminal_Range   : Single;
+
+    [BsonElement('mLeft_Angle')]
+    mLeft_Angle       : Single;
+    [BsonElement('mRight_Angle')]
+    mRight_Angle      : Single;
+    [BsonElement('mFar_Range')]
+    mFar_Range        : Single;
+    [BsonElement('mNear_Range')]
+    mNear_Range       : Single;
+
+    [BsonElement('mMasking1')]
+    mMasking1         : Byte;
+    [BsonElement('mMasking2')]
+    mMasking2         : Byte;
+    [BsonElement('mMasking3')]
+    mMasking3         : Byte;
+    [BsonElement('mMasking4')]
+    mMasking4         : Byte;
+    [BsonElement('mMasking5')]
+    mMasking5         : Byte;
+    [BsonElement('mMasking6')]
+    mMasking6         : Byte;
+    [BsonElement('mMasking7')]
+    mMasking7         : Byte;
+    [BsonElement('mMasking8')]
+    mMasking8         : Byte;
+    [BsonElement('mMasking9')]
+    mMasking9         : Byte;
+    [BsonElement('mMasking10')]
+    mMasking10        : Byte;
+    [BsonElement('mMasking11')]
+    mMasking11        : Byte;
+    [BsonElement('mMasking12')]
+    mMasking12        : Byte;
+    [BsonElement('mMasking13')]
+    mMasking13        : Byte;
+    [BsonElement('mMasking14')]
+    mMasking14        : Byte;
+    [BsonElement('mMasking15')]
+    mMasking15        : Byte;
+    [BsonElement('mMasking16')]
+    mMasking16        : Byte;
+    [BsonElement('mSeekerOpenPosX')]
+    mSeekerOpenPosX   : Double;
+    [BsonElement('mSeekerOpenPosY')]
+    mSeekerOpenPosY   : Double;
+    [BsonElement('mSeekerOpenHeading')]
+    mSeekerOpenHeading   : Single;
+
+    //mMasking          : array[0..15] of Byte;
+  end;
+
+  TRec3DSetChaff3D = record
+    [BsonElement('ShipID')]
+    ShipID        : word;
+    [BsonElement('mLauncherID')]
+    mLauncherID   : word;
+    [BsonElement('OrderID')]
+    OrderID       : byte;
+    [BsonElement('mDegreeRate')]
+    //mCountID      : integer;
+    mDegreeRate   : single;
+    [BsonElement('mPart')]
+    mPart         : integer;
+    [BsonElement('mPartNo')]
+    mPartNo       : integer;
+  end;
+
+  TRec3DSetAsrock3D = record
+    [BsonElement('ShipID')]
+    ShipID          : word;
+    [BsonElement('mWeaponID')]
+    mWeaponID       : Word;       //  Diisi sesuai Database
+    [BsonElement('mLauncherID')]
+    mLauncherID     : word;
+    [BsonElement('mMissileID')]
+    mMissileID      : word;
+    [BsonElement('mMissileNumber')]
+    mMissileNumber  : Word;       //  Diisi 0 aj...nanti instruktur yang ngisi ulang
+    [BsonElement('mMissile_Type')]
+    mMissile_Type   : word;       //  add by eka
+    [BsonElement('mTargetID')]
+    mTargetID       : Word;       //  Added by bagoes
+    [BsonElement('OrderID')]
+    OrderID         : byte;
+    [BsonElement('mTargetBearing')]
+    mTargetBearing  : single;
+    [BsonElement('mTargetRange')]
+    mTargetRange    : single;
+    [BsonElement('mTargetDepth')]
+    mTargetDepth    : single;
+    [BsonElement('mFuzeType')]
+    mFuzeType       : Word;       //  0: time   1 : prox
+
+    [BsonElement('mCorrRange')]
+    mCorrRange      : single;
+  end;
+  TRecSetTorpedoSUT3D = record
+    [BsonElement('ShipID')]
+    ShipID          : word;
+    [BsonElement('mWeaponID')]
+    mWeaponID       : Word; //Diisi sesuai Database
+    [BsonElement('mLauncherID')]
+    mLauncherID     : word;
+    [BsonElement('mMissileID')]
+    mMissileID      : word;
+    [BsonElement('mMissileNumber')]
+    mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+    [BsonElement('mT_ID')]
+    mT_ID           : Word;
+    [BsonElement('OrderID')]
+    OrderID         : byte;
+
+    [BsonElement('mTorpedoCourse')]
+    mTorpedoCourse        : single;
+    [BsonElement('mTorpedoSpeed')]
+    mTorpedoSpeed         : single;
+    [BsonElement('mTorpedoDepth')]
+    mTorpedoDepth         : single;
+    [BsonElement('mTorpedoSafeDistance')]
+    mTorpedoSafeDistance  : Single;
+    [BsonElement('v')]
+    mTorpedoEnDis         : Single;
+    [BsonElement('mpredm')]
+    mpredm                : word;
+    [BsonElement('mTargetType')]
+    mTargetType           : Byte;
+  end;
+  TRecTorpedoMK44Order3D = record
+    [BsonElement('shipID')]
+    shipID        : word;
+    [BsonElement('OrderID')]
+    OrderID       : byte;
+    [BsonElement('mID')]
+    mID           : word;
+    [BsonElement('mISD')]
+    mISD          : single;
+    [BsonElement('mFloor')]
+    mFloor        : single;
+    [BsonElement('mGyroRunOut')]
+    mGyroRunOut   : boolean;
+  end;
+
+  TRecMeriam3D = record                              //17
+    [BsonElement('ShipID')]
+    ShipID      : word;
+    [BsonElement('OrderID')]
+    OrderID     : byte;   //
+    [BsonElement('Gun_number')]
+    Gun_number  : integer;
+    [BsonElement('X')]
+    X: double;
+    [BsonElement('Y')]
+    Y: double;
+    [BsonElement('Z')]
+    Z: double;
+    [BsonElement('TOF')]
+    TOF         : double;
+  end;
+
+  TRec3DSetRBU3D = record
+    [BsonElement('ShipID')]
+    ShipID         : word;
+    [BsonElement('mWeaponID')]
+    mWeaponID      : Word;  // Diisi sesuai Database
+    [BsonElement('mLauncherID')]
+    mLauncherID    : word;
+    [BsonElement('mMissileID')]
+    mMissileID     : word;
+    [BsonElement('mMissileNumber')]
+    mMissileNumber : Word;  // Diisi 0 aj...nanti instruktur yang ngisi ulang
+    [BsonElement('mCount')]
+    mCount         : Word;
+    [BsonElement('mMissileType')]
+    mMissileType   : word;
+    [BsonElement('mTargetID')]
+    mTargetID      : Word;  // Added by bagoes
+    [BsonElement('OrderID')]
+    OrderID        : byte;
+
+    [BsonElement('mLncrBearing')]
+    mLncrBearing   : single;
+    [BsonElement('mLncRange')]
+    mLncRange      : single;
+    [BsonElement('mTargetDepth')]
+    mTargetDepth   : single;
+    [BsonElement('mCorrBearing')]
+    mCorrBearing   : single;
+    [BsonElement('mCorrElev')]
+    mCorrElev      : single;
+  end;
+
+  TRecData_Yakhont3D = record
+     //Add New
+     [BsonElement('ShipID')]
+     ShipID          : word;
+     [BsonElement('mWeaponID')]
+     mWeaponID       : Word; //Diisi sesuai Database
+     [BsonElement('mLauncherID')]
+     mLauncherID     : word;
+     [BsonElement('mMissileID')]
+     mMissileID      : word;
+     [BsonElement('mMissileNumber')]
+     mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulan
+
+     [BsonElement('mMissile1')]
+     mMissile1 : byte;
+     [BsonElement('mMissile2')]
+     mMissile2 : byte;
+     [BsonElement('mMissile3')]
+     mMissile3 : byte;
+     [BsonElement('mMissile4')]
+     mMissile4       : Byte;
+
+     [BsonElement('OrderID')]
+     OrderID         : Byte;
+
+     [BsonElement('mTargetBearing')]
+     mTargetBearing  : Single;
+     [BsonElement('mTargetRange')]
+     mTargetRange    : Single;
+   end;
+
+  TRec3DSetWCC3D = record
+     [BsonElement('ShipID')]
+     ShipID          : word;
+     [BsonElement('mWeaponID')]
+     mWeaponID       : Word; //Diisi sesuai Database
+     [BsonElement('mLauncherID')]
+     mLauncherID     : word;
+     [BsonElement('mMissileID')]
+     mMissileID      : word;
+     [BsonElement('mMissileNumber')]
+     mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+     [BsonElement('mOrderID')]
+     mOrderID        : byte;
+
+     [BsonElement('mTargetID')]
+     mTargetID       : Word; // Added by bagoes
+     [BsonElement('mModeID')]
+     mModeID         : Word; // ModeID
+
+     [BsonElement('mUpDown')]
+     mUpDown              : Single;
+     [BsonElement('mAutoCorrectElev')]
+     mAutoCorrectElev     : Single;
+     [BsonElement('mAutoCorrectBearing')]
+     mAutoCorrectBearing  : Single;
+
+     [BsonElement('mBalistikID')]
+     mBalistikID    : Word;
+     [BsonElement('mSalvoRate')]
+     mSalvoRate     : Word;
+  end;
+
+  //Tetral
+  TRec3DSetTetral3D = record
+    [BsonElement('ShipID')]
+    ShipID          : Word;
+    [BsonElement('mWeaponID')]
+    mWeaponID       : Word; //Diisi sesuai Database
+    [BsonElement('mLauncherID')]
+    mLauncherID     : Word;
+    [BsonElement('mMissileID')]
+    mMissileID      : Word;
+    [BsonElement('mMissileNumber')]
+    mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+
+    [BsonElement('OrderID')]
+    OrderID         : Byte;
+
+    [BsonElement('mTargetBearing')]
+    mTargetBearing  : Single;
+    [BsonElement('mTargetRange')]
+    mTargetRange    : Single;
+    [BsonElement('mTargetElev')]
+    mTargetElev     : Single;
+  end;
+  //Mistral
+  TRec3DSetMistral3D = record
+    [BsonElement('ShipID')]
+    ShipID          : Word;
+    [BsonElement('mWeaponID')]
+    mWeaponID       : Word; //Diisi sesuai Database
+    [BsonElement('mLauncherID')]
+    mLauncherID     : Word;
+    [BsonElement('mMissileID')]
+    mMissileID      : Word;
+    [BsonElement('mMissileNumber')]
+    mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+
+    [BsonElement('OrderID')]
+    OrderID         : Byte;
+
+    [BsonElement('mTargetBearing')]
+    mTargetBearing  : Single;
+    [BsonElement('mTargetRange')]
+    mTargetRange    : Single;
+    [BsonElement('mTargetElev')]
+    mTargetElev     : Single;
+  end;
+  //Strella\
+  TRec3DSetStrella3D = record
+    [BsonElement('ShipID')]
+    ShipID          : Word;
+    [BsonElement('mWeaponID')]
+    mWeaponID       : Word; //Diisi sesuai Database
+    [BsonElement('mLauncherID')]
+    mLauncherID     : Word;
+    [BsonElement('mMissileID')]
+    mMissileID      : Word;
+    [BsonElement('mMissileNumber')]
+    mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+
+    [BsonElement('OrderID')]
+    OrderID         : Byte;
+
+    [BsonElement('mTargetBearing')]
+    mTargetBearing  : Single;
+    [BsonElement('mTargetRange')]
+    mTargetRange    : Single;
+    [BsonElement('mTargetElev')]
+    mTargetElev     : Single;
+  end;
+
+  TRecData_C8023D = record
+     //Add New
+     [BsonElement('ShipID')]
+     ShipID          : word;
+     [BsonElement('mWeaponID')]
+     mWeaponID       : Word; //Diisi sesuai Database
+     [BsonElement('mLauncherID')]
+     mLauncherID     : word;
+     [BsonElement('mMissileID')]
+     mMissileID      : word;
+     [BsonElement('mMissileNumber')]
+     mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulan
+
+     [BsonElement('OrderID')]
+     OrderID         : Byte;
+
+     [BsonElement('mTargetBearing')]
+     mTargetBearing  : Single;
+     [BsonElement('mTargetRange')]
+     mTargetRange    : Single;
+   end;
+
+  TRecDataTorperdo3D = record
+    [BsonElement('ShipID')]
+    ShipID          : word;
+    [BsonElement('mWeaponID')]
+    mWeaponID       : Word; //Diisi sesuai Database
+    [BsonElement('mLauncherID')]
+    mLauncherID     : word;
+    [BsonElement('mMissileID')]
+    mMissileID      : word;
+    [BsonElement('mMissileNumber')]
+    mMissileNumber  : Word; //Diisi 0 aj...nanti instruktur yang ngisi ulang
+
+    [BsonElement('OrderID')]
+    OrderID     : byte;
+
+    [BsonElement('ISC')]
+    ISC : single;
+    [BsonElement('ISR')]
+    ISR : word;
+    [BsonElement('WTR')]
+    WTR : word;             //(0: SH, 1 :DP);
+    [BsonElement('CEI')]
+    CEI : word;
+    [BsonElement('DOP')]
+    PRG : word;             //(0: HE, 1 :SP)
+    [BsonElement('DOP')]
+    DOP : word;             //(0: CW, 1 :FM)
+    [BsonElement('ACE')]
+    ACE : word;
+    [BsonElement('FLO')]
+    FLO : word;
+    [BsonElement('ISD')]
+    ISD : word;
+    [BsonElement('ACM')]
+    ACM : word;             //(0: ACT,1 :PAS,2 :MIX)
+  end;
+
+  //REC_3D_UTIL_TOOLS           = 53;
+  spUtilityTools3D = record
+    [BsonElement('OrderID')]
+    OrderID: word;
+    [BsonElement('c0')]
+    c0 :word;
+    [BsonElement('c1')]
+    c1 :word;
+    [BsonElement('c2')]
+    c2 :word;
+    [BsonElement('c3')]
+    c3 :word;
+    [BsonElement('c4')]
+    c4 :word;        //For Camera -> //co  = shipID, c1 =
+    [BsonElement('c5')]
+    c5: double;
+    [BsonElement('c6')]
+    c6: double;
+  end;
+
+  //REC_3D_SETCONTROL = 51;  ------------------------------------------------
+  spActorsController3D = record
+    [BsonElement('ShipID')]
+    ShipID: word;
+    [BsonElement('TypeID')]
+    TypeID: word;
+
+    [BsonElement('ActorRuntimeID1')]
+    ActorRuntimeID1: word;   //Weapon ID
+    [BsonElement('ActorRuntimeID2')]
+    ActorRuntimeID2: word;   //Launcher ID
+    [BsonElement('ActorRuntimeID3')]
+    ActorRuntimeID3: word;   //Missile ID
+    [BsonElement('ActorRuntimeID4')]
+    ActorRuntimeID4: word;   //Missile Number
+
+    [BsonElement('OrderID')]
+    OrderID: word;
+    [BsonElement('X')]
+    X: double;
+    [BsonElement('Y')]
+    Y: double;
+    [BsonElement('Z')]
+    Z: double;
+    [BsonElement('h')]
+    h : double;
+    [BsonElement('p')]
+    p : double;
+    [BsonElement('r')]
+    r : double;
+  end;
+
+  TRecGuidance3D = record
+    [BsonElement('ShipID')]
+    ShipID    : Word;
+    [BsonElement('GuidanceID')]
+    GuidanceID: Word;         // SL     | Helm  | Circle    | Zigzag   | Sinuation | Formation | Evasion | Waypoint| Outrun | Engagement | Shadow  |
+                              //====================================================================================================================
+    [BsonElement('param0')]
+    param0    : Single;       // Course | Angle | TgtID     | Course   | Course    |           | TgtID   |         | TgtID  | TgtID      | TgtID   |
+    [BsonElement('param1')]
+    param1    : Single;       // Speed  | Speed | Speed     | Speed    | Speed     |           |         |         |        | Speed      | Speed   |
+    [BsonElement('param2')]
+    param2    : Single;       //        |       | Radius    | legLgth  | Amplitude |           |         |         |        | EgmntRange | TgtRange|
+    [BsonElement('param3')]
+    param3    : Single;       //        |       | Direction |          | Period    |           |         |                  | Altitude   |
+    [BsonElement('param4')]
+    param4    : Single;       //        |       | RangeOffst|          |
+    [BsonElement('param5')]
+    param5    : Single;       //        |       | AngleOffst|          |
+    [BsonElement('param6')]
+    param6    : Single;       //        |       | AbsAglOfst|          |
+  end;
+
+  //REC_3D_ORDER= 3; -------------------------------------------------------
+  TRecData3DOrder3D = record
+    [BsonElement('shipID')]
+    shipID: word;
+    [BsonElement('sOrder')]
+    sOrder: byte;
+    [BsonElement('mValue')]
+    mValue: single;
+    [BsonElement('ModeMove')]
+    ModeMove : byte;
+    [BsonElement('coordinatX')]
+    coordinatX : Single;
+    [BsonElement('coordinatY')]
+    coordinatY : Single;
+    [BsonElement('coordinatZ')]
+    coordinatZ : Single;
+  end;
+
+implementation
+
+end.

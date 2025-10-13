@@ -1,0 +1,2952 @@
+unit ufrmMainInstruktur;
+
+{
+  if you want edit main fitur of instruktur
+  just edit this unit/form
+
+   - Unit -
+  uInstrukturManager.pas  -> Socket
+  uInstrukturObjects.pas  -> Object instruktur (Ship, missile , weaponStatus)
+  uInstrukturViews.pas    -> Draw Object In Map Intruktur
+  uTCPDatatype.pas
+
+   - Form -
+  ufrmeLeftControl.pas    -> Weapon Status, Guidance Control
+
+   - Database Form -
+  uClassDatabase.pas
+  ufassignmissile.pas
+  ufassignweapon.pas
+  ufEnvi.pas
+  ufListScenario.pas
+  ufScenarioEdit.pas
+  ufWeaponList.pas
+}
+
+interface
+
+uses
+  MapXLib_TLB, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Menus, ExtCtrls, ImgList, Buttons, SpeedButtonImage, OleCtrls, RzButton,
+  AdvSmoothLabel, StdCtrls, AdvSmoothPanel, Math ,
+
+  uInstrukturManager, ufrmeLeftControl, uBaseConstan, ufGuidance, uTCPDatatype,
+  ufWeaponStatus, uInstrukturObjects, uInstrukturViews, uBaseFunction, Contnrs, ufScenarioEdit,
+  uGlobalVar, uDistance , uCustomZoom, uBaseSimulationObject, uClassDatabase, uSimulationManager;
+
+type
+  TStateToolButton = (sZoomCenter, sZoomOut, sZoomIn, sZoomValue,
+                      sSelectArrow, sSelectMove, sSelectMoveAll,
+                      sToolRuler, sRecordStart, sRecordPause, sHand,
+                      sToolTikas, sToolZoomCenterMap1, sToolZoomCenterMap2);
+
+  TfrmMainInstruktur = class(TForm)
+    pnlMain: TPanel;
+    pnlMainBottom: TPanel;
+    MainMap: TMap;
+    pnlInfo: TAdvSmoothPanel;
+    pnlMainUp: TAdvSmoothPanel;
+    pnlMainMenu: TAdvSmoothPanel;
+    MainMenu1: TMainMenu;
+    DisplayGameController1: TMenuItem;
+    DisplayController1: TMenuItem;
+    DisplayFiringCommandProcedure1: TMenuItem;
+    erminate1: TMenuItem;
+    lbl1: TLabel;
+    lbl2: TLabel;
+    lblLongitude: TLabel;
+    lblLatitude: TLabel;
+    bvl1: TBevel;
+    lbl3: TLabel;
+    lbl4: TLabel;
+    lblZoomLvl: TLabel;
+    lblGeoref: TLabel;
+    bvl2: TBevel;
+    lbl5: TLabel;
+    lbl6: TLabel;
+    lblToolUsed: TLabel;
+    lblMapUnit: TLabel;
+    bvl3: TBevel;
+    lbl7: TLabel;
+    lbl8: TLabel;
+    lblElevation: TLabel;
+    lblDepth: TLabel;
+    bvl4: TBevel;
+    lbl9: TLabel;
+    lbl10: TLabel;
+    lblX: TLabel;
+    lblY: TLabel;
+    bvl5: TBevel;
+    lbl11: TLabel;
+    lbl12: TLabel;
+    lbl3DY: TLabel;
+    lbl3DX: TLabel;
+    pnlStatus: TAdvSmoothPanel;
+    advsmthlbl1: TAdvSmoothLabel;
+    advsmthlbl3: TAdvSmoothLabel;
+    advsmthlbl4: TAdvSmoothLabel;
+    btnShowtikas: TButton;
+    pnlMapInset: TPanel;
+    MapInset: TMap;
+    MapReviewSHOW1: TMenuItem;
+    AdvSmoothPanel1: TAdvSmoothPanel;
+    AdvSmoothLabel1: TAdvSmoothLabel;
+    AdvSmoothLabel2: TAdvSmoothLabel;
+    AdvSmoothLabel3: TAdvSmoothLabel;
+    AdvSmoothLabel4: TAdvSmoothLabel;
+    AdvSmoothLabel5: TAdvSmoothLabel;
+    AdvSmoothPanel2: TAdvSmoothPanel;
+    AdvSmoothLabel6: TAdvSmoothLabel;
+    AdvSmoothLabel7: TAdvSmoothLabel;
+    AdvSmoothLabel8: TAdvSmoothLabel;
+    AdvSmoothLabel9: TAdvSmoothLabel;
+    AdvSmoothLabel10: TAdvSmoothLabel;
+    AdvSmoothPanel3: TAdvSmoothPanel;
+    AdvSmoothLabel11: TAdvSmoothLabel;
+    AdvSmoothLabel12: TAdvSmoothLabel;
+    AdvSmoothLabel13: TAdvSmoothLabel;
+    AdvSmoothLabel14: TAdvSmoothLabel;
+    AdvSmoothLabel15: TAdvSmoothLabel;
+    AdvSmoothPanel4: TAdvSmoothPanel;
+    AdvSmoothLabel16: TAdvSmoothLabel;
+    AdvSmoothLabel17: TAdvSmoothLabel;
+    AdvSmoothLabel18: TAdvSmoothLabel;
+    AdvSmoothLabel19: TAdvSmoothLabel;
+    AdvSmoothLabel20: TAdvSmoothLabel;
+    AdvSmoothPanel5: TAdvSmoothPanel;
+    AdvSmoothLabel21: TAdvSmoothLabel;
+    AdvSmoothLabel22: TAdvSmoothLabel;
+    AdvSmoothLabel23: TAdvSmoothLabel;
+    AdvSmoothLabel24: TAdvSmoothLabel;
+    AdvSmoothLabel25: TAdvSmoothLabel;
+    AdvSmoothPanel6: TAdvSmoothPanel;
+    AdvSmoothLabel26: TAdvSmoothLabel;
+    AdvSmoothLabel27: TAdvSmoothLabel;
+    AdvSmoothLabel28: TAdvSmoothLabel;
+    AdvSmoothLabel29: TAdvSmoothLabel;
+    AdvSmoothLabel30: TAdvSmoothLabel;
+    AdvSmoothPanel7: TAdvSmoothPanel;
+    lblConnect: TAdvSmoothLabel;
+    AdvSmoothLabel32: TAdvSmoothLabel;
+    mniTools: TMenuItem;
+    mniReplay: TMenuItem;
+    advsmthpnl1: TAdvSmoothPanel;
+    advsmthpnlStatus: TAdvSmoothPanel;
+    lblCekRunning: TLabel;
+    lbl13: TLabel;
+    edt1: TEdit;
+    btnZoomCenterMap2: TSpeedButtonImage;
+    btnZoomCenterMap1: TSpeedButtonImage;
+    btnZoomOut: TSpeedButtonImage;
+    btnRecordStart: TSpeedButtonImage;
+    btnSelectArrow: TSpeedButtonImage;
+    btnSelectMove: TSpeedButtonImage;
+    btnSelectMoveAll: TSpeedButtonImage;
+    btnZoomIn: TSpeedButtonImage;
+    btnZoomValue: TSpeedButtonImage;
+    btnHand: TSpeedButtonImage;
+    btnRecordPause: TSpeedButtonImage;
+    btnToolRuler: TSpeedButtonImage;
+    btnToolTikas: TSpeedButtonImage;
+    btnZoomCenter: TSpeedButtonImage;
+    advsmthpnlStatus3D: TAdvSmoothPanel;
+    lblBtmStat3d: TLabel;
+    lblTopStat3d: TLabel;
+    procedure DisplayController1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure MainMapDrawUserLayer(ASender: TObject;
+      const Layer: IDispatch; hOutputDC, hAttributeDC: Integer;
+      const RectFull, RectInvalid: IDispatch);
+    procedure MainMapMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure MainMapMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure MainMapMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnShowtikasClick(Sender: TObject);
+    procedure MapInsetDrawUserLayer(ASender: TObject;
+      const Layer: IDispatch; hOutputDC, hAttributeDC: Integer;
+      const RectFull, RectInvalid: IDispatch);
+    procedure MainMapMapViewChanged(Sender: TObject);
+
+    procedure DisplayGameController1Click(Sender: TObject);
+    procedure MapReviewSHOW1Click(Sender: TObject);
+    procedure mniReplayClick(Sender: TObject);
+    procedure btnZoomLevelObserverClick(Sender: TObject);
+    procedure MainMapClick(Sender: TObject);
+  private
+    { Private declarations }
+//    TimerDestroy : TTimer;
+
+
+    FLyrDraw    : CMapXLayer;
+    FMapInsetCanvas : TCanvas;
+    FMapCanvas: TCanvas;
+
+    { ImList For Tool Button }
+    ImListZoomCenter,
+    ImListZoomOut,
+    ImListZoomIn,
+    ImListZoomValue,
+    ImListSelectArrow,
+    ImListSelectMove,
+    ImListSelectMoveAll,
+    ImListToolRuler,
+    ImListRecordStart,
+    ImListRecordPause,
+    ImListHand,
+    ImListToolTikas,
+    ImListToolMonitor : TImageList;
+
+    IsDown,
+    isDragMulti,
+    isSelectTool,
+    IsDraggingView,
+    IsStart,
+    IsEnd          : boolean;
+
+    mptLast,
+    mptDown        : TPoint;
+
+    FToolSelected  : TStateToolButton;
+
+    procedure SetEventhandler;
+    procedure SetEnvironment;
+    procedure SetObjectCreate;
+
+
+    { Event (onClick ) Tool Button}
+    procedure OnClick_ToolButton(sender : TObject);
+
+    procedure OnTimerDestroy_OnTime(sender : TObject);
+  public
+    { Public declarations }
+    { Frame Left Panel }
+    FrameControlLeft      : TfrmeControl;
+    cekCaption            : String;
+    cekStatusKonek        : string;
+    cekStatusWeapon       : Byte;
+    Map1Ready             : Boolean;
+    Map2Ready             : Boolean;
+
+    procedure LoadMap(aGeoset: String);
+    procedure UpdateInsetMap(aMap, anInsetMap: TMap; anInsetMapCanvas: TCanvas);
+
+    procedure ShowInfoCursor(const x, y: integer);
+    procedure SetFormLayout;
+    procedure SetFormEnvironment;
+    procedure SetDefaultMapTool;
+    procedure setArrow;
+    procedure setMapInset;
+    procedure setCourse;
+    procedure setSpeed(flag : Integer);
+    procedure setAltAndDepth(flag : Integer);
+    procedure searchTorpSUT(launcher : integer) ;
+    procedure SetTrackObject;
+    procedure SetTrackObjectTrajectory;
+    procedure deleteLeftFrame;
+  end;
+
+var
+  frmMainInstruktur: TfrmMainInstruktur;
+
+implementation
+
+uses
+     ufrmGameController, ufrmAddShipRuntime, ufRecordsList, uReplayControl, uSaveLog;
+
+{$R *.dfm}
+
+procedure EnableComposited(WinControl:TWinControl);
+var
+  i:Integer;
+  NewExStyle:DWORD;
+begin
+  NewExStyle := GetWindowLong(WinControl.Handle, GWL_EXSTYLE) or WS_EX_COMPOSITED;
+  SetWindowLong(WinControl.Handle, GWL_EXSTYLE, NewExStyle);
+
+  for I := 0 to WinControl.ControlCount - 1 do
+    if WinControl.Controls[i] is TWinControl then
+      EnableComposited(TWinControl(WinControl.Controls[i]));
+end;
+
+{Main Menu Handle}
+procedure TfrmMainInstruktur.DisplayController1Click(Sender: TObject);
+begin
+  case TComponent(sender).Tag of
+    1   : frmGameController.SetFormLayout;
+    10  :
+    begin
+      if Assigned(SimManager) then
+      begin
+        if Assigned(SimManager.TCPClient) then
+        begin
+          SimManager.TCPClient.Socket.OnChangeState     := nil;
+          SimManager.ShouldConnect      := false;
+        end;
+        Application.Terminate;
+//        TimerDestroy.Enabled := True;
+      end;
+    end;
+  end;
+end;
+
+{Form View Handle}
+procedure TfrmMainInstruktur.SetFormEnvironment;
+begin
+  { Set Panel for Centering Tool Button }
+  pnlMainMenu.Left  := ( pnlMainUp.Width - pnlMainMenu.Width ) div 2;
+  btnShowtikas.Left := pnlMainUp.Width - btnShowtikas.Width - 10;
+end;
+
+procedure TfrmMainInstruktur.SetFormLayout;
+begin
+   { Set Main Instrukutur }
+   DefaultMonitor := dmDesktop;
+   Height         := Screen.Monitors[0].Height;
+   Top            := Screen.Monitors[0].Top;
+   Left           := Screen.Monitors[0].Left;
+   width          := Screen.Monitors[0].Width;
+   Show;
+end;
+
+procedure TfrmMainInstruktur.FormCreate(Sender: TObject);
+begin
+
+  {Set All Environment}
+  SetObjectCreate;
+  SetEventhandler;
+  SetEnvironment;
+  setMapInset ;
+  cekCaption     := 'Firing System Instruktur';
+  cekStatusKonek := 'Stop';
+  cekStatusWeapon := 1;
+  Map1Ready := False;
+  Map2Ready := False;
+
+  FrameControlLeft.TabShipMenu.ActivePage := FrameControlLeft.tsShipGuidance;
+
+  DoubleBuffered := false;
+
+  EnableComposited(pnlMainBottom);
+  EnableComposited(pnlMapInset);
+end;
+{ Event handler Component }
+procedure TfrmMainInstruktur.SetEventhandler;
+begin
+  { Tool Button }
+  btnZoomCenter.Tag     := 0;
+  btnZoomOut.Tag        := 1;
+  btnZoomIn.Tag         := 2;
+  btnZoomValue.Tag      := 3;
+  btnSelectArrow.Tag    := 4;
+  btnSelectMove.Tag     := 5;
+  btnSelectMoveAll.Tag  := 6;
+  btnToolRuler.Tag      := 7;
+  btnRecordStart.Tag    := 8;
+  btnRecordPause.Tag    := 9;
+  btnHand.Tag           := 10;
+  btnToolTikas.Tag      := 11;
+  btnZoomCenterMap1.Tag := 12;
+  btnZoomCenterMap2.Tag := 13;
+
+  btnZoomCenter.OnClick     := OnClick_ToolButton;
+  btnZoomCenterMap1.OnClick := OnClick_ToolButton;
+  btnZoomCenterMap2.OnClick := OnClick_ToolButton;
+  btnZoomOut.OnClick        := OnClick_ToolButton;
+  btnZoomIn.OnClick         := OnClick_ToolButton;
+  btnZoomValue.OnClick      := OnClick_ToolButton;
+  btnSelectArrow.OnClick    := OnClick_ToolButton;
+  btnSelectMove.OnClick     := OnClick_ToolButton;
+  btnSelectMoveAll.OnClick  := OnClick_ToolButton;
+  btnToolRuler.OnClick      := OnClick_ToolButton;
+  btnRecordStart.OnClick    := OnClick_ToolButton;
+  btnRecordPause.OnClick    := OnClick_ToolButton;
+  btnHand.OnClick           := OnClick_ToolButton;
+  btnToolTikas.OnClick      := OnClick_ToolButton;
+end;
+
+procedure TfrmMainInstruktur.SetDefaultMapTool;
+begin
+  btnZoomCenter.ImageIndex     := 0;
+  btnZoomOut.ImageIndex        := 0;
+  btnZoomIn.ImageIndex         := 0;
+  btnZoomValue.ImageIndex      := 0;
+  btnSelectArrow.ImageIndex    := 0;
+  btnSelectMove.ImageIndex     := 0;
+  btnSelectMoveAll.ImageIndex  := 0;
+  btnToolRuler.ImageIndex      := 0;
+  //btnRecordStart.ImageIndex    := 0;
+  btnRecordPause.ImageIndex    := 0;
+  btnHand.ImageIndex           := 0;
+  btnToolTikas.ImageIndex      := 0;
+  btnZoomCenterMap1.ImageIndex := 0;
+  btnZoomCenterMap2.ImageIndex := 0;
+
+  btnHand.ImageIndex  := 1;
+  FToolSelected       := sHand;
+  MainMap.CurrentTool := miPanTool;
+  lblToolUsed.Caption := 'Select Hand';
+end;
+
+procedure TfrmMainInstruktur.setArrow;
+begin
+  btnZoomCenter.ImageIndex     := 0;
+  btnZoomCenterMap1.ImageIndex     := 0;
+  btnZoomCenterMap2.ImageIndex     := 0;
+  btnZoomOut.ImageIndex        := 0;
+  btnZoomIn.ImageIndex         := 0;
+  btnZoomValue.ImageIndex      := 0;
+  btnSelectArrow.ImageIndex    := 1;
+  btnSelectMove.ImageIndex     := 0;
+  btnSelectMoveAll.ImageIndex  := 0;
+  btnToolRuler.ImageIndex      := 0;
+ // btnRecordStart.ImageIndex    := 0;
+  btnRecordPause.ImageIndex    := 0;
+  btnHand.ImageIndex           := 0;
+  btnToolTikas.ImageIndex      := 0;
+  btnHand.ImageIndex           := 0;
+
+ // FToolSelected       := sSelectArrow;
+  SimManager.Selections.ClearSelection;
+  SimManager.VSelect.Visible := false;
+  MainMap.CurrentTool := miArrowTool;
+  lblToolUsed.Caption := 'Select Arrow';
+
+end;
+
+{ Event (onClick ) Tool Button}
+procedure TfrmMainInstruktur.OnClick_ToolButton(sender: TObject);
+var
+  pt, pt2: TPoint;
+  i : integer;
+  insObject : TInsObject;
+  mapRec : TRecMapCommand;
+begin
+  FToolSelected       := TStateToolButton(TComponent(sender).Tag);
+  MainMap.CurrentTool := miPanTool;
+
+  btnZoomCenter.ImageIndex     := 0;
+  btnZoomCenterMap1.ImageIndex     := 0;
+  btnZoomCenterMap2.ImageIndex     := 0;
+  btnZoomOut.ImageIndex        := 0;
+  btnZoomIn.ImageIndex         := 0;
+  btnZoomValue.ImageIndex      := 0;
+  btnSelectArrow.ImageIndex    := 0;
+  btnSelectMove.ImageIndex     := 0;
+  btnSelectMoveAll.ImageIndex  := 0;
+  btnToolRuler.ImageIndex      := 0;
+  //btnRecordStart.ImageIndex    := 0;
+  btnRecordPause.ImageIndex    := 0;
+  btnHand.ImageIndex           := 0;
+ // btnToolTikas.ImageIndex      := 0;
+
+  if FToolSelected <> sSelectMove then SimManager.Selections.ClearSelection;
+
+  case FToolSelected of
+    sZoomCenter     :
+    begin
+      btnZoomCenter.ImageIndex     := 1;
+      MainMap.CurrentTool          := miCenterTool;
+      SimManager.Selections.ClearSelection;
+      SimManager.VSelect.Visible := false;
+      lblToolUsed.Caption := 'Zoom Center';
+
+      // untuk map didepan
+      Map1Ready := False;
+      Map2Ready := False
+    end;
+
+    sZoomOut        :
+    begin
+      if MainMap.Zoom >= 2050 then
+      begin
+        btnSelectArrow.ImageIndex    := 1;
+        MainMap.CurrentTool          := miArrowTool;
+        SimManager.Selections.ClearSelection;
+        SimManager.VSelect.Visible := false;
+        lblToolUsed.Caption := 'Select Arrow';
+      end
+      else
+      begin
+        btnZoomOut.ImageIndex        := 1;
+        MainMap.CurrentTool          := miZoomOutTool;
+        SimManager.Selections.ClearSelection;
+        SimManager.VSelect.Visible := false;
+        lblToolUsed.Caption := 'Zoom Out';
+      end;
+    end;
+
+    sZoomIn         :
+    begin
+      if MainMap.Zoom <= 4 then
+      begin
+        btnSelectArrow.ImageIndex    := 1;
+        MainMap.CurrentTool          := miArrowTool;
+        SimManager.Selections.ClearSelection;
+        SimManager.VSelect.Visible := false;
+        lblToolUsed.Caption := 'Select Arrow';
+      end
+      else
+      begin
+        btnZoomIn.ImageIndex         := 1;
+        MainMap.CurrentTool          := miZoomInTool;
+        SimManager.Selections.ClearSelection;
+        SimManager.VSelect.Visible := false;
+        lblToolUsed.Caption := 'Zoom In';
+      end;
+    end;
+
+    sZoomValue      :
+    begin
+      Map1Ready := False;
+      Map2Ready := False;
+      btnHand.ImageIndex           := 1;
+      MainMap.CurrentTool          := miPanTool;
+      SimManager.Selections.ClearSelection;
+      SimManager.VSelect.Visible := false;
+
+      frmCustomZoom.ShowModal;
+    end;
+
+    sSelectArrow    :
+    begin
+      btnSelectArrow.ImageIndex    := 1;
+      MainMap.CurrentTool          := miArrowTool;
+      SimManager.Selections.ClearSelection;
+      SimManager.VSelect.Visible := false;
+      lblToolUsed.Caption := 'Select Arrow';
+    end;
+
+    sSelectMove     :
+    begin
+      btnSelectMove.ImageIndex     := 1;
+      MainMap.CurrentTool          := TOOL_MOVE_UNIT;
+      isSelectTool                 := false;
+      SimManager.Selections.ClearSelection;
+      SimManager.VSelect.Visible := false;
+      pt.X := 0;
+      pt.Y := 0;
+      SimManager.VSelect.ptStart  := pt;
+      SimManager.VSelect.ptEnd    := pt;
+      lblToolUsed.Caption := 'Select Move';
+    end;
+
+    sSelectMoveAll  :
+    begin
+      btnSelectMoveAll.ImageIndex  := 1;
+      MainMap.CurrentTool          := TOOL_SELECT_UNIT;
+      isSelectTool                 := true;
+      SimManager.Selections.ClearSelection;
+      SimManager.VSelect.Visible := false;
+      lblToolUsed.Caption := 'Select Move All';
+    end;
+
+    sToolRuler      :
+    begin
+      btnHand.ImageIndex           := 1;
+      MainMap.CurrentTool          := TOOL_DISTANCE;
+      SimManager.Selections.ClearSelection;
+      SimManager.VSelect.Visible := false;
+
+      if MainMap.Geoset <> '' then
+      begin
+        pt := ClientToScreen(Point(MainMap.Width - frmDistance.Width, MainMap.Height - frmDistance.height));
+        MainMap.CurrentTool := TOOL_DISTANCE;
+
+        frmDistance.Left      := pt.X;
+        frmDistance.Top       := pt.Y;
+        frmDistance.FormStyle := fsStayOnTop;
+        frmDistance.BringToFront;
+        frmDistance.Show;
+      end;
+      lblToolUsed.Caption := 'Tool Ruler';
+
+    end;
+
+    sRecordStart    :
+    begin
+      if (SimManager.MainObjList.ItemCount > 0)
+         and (not(SimManager.fGamePlayType = gpmReplay))then
+      begin
+        if SimManager.fGamePlayType = gpmScenAndRecord then  begin
+          btnRecordStart.Hint := 'OffRecord';
+          btnRecordStart.ImageIndex    := 0;
+          SimManager.StopRecording;
+          ShowMessage('Instruktur :: stop recording.');
+        end
+        else begin
+          if frmSaveLog = nil then
+            frmSaveLog := TfrmSaveLog.Create(Self);
+          frmSaveLog.ShowModal;
+          if frmSaveLog.ModalResult = mrOK then begin
+            btnRecordStart.Hint := 'OnRecord';
+            btnRecordStart.ImageIndex    := 1;
+            SimManager.StartRecording(CurrentLogFile);
+          end
+          else
+          begin
+            btnRecordStart.Hint := 'OffRecord';
+            btnRecordStart.ImageIndex    := 0;
+          end;
+        end;
+      end
+      else
+      begin
+        btnRecordStart.Hint := 'OffRecord';
+        ShowMessage('Instruktur :: Empty Scenario.');
+        btnRecordStart.ImageIndex    := 0;
+      end;
+    end;
+
+    sRecordPause    :
+    begin
+      btnRecordPause.ImageIndex    := 1;
+    end;
+
+    sHand   :
+    begin
+      btnHand.ImageIndex           := 1;
+      MainMap.CurrentTool          := miPanTool;
+      SimManager.Selections.ClearSelection;
+      SimManager.VSelect.Visible := false;
+      lblToolUsed.Caption := 'Select Hand';
+    end;
+
+    sToolTikas  :
+    begin
+      if btnToolTikas.Hint = 'Hide History' then
+      begin
+        btnToolTikas.Hint := 'Show History';
+        btnToolTikas.ImageIndex := 1;
+        for i := 0 to SimManager.MainObjList.ItemCount-1 do
+        begin
+          TInsObject(SimManager.MainObjList.getObject(i)).VHistory.Visible := false;
+          TInsObject(SimManager.MainObjList.getObject(i)).Tikas := false;
+
+          insObject := TInsObject(SimManager.MainObjList.getObject(i));
+          FrameControlLeft.RefreshFrame(insObject);
+        end;
+      end
+      else
+      begin
+        btnToolTikas.Hint := 'Hide History';
+        btnToolTikas.ImageIndex := 0;
+        for i := 0 to SimManager.MainObjList.ItemCount-1 do
+        begin
+          TInsObject(SimManager.MainObjList.getObject(i)).VHistory.Visible := true;
+          TInsObject(SimManager.MainObjList.getObject(i)).Tikas := true;
+
+          insObject := TInsObject(SimManager.MainObjList.getObject(i));
+          FrameControlLeft.RefreshFrame(insObject);
+
+        end;
+      end;
+    end;
+
+    sToolZoomCenterMap1 :
+    begin
+//      SimManager.InstrukturSendLaunchCommand(ipClient, IntToStr(shipID), '0');
+
+
+//      btnZoomCenterMap1.ImageIndex    := 1;
+      Map1Ready                       := True;
+      Map2Ready                       := False;
+      lblToolUsed.Caption             := 'Select Monitor 1';
+
+      mapRec.ToolID   := miZoomInTool;
+      mapRec.Scale    := Round(MainMap.Zoom);
+      mapRec.MapID    := 1;
+      mapRec.X        := MainMap.CenterX;//StrToFloat(lblX.Caption);
+      mapRec.Y        := MainMap.CenterY;//StrToFloat(lblY.Caption);
+
+//      frmCustomZoom.ShowModal;
+
+      mapRec.ToolID   := miCenterTool;
+      mapRec.OrderID  := OID_MAP_CENTER;
+
+      SimManager.NetSendToMap(mapRec);
+//      btnZoomCenterMap1.ImageIndex := 0;
+
+      btnSelectArrow.ImageIndex    := 1;
+      MainMap.CurrentTool          := miArrowTool;
+      SimManager.Selections.ClearSelection;
+      SimManager.VSelect.Visible := false;
+      lblToolUsed.Caption := 'Select Arrow';
+
+    end;
+
+    sToolZoomCenterMap2 :
+    begin
+
+      {btnZoomCenterMap2.ImageIndex     := 1;
+      MainMap.CurrentTool              := miCenterTool;
+      Map1Ready                        := False;
+      Map2Ready                        := True;
+
+      lblToolUsed.Caption              := 'Select Monitor 2';
+
+      frmCustomZoom.ShowModal;   }
+
+      Map1Ready                       := False;
+      Map2Ready                       := True;
+      lblToolUsed.Caption             := 'Select Monitor 2';
+
+      mapRec.ToolID   := miZoomInTool;
+      mapRec.Scale    := Round(MainMap.Zoom);                    
+      mapRec.MapID    := 2;
+      mapRec.X        := MainMap.CenterX;//StrToFloat(lblX.Caption);
+      mapRec.Y        := MainMap.CenterY;//StrToFloat(lblY.Caption);
+
+//      frmCustomZoom.ShowModal;
+
+      mapRec.ToolID   := miCenterTool;
+      mapRec.OrderID  := OID_MAP_CENTER;
+
+      SimManager.NetSendToMap(mapRec);
+//      btnZoomCenterMap1.ImageIndex := 0;
+
+      btnSelectArrow.ImageIndex    := 1;
+      MainMap.CurrentTool          := miArrowTool;
+      SimManager.Selections.ClearSelection;
+      SimManager.VSelect.Visible := false;
+      lblToolUsed.Caption := 'Select Arrow';
+
+
+    end;
+  end;
+end;
+
+{ Set Object Create }
+procedure TfrmMainInstruktur.SetObjectCreate;
+begin
+  FMapCanvas := TCanvas.Create;
+
+  { Create Frame }
+  FrameControlLeft        := TfrmeControl.Create(nil);
+  FrameControlLeft.Parent := pnlMainBottom;
+  FrameControlLeft.Align  := alLeft;
+  FrameControlLeft.SetHandleEvent;
+  FrameControlLeft.CreatePopUp;
+  FrameControlLeft.NillAllSet;
+
+  FrameControlLeft.FrameGuidance        := TfGuidance.Create(nil);
+  FrameControlLeft.FrameGuidance.Parent := FrameControlLeft.tsShipGuidance;
+  FrameControlLeft.FrameGuidance.Align  := alClient;
+  FrameControlLeft.FrameGuidance.NillAllSet;
+
+  FrameControlLeft.FrameWeaponStatus        := TfWeaponStatus.Create(nil);
+  FrameControlLeft.FrameWeaponStatus.Parent := FrameControlLeft.tsShipWeaponStatus;
+  FrameControlLeft.FrameWeaponStatus.Align  := alClient;
+  FrameControlLeft.FrameWeaponStatus.SetHandleEvent;
+  FrameControlLeft.FrameWeaponStatus.CreateSPSPopUp;
+  FrameControlLeft.FrameWeaponStatus.NillAllSet;
+
+  Menu := MainMenu1;
+  
+  DoubleBuffered         := True;
+  MainMap.DoubleBuffered := True;
+
+
+  { Map Tool }
+  MainMap.CreateCustomTool(TOOL_DISTANCE, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_MOVE_UNIT, miToolTypePoint, miArrowCursor, miArrowCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_UNIT, miToolTypePoint, miRectSelectCursor,miRectSelectCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_RBUTARGET, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_ASROCTARGET, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_3DPOS, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_SPSTARGET, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_COORD, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_YAKHONTTARGET, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_C802TARGET, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_DATABASE_POS, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_COORD_C802, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_COORD_YAKHONT, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_COORD_STRELLA, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_COORD_MISTRAL, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_REPOST_OBJECT, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_COORD_RBU, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_TORPSUT_TARGET, miToolTypePoint, miCrossCursor, miCrossCursor);
+ // MainMap.CreateCustomTool(TOOL_SELECT_RBU_TARGET, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_ASROC_TARGET, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_CANON_TARGET, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_TETRAL_TARGET, miToolTypePoint, miCrossCursor, miCrossCursor);
+  //MainMap.CreateCustomTool(TOOL_MAP_VIEW, miToolTypePoint, miCrossCursor, miCrossCursor);
+  MainMap.CreateCustomTool(TOOL_SELECT_WAYPOINT, miToolTypePoint, miCrossCursor, miCrossCursor);
+
+
+
+//  TimerDestroy := TTimer.Create(nil);
+//  TimerDestroy.Enabled  := false;
+//  TimerDestroy.Interval := 1000;
+//  TimerDestroy.OnTimer  := OnTimerDestroy_OnTime;
+end;
+
+{ Set Environment }
+procedure TfrmMainInstruktur.SetEnvironment;
+var
+  Bmap    : TBitmap;
+  strPath : string;
+begin
+  strPath := '..\data\images\NFS instruktur - interface\bmp\main\tool\';
+
+  { Tool Button }
+  { Zoom Center}
+  ImListZoomCenter := TImageList.Create(nil);
+  ImListZoomCenter.Width  := btnZoomCenter.Width;
+  ImListZoomCenter.Height := btnZoomCenter.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_06.bmp');
+  finally
+    ImListZoomCenter.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_06_down.bmp');
+  finally
+    ImListZoomCenter.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+  btnZoomCenter.ImageList  := ImListZoomCenter;
+  btnZoomCenter.ImageIndex := 0;
+
+
+  { Zoom Out}
+  ImListZoomOut := TImageList.Create(nil);
+  ImListZoomOut.Width  := btnZoomOut.Width;
+  ImListZoomOut.Height := btnZoomOut.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_03.bmp');
+  finally
+    ImListZoomOut.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_03_down.bmp');
+  finally
+    ImListZoomOut.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+  btnZoomOut.ImageList  := ImListZoomOut;
+  btnZoomOut.ImageIndex := 0;
+
+  { Zoom In}
+  ImListZoomIn := TImageList.Create(nil);
+  ImListZoomIn.Width  := btnZoomIn.Width;
+  ImListZoomIn.Height := btnZoomIn.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_04.bmp');
+  finally
+    ImListZoomIn.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_04_down.bmp');
+  finally
+    ImListZoomIn.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+  btnZoomIn.ImageList  := ImListZoomIn;
+  btnZoomIn.ImageIndex := 0;
+
+  { Zoom Value }
+  ImListZoomValue := TImageList.Create(nil);
+  ImListZoomValue.Width  := btnZoomValue.Width;
+  ImListZoomValue.Height := btnZoomValue.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_05.bmp');
+  finally
+    ImListZoomValue.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_05_down.bmp');
+  finally
+    ImListZoomValue.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+  btnZoomValue.ImageList  := ImListZoomValue;
+  btnZoomValue.ImageIndex := 0;
+
+  { Select Arrow }
+  ImListSelectArrow := TImageList.Create(nil);
+  ImListSelectArrow.Width  := btnSelectArrow.Width;
+  ImListSelectArrow.Height := btnSelectArrow.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_01.bmp');
+  finally
+    ImListSelectArrow.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_01_down.bmp');
+  finally
+    ImListSelectArrow.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+  btnSelectArrow.ImageList  := ImListSelectArrow;
+  btnSelectArrow.ImageIndex := 0;
+
+  { Select Move }
+  ImListSelectMove := TImageList.Create(nil);
+  ImListSelectMove.Width  := btnSelectMove.Width;
+  ImListSelectMove.Height := btnSelectMove.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_09.bmp');
+  finally
+    ImListSelectMove.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_09_down.bmp');
+  finally
+    ImListSelectMove.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+  btnSelectMove.ImageList  := ImListSelectMove;
+  btnSelectMove.ImageIndex := 0;
+
+  { Select Move All}
+  ImListSelectMoveAll := TImageList.Create(nil);
+  ImListSelectMoveAll.Width  := btnSelectMoveAll.Width;
+  ImListSelectMoveAll.Height := btnSelectMoveAll.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_08.bmp');
+  finally
+    ImListSelectMoveAll.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_08_down.bmp');
+  finally
+    ImListSelectMoveAll.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+  btnSelectMoveAll.ImageList  := ImListSelectMoveAll;
+  btnSelectMoveAll.ImageIndex := 0;
+
+  { Tool Ruler}
+  ImListToolRuler := TImageList.Create(nil);
+  ImListToolRuler.Width  := btnToolRuler.Width;
+  ImListToolRuler.Height := btnToolRuler.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_07.bmp');
+  finally
+    ImListToolRuler.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_07_down.bmp');
+  finally
+    ImListToolRuler.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+  btnToolRuler.ImageList  := ImListToolRuler;
+  btnToolRuler.ImageIndex := 0;
+
+
+  { Tool Tikas}
+  ImListToolTikas := TImageList.Create(nil);
+  ImListToolTikas.Width  := btnToolTikas.Width;
+  ImListToolTikas.Height := btnToolTikas.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_13.bmp');
+  finally
+    ImListToolTikas.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_13_down.bmp');
+  finally
+    ImListToolTikas.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+  btnToolTikas.ImageList  := ImListToolTikas;
+  btnToolTikas.ImageIndex := 0;
+
+
+
+  { Record Start}
+  ImListRecordStart := TImageList.Create(nil);
+  ImListRecordStart.Width  := btnRecordStart.Width;
+  ImListRecordStart.Height := btnRecordStart.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_10.bmp');
+  finally
+    ImListRecordStart.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_10_down.bmp');
+  finally
+    ImListRecordStart.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+  btnRecordStart.ImageList := ImListRecordStart;
+  btnRecordStart.ImageIndex := 0;
+
+  { Record Pause}
+  ImListRecordPause := TImageList.Create(nil);
+  ImListRecordPause.Width  := btnRecordPause.Width;
+  ImListRecordPause.Height := btnRecordPause.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_11.bmp');
+  finally
+    ImListRecordPause.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_11_down.bmp');
+  finally
+    ImListRecordPause.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+  btnRecordPause.ImageList  := ImListRecordPause;
+  btnRecordPause.ImageIndex := 0;
+
+  { Hand }
+  ImListHand := TImageList.Create(nil);
+  ImListHand.Width  := btnHand.Width;
+  ImListHand.Height := btnHand.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_02.bmp');
+  finally
+    ImListHand.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_02_down.bmp');
+  finally
+    ImListHand.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+  btnHand.ImageList  := ImListHand;
+  btnHand.ImageIndex := 0;
+
+  { Monitor }
+  ImListToolMonitor := TImageList.Create(nil);
+  ImListToolMonitor.Width  := btnZoomCenterMap1.Width;
+  ImListToolMonitor.Height := btnZoomCenterMap1.Height;
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_14.bmp');
+  finally
+    ImListToolMonitor.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  try
+    Bmap := TBitmap.Create;
+    Bmap.LoadFromFile(strPath + 'button tool_14_Down.bmp');
+  finally
+    ImListToolMonitor.Add(Bmap, nil);
+    Bmap.Free;
+  end;
+
+  btnZoomCenterMap1.ImageList  := ImListToolMonitor;
+  btnZoomCenterMap1.ImageIndex := 0;
+
+  btnZoomCenterMap2.ImageList  := ImListToolMonitor;
+  btnZoomCenterMap2.ImageIndex := 0;
+
+  {setDefault to Select Hand }
+  SetDefaultMapTool;
+end;
+
+procedure TfrmMainInstruktur.FormDestroy(Sender: TObject);
+begin
+  FMapCanvas.Free;
+  FMapInsetCanvas.Free;
+  MapInset.Free;
+  ImListZoomCenter.free;
+  ImListZoomOut.free;
+  ImListZoomIn.free;
+  ImListZoomValue.free;
+  ImListSelectArrow.free;
+  ImListSelectMove.free;
+  ImListSelectMoveAll.free;
+  ImListToolRuler.free;
+  ImListRecordStart.free;
+  ImListRecordPause.free;
+  ImListHand.free;
+  ImListToolTikas.Free;
+  ImListToolMonitor.Free;
+
+  FrameControlLeft.FrameWeaponStatus.Parent := nil;
+  FrameControlLeft.FrameWeaponStatus.Free;
+  FrameControlLeft.FrameGuidance.Parent := nil;
+  FrameControlLeft.FrameGuidance.Free;
+  FrameControlLeft.Parent := nil;
+  FrameControlLeft.DestroyPopUp;
+  FrameControlLeft.Free;
+end;
+
+{ -------------------------------------------------------------------- }
+{ Map Event }
+procedure TfrmMainInstruktur.MainMapDrawUserLayer(ASender: TObject;
+  const Layer: IDispatch; hOutputDC, hAttributeDC: Integer;
+  const RectFull, RectInvalid: IDispatch);
+begin
+  if Assigned(FMapCanvas) then
+  begin
+    FMapCanvas.Handle := hOutputDC;
+    SimManager.DrawAllOnMapXCanvas(FMapCanvas);
+
+    frmGameController.Repaint;
+  end;
+end;
+
+procedure TfrmMainInstruktur.MainMapMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  i,j : integer;
+  WeaponShip    : TWeaponOnShip;
+  WeaponRBU     : TWeaponOn_RBU;
+  WeaponSPS     : TWeaponOn_SPS;
+  WeaponASROC   : TWeaponOn_ASROC;
+  WeaponYAKHONT : TWeaponOn_Yakhont;
+  WeaponC802    : TWeaponOn_C802;
+
+  Vehicle       : TVehicle;
+
+  ShipObject : TSimulationClass;
+  Suid       : string;
+
+  sX, SY, heading : Single;
+  mX, mY : Double;
+  drawX, drawY : Integer;
+  flag   : Integer;
+
+  //contoh
+  insObject : TInsObject;
+  wayPoint : TWayPoint;
+  waypointPos : TObjPoint;
+  sID      : integer;
+  threeDX : Single;
+  threeDY : Single;
+begin
+  IsDown := (button = mbLeft);
+  if IsDown then
+  begin
+    mptDown.X := X;
+    mptDown.Y := Y;
+
+
+    case MainMap.CurrentTool of
+
+      { Select Tool }
+      miArrowTool :
+      begin
+        FrameControlLeft.FrameWeaponStatus.SetWeaponGroupBar;
+        SimManager.ResetColorShip;
+        mptLast := point(X, Y);
+        if SimManager.isDatabaseMode then Exit;
+
+        { Set Default }
+        SimManager.TrackObject := nil;
+        FrameControlLeft.NillAllSet;
+        FrameControlLeft.FrameGuidance.NillAllSet;
+        FrameControlLeft.FrameWeaponStatus.NillAllSet;
+
+        { Searching Object }
+        if SimManager.FindViewByPosition(mptDown, SimManager.selectedView) then
+        begin
+          if SimManager.selectedView is TRotateSymbolView then
+          begin
+            SimManager.BringToFront(SimManager.selectedObject);
+            { Paranoid Mode }
+            if SimManager.selectedObject is TInsObject then
+            begin
+              if not (SimManager.selectedObject is TIMissileObject) and
+                 not (SimManager.selectedObject is TICannonBlast) then
+              begin
+                SimManager.TrackObject    := TInsObject(SimManager.selectedObject);
+                SimManager.selectedObject := nil;
+                SimManager.selectedView   := nil;
+
+                FrameControlLeft.SetObject(SimManager.TrackObject);
+                FrameControlLeft.FrameGuidance.SetObject(SimManager.TrackObject);
+                FrameControlLeft.RefreshFrame(SimManager.TrackObject);
+              end;
+            end;
+          end;
+        end;
+        frmGameController.SelectShip(SimManager.TrackObject);   //sinkron dengan list di form game controller
+                                                                //entah track object nil atau tidak
+      end;
+
+      miZoomOutTool :
+      begin
+        if MainMap.Zoom >= 2050 then MainMap.CurrentTool := miArrowTool ;
+      end;
+
+      miZoomInTool :
+      begin
+        if MainMap.Zoom <= 4 then MainMap.CurrentTool := miArrowTool;
+      end;  
+
+      { Multi Select }
+      TOOL_SELECT_UNIT:
+      begin
+        SimManager.VSelect.Visible := false;
+        SimManager.Select_Begin(mptDown);
+      end;
+
+      { Move Unit Tool }
+      TOOL_MOVE_UNIT :
+      begin
+
+        mptLast := point(X, Y);
+        SimManager.DragObject := nil;
+        IsDragMulti := false;
+
+        { Multi select first }
+        if PtInRect(SimManager.VSelect.Rects, mptLast) then begin
+          SimManager.Drag_Begin(mPtLast);
+          IsDragMulti := true;
+        end
+        else
+        begin
+        { Searching Object }
+          if SimManager.FindViewByPosition(mptDown, SimManager.selectedView) then
+          begin
+              IsStart := false;
+              IsEnd   := false;
+
+              mx := TInsObject(SimManager.selectedObject).PositionX;
+              my := TInsObject(SimManager.selectedObject).PositionY;
+              MainMap.ConvertCoord(sx, sY, mx, my, miMapToScreen);
+
+              TInsObject(SimManager.selectedObject).VSymbol.Color := clNavy;
+
+            if TInsObject(SimManager.selectedObject).isRulerStart then
+            begin
+              IsStart := true;
+              IsEnd   := false;
+              mptDown.X := Round(sx);
+              mptDown.Y := Round(sy);
+
+              SimManager.VRuler.ptStart := mptDown;
+
+              frmDistance.startX := mptDown.X;
+              frmDistance.startY := mptDown.Y;
+            end
+            else if TInsObject(SimManager.selectedObject).isRulerEnd then
+            begin
+              IsStart := false;
+              IsEnd   := true;
+              mptDown.X := Round(sx);
+              mptDown.Y := Round(sy);
+
+              SimManager.VRuler.ptEnd := mptDown;
+
+              frmDistance.endX := mptDown.X;
+              frmDistance.endY := mptDown.Y;
+            end;
+
+
+            if not (isSelectTool) then
+            begin
+              isDragMulti := False;
+              if SimManager.selectedView is TRotateSymbolView then
+              begin
+                SimManager.BringToFront(SimManager.selectedObject);
+
+                { Paranoid Mode }
+                if SimManager.selectedObject is TInsObject then
+                begin
+                  if not (SimManager.selectedObject is TIMissileObject) then
+                  begin
+                    SimManager.DragObject     := TInsObject(SimManager.selectedObject);
+                    SimManager.selectedObject := nil;
+                    SimManager.selectedView   := nil;
+                  end;
+                end;
+              end;
+            end;
+          end
+          else
+          begin
+            if isSelectTool then
+            begin
+              MainMap.CurrentTool  := TOOL_SELECT_UNIT;
+              SimManager.Selections.ClearSelection;
+            end;
+          end;
+
+        end;
+      end;
+      {Repost Object}
+      TOOL_REPOST_OBJECT :
+      begin
+
+        frmGameController.btnRemoveObject.Enabled := True;
+        sX := X;
+        SY := Y;
+        Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+        if frmGameController.lvRuntimeShip.Selected = nil then Exit;
+
+        if frmGameController.lvRuntimeShip.Selected <> nil then
+        begin
+           for j := 0 to SimManager.MainObjList.ItemCount - 1 do
+           begin
+              if TInsObject(SimManager.MainObjList.getObject(j)).FDataBaseID = Vehicle.Vehicle_ID then
+              begin
+                MainMap.ConvertCoord(sx, sy, mx, my, miScreenToMap);
+                TInsObject(SimManager.MainObjList.getObject(j)).MoveTo(mX,mY);
+                SimManager.SendMoveUnit(TInsObject(SimManager.MainObjList.getObject(j)));
+                TInsObject(SimManager.MainObjList.getObject(j)).AllowUpdate := true;
+              end;
+           end;
+        end;
+        SetDefaultMapTool;
+      end;
+      { Distance Ruler }
+      TOOL_DISTANCE:
+      begin
+        frmDistance.BringToFront;
+        SimManager.VRuler.Visible := true;
+
+        for i:= 0 to SimManager.MainObjList.ItemCount -1 do
+        begin
+          insObject := TInsObject(SimManager.MainObjList.getObject(i));
+          if insObject is TIMissileObject then Continue;
+
+          insObject.isRulerStart := false;
+          insObject.isRulerEnd   := false;
+        end;
+
+
+        if SimManager.FindViewByPosition(mptDown, SimManager.selectedView) then
+        begin
+          mx := TInsObject(SimManager.selectedObject).PositionX;
+          my := TInsObject(SimManager.selectedObject).PositionY;
+
+          TInsObject(SimManager.selectedObject).isRulerStart := true;
+
+          MainMap.ConvertCoord(sx, sY, mx, my, miMapToScreen);
+
+          mptDown.X := Round(sx);
+          mptDown.Y := Round(sy);
+
+          SimManager.VRuler.ptStart := mptDown;
+          SimManager.VRuler.ptEnd   := mptDown;
+
+          frmDistance.startX := mptDown.X;
+          frmDistance.startY := mptDown.Y;
+        end
+        else
+        begin
+          SimManager.VRuler.ptStart := mptDown;
+          SimManager.VRuler.ptEnd   := mptDown;
+
+          frmDistance.startX := X;
+          frmDistance.startY := Y;
+        end;
+      end;
+
+      { Database Pos}
+      TOOL_DATABASE_POS :
+      begin
+        if SimManager.DatabaseObject = nil then Exit;
+
+        sx := X;
+        sy := Y;
+        flag := 0;
+        MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+        SimManager.InstMapSet.useOffset := true;
+
+        IsDragMulti := false;
+        SimManager.DatabaseObject.AllowUpdate := False;
+        SimManager.DatabaseObject.MoveTo(mx,my);
+
+        frmSceEditor.UpdateListViewCoor(Mx, My, SimManager.DatabaseObject.FDataBaseID);
+        setcourse;
+        setSpeed(flag);
+        setAltAndDepth(flag);
+        SimManager.DatabaseObject := nil;
+        setArrow;
+      end;
+
+      { Assign Ascok }
+      TOOL_SELECT_ASROCTARGET :
+      begin
+        frmMainInstruktur.SetDefaultMapTool;
+        if SimManager.TrackObject = nil then Exit;
+
+        SimManager.FindViewByPosition(mptDown, SimManager.selectedView);
+        if SimManager.selectedView = nil then Exit;
+
+        if SimManager.selectedView is TRotateSymbolView then
+        begin
+
+          SimManager.BringToFront(SimManager.selectedObject);
+          if (SimManager.selectedObject is TIMissileObject) then exit;
+          if SimManager.TrackObject = TInsObject(SimManager.selectedObject) then Exit;
+
+          if (SimManager.selectedObject is TInsObject) then
+          begin
+            for i := 0 to SimManager.TrackObject.WeaponOnShip_List.Count - 1 do
+            begin
+              WeaponShip := TWeaponOnShip(SimManager.TrackObject.WeaponOnShip_List[i]);
+
+              if WeaponShip is TWeaponOn_ASROC then
+              begin
+                WeaponASROC := TWeaponOn_ASROC(WeaponShip);
+                WeaponASROC.Asroc_TrackObject := TInsObject(SimManager.selectedObject);
+              end;
+            end;
+          end;
+
+          FrameControlLeft.FrameWeaponStatus.ASROCTrack(TInsObject(SimManager.selectedObject));
+
+          SimManager.selectedObject := nil;
+          SimManager.selectedView   := nil;
+        end;
+      end;
+
+      { Assign C802 } 
+      TOOL_SELECT_C802TARGET:
+      begin
+        frmMainInstruktur.SetDefaultMapTool;
+        if SimManager.TrackObject = nil then Exit;
+
+        SimManager.FindViewByPosition(mptDown, SimManager.selectedView);
+        if SimManager.selectedView = nil then Exit;
+
+        if SimManager.selectedView is TRotateSymbolView then
+        begin
+
+          SimManager.BringToFront(SimManager.selectedObject);
+          if (SimManager.selectedObject is TIMissileObject) then exit;
+          if SimManager.TrackObject = TInsObject(SimManager.selectedObject) then Exit;
+
+          if (SimManager.selectedObject is TInsObject) then
+          begin
+            for i := 0 to SimManager.TrackObject.WeaponOnShip_List.Count - 1 do
+            begin
+              WeaponShip := TWeaponOnShip(SimManager.TrackObject.WeaponOnShip_List[i]);
+
+              if WeaponShip is TWeaponOn_C802 then
+              begin
+                WeaponC802 := TWeaponOn_C802(WeaponShip);
+                WeaponC802.C802_TrackObject := TInsObject(SimManager.selectedObject);
+              end;
+            end;
+          end;
+
+          FrameControlLeft.FrameWeaponStatus.C802Track(TInsObject(SimManager.selectedObject));
+
+          SimManager.selectedObject := nil;
+          SimManager.selectedView   := nil;
+        end;
+      end;
+
+      { Assign Yakhont }
+      TOOL_SELECT_YAKHONTTARGET:
+      begin
+        frmMainInstruktur.SetDefaultMapTool;
+        if SimManager.TrackObject = nil then Exit;
+
+        SimManager.FindViewByPosition(mptDown, SimManager.selectedView);
+        if SimManager.selectedView = nil then Exit;
+
+        if SimManager.selectedView is TRotateSymbolView then
+        begin
+
+          SimManager.BringToFront(SimManager.selectedObject);
+          if (SimManager.selectedObject is TIMissileObject) then exit;
+          if SimManager.TrackObject = TInsObject(SimManager.selectedObject) then Exit;
+
+          if (SimManager.selectedObject is TInsObject) then
+          begin
+            for i := 0 to SimManager.TrackObject.WeaponOnShip_List.Count - 1 do
+            begin
+              WeaponShip := TWeaponOnShip(SimManager.TrackObject.WeaponOnShip_List[i]);
+
+              if WeaponShip is TWeaponOn_Yakhont then
+              begin
+                WeaponYAKHONT := TWeaponOn_Yakhont(WeaponShip);
+                WeaponYAKHONT.YAKHONT_TrackObject := TInsObject(SimManager.selectedObject);
+              end;
+            end;
+          end;
+
+          FrameControlLeft.FrameWeaponStatus.YAKHONTTrack(TInsObject(SimManager.selectedObject));
+
+          SimManager.selectedObject := nil;
+          SimManager.selectedView   := nil;
+        end;
+      end;
+
+      { Assign RBU }
+      TOOL_SELECT_RBUTARGET:
+      begin
+
+
+        frmMainInstruktur.SetDefaultMapTool;
+        if SimManager.TrackObject = nil then Exit;
+
+        SimManager.FindViewByPosition(mptDown, SimManager.selectedView);
+        if SimManager.selectedView = nil then Exit;
+
+        if SimManager.selectedView is TRotateSymbolView then
+        begin
+
+          SimManager.BringToFront(SimManager.selectedObject);
+          if (SimManager.selectedObject is TIMissileObject) then exit;
+          if SimManager.TrackObject = TInsObject(SimManager.selectedObject) then Exit;
+
+          if (SimManager.selectedObject is TInsObject) then
+          begin
+            for i := 0 to SimManager.TrackObject.WeaponOnShip_List.Count - 1 do
+            begin
+              WeaponShip := TWeaponOnShip(SimManager.TrackObject.WeaponOnShip_List[i]);
+
+              if WeaponShip is TWeaponOn_RBU then
+              begin
+                WeaponRBU := TWeaponOn_RBU(WeaponShip);
+                WeaponRBU.RBU_TrackObject := TInsObject(SimManager.selectedObject);
+                WeaponRBU.isOtomate := True;
+              end;
+            end;
+          end;
+          FrameControlLeft.FrameWeaponStatus.RBUTrack(TInsObject(SimManager.selectedObject));
+
+
+          SimManager.selectedObject := nil;
+          SimManager.selectedView   := nil;
+        end;
+      end;
+
+      { Assign SPS/ Torpedo A244 }
+      TOOL_SELECT_SPSTARGET :
+      begin
+        frmMainInstruktur.SetDefaultMapTool;
+        if SimManager.TrackObject = nil then Exit;
+
+        SimManager.FindViewByPosition(mptDown, SimManager.selectedView);
+        if SimManager.selectedView = nil then Exit;
+
+        if SimManager.selectedView is TRotateSymbolView then
+        begin
+
+          SimManager.BringToFront(SimManager.selectedObject);
+          if (SimManager.selectedObject is TIMissileObject) then exit;
+          if SimManager.TrackObject = TInsObject(SimManager.selectedObject) then Exit;
+
+          if (SimManager.selectedObject is TInsObject) then
+          begin
+            for i := 0 to SimManager.TrackObject.WeaponOnShip_List.Count - 1 do
+            begin
+              WeaponShip := TWeaponOnShip(SimManager.TrackObject.WeaponOnShip_List[i]);
+
+              if WeaponShip is TWeaponOn_SPS then
+              begin
+                WeaponSPS := TWeaponOn_SPS(WeaponShip);
+                WeaponSPS.SPS_TrackObject := TInsObject(SimManager.selectedObject);
+              end;
+            end;
+          end;
+
+          FrameControlLeft.FrameWeaponStatus.SPSTrack(TInsObject(SimManager.selectedObject));
+
+          SimManager.selectedObject := nil;
+          SimManager.selectedView   := nil;
+        end;
+      end;
+
+      { Select Coord Exocet MM40 }
+      TOOL_SELECT_COORD :
+      begin
+        if frmGameController.lvRuntimeShip.Selected <> nil then
+        begin
+          frmMainInstruktur.SetDefaultMapTool;
+
+          sx := X;
+          sy := Y;
+          MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+
+          if Assigned(frmGameController.lvRuntimeShip.Selected.Data) then
+          begin
+            Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+
+            suid := dbID_to_UniqueID(Vehicle.Vehicle_ID);
+            ShipObject := SimManager.MainObjList.FindObjectByUid(suid);
+
+            if ShipObject <> nil then
+            begin
+              frmGameController.edtExocet40_TBearing.Text :=
+                Format('%.2f',[CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )]);
+              frmGameController.edtExocet40_TRange.Text :=
+                Format('%.2f',[CalcRange(ShipObject.PositionX, ShipObject.PositionY, Mx, My )]);
+            end;
+          end;
+
+        end;
+
+      end;
+
+      TOOL_SELECT_COORD_C802 :
+      begin
+        if frmGameController.lvRuntimeShip.Selected <> nil then
+        begin
+          frmMainInstruktur.SetDefaultMapTool;
+
+          sx := X;
+          sy := Y;
+          MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+
+          if Assigned(frmGameController.lvRuntimeShip.Selected.Data) then
+          begin
+            Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+
+            suid := dbID_to_UniqueID(Vehicle.Vehicle_ID);
+            ShipObject := SimManager.MainObjList.FindObjectByUid(suid);
+
+            if ShipObject <> nil then
+            begin
+
+              if CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )< Vehicle.Vehicle_Heading then
+              begin
+                 frmGameController.edtC802_TBearing.Text :=
+                 Format('%.2f', [CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )-(Vehicle.Vehicle_Heading - 360)]);
+
+              end
+              else
+              begin
+                 frmGameController.edtC802_TBearing.Text :=
+                 Format('%.2f',[CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )-Vehicle.Vehicle_Heading]);
+              end;
+
+              frmGameController.edtC802_TRange.Text :=
+                Format('%.2f',[CalcRange(ShipObject.PositionX, ShipObject.PositionY, Mx, My )]);
+              frmGameController.lblkoorXc802.Caption := FormatFloat('0.00',mX);
+              frmGameController.lblKoorYc802.Caption := FormatFloat('0.00',mY);
+            end;
+          end;
+
+        end;
+      end;
+
+      TOOL_SELECT_COORD_YAKHONT :
+      begin
+        if frmGameController.lvRuntimeShip.Selected <> nil then
+        begin
+          frmMainInstruktur.SetDefaultMapTool;
+
+          sx := X;
+          sy := Y;
+          MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+
+          if Assigned(frmGameController.lvRuntimeShip.Selected.Data) then
+          begin
+            Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+
+            suid := dbID_to_UniqueID(Vehicle.Vehicle_ID);
+            ShipObject := SimManager.MainObjList.FindObjectByUid(suid);
+
+            if ShipObject <> nil then
+            begin
+              frmGameController.edtYahkont_TBearing.Text :=
+                Format('%.2f',[CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )]);
+
+              frmGameController.edtYahkont_TRange.Text :=
+                Format('%.2f',[CalcRange(ShipObject.PositionX, ShipObject.PositionY, Mx, My )]);
+
+              frmGameController.lblcoorXyakhont.Caption := FormatFloat('0.00',mX);
+              frmGameController.lblcoorYyakhont.Caption := FormatFloat('0.00',mY);
+
+
+
+            end;
+          end;
+//          DataModule1.GetListWeaponRangeDetail(Ship_ID, IDweapon, IDDetail,  ListWeaponDetail);
+        end;
+      end;
+
+      TOOL_SELECT_COORD_STRELLA :
+      begin
+        if frmGameController.lvRuntimeShip.Selected <> nil then
+        begin
+          frmMainInstruktur.SetDefaultMapTool;
+
+          sx := X;
+          sy := Y;
+          MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+
+          if Assigned(frmGameController.lvRuntimeShip.Selected.Data) then
+          begin
+            Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+
+            suid := dbID_to_UniqueID(Vehicle.Vehicle_ID);
+            ShipObject := SimManager.MainObjList.FindObjectByUid(suid);
+
+            if ShipObject <> nil then
+            begin
+              if CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )< Vehicle.Vehicle_Heading then
+              begin
+                 frmGameController.edtStrella_TBearing.Text :=
+                 Format('%.2f', [CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )-(Vehicle.Vehicle_Heading - 360)]);
+
+              end
+              else
+              begin
+                 frmGameController.edtStrella_TBearing.Text :=
+                 Format('%.2f',[CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )-Vehicle.Vehicle_Heading]);
+              end;
+
+              frmGameController.edtStrella_TRange.Text :=
+                Format('%.2f',[CalcRange(ShipObject.PositionX, ShipObject.PositionY, Mx, My )]);
+            end;
+          end;
+
+        end;
+      end;
+      TOOL_SELECT_COORD_MISTRAL :
+      begin
+        if frmGameController.lvRuntimeShip.Selected <> nil then
+        begin
+          frmMainInstruktur.SetDefaultMapTool;
+
+          sx := X;
+          sy := Y;
+          MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+
+          if Assigned(frmGameController.lvRuntimeShip.Selected.Data) then
+          begin
+            Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+
+            suid := dbID_to_UniqueID(Vehicle.Vehicle_ID);
+            ShipObject := SimManager.MainObjList.FindObjectByUid(suid);
+
+            if ShipObject <> nil then
+            begin
+              if CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )< Vehicle.Vehicle_Heading then
+              begin
+                 frmGameController.edtMistral_TBearing.Text :=
+                 Format('%.2f', [CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )-(Vehicle.Vehicle_Heading - 360)]);
+
+              end
+              else
+              begin
+                 frmGameController.edtMistral_TBearing.Text :=
+                 Format('%.2f',[CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )-Vehicle.Vehicle_Heading]);
+              end;
+
+                frmGameController.edtMistral_TRange.Text :=
+                Format('%.2f',[CalcRange(ShipObject.PositionX, ShipObject.PositionY, Mx, My )]);
+            end;
+          end;
+
+        end;
+      end;
+
+      TOOL_SELECT_TORPSUT_TARGET :
+      begin
+        //if SimManager.TrackObject = nil then Exit;
+
+        SimManager.FindViewByPosition(mptDown, SimManager.selectedView);
+        if SimManager.selectedView = nil then Exit;
+
+        if SimManager.selectedView is TRotateSymbolView then
+        begin
+
+          SimManager.BringToFront(SimManager.selectedObject);
+          if (SimManager.selectedObject is TIMissileObject) then exit;
+          if SimManager.TrackObject = TInsObject(SimManager.selectedObject) then Exit;
+        end;
+        frmGameController.edtTorpSUTTargetID.Text := IntToStr(TInsObject(SimManager.selectedObject).FDataBaseID);
+
+        if Assigned(frmGameController.lvRuntimeShip.Selected.Data) then begin
+          sx := X;
+          sy := Y;
+          MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+
+          Vehicle    := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+          suid       := dbID_to_UniqueID(Vehicle.Vehicle_ID);
+          ShipObject := SimManager.MainObjList.FindObjectByUid(suid);
+
+          if ShipObject <> nil then begin
+            frmGameController.edtTorpSutRange.Text := Format('%.2f',[CalcRange(ShipObject.PositionX, ShipObject.PositionY, Mx, My )]);
+          end;
+        end;
+
+        setArrow;
+      end;
+
+      TOOL_SELECT_COORD_RBU:
+      begin
+        if frmGameController.lvRuntimeShip.Selected <> nil then
+        begin
+          frmMainInstruktur.SetDefaultMapTool;
+
+          sx := X;
+          sy := Y;
+          MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+          Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+          if frmGameController.lvRuntimeShip.Selected = nil then Exit;
+
+          if Assigned(frmGameController.lvRuntimeShip.Selected.Data) then
+          begin
+            Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+
+            suid := dbID_to_UniqueID(Vehicle.Vehicle_ID);
+            ShipObject := SimManager.MainObjList.FindObjectByUid(suid);
+
+            if ShipObject <> nil then
+            begin
+
+                if CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )< Vehicle.Vehicle_Heading then
+                begin
+                   frmGameController.eRBU6000Bearing.Text :=
+                   Format('%.2f', [CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )-(Vehicle.Vehicle_Heading - 360)]);
+
+                end
+                else
+                begin
+                   frmGameController.eRBU6000Bearing.Text :=
+                   Format('%.2f',[CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )-Vehicle.Vehicle_Heading]);
+                end;
+
+                frmGameController.eRBU6000Range.Text :=
+                Format('%.2f',[CalcRange(ShipObject.PositionX, ShipObject.PositionY, Mx, My )]);
+            end;
+          end;
+
+
+          if (StrToFloat(frmGameController.eRBU6000Range.Text) > 0.26) and (StrToFloat(frmGameController.eRBU6000Range.Text) < 0.82) then
+          begin
+            if  (StrToFloat(frmGameController.eRBU6000Bearing.Text) > 210) or (StrToFloat(frmGameController.eRBU6000Bearing.Text) < 120) then
+            begin
+              frmGameController.eRBU6000Balistik.Text := '1';
+            end
+            else
+            begin
+              frmGameController.eRBU6000Balistik.Text := '';
+            end;
+          end
+          else if (StrToFloat(frmGameController.eRBU6000Range.Text) > 0.80) and (StrToFloat(frmGameController.eRBU6000Range.Text) < 2.98) then
+          begin
+            if  (StrToFloat(frmGameController.eRBU6000Bearing.Text) > 210) or (StrToFloat(frmGameController.eRBU6000Bearing.Text) < 120) then
+            begin
+              frmGameController.eRBU6000Balistik.Text := '2';
+            end
+            else
+            begin
+              frmGameController.eRBU6000Balistik.Text := '';
+            end;
+          end
+          else
+          begin
+            frmGameController.eRBU6000Balistik.Text := '';
+          end;
+
+
+          // cari target id
+          SimManager.FindViewByPosition(mptDown, SimManager.selectedView);
+          if SimManager.selectedView = nil then Exit;
+
+          if SimManager.selectedView is TRotateSymbolView then
+          begin
+
+            SimManager.BringToFront(SimManager.selectedObject);
+            if (SimManager.selectedObject is TIMissileObject) then exit;
+            if SimManager.TrackObject = TInsObject(SimManager.selectedObject) then Exit;
+          end;
+          frmGameController.eRBUTargetID.Text := IntToStr(TInsObject(SimManager.selectedObject).FDataBaseID);
+          setArrow;
+        end;
+      end;
+
+      TOOL_SELECT_ASROC_TARGET :
+      begin
+
+        frmMainInstruktur.SetDefaultMapTool;
+
+        sx := X;
+        sy := Y;
+        MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+        if Assigned(frmGameController.lvRuntimeShip.Selected.Data) then
+        begin
+          Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+
+          suid := dbID_to_UniqueID(Vehicle.Vehicle_ID);
+          ShipObject := SimManager.MainObjList.FindObjectByUid(suid);
+
+          if ShipObject <> nil then
+          begin
+            if CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )< Vehicle.Vehicle_Heading then
+            begin
+               frmGameController.eAsrocBearing.Text :=
+               Format('%.2f', [CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )-(Vehicle.Vehicle_Heading - 360)]);
+
+            end
+            else
+            begin
+               frmGameController.eAsrocBearing.Text :=
+               Format('%.2f',[CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )-Vehicle.Vehicle_Heading]);
+            end;
+
+            frmGameController.eAsrocRange.Text :=
+              Format('%.2f',[CalcRange(ShipObject.PositionX, ShipObject.PositionY, Mx, My )]);
+          end;
+
+          //pengecekan jangkauan pada asroc senjata
+          if (StrToFloat(frmGameController.eAsrocRange.Text) > 0.323) and (StrToFloat(frmGameController.eAsrocRange.Text) < 0.563) then
+          begin
+            if  (StrToFloat(frmGameController.eAsrocBearing.Text) > 250) or (StrToFloat(frmGameController.eAsrocBearing.Text) < 110) then
+            begin
+              frmGameController.cbbAsrocMissileType.ItemIndex := 0;
+            end
+            else
+            begin
+              frmGameController.cbbAsrocMissileType.ItemIndex := -1;
+            end;
+          end
+          else if (StrToFloat(frmGameController.eAsrocRange.Text) > 0.561) and (StrToFloat(frmGameController.eAsrocRange.Text) < 0.876) then
+          begin
+            if  (StrToFloat(frmGameController.eAsrocBearing.Text) > 250) or (StrToFloat(frmGameController.eAsrocBearing.Text) < 110) then
+            begin
+              frmGameController.cbbAsrocMissileType.ItemIndex := 1;
+            end
+            else
+            begin
+              frmGameController.cbbAsrocMissileType.ItemIndex := -1;
+            end;
+            //ShowMessage('Target masuk daerah jangkauan Erika High');
+          end
+          else if (StrToFloat(frmGameController.eAsrocRange.Text) > 0.874) and (StrToFloat(frmGameController.eAsrocRange.Text) < 1.278) then
+          begin
+            if  (StrToFloat(frmGameController.eAsrocBearing.Text) > 250) or (StrToFloat(frmGameController.eAsrocBearing.Text) < 110) then
+            begin
+              frmGameController.cbbAsrocMissileType.ItemIndex := 2;
+            end
+            else
+            begin
+              frmGameController.cbbAsrocMissileType.ItemIndex := -1;
+            end;
+            //ShowMessage('Target masuk daerah jangkauan Nelly Low');
+          end
+          else if (StrToFloat(frmGameController.eAsrocRange.Text) > 1.276) and (StrToFloat(frmGameController.eAsrocRange.Text) < 1.945) then
+          begin
+            if  (StrToFloat(frmGameController.eAsrocBearing.Text) > 250) or (StrToFloat(frmGameController.eAsrocBearing.Text) < 110) then
+            begin
+              frmGameController.cbbAsrocMissileType.ItemIndex := 3;
+            end
+            else
+            begin
+              frmGameController.cbbAsrocMissileType.ItemIndex := -1;
+            end;
+            //ShowMessage('Target masuk daerah jangkauan Nelly High');
+          end
+          else
+          begin
+            frmGameController.cbbAsrocMissileType.ItemIndex := -1;
+            //ShowMessage('Target diluar jangkauan');
+          end;
+
+          // cari target id
+          SimManager.FindViewByPosition(mptDown, SimManager.selectedView);
+          if SimManager.selectedView = nil then Exit;
+
+          if SimManager.selectedView is TRotateSymbolView then
+          begin
+
+            SimManager.BringToFront(SimManager.selectedObject);
+            if (SimManager.selectedObject is TIMissileObject) then exit;
+            if SimManager.TrackObject = TInsObject(SimManager.selectedObject) then Exit;
+          end;
+
+          frmGameController.eAsrocTargetID.Text := IntToStr(TInsObject(SimManager.selectedObject).FDataBaseID);
+          setArrow;
+
+        end;
+
+
+      end;
+
+      TOOL_SELECT_TETRAL_TARGET :
+      begin
+        if frmGameController.lvRuntimeShip.Selected <> nil then
+        begin
+          frmMainInstruktur.SetDefaultMapTool;
+
+          sx := X;
+          sy := Y;
+          MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+
+          if Assigned(frmGameController.lvRuntimeShip.Selected.Data) then
+          begin
+            Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+
+            suid := dbID_to_UniqueID(Vehicle.Vehicle_ID);
+            ShipObject := SimManager.MainObjList.FindObjectByUid(suid);
+
+            if ShipObject <> nil then
+            begin
+              if CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )< Vehicle.Vehicle_Heading then
+                begin
+                   frmGameController.edtTetral_TBearing.Text :=
+                   Format('%.2f', [CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )-(Vehicle.Vehicle_Heading - 360)]);
+
+                end
+                else
+                begin
+                   frmGameController.edtTetral_TBearing.Text :=
+                   Format('%.2f',[CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )-Vehicle.Vehicle_Heading]);
+                end;
+
+                frmGameController.edtTetral_TRange.Text :=
+                Format('%.2f',[CalcRange(ShipObject.PositionX, ShipObject.PositionY, Mx, My )]);
+            end;
+          end;
+
+        end;
+      end;
+
+      TOOL_SELECT_CANON_TARGET :
+      begin
+        SimManager.FindViewByPosition(mptDown, SimManager.selectedView);
+        if SimManager.selectedView = nil then Exit;
+
+        if SimManager.selectedView is TRotateSymbolView then
+        begin
+
+          SimManager.BringToFront(SimManager.selectedObject);
+          if (SimManager.selectedObject is TIMissileObject) then exit;
+          if SimManager.TrackObject = TInsObject(SimManager.selectedObject) then Exit;
+        end;
+        frmGameController.edtCannonTargetID.Text := IntToStr(TInsObject(SimManager.selectedObject).FDataBaseID);
+        setArrow;
+      end;
+      TOOL_MAP_VIEW :
+      begin
+
+      end;
+
+     TOOL_SELECT_WAYPOINT :
+     begin
+      sX := X;
+      SY := Y;
+      MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+      if Assigned(SimManager.TrackObject) then
+      begin
+        if SimManager.TrackObject is TInsObject then
+        begin
+          waypointPos := TObjPoint.Create;
+          waypointPos.pointX := mX;
+          waypointPos.pointY := mY;
+         // ShowMessage(FloatToStr(waypointPos.pointX));
+          sID := UniqueID_To_dbID(SimManager.TrackObject.UniqueID);
+
+          threeDX := mX - SimManager.instMapSet.xOffset;
+          threeDY := mY - SimManager.instMapSet.yOffset;
+
+          SimManager.NetSendTo3D_SetCommandOrder(sid, ORD_RUDDER, 0, VG_Waypoint, threeDX, threeDY, 0);
+          TInsObject(SimManager.TrackObject).VWayPoint.listWayPoint.Add(waypointPos);
+        end;
+      end;
+
+//      insObject.VWayPoint.DrawX := Round(mX);
+//      insObject.VWayPoint.DrawY := Round(mY);
+//      insObject.VWayPoint.Visible := True;
+      {wayPoint := TWayPoint.CreateOnMapX(TInsObject.Create, MainMap);
+      wayPoint.DrawX := Round(mX);
+      wayPoint.DrawY := Round(mY);
+      wayPoint.Visible := True;
+       }
+
+      {sx := X;
+      sy := Y;
+      MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+
+       drawX := Round(mx);
+       drawY := Round(my);
+
+
+      FMapCanvas.Brush.Style := bsClear;
+      FMapCanvas.Pen.Color := clRed;
+      FMapCanvas.Pen.Width := 2;
+
+      FMapCanvas.Rectangle(drawX,drawY,drawX + 10, drawY + 10);
+       }
+
+      {
+      if frmGameController.lvRuntimeShip.Selected <> nil then
+        begin
+          frmMainInstruktur.SetDefaultMapTool;
+
+          sx := X;
+          sy := Y;
+          MainMap.ConvertCoord(sx, sY, mx, my, miScreenToMap);
+
+          if Assigned(frmGameController.lvRuntimeShip.Selected.Data) then
+          begin
+            Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+
+            suid := dbID_to_UniqueID(Vehicle.Vehicle_ID);
+            ShipObject := SimManager.MainObjList.FindObjectByUid(suid);
+
+            if ShipObject <> nil then
+            begin
+              FrameControlLeft.FrameGuidance.edtStraightLineOrderedHeading.Text :=
+                Format('%.2f',[CalcBearing(ShipObject.PositionX, ShipObject.PositionY, Mx, My )]);
+            end;
+          end;
+        end; }
+     end;
+    end;
+  end
+  else
+  begin
+    sX := X;
+    sY := Y;
+    MainMap.ConvertCoord(sX, sY, mX, mY, miScreenToMap);
+
+    mX := ( mX - SimManager.instMapSet.xOffset ) *  C_Degree_To_Meter;
+    mY := ( mY - SimManager.instMapSet.yOffset ) *  C_Degree_To_Meter;
+
+    frmAddShipRuntime.PosX := mX;
+    frmAddShipRuntime.PosY := mY;
+
+    frmAddShipRuntime.ShowModal;
+  end;
+end;
+
+
+
+procedure TfrmMainInstruktur.MainMapMouseMove(Sender: TObject;
+  Shift: TShiftState; X, Y: Integer);
+var
+  dx, dy: integer;
+  mx, my: double;
+  sx, sy: single;
+  r : TRect;
+begin
+ShowInfoCursor(X, Y);
+  if isDown then
+  begin
+    case MainMap.CurrentTool of
+
+      miArrowtool: begin
+          dx := X - mptLast.X;
+          dy := Y - mptLast.Y;
+          if isDown and (SimManager.selectedView <> nil) then begin
+            (SimManager.selectedView).HandleDrag(dx, dy);
+          end;
+          mptLast.X := X;
+          mptLast.Y := Y;
+        end;
+
+      { Move Unit Tool }
+      TOOL_MOVE_UNIT :
+      begin
+        if IsDragMulti then
+        begin
+          SimManager.Drag_Move(mptDown, Point(X, Y));
+        end
+        else
+        if SimManager.dragObject <> nil then
+        begin
+          sx := x;
+          sy := y;
+          
+          SimManager.DragObject.AllowUpdate := False;
+          MainMap.ConvertCoord(sx, sy, mx, my, miScreenToMap);
+          SimManager.dragObject.MoveTo(mx, my);
+
+          if isStart then
+          begin
+            if isDown then
+            begin
+              mptDown := point(X, Y);
+              frmDistance.startX := X;
+              frmDistance.startY := Y;
+
+              SimManager.VRuler.ptStart := mptDown;
+              //SimManager.VRuler.ptEnd := mptDown;
+              SimManager.VRuler.Range := frmDistance.Range;
+            end;
+          end
+          else if isEnd then
+          begin
+            if isDown then
+            begin
+              mptDown := point(X, Y);
+              frmDistance.endX := X;
+              frmDistance.endY := Y;
+
+              SimManager.VRuler.ptEnd := mptDown;
+              //SimManager.VRuler.ptEnd := mptDown;
+              SimManager.VRuler.Range := frmDistance.Range;
+            end;
+          end;
+
+
+        end;
+      end;
+
+      { Distance Ruler }
+      TOOL_DISTANCE:
+      begin
+        if isDown then
+        begin
+          mptDown := point(X, Y);
+          frmDistance.endX := X;
+          frmDistance.endY := Y;
+
+          SimManager.VRuler.ptEnd := mptDown;
+          SimManager.VRuler.Range := frmDistance.Range;
+        end;
+      end;
+
+      TOOL_SELECT_UNIT:
+      begin
+        if isDown then
+        begin
+          r.Left    := min(mptDown.X, mptLast.X);
+          r.Right   := max(mptDown.X, mptLast.X);
+          r.top     := min(mptDown.Y, mptLast.Y);
+          r.Bottom  := max(mptDown.Y, mptLast.Y);
+
+          SimManager.VSelect.ptStart := r.TopLeft;
+          SimManager.VSelect.ptEnd  := r.BottomRight;
+        end;
+      end;
+    end;
+
+    mptLast.X := X;
+    mptLast.Y := Y;
+  end;
+end;
+
+procedure TfrmMainInstruktur.MainMapMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  i : integer;
+
+  newhead,
+  newdepth,
+  newAlt : double;
+
+  inHead,
+  strHead,
+  inDepth,
+  strDepth,
+  inAlt,
+  strAlt : string;
+  
+  sx, sy : Single;
+  mx, my : Double;
+
+  r: TRect;
+  Ship : TInsObject;
+begin
+  isDown := false;
+  case MainMap.CurrentTool of
+    { Move Unit Tool }
+    TOOL_MOVE_UNIT :
+    begin
+      if IsDragMulti then
+      begin
+        SimManager.Select_SendMove;
+        SimManager.Selections.ClearSelection;
+       // SimManager.VSelect.Visible := false;
+
+        if SimManager.isDatabaseMode then
+        begin
+          Ship := nil;
+
+          for i := 0 to SimManager.Selections.Count - 1 do
+          begin
+            ship := SimManager.Selections.Items[i];
+            frmSceEditor.UpdateListViewCoor(ship.PositionX, ship.PositionY, ship.FDataBaseID);
+          end;
+        end;
+
+        //SimManager.Selections.ClearSelection;
+        MainMap.CurrentTool  := TOOL_SELECT_UNIT;
+      end
+      else
+      if SimManager.dragObject <> nil then
+      begin
+        { Shift to Change Heading }
+        if ssShift in Shift then begin
+          strHead := Format('%2.2f', [SimManager.DragObject.Course]);
+
+          inHead := InputBox('Change Course ' + SimManager.DragObject.ObjName, 'New Course: ', strHead);
+
+          if ConvertToFloat(inHead, newhead) then
+            SimManager.dragObject.Course := newHead;
+
+          if SimManager.isDatabaseMode then
+            frmSceEditor.UpdateListViewHeading(newHead, SimManager.dragObject.FDataBaseID);
+
+        end
+        else
+        { Alt to Change Altitude/Depth }
+        if ssAlt in shift then
+        begin
+          if SimManager.dragObject is TISubMarineObject then
+          begin
+            strDepth := Format('%2.2f', [-1*(SimManager.DragObject.PositionZ)]);
+
+            inDepth := InputBox('Change Depth ' + FloatToStr(SimManager.DragObject.PositionZ), 'New Depth: ', strDepth);
+            if ConvertToFloat(inDepth, newdepth) then
+              SimManager.dragObject.PositionZ := -1* Abs(newdepth);
+
+            if SimManager.isDatabaseMode then
+              frmSceEditor.UpdateListViewDepth( -1* Abs(newdepth), SimManager.dragObject.FDataBaseID);
+          end
+          else
+          if (SimManager.dragObject is TIHeliObject) or (SimManager.dragObject is TIAirCraftObject) then
+          begin
+            strAlt := Format('%2.2f', [SimManager.DragObject.PositionZ]);
+
+            inAlt := InputBox('Change Altitude ' + FloatToStr(SimManager.DragObject.PositionZ), 'New Altitude: ', strAlt);
+            if ConvertToFloat(inAlt,newAlt) then
+              SimManager.dragObject.PositionZ := Abs(newAlt);
+
+            if SimManager.isDatabaseMode then
+              frmSceEditor.UpdateListViewDepth(Abs(newAlt),SimManager.dragObject.FDataBaseID);
+          end
+        end;
+
+        if SimManager.isDatabaseMode then
+          frmSceEditor.UpdateListViewCoor(SimManager.dragObject.PositionX,
+                                          SimManager.dragObject.PositionY,
+                                          SimManager.dragObject.FDataBaseID);
+
+        SimManager.SendMoveUnit(SimManager.dragObject);
+        SimManager.dragObject.AllowUpdate := true;
+        SimManager.dragObject := nil;
+      end;
+    end;
+
+    { Distance Ruler }
+    TOOL_DISTANCE:
+    begin
+      if SimManager.FindViewByPosition(mptDown, SimManager.selectedView) then
+      begin
+        mx := TInsObject(SimManager.selectedObject).PositionX;
+        my := TInsObject(SimManager.selectedObject).PositionY;
+        MainMap.ConvertCoord(sx, sY, mx, my, miMapToScreen);
+
+        mptDown.X := Round(sx);
+        mptDown.Y := Round(sy);
+
+        frmDistance.endX := mptDown.X;
+        frmDistance.endY := mptDown.Y;
+
+        frmDistance.endX := X;
+        frmDistance.endY := Y;
+
+        SimManager.VRuler.ptEnd := mptDown;
+        SimManager.VRuler.Range := frmDistance.Range;
+
+        TInsObject(SimManager.selectedObject).isRulerEnd := true;
+      end
+    end;
+
+    { Multi Select }
+    TOOL_SELECT_UNIT:
+    begin
+      mptLast.X := X;
+      mptLast.Y := Y;
+
+      r.Left    := min(mptDown.X, mptLast.X);
+      r.Right   := max(mptDown.X, mptLast.X);
+      r.top     := min(mptDown.Y, mptLast.Y);
+      r.Bottom  := max(mptDown.Y, mptLast.Y);
+
+      SimManager.VSelect.ptStart  := r.TopLeft;
+      SimManager.VSelect.ptEnd    := r.BottomRight;
+
+      SimManager.Select_(r.TopLeft, r.BottomRight);
+      SimManager.Select_Begin(r.TopLeft);
+      SimManager.Select_End(r.BottomRight);
+
+      MainMap.CurrentTool  := TOOL_MOVE_UNIT;
+    end;
+  end
+end;
+
+procedure TfrmMainInstruktur.ShowInfoCursor(const x, y: integer);
+var
+  mx, my: double;
+  sx, sy: single;
+  z: double;
+  s: string;
+begin
+  if MainMap.Geoset = '' then exit;
+  sx := x;
+  sy := y;
+
+  MainMap.ConvertCoord(sx, sy, mx, my, miScreenToMap);
+
+  if SimManager.Get3DMapHeight(mx, my, z, s) then begin
+    if z < 0 then begin
+      lblDepth.Caption := Format('%2.2f', [abs(z)]);
+      lblElevation.Caption := '0.00';
+    end
+    else begin
+      lblDepth.Caption := '0.00';
+      lblElevation.Caption := Format('%2.2f', [z]);
+    end;
+  end;
+
+  lblLongitude.Caption := ConvLL_To_Str(mx, '0');
+  lblLatitude.Caption := ConvLL_To_Str(my, '1');
+  lblGeoref.Caption := ConvDegree_To_Georef(mx, my);
+  lblX.Caption := Format('%2.8f', [mx]);
+  lblY.Caption := Format('%2.8f', [my]);
+  lbl3DX.Caption := Format('%2.8f', [(mx - SimManager.instMapSet.xOffset) * C_Degree_To_Meter]);
+  lbl3DY.Caption := Format('%2.8f', [(my - SimManager.instMapSet.yOffset) * C_Degree_To_Meter]);
+
+end;
+
+procedure TfrmMainInstruktur.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  if Assigned(SimManager) then
+  begin
+    if Assigned(SimManager.TCPClient) then
+    begin
+      SimManager.TCPClient.Socket.OnChangeState     := nil;
+      SimManager.ShouldConnect      := false;
+    end;
+  end;
+  Application.Terminate;
+//  TimerDestroy.Enabled := true;
+end;
+
+procedure TfrmMainInstruktur.OnTimerDestroy_OnTime(sender: TObject);
+begin
+  if Assigned(SimManager) then
+  begin
+    if Assigned(SimManager.TCPClient) then
+    begin
+      SimManager.TCPClient.Socket.OnChangeState     := nil;
+      SimManager.ShouldConnect      := false;
+    end;
+  end;
+
+  Application.Terminate;
+end;
+
+procedure TfrmMainInstruktur.btnShowtikasClick(Sender: TObject);
+var
+  i : integer;
+begin
+   if btnShowtikas.Tag = 0 then
+   begin
+     for i := 0 to SimManager.MainObjList.ItemCount-1 do
+     begin
+        TInsObject(SimManager.MainObjList.getObject(i)).VHistory.Visible := false;
+     end;
+     btnShowtikas.Tag := 1;
+     btnShowtikas.Caption := 'Show Tikas';
+   end
+   else
+   begin
+     for i := 0 to SimManager.MainObjList.ItemCount-1 do
+     begin
+      TInsObject(SimManager.MainObjList.getObject(i)).VHistory.Visible := true;
+     end;
+      btnShowtikas.Tag := 0;
+      btnShowtikas.Caption := 'Hide Tikas';
+   end;
+
+end;
+
+procedure InitOleVariant(var TheVar: OleVariant);
+begin
+  TVarData(TheVar).vType := varError;
+  TVarData(TheVar).vError := DISP_E_PARAMNOTFOUND;
+end;
+
+procedure TfrmMainInstruktur.LoadMap(aGeoset : string);
+var  z: OleVariant;
+     mInfo: CMapXLayerInfo;
+begin
+   if MapInset = nil then
+    Exit;
+  InitOleVariant(z);
+
+  MapInset.Layers.RemoveAll;
+  MapInset.Geoset := aGeoset;
+
+  if aGeoset <> '' then
+  begin
+
+    mInfo := CoLayerInfo.Create;
+    mInfo.type_ := miLayerInfoTypeUserDraw;
+    mInfo.AddParameter('Name', 'LYR_DRAW');
+    FLyrDraw := MapInset.Layers.Add(mInfo, 1);
+
+    MapInset.Layers.AnimationLayer := FLyrDraw;
+    MapInset.MapUnit := miUnitNauticalMile;
+  end;
+  MapInset.BackColor := RGB(192, 224, 255);
+end;
+
+procedure TfrmMainInstruktur.UpdateInsetMap(aMap, anInsetMap: TMap; anInsetMapCanvas: TCanvas);
+var
+ mainRect: TRect;
+ mX, mY: Single;
+
+ mainGeoTopLeft_X, mainGeoTopLeft_Y,
+ mainGeoBtmRight_X, mainGeoBtmRight_Y: Double;
+
+ insScrTopLeft_X, insScrTopLeft_Y,
+ insScrBtmRight_X, insScrBtmRight_Y  : Single;
+
+ diffX, diffY : Integer;
+ maxX, maxY   : Integer;
+ diffdiffX, diffdiffY : Integer;
+ pelebaranSizeMapX, pelebaranSizeMapY  : Integer;
+
+begin
+
+
+  // Set top left and btm right borders of main map
+  mainRect.TopLeft := Point(1,1);
+  mainRect.BottomRight := Point(aMap.Width-1, aMap.Height-1);
+
+  // Get main map Top Left geo coord
+  mX:= mainRect.Top;
+  mY:= mainRect.Left;
+  aMap.ConvertCoord(mX, mY, mainGeoTopLeft_X, mainGeoTopLeft_Y, miScreenToMap);
+
+  // Get main map Bottom Right geo coord
+  mX:= mainRect.Right;
+  mY:= mainRect.Bottom;
+  aMap.ConvertCoord(mX, mY, mainGeoBtmRight_X, mainGeoBtmRight_Y, miScreenToMap);
+
+  // set inset map Top Left screen coord
+  anInsetMap.ConvertCoord(insScrTopLeft_X, insScrTopLeft_Y,
+                         mainGeoTopLeft_X,   mainGeoTopLeft_Y, miMapToScreen);
+
+  // set inset map Bottom Right screen coord
+  anInsetMap.ConvertCoord(insScrBtmRight_X, insScrBtmRight_Y,
+                         mainGeoBtmRight_X, mainGeoBtmRight_Y, miMapToScreen);
+
+  // Draw rectangle on inset map
+  anInsetMapCanvas.Pen.Color := clRed;
+  anInsetMapCanvas.Pen.Width := 2;
+  anInsetMapCanvas.Brush.Style := bsClear;
+
+  // Better use Trunc or Round?
+  {
+  anInsetMapCanvas.Rectangle(Trunc(insScrTopLeft_X), Trunc(insScrTopLeft_Y),
+                            Trunc(insScrBtmRight_X), Trunc(insScrBtmRight_Y));
+  }
+//   lbl14.Caption := IntToStr(Round(insScrTopLeft_X));
+//   lbl15.Caption := IntToStr(Round(insScrTopLeft_Y)) ;
+//   lbl16.Caption := IntToStr(Round(insScrBtmRight_X));
+//   lbl17.Caption := IntToStr(Round(insScrBtmRight_Y));
+
+   maxX := 4;
+   maxY := 3;
+
+   diffX := (Round(insScrBtmRight_X)) - (Round(insScrTopLeft_X));
+   diffY := (Round(insScrBtmRight_Y)) - (Round(insScrTopLeft_Y));
+
+  if (diffX >= maxX) and (diffY >= maxY) then begin
+
+    anInsetMapCanvas.Rectangle(Round(insScrTopLeft_X), Round(insScrTopLeft_Y),
+    Round(insScrBtmRight_X), Round(insScrBtmRight_Y));
+    end
+    else  begin
+    diffdiffX := maxX - diffX;
+    diffdiffY := maxY - diffY;
+
+    pelebaranSizeMapX := Round (diffdiffX / 2);
+    pelebaranSizeMapY := Round (diffdiffY / 2);
+
+    anInsetMapCanvas.Rectangle(Round(insScrTopLeft_X) - pelebaranSizeMapX, Round(insScrTopLeft_Y) - pelebaranSizeMapY,
+    Round(insScrBtmRight_X) + pelebaranSizeMapX, Round(insScrBtmRight_Y) + pelebaranSizeMapY);
+
+  end;
+
+end;
+
+procedure TfrmMainInstruktur.MapInsetDrawUserLayer(ASender: TObject;
+  const Layer: IDispatch; hOutputDC, hAttributeDC: Integer;
+  const RectFull, RectInvalid: IDispatch);
+begin
+  if not Assigned(FMapInsetCanvas) then
+    exit;
+
+  FMapInsetCanvas.Handle := hOutputDC;
+
+  UpdateInsetMap(MainMap, MapInset, FMapInsetCanvas);
+end;
+
+procedure TfrmMainInstruktur.MainMapMapViewChanged(Sender: TObject);
+var
+  mapRec  : TRecMapCommand;
+begin
+  MapInset.Repaint;
+  lblZoomLvl.Caption := (FloatToStr(Round(MainMap.Zoom)));
+
+  if (MainMap.CurrentTool  = miZoomOutTool) or
+          (MainMap.CurrentTool  = miZoomInTool) then
+  begin
+    mapRec.ToolID   := miZoomInTool; // in atau out sama saja
+    mapRec.OrderID  := OID_MAP;
+    mapRec.MapID    := 0;
+    mapRec.Scale    := MainMap.Zoom;
+    SimManager.NetSendToMap(mapRec);
+  end;
+end;
+
+
+
+procedure TfrmMainInstruktur.DisplayGameController1Click(Sender: TObject);
+begin
+  if MapInset.Visible = True then
+  begin
+    MapReviewSHOW1.Checked := True;
+  end
+  else
+  begin
+     MapReviewSHOW1.Checked := False;
+  end;
+end;
+
+
+procedure TfrmMainInstruktur.MapReviewSHOW1Click(Sender: TObject);
+begin
+  if MapInset.Visible = True then
+  begin
+    MapInset.Visible := False;
+    pnlMapInset.Visible := False;
+  end
+  else
+  begin
+      MapInset.Visible := True;
+      pnlMapInset.Visible := True;
+  end;
+end;
+
+procedure TfrmMainInstruktur.setMapInset;
+begin
+  MapInset.DoubleBuffered := True;
+  FMapInsetCanvas := TCanvas.Create;
+  LoadMap('..\data\MapInset\mapt2.gst');
+end;
+
+procedure TfrmMainInstruktur.setcourse;
+var
+  strhead, inhead : string;
+  newhead         : Double;
+begin
+  strHead := Format('%2.2f', [SimManager.DatabaseObject.Course]);
+  inHead := InputBox('Change Course ' + SimManager.DatabaseObject.ObjName, 'New Course: ', strHead);
+
+  if ConvertToFloat(inHead, newhead) then
+    SimManager.DatabaseObject.Course := newHead;
+
+  if SimManager.isDatabaseMode then
+    frmSceEditor.UpdateListViewHeading(newHead, SimManager.DatabaseObject.FDataBaseID);
+end;
+
+procedure TfrmMainInstruktur.setSpeed(flag : Integer);
+var
+  strSpeed, inSpeed : string;
+  newSpeed          : Double;
+begin
+  if(SimManager.DatabaseObject is TIAirCraftObject) then begin
+    strSpeed := Format('%2.2f', [SimManager.DatabaseObject.Speed]);
+    inSpeed := strSpeed;
+    while flag = 0 do begin
+      ShowMessage('Aircraft speed minimum is 50 knot');
+      inSpeed := InputBox('Change Speed ' + SimManager.DatabaseObject.ObjName, 'New Speed: ', strSpeed);
+      flag := 1;
+      if StrToFloat(inSpeed) < 50 then begin
+        flag := 0;
+      end;
+    end;
+    if ConvertToFloat(inSpeed, newSpeed) then
+      SimManager.DatabaseObject.Speed := newSpeed;
+    if SimManager.isDatabaseMode then
+      frmSceEditor.updateListViewSpeed(newSpeed, SimManager.DatabaseObject.FDataBaseID);
+  end
+  else begin
+    strSpeed := Format('%2.2f', [SimManager.DatabaseObject.Speed]);
+    inSpeed := InputBox('Change Speed ' + SimManager.DatabaseObject.ObjName, 'New Speed: ', strSpeed);
+    if ConvertToFloat(inSpeed, newSpeed) then
+      SimManager.DatabaseObject.Speed := newSpeed;
+    if SimManager.isDatabaseMode then
+      frmSceEditor.updateListViewSpeed(newSpeed, SimManager.DatabaseObject.FDataBaseID);
+  end;
+end;
+
+procedure TfrmMainInstruktur.setAltAndDepth(flag : Integer);
+var
+  strDepth, inDepth,
+  strAlt, inAlt             : string;
+  newDepth, newAlt          : Double;
+begin
+  if SimManager.DatabaseObject is TISubMarineObject then
+  begin
+    strDepth := Format('%2.2f', [SimManager.DatabaseObject.PositionZ]);
+    inDepth := InputBox('Change Depth ' + FloatToStr(SimManager.DatabaseObject.PositionZ), 'New Depth: ', strDepth);
+
+    if ConvertToFloat(inDepth, newdepth) then
+    SimManager.DatabaseObject.PositionZ := -1* Abs(newdepth);
+
+    if SimManager.isDatabaseMode then
+    frmSceEditor.UpdateListViewDepth( -1* Abs(newdepth), SimManager.DatabaseObject.FDataBaseID);
+
+  end
+  else
+  if (SimManager.DatabaseObject is TIHeliObject) or (SimManager.DatabaseObject is TIAirCraftObject) then
+  begin
+    strAlt := Format('%2.2f', [SimManager.DatabaseObject.PositionZ]);
+
+    while flag = 0  do begin
+      ShowMessage('Air Target minimum altitude is 15 meter');
+      inAlt := InputBox('Change Altitude ' + FloatToStr(SimManager.DatabaseObject.PositionZ), 'New Altitude: ', strAlt);
+      flag := 1;
+      if StrToFloat(inalt) < 15 then begin
+        flag := 0;
+      end;
+    end;
+
+    if ConvertToFloat(inAlt,newAlt) then
+      SimManager.DatabaseObject.PositionZ := Abs(newAlt);
+
+    if SimManager.isDatabaseMode then
+      frmSceEditor.UpdateListViewDepth(Abs(newAlt),SimManager.DatabaseObject.FDataBaseID);
+  end ;
+end;
+
+procedure TfrmMainInstruktur.searchTorpSUT(launcher : integer);
+var
+  j       : Integer;
+  Vehicle : TVehicle;
+begin
+  Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+  for j := 0 to SimManager.MainObjList.ItemCount - 1 do begin
+    if (((TIMissileObject(SimManager.MainObjList.getObject(j)).WeaponID = 4) and
+    (TIMissileObject(SimManager.MainObjList.getObject(j)).LauncherID = 1) and
+    (launcher = 1)) or ((TIMissileObject(SimManager.MainObjList.getObject(j)).WeaponID = 4) and
+    (TIMissileObject(SimManager.MainObjList.getObject(j)).LauncherID = 2) and
+    (launcher = 2))) and (TIMissileObject(SimManager.MainObjList.getObject(j)).ShipID = Vehicle.Vehicle_ID) then begin
+      frmGameController.edtTampung.Text := '1';
+      Break;
+    end
+    else begin
+      frmGameController.edtTampung.Text := '0';
+    end;
+  end;
+end;
+
+procedure TfrmMainInstruktur.SetTrackObject;
+var
+  Vehicle      : TVehicle;
+  j        : Integer;
+begin
+  Vehicle := TVehicle(frmGameController.lvRuntimeShip.Selected.Data);
+  SimManager.ResetColorShip;
+  SimManager.TrackObject := nil;
+  FrameControlLeft.NillAllSet;
+  FrameControlLeft.FrameGuidance.NillAllSet;
+  FrameControlLeft.FrameWeaponStatus.NillAllSet;
+
+  for j := 0 to SimManager.MainObjList.ItemCount - 1 do
+  begin
+
+    if TInsObject(SimManager.MainObjList.getObject(j)).FDataBaseID = Vehicle.Vehicle_ID then
+    begin
+      SimManager.TrackObject    := TInsObject(SimManager.MainObjList.getObject(j));
+      SimManager.selectedObject := nil;
+      SimManager.selectedView   := nil;
+
+      FrameControlLeft.SetObject(SimManager.TrackObject);
+      FrameControlLeft.FrameGuidance.SetObject(SimManager.TrackObject);
+      FrameControlLeft.RefreshFrame(SimManager.TrackObject);
+
+      SimManager.TrackObject.VSymbol.Color := clLime;
+    end;
+
+  end;
+end;
+
+procedure TfrmMainInstruktur.deleteLeftFrame;
+begin
+  SimManager.TrackObject := nil;
+  FrameControlLeft.NillAllSet;
+  FrameControlLeft.FrameGuidance.NillAllSet;
+  FrameControlLeft.FrameWeaponStatus.NillAllSet;
+end;
+
+procedure TfrmMainInstruktur.SetTrackObjectTrajectory;
+var
+  Vehicle      : TVehicle;
+  j        : Integer;
+begin
+  Vehicle := TVehicle(frmGameController.lvRuntimeShipTrajectory.Selected.Data);
+  SimManager.ResetColorShip;
+  SimManager.TrackObject := nil;
+  FrameControlLeft.NillAllSet;
+  FrameControlLeft.FrameGuidance.NillAllSet;
+  FrameControlLeft.FrameWeaponStatus.NillAllSet;
+
+  for j := 0 to SimManager.MainObjList.ItemCount - 1 do
+  begin
+
+    if TInsObject(SimManager.MainObjList.getObject(j)).FDataBaseID = Vehicle.Vehicle_ID then
+    begin
+      SimManager.TrackObject    := TInsObject(SimManager.MainObjList.getObject(j));
+      SimManager.selectedObject := nil;
+      SimManager.selectedView   := nil;
+
+      FrameControlLeft.SetObject(SimManager.TrackObject);
+      FrameControlLeft.FrameGuidance.SetObject(SimManager.TrackObject);
+      FrameControlLeft.RefreshFrame(SimManager.TrackObject);
+
+      SimManager.TrackObject.VSymbol.Color := clLime;
+    end;
+
+  end;
+end;
+
+procedure TfrmMainInstruktur.mniReplayClick(Sender: TObject);
+var
+  aSceName : string;
+begin
+  if (SimManager.MainObjList.ItemCount = 0)
+     or (SimManager.fGamePlayType = gpmReplay) then
+  begin
+    if frmRecordsList = nil then
+       frmRecordsList := TfrmRecordsList.Create(Self);
+    frmRecordsList.UpdateListRecords;
+    frmRecordsList.ShowModal;
+
+    if frmRecordsList.ModalResult = mrOK then
+    begin
+//      SimManager.Net_DisConnect;
+      SimManager.InitFileReplay(frmRecordsList.SelectedRecsDisplayName);
+
+      //Send init
+      aSceName := frmRecordsList.SelectedRecsDisplayName;
+      SimManager.NetSend_ReplayControl(1, aSceName, 0, 0);
+
+
+      frmReplayControl.UpdateControl(false);
+      frmReplayControl.Show;
+    end;
+  end
+  else
+  begin
+    ShowMessage('Stop Scenario first to watch replay');
+  end;
+end;
+
+procedure TfrmMainInstruktur.btnZoomLevelObserverClick(Sender: TObject);
+begin
+  btnHand.ImageIndex           := 1;
+  MainMap.CurrentTool          := miPanTool;
+  SimManager.Selections.ClearSelection;
+  SimManager.VSelect.Visible := false;
+
+  frmCustomZoom.ShowModal;
+end;
+
+procedure TfrmMainInstruktur.MainMapClick(Sender: TObject);
+var
+  mapRec  : TRecMapCommand;
+begin
+  if MainMap.CurrentTool  = miCenterTool then
+  begin
+    if SimManager.fGamePlayType = gpmReplay then
+    begin
+      mapRec.ToolID   := miCenterTool;
+      mapRec.OrderID  := OID_MAP_CENTER;
+      mapRec.MapID    := 0;
+      mapRec.X        := StrToFloat(lblX.Caption);
+      mapRec.Y        := StrToFloat(lblY.Caption);
+      SimManager.NetSendToMap(mapRec);
+    end;
+
+    if Map1Ready = True then
+    begin
+      mapRec.ToolID   := miCenterTool;
+      mapRec.OrderID  := OID_MAP_CENTER;
+      mapRec.MapID    := 1;
+      mapRec.X        := StrToFloat(lblX.Caption);
+      mapRec.Y        := StrToFloat(lblY.Caption);
+      SimManager.NetSendToMap(mapRec);
+      btnZoomCenterMap1.ImageIndex := 0;
+
+      btnSelectArrow.ImageIndex    := 1;
+      MainMap.CurrentTool          := miArrowTool;
+      SimManager.Selections.ClearSelection;
+      SimManager.VSelect.Visible := false;
+      lblToolUsed.Caption := 'Select Arrow';
+
+
+    end
+    else if Map2Ready = True then
+    begin
+      mapRec.ToolID   := miCenterTool;
+      mapRec.OrderID  := OID_MAP_CENTER;
+      mapRec.MapID    := 2;
+      mapRec.X        := StrToFloat(lblX.Caption);
+      mapRec.Y        := StrToFloat(lblY.Caption);
+      SimManager.NetSendToMap(mapRec);
+      btnZoomCenterMap1.ImageIndex := 1;
+
+      btnSelectArrow.ImageIndex    := 1;
+      MainMap.CurrentTool          := miArrowTool;
+      SimManager.Selections.ClearSelection;
+      SimManager.VSelect.Visible := false;
+      lblToolUsed.Caption := 'Select Arrow';
+
+    end;
+  end;
+
+end;
+end.

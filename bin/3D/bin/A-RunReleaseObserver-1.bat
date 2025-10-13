@@ -1,0 +1,1 @@
+didLauncher.exe didPlatform --host "192.168.1.119" --port 7000 --fullscreen "true" --login "OBSERVER"

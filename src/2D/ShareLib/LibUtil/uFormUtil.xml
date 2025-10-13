@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uFormUtil">
+  <const name="apNone" type="TAlignPos">
+    <value>
+      apNone
+    </value>
+  </const>
+  <const name="apLeftTop" type="TAlignPos">
+    <value>
+      apLeftTop
+    </value>
+  </const>
+  <const name="apRightTop" type="TAlignPos">
+    <value>
+      apRightTop
+    </value>
+  </const>
+  <const name="apLeftBottom" type="TAlignPos">
+    <value>
+      apLeftBottom
+    </value>
+  </const>
+  <const name="apRightBottom" type="TAlignPos">
+    <value>
+      apRightBottom
+    </value>
+  </const>
+  <const name="apCenter" type="TAlignPos">
+    <value>
+      apCenter
+    </value>
+  </const>
+  <const name="apCenterBottom" type="TAlignPos">
+    <value>
+      apCenterBottom
+    </value>
+  </const>
+  <const name="vaNone" type="TVerticalAlign">
+    <value>
+      vaNone
+    </value>
+  </const>
+  <const name="vaTop" type="TVerticalAlign">
+    <value>
+      vaTop
+    </value>
+  </const>
+  <const name="vaCenter" type="TVerticalAlign">
+    <value>
+      vaCenter
+    </value>
+  </const>
+  <const name="vaBottom" type="TVerticalAlign">
+    <value>
+      vaBottom
+    </value>
+  </const>
+  <const name="haNone" type="THorizontalAlign">
+    <value>
+      haNone
+    </value>
+  </const>
+  <const name="haLeft" type="THorizontalAlign">
+    <value>
+      haLeft
+    </value>
+  </const>
+  <const name="haCenter" type="THorizontalAlign">
+    <value>
+      haCenter
+    </value>
+  </const>
+  <const name="haRight" type="THorizontalAlign">
+    <value>
+      haRight
+    </value>
+  </const>
+  <enum name="TAlignPos">
+    <element name="apNone" />
+    <element name="apLeftTop" />
+    <element name="apRightTop" />
+    <element name="apLeftBottom" />
+    <element name="apRightBottom" />
+    <element name="apCenter" />
+    <element name="apCenterBottom" />
+  </enum>
+  <enum name="TVerticalAlign">
+    <element name="vaNone" />
+    <element name="vaTop" />
+    <element name="vaCenter" />
+    <element name="vaBottom" />
+  </enum>
+  <enum name="THorizontalAlign">
+    <element name="haNone" />
+    <element name="haLeft" />
+    <element name="haCenter" />
+    <element name="haRight" />
+  </enum>
+  <procedure name="AlignFormToMonitor" visibility="public">
+    <parameters>
+      <parameter name="monNum" type="Byte" paramflags="const" />
+      <parameter name="aPos" type="TAlignPos" paramflags="const" />
+      <parameter name="offX" type="Integer" paramflags="const" />
+      <parameter name="offY" type="Integer" paramflags="const" />
+      <parameter name="frm" type="TForm" paramflags="var" />
+    </parameters>
+  </procedure>
+  <procedure name="PlaceFormToMonitor" visibility="public">
+    <parameters>
+      <parameter name="monNum" type="Byte" paramflags="const" />
+      <parameter name="hAlign" type="THorizontalAlign" paramflags="const" />
+      <parameter name="vAlign" type="TVerticalAlign" paramflags="const" />
+      <parameter name="offX" type="Integer" paramflags="const" />
+      <parameter name="offY" type="Integer" paramflags="const" />
+      <parameter name="frm" type="TForm" paramflags="var" />
+    </parameters>
+  </procedure>
+  <function name="CreateForm_" visibility="public">
+    <parameters>
+      <parameter name="fclass" type="TComponentClass" paramflags="const" />
+      <parameter name="f" type="TForm" paramflags="var" />
+      <retval type="TForm" />
+    </parameters>
+  </function>
+  <procedure name="HideTaskbar" visibility="public">
+  </procedure>
+  <procedure name="showTaskbar" visibility="public">
+  </procedure>
+</namespace>

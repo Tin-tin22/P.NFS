@@ -1,0 +1,1847 @@
+object frmSceEditor: TfrmSceEditor
+  Left = 1600
+  Top = 432
+  BorderStyle = bsSingle
+  Caption = 'Scenario Editor'
+  ClientHeight = 730
+  ClientWidth = 781
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsStayOnTop
+  OldCreateOrder = False
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pnlMain: TAdvSmoothPanel
+    Left = 0
+    Top = 0
+    Width = 781
+    Height = 730
+    Cursor = crDefault
+    Caption.Location = plTopCenter
+    Caption.HatchStyle = HatchStyleDiagonalBrick
+    Caption.HTMLFont.Charset = DEFAULT_CHARSET
+    Caption.HTMLFont.Color = clWindowText
+    Caption.HTMLFont.Height = -13
+    Caption.HTMLFont.Name = 'Tahoma'
+    Caption.HTMLFont.Style = []
+    Caption.Font.Charset = DEFAULT_CHARSET
+    Caption.Font.Color = clWindowText
+    Caption.Font.Height = -16
+    Caption.Font.Name = 'Tahoma'
+    Caption.Font.Style = [fsBold]
+    Caption.Top = 20
+    Caption.ColorStart = clWhite
+    Caption.ColorEnd = clWhite
+    Caption.GradientType = gtHorizontal
+    Caption.LineColor = clBlack
+    Caption.Line = False
+    Fill.Color = 7301478
+    Fill.ColorTo = 10066329
+    Fill.ColorMirror = 10066329
+    Fill.ColorMirrorTo = 7301478
+    Fill.GradientType = gtVertical
+    Fill.GradientMirrorType = gtVertical
+    Fill.BorderColor = clSilver
+    Fill.BorderWidth = 5
+    Fill.Rounding = 10
+    Fill.ShadowColor = clNone
+    Fill.ShadowOffset = 10
+    Fill.Glow = gmNone
+    Version = '1.6.0.1'
+    Align = alClient
+    TabOrder = 0
+    TMSStyle = 0
+    object pnlMainUp: TAdvSmoothPanel
+      Left = 0
+      Top = 0
+      Width = 781
+      Height = 209
+      Cursor = crDefault
+      Caption.Location = plTopCenter
+      Caption.HatchStyle = HatchStyleDiagonalBrick
+      Caption.HTMLFont.Charset = DEFAULT_CHARSET
+      Caption.HTMLFont.Color = clWindowText
+      Caption.HTMLFont.Height = -13
+      Caption.HTMLFont.Name = 'Tahoma'
+      Caption.HTMLFont.Style = []
+      Caption.Font.Charset = DEFAULT_CHARSET
+      Caption.Font.Color = clWindowText
+      Caption.Font.Height = -16
+      Caption.Font.Name = 'Tahoma'
+      Caption.Font.Style = [fsBold]
+      Caption.Top = 20
+      Caption.ColorStart = clWhite
+      Caption.ColorEnd = clWhite
+      Caption.GradientType = gtHorizontal
+      Caption.LineColor = clBlack
+      Caption.Line = False
+      Fill.Color = 7301478
+      Fill.ColorTo = 10066329
+      Fill.ColorMirror = 10066329
+      Fill.ColorMirrorTo = 7301478
+      Fill.GradientType = gtVertical
+      Fill.GradientMirrorType = gtVertical
+      Fill.BorderColor = clSilver
+      Fill.BorderWidth = 5
+      Fill.Rounding = 10
+      Fill.ShadowColor = clNone
+      Fill.ShadowOffset = 10
+      Fill.Glow = gmNone
+      Version = '1.6.0.1'
+      Align = alTop
+      TabOrder = 0
+      TMSStyle = 0
+      object advsmthlbl1: TAdvSmoothLabel
+        Left = 10
+        Top = 13
+        Width = 113
+        Height = 33
+        Fill.ColorMirror = clNone
+        Fill.ColorMirrorTo = clNone
+        Fill.GradientType = gtVertical
+        Fill.GradientMirrorType = gtSolid
+        Fill.BorderColor = clNone
+        Fill.Rounding = 0
+        Fill.ShadowOffset = 0
+        Fill.Glow = gmNone
+        Caption.Text = 'Scenario Name'
+        Caption.Font.Charset = DEFAULT_CHARSET
+        Caption.Font.Color = clWindowText
+        Caption.Font.Height = -13
+        Caption.Font.Name = 'Tahoma'
+        Caption.Font.Style = [fsBold]
+        Caption.ColorStart = clSilver
+        Caption.ColorEnd = clWhite
+        CaptionShadow.Text = 'AdvSmoothLabel'
+        CaptionShadow.Font.Charset = DEFAULT_CHARSET
+        CaptionShadow.Font.Color = clWindowText
+        CaptionShadow.Font.Height = -27
+        CaptionShadow.Font.Name = 'Tahoma'
+        CaptionShadow.Font.Style = []
+        Version = '1.6.1.0'
+      end
+      object advsmthlbl2: TAdvSmoothLabel
+        Left = 7
+        Top = 45
+        Width = 95
+        Height = 33
+        Fill.ColorMirror = clNone
+        Fill.ColorMirrorTo = clNone
+        Fill.GradientType = gtVertical
+        Fill.GradientMirrorType = gtSolid
+        Fill.BorderColor = clNone
+        Fill.Rounding = 0
+        Fill.ShadowOffset = 0
+        Fill.Glow = gmNone
+        Caption.Text = 'Description'
+        Caption.Font.Charset = DEFAULT_CHARSET
+        Caption.Font.Color = clWindowText
+        Caption.Font.Height = -13
+        Caption.Font.Name = 'Tahoma'
+        Caption.Font.Style = [fsBold]
+        Caption.ColorStart = clSilver
+        Caption.ColorEnd = clWhite
+        CaptionShadow.Text = 'AdvSmoothLabel'
+        CaptionShadow.Font.Charset = DEFAULT_CHARSET
+        CaptionShadow.Font.Color = clWindowText
+        CaptionShadow.Font.Height = -27
+        CaptionShadow.Font.Name = 'Tahoma'
+        CaptionShadow.Font.Style = []
+        Version = '1.6.1.0'
+      end
+      object advsmthlbl3: TAdvSmoothLabel
+        Left = 12
+        Top = 144
+        Width = 41
+        Height = 33
+        Fill.ColorMirror = clNone
+        Fill.ColorMirrorTo = clNone
+        Fill.GradientType = gtVertical
+        Fill.GradientMirrorType = gtSolid
+        Fill.BorderColor = clNone
+        Fill.Rounding = 0
+        Fill.ShadowOffset = 0
+        Fill.Glow = gmNone
+        Caption.Text = 'Port'
+        Caption.Font.Charset = DEFAULT_CHARSET
+        Caption.Font.Color = clWindowText
+        Caption.Font.Height = -13
+        Caption.Font.Name = 'Tahoma'
+        Caption.Font.Style = [fsBold]
+        Caption.ColorStart = clSilver
+        Caption.ColorEnd = clWhite
+        CaptionShadow.Text = 'AdvSmoothLabel'
+        CaptionShadow.Font.Charset = DEFAULT_CHARSET
+        CaptionShadow.Font.Color = clWindowText
+        CaptionShadow.Font.Height = -27
+        CaptionShadow.Font.Name = 'Tahoma'
+        CaptionShadow.Font.Style = []
+        Version = '1.6.1.0'
+      end
+      object pnlPicture: TAdvSmoothPanel
+        Left = 616
+        Top = 11
+        Width = 249
+        Height = 185
+        Cursor = crDefault
+        Caption.Location = plTopCenter
+        Caption.HatchStyle = HatchStyleDiagonalBrick
+        Caption.HTMLFont.Charset = DEFAULT_CHARSET
+        Caption.HTMLFont.Color = clWindowText
+        Caption.HTMLFont.Height = -13
+        Caption.HTMLFont.Name = 'Tahoma'
+        Caption.HTMLFont.Style = []
+        Caption.Font.Charset = DEFAULT_CHARSET
+        Caption.Font.Color = clWindowText
+        Caption.Font.Height = -16
+        Caption.Font.Name = 'Tahoma'
+        Caption.Font.Style = [fsBold]
+        Caption.Top = 20
+        Caption.ColorStart = clWhite
+        Caption.ColorEnd = clWhite
+        Caption.GradientType = gtHorizontal
+        Caption.LineColor = clBlack
+        Caption.Line = False
+        Fill.Color = 7301478
+        Fill.ColorTo = 10066329
+        Fill.ColorMirror = 10066329
+        Fill.ColorMirrorTo = 7301478
+        Fill.GradientType = gtVertical
+        Fill.GradientMirrorType = gtVertical
+        Fill.BorderColor = clSilver
+        Fill.BorderWidth = 5
+        Fill.Rounding = 10
+        Fill.ShadowColor = clNone
+        Fill.ShadowOffset = 10
+        Fill.Glow = gmNone
+        Version = '1.6.0.1'
+        TabOrder = 4
+        TMSStyle = 0
+        object imgShip: TImage
+          Left = 0
+          Top = 0
+          Width = 249
+          Height = 185
+          Align = alClient
+          ParentShowHint = False
+          ShowHint = True
+          Stretch = True
+        end
+      end
+      object btnEditDatabase: TAdvSmoothButton
+        Left = 477
+        Top = 17
+        Width = 114
+        Height = 50
+        Appearance.Font.Charset = DEFAULT_CHARSET
+        Appearance.Font.Color = clWhite
+        Appearance.Font.Height = -13
+        Appearance.Font.Name = 'Tahoma'
+        Appearance.Font.Style = [fsBold]
+        Status.Caption = '0'
+        Status.Appearance.Fill.Color = clRed
+        Status.Appearance.Fill.ColorMirror = clNone
+        Status.Appearance.Fill.ColorMirrorTo = clNone
+        Status.Appearance.Fill.GradientType = gtSolid
+        Status.Appearance.Fill.GradientMirrorType = gtSolid
+        Status.Appearance.Fill.BorderColor = clGray
+        Status.Appearance.Fill.Rounding = 0
+        Status.Appearance.Fill.ShadowOffset = 0
+        Status.Appearance.Fill.Glow = gmNone
+        Status.Appearance.Font.Charset = DEFAULT_CHARSET
+        Status.Appearance.Font.Color = clWhite
+        Status.Appearance.Font.Height = -11
+        Status.Appearance.Font.Name = 'Tahoma'
+        Status.Appearance.Font.Style = []
+        BevelColor = clGray
+        Caption = 'Edit Scenario'
+        Color = clBlack
+        ParentFont = False
+        TabOrder = 1
+        Version = '2.1.3.0'
+        OnClick = btnEditDatabaseClick
+        TMSStyle = 0
+      end
+      object cbbPort: TComboBox
+        Left = 120
+        Top = 149
+        Width = 225
+        Height = 21
+        TabOrder = 2
+        Text = 'Surabaya'
+        OnCloseUp = cbbPortCloseUp
+        Items.Strings = (
+          'Surabaya'
+          'Jakarta'
+          'Lepas Pantai '
+          'BalikPapan'
+          'Medan'
+          'Makassar'
+          'Karimunjawa'
+          'Sangatta'
+          'Situbondo')
+      end
+      object btnPortMore: TAdvSmoothButton
+        Left = 364
+        Top = 146
+        Width = 100
+        Height = 50
+        Appearance.Font.Charset = DEFAULT_CHARSET
+        Appearance.Font.Color = clWhite
+        Appearance.Font.Height = -13
+        Appearance.Font.Name = 'Tahoma'
+        Appearance.Font.Style = [fsBold]
+        Status.Caption = '0'
+        Status.Appearance.Fill.Color = clRed
+        Status.Appearance.Fill.ColorMirror = clNone
+        Status.Appearance.Fill.ColorMirrorTo = clNone
+        Status.Appearance.Fill.GradientType = gtSolid
+        Status.Appearance.Fill.GradientMirrorType = gtSolid
+        Status.Appearance.Fill.BorderColor = clGray
+        Status.Appearance.Fill.Rounding = 0
+        Status.Appearance.Fill.ShadowOffset = 0
+        Status.Appearance.Fill.Glow = gmNone
+        Status.Appearance.Font.Charset = DEFAULT_CHARSET
+        Status.Appearance.Font.Color = clWhite
+        Status.Appearance.Font.Height = -11
+        Status.Appearance.Font.Name = 'Tahoma'
+        Status.Appearance.Font.Style = []
+        BevelColor = clGray
+        Caption = 'More'
+        Color = clBlack
+        ParentFont = False
+        TabOrder = 3
+        Version = '2.1.3.0'
+        OnClick = btnPortMoreClick
+        TMSStyle = 0
+      end
+      object edtScenarioName: TCurvyEdit
+        Left = 120
+        Top = 16
+        Width = 345
+        Height = 24
+        TabOrder = 0
+        TabStop = False
+        Version = '1.2.1.2'
+        Controls = <>
+        ImeName = ''
+        Text = ''
+      end
+      object mmoKetSce: TMemo
+        Left = 120
+        Top = 48
+        Width = 345
+        Height = 92
+        Lines.Strings = (
+          '')
+        TabOrder = 5
+      end
+    end
+    object pnlMainBottom: TAdvSmoothPanel
+      Left = 0
+      Top = 665
+      Width = 781
+      Height = 65
+      Cursor = crDefault
+      Caption.Location = plTopCenter
+      Caption.HatchStyle = HatchStyleDiagonalBrick
+      Caption.HTMLFont.Charset = DEFAULT_CHARSET
+      Caption.HTMLFont.Color = clWindowText
+      Caption.HTMLFont.Height = -13
+      Caption.HTMLFont.Name = 'Tahoma'
+      Caption.HTMLFont.Style = []
+      Caption.Font.Charset = DEFAULT_CHARSET
+      Caption.Font.Color = clWindowText
+      Caption.Font.Height = -16
+      Caption.Font.Name = 'Tahoma'
+      Caption.Font.Style = [fsBold]
+      Caption.Top = 20
+      Caption.ColorStart = clWhite
+      Caption.ColorEnd = clWhite
+      Caption.GradientType = gtHorizontal
+      Caption.LineColor = clBlack
+      Caption.Line = False
+      Fill.Color = 7301478
+      Fill.ColorTo = 10066329
+      Fill.ColorMirror = 10066329
+      Fill.ColorMirrorTo = 7301478
+      Fill.GradientType = gtVertical
+      Fill.GradientMirrorType = gtVertical
+      Fill.BorderColor = clSilver
+      Fill.BorderWidth = 5
+      Fill.Rounding = 10
+      Fill.ShadowColor = clNone
+      Fill.ShadowOffset = 10
+      Fill.Glow = gmNone
+      Version = '1.6.0.1'
+      Align = alBottom
+      OnClick = pnlMainBottomClick
+      TabOrder = 1
+      TMSStyle = 0
+      object btnSaveScenario: TAdvSmoothButton
+        Left = 17
+        Top = 7
+        Width = 150
+        Height = 50
+        Cursor = crHandPoint
+        Appearance.Font.Charset = DEFAULT_CHARSET
+        Appearance.Font.Color = clWhite
+        Appearance.Font.Height = -13
+        Appearance.Font.Name = 'Tahoma'
+        Appearance.Font.Style = [fsBold]
+        Status.Caption = '0'
+        Status.Appearance.Fill.Color = clRed
+        Status.Appearance.Fill.ColorMirror = clNone
+        Status.Appearance.Fill.ColorMirrorTo = clNone
+        Status.Appearance.Fill.GradientType = gtSolid
+        Status.Appearance.Fill.GradientMirrorType = gtSolid
+        Status.Appearance.Fill.BorderColor = clGray
+        Status.Appearance.Fill.Rounding = 0
+        Status.Appearance.Fill.ShadowOffset = 0
+        Status.Appearance.Fill.Glow = gmNone
+        Status.Appearance.Font.Charset = DEFAULT_CHARSET
+        Status.Appearance.Font.Color = clWhite
+        Status.Appearance.Font.Height = -11
+        Status.Appearance.Font.Name = 'Tahoma'
+        Status.Appearance.Font.Style = []
+        BevelColor = clGray
+        Caption = 'Save Scenario'
+        Color = clBlack
+        ParentFont = False
+        TabOrder = 0
+        Version = '2.1.3.0'
+        OnClick = btnSaveScenarioClick
+        TMSStyle = 0
+      end
+      object btnSetPosition: TAdvSmoothButton
+        Left = 415
+        Top = 8
+        Width = 150
+        Height = 50
+        Cursor = crHandPoint
+        Appearance.Font.Charset = DEFAULT_CHARSET
+        Appearance.Font.Color = clWhite
+        Appearance.Font.Height = -13
+        Appearance.Font.Name = 'Tahoma'
+        Appearance.Font.Style = [fsBold]
+        Status.Caption = '0'
+        Status.Appearance.Fill.Color = clRed
+        Status.Appearance.Fill.ColorMirror = clNone
+        Status.Appearance.Fill.ColorMirrorTo = clNone
+        Status.Appearance.Fill.GradientType = gtSolid
+        Status.Appearance.Fill.GradientMirrorType = gtSolid
+        Status.Appearance.Fill.BorderColor = clGray
+        Status.Appearance.Fill.Rounding = 0
+        Status.Appearance.Fill.ShadowOffset = 0
+        Status.Appearance.Fill.Glow = gmNone
+        Status.Appearance.Font.Charset = DEFAULT_CHARSET
+        Status.Appearance.Font.Color = clWhite
+        Status.Appearance.Font.Height = -11
+        Status.Appearance.Font.Name = 'Tahoma'
+        Status.Appearance.Font.Style = []
+        BevelColor = clGray
+        Caption = 'Set Position'
+        Color = clBlack
+        ParentFont = False
+        TabOrder = 1
+        Visible = False
+        Version = '2.1.3.0'
+        OnClick = btnSetPositionClick
+        TMSStyle = 0
+      end
+    end
+    object pnlMainBody: TAdvSmoothPanel
+      Left = 0
+      Top = 209
+      Width = 781
+      Height = 456
+      Cursor = crDefault
+      Caption.Location = plTopCenter
+      Caption.HatchStyle = HatchStyleDiagonalBrick
+      Caption.HTMLFont.Charset = DEFAULT_CHARSET
+      Caption.HTMLFont.Color = clWindowText
+      Caption.HTMLFont.Height = -13
+      Caption.HTMLFont.Name = 'Tahoma'
+      Caption.HTMLFont.Style = []
+      Caption.Font.Charset = DEFAULT_CHARSET
+      Caption.Font.Color = clWindowText
+      Caption.Font.Height = -16
+      Caption.Font.Name = 'Tahoma'
+      Caption.Font.Style = [fsBold]
+      Caption.Top = 20
+      Caption.ColorStart = clWhite
+      Caption.ColorEnd = clWhite
+      Caption.GradientType = gtHorizontal
+      Caption.LineColor = clBlack
+      Caption.Line = False
+      Fill.Color = 7301478
+      Fill.ColorTo = 10066329
+      Fill.ColorMirror = 10066329
+      Fill.ColorMirrorTo = 7301478
+      Fill.GradientType = gtVertical
+      Fill.GradientMirrorType = gtVertical
+      Fill.BorderColor = clSilver
+      Fill.BorderWidth = 5
+      Fill.Rounding = 10
+      Fill.ShadowColor = clNone
+      Fill.ShadowOffset = 10
+      Fill.Glow = gmNone
+      Version = '1.6.0.1'
+      Align = alClient
+      TabOrder = 2
+      TMSStyle = 0
+      object TabSelection: TAdvSmoothTabPager
+        Left = 0
+        Top = 0
+        Width = 781
+        Height = 456
+        Fill.ColorMirror = clNone
+        Fill.ColorMirrorTo = clNone
+        Fill.GradientType = gtVertical
+        Fill.GradientMirrorType = gtSolid
+        Fill.BorderColor = clNone
+        Fill.Rounding = 0
+        Fill.ShadowOffset = 0
+        Fill.Glow = gmNone
+        Transparent = False
+        Align = alClient
+        ActivePage = tsShipKRI
+        Color = 7301478
+        TabPosition = tpTopLeft
+        TabSettings.LeftMargin = 0
+        TabSettings.RightMargin = 0
+        TabSettings.StartMargin = 10
+        TabSettings.Height = 40
+        TabSettings.Spacing = 0
+        TabSettings.Width = 200
+        TabReorder = False
+        OnChange = TabSelectionChange
+        TabOrder = 0
+        TMSStyle = 0
+        object tsShipKRI: TAdvSmoothTabPage
+          Left = 1
+          Top = 40
+          Width = 779
+          Height = 414
+          Caption = 'KRI'
+          PageAppearance.Color = 7301478
+          PageAppearance.ColorTo = clSilver
+          PageAppearance.ColorMirror = clSilver
+          PageAppearance.ColorMirrorTo = 7301478
+          PageAppearance.GradientType = gtVertical
+          PageAppearance.GradientMirrorType = gtVertical
+          PageAppearance.BorderColor = clNone
+          PageAppearance.Rounding = 0
+          PageAppearance.ShadowColor = 3355443
+          PageAppearance.ShadowOffset = 0
+          PageAppearance.Glow = gmNone
+          TabAppearance.Appearance.Font.Charset = DEFAULT_CHARSET
+          TabAppearance.Appearance.Font.Color = clWhite
+          TabAppearance.Appearance.Font.Height = -13
+          TabAppearance.Appearance.Font.Name = 'Tahoma'
+          TabAppearance.Appearance.Font.Style = [fsBold]
+          TabAppearance.Status.Caption = '0'
+          TabAppearance.Status.Appearance.Fill.Color = clRed
+          TabAppearance.Status.Appearance.Fill.ColorMirror = clNone
+          TabAppearance.Status.Appearance.Fill.ColorMirrorTo = clNone
+          TabAppearance.Status.Appearance.Fill.GradientType = gtSolid
+          TabAppearance.Status.Appearance.Fill.GradientMirrorType = gtSolid
+          TabAppearance.Status.Appearance.Fill.BorderColor = clGray
+          TabAppearance.Status.Appearance.Fill.Rounding = 0
+          TabAppearance.Status.Appearance.Fill.ShadowOffset = 0
+          TabAppearance.Status.Appearance.Fill.Glow = gmNone
+          TabAppearance.Status.Appearance.Font.Charset = DEFAULT_CHARSET
+          TabAppearance.Status.Appearance.Font.Color = clWhite
+          TabAppearance.Status.Appearance.Font.Height = -11
+          TabAppearance.Status.Appearance.Font.Name = 'Tahoma'
+          TabAppearance.Status.Appearance.Font.Style = []
+          TabAppearance.Bevel = False
+          TabAppearance.BevelColor = clBlack
+          TabAppearance.BevelColorDown = clBlack
+          TabAppearance.BevelColorSelected = clBlack
+          TabAppearance.BevelColorHot = clBlack
+          TabAppearance.BevelColorDisabled = clBlack
+          TabAppearance.ColorDown = clBlack
+          TabAppearance.ColorSelected = clBlack
+          TabAppearance.ColorHot = clSilver
+          TabAppearance.ColorDisabled = 7301478
+          TMSStyle = 0
+          object lvWarShipAll: TListView
+            Left = 10
+            Top = 14
+            Width = 250
+            Height = 299
+            Columns = <
+              item
+                Caption = 'Ship Name'
+                Width = 200
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            GridLines = True
+            MultiSelect = True
+            ReadOnly = True
+            RowSelect = True
+            ParentFont = False
+            SortType = stBoth
+            TabOrder = 0
+            ViewStyle = vsReport
+          end
+          object btnAddWarShip: TAdvSmoothButton
+            Left = 280
+            Top = 88
+            Width = 120
+            Height = 50
+            Appearance.Font.Charset = DEFAULT_CHARSET
+            Appearance.Font.Color = clWhite
+            Appearance.Font.Height = -13
+            Appearance.Font.Name = 'Tahoma'
+            Appearance.Font.Style = [fsBold]
+            Status.Caption = '0'
+            Status.Appearance.Fill.Color = clRed
+            Status.Appearance.Fill.ColorMirror = clNone
+            Status.Appearance.Fill.ColorMirrorTo = clNone
+            Status.Appearance.Fill.GradientType = gtSolid
+            Status.Appearance.Fill.GradientMirrorType = gtSolid
+            Status.Appearance.Fill.BorderColor = clGray
+            Status.Appearance.Fill.Rounding = 0
+            Status.Appearance.Fill.ShadowOffset = 0
+            Status.Appearance.Fill.Glow = gmNone
+            Status.Appearance.Font.Charset = DEFAULT_CHARSET
+            Status.Appearance.Font.Color = clWhite
+            Status.Appearance.Font.Height = -11
+            Status.Appearance.Font.Name = 'Tahoma'
+            Status.Appearance.Font.Style = []
+            BevelColor = clGray
+            Caption = '>>'
+            Color = clBlack
+            ParentFont = False
+            TabOrder = 1
+            Version = '2.1.3.0'
+            TMSStyle = 0
+          end
+          object btnRemoveWarShip: TAdvSmoothButton
+            Left = 280
+            Top = 142
+            Width = 120
+            Height = 50
+            Appearance.Font.Charset = DEFAULT_CHARSET
+            Appearance.Font.Color = clWhite
+            Appearance.Font.Height = -13
+            Appearance.Font.Name = 'Tahoma'
+            Appearance.Font.Style = [fsBold]
+            Status.Caption = '0'
+            Status.Appearance.Fill.Color = clRed
+            Status.Appearance.Fill.ColorMirror = clNone
+            Status.Appearance.Fill.ColorMirrorTo = clNone
+            Status.Appearance.Fill.GradientType = gtSolid
+            Status.Appearance.Fill.GradientMirrorType = gtSolid
+            Status.Appearance.Fill.BorderColor = clGray
+            Status.Appearance.Fill.Rounding = 0
+            Status.Appearance.Fill.ShadowOffset = 0
+            Status.Appearance.Fill.Glow = gmNone
+            Status.Appearance.Font.Charset = DEFAULT_CHARSET
+            Status.Appearance.Font.Color = clWhite
+            Status.Appearance.Font.Height = -11
+            Status.Appearance.Font.Name = 'Tahoma'
+            Status.Appearance.Font.Style = []
+            BevelColor = clGray
+            Caption = '<<'
+            Color = clBlack
+            ParentFont = False
+            TabOrder = 2
+            Version = '2.1.3.0'
+            TMSStyle = 0
+          end
+          object lvWarShipSelect: TListView
+            Left = 409
+            Top = 13
+            Width = 478
+            Height = 299
+            Columns = <
+              item
+                Caption = 'Ship Name'
+                Width = 80
+              end
+              item
+                Caption = 'X Coord'
+                Width = 100
+              end
+              item
+                Caption = 'Y Coord'
+                Width = 100
+              end
+              item
+                Caption = 'Z Coord'
+                Width = 100
+              end
+              item
+                Caption = 'Heading'
+                Width = 70
+              end
+              item
+                Caption = 'Speed'
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            GridLines = True
+            MultiSelect = True
+            RowSelect = True
+            ParentFont = False
+            SortType = stBoth
+            TabOrder = 3
+            ViewStyle = vsReport
+          end
+          object btnWeaponList: TAdvSmoothButton
+            Left = 278
+            Top = 263
+            Width = 120
+            Height = 50
+            Cursor = crHandPoint
+            Appearance.Font.Charset = DEFAULT_CHARSET
+            Appearance.Font.Color = clWhite
+            Appearance.Font.Height = -13
+            Appearance.Font.Name = 'Tahoma'
+            Appearance.Font.Style = [fsBold]
+            Status.Caption = '0'
+            Status.Appearance.Fill.Color = clRed
+            Status.Appearance.Fill.ColorMirror = clNone
+            Status.Appearance.Fill.ColorMirrorTo = clNone
+            Status.Appearance.Fill.GradientType = gtSolid
+            Status.Appearance.Fill.GradientMirrorType = gtSolid
+            Status.Appearance.Fill.BorderColor = clGray
+            Status.Appearance.Fill.Rounding = 0
+            Status.Appearance.Fill.ShadowOffset = 0
+            Status.Appearance.Fill.Glow = gmNone
+            Status.Appearance.Font.Charset = DEFAULT_CHARSET
+            Status.Appearance.Font.Color = clWhite
+            Status.Appearance.Font.Height = -11
+            Status.Appearance.Font.Name = 'Tahoma'
+            Status.Appearance.Font.Style = []
+            BevelColor = clGray
+            Caption = 'Ship Editor'
+            Color = clBlack
+            ParentFont = False
+            TabOrder = 4
+            Version = '2.1.3.0'
+            OnClick = btnWeaponListClick
+            TMSStyle = 0
+          end
+          object lvWeaponSelected: TListView
+            Left = 895
+            Top = 14
+            Width = 394
+            Height = 233
+            Columns = <
+              item
+                Caption = 'Weapon Name'
+                Width = 200
+              end
+              item
+                Caption = 'Launcher'
+                Width = 100
+              end
+              item
+                Caption = 'Enable'
+                Width = 70
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            GridLines = True
+            RowSelect = True
+            ParentFont = False
+            TabOrder = 5
+            ViewStyle = vsReport
+            OnClick = lvWeaponSelectedClick
+          end
+          object btnEnableWeapon: TAdvSmoothButton
+            Left = 1137
+            Top = 251
+            Width = 150
+            Height = 50
+            Cursor = crHandPoint
+            Appearance.Font.Charset = DEFAULT_CHARSET
+            Appearance.Font.Color = clWhite
+            Appearance.Font.Height = -13
+            Appearance.Font.Name = 'Tahoma'
+            Appearance.Font.Style = [fsBold]
+            Status.Caption = '0'
+            Status.Appearance.Fill.Color = clRed
+            Status.Appearance.Fill.ColorMirror = clNone
+            Status.Appearance.Fill.ColorMirrorTo = clNone
+            Status.Appearance.Fill.GradientType = gtSolid
+            Status.Appearance.Fill.GradientMirrorType = gtSolid
+            Status.Appearance.Fill.BorderColor = clGray
+            Status.Appearance.Fill.Rounding = 0
+            Status.Appearance.Fill.ShadowOffset = 0
+            Status.Appearance.Fill.Glow = gmNone
+            Status.Appearance.Font.Charset = DEFAULT_CHARSET
+            Status.Appearance.Font.Color = clWhite
+            Status.Appearance.Font.Height = -11
+            Status.Appearance.Font.Name = 'Tahoma'
+            Status.Appearance.Font.Style = []
+            BevelColor = clGray
+            Caption = 'Enable'
+            Color = clBlack
+            ParentFont = False
+            TabOrder = 6
+            Version = '2.1.3.0'
+            OnClick = btnEnableWeaponClick
+            TMSStyle = 0
+          end
+        end
+        object tsShipTarget: TAdvSmoothTabPage
+          Left = 1
+          Top = 40
+          Width = 779
+          Height = 414
+          Caption = 'Target'
+          PageAppearance.Color = 7301478
+          PageAppearance.ColorTo = clSilver
+          PageAppearance.ColorMirror = clSilver
+          PageAppearance.ColorMirrorTo = 7301478
+          PageAppearance.GradientType = gtVertical
+          PageAppearance.GradientMirrorType = gtVertical
+          PageAppearance.BorderColor = clNone
+          PageAppearance.Rounding = 0
+          PageAppearance.ShadowColor = 3355443
+          PageAppearance.ShadowOffset = 0
+          PageAppearance.Glow = gmNone
+          TabAppearance.Appearance.Font.Charset = DEFAULT_CHARSET
+          TabAppearance.Appearance.Font.Color = clWhite
+          TabAppearance.Appearance.Font.Height = -13
+          TabAppearance.Appearance.Font.Name = 'Tahoma'
+          TabAppearance.Appearance.Font.Style = [fsBold]
+          TabAppearance.Status.Caption = '0'
+          TabAppearance.Status.Appearance.Fill.Color = clRed
+          TabAppearance.Status.Appearance.Fill.ColorMirror = clNone
+          TabAppearance.Status.Appearance.Fill.ColorMirrorTo = clNone
+          TabAppearance.Status.Appearance.Fill.GradientType = gtSolid
+          TabAppearance.Status.Appearance.Fill.GradientMirrorType = gtSolid
+          TabAppearance.Status.Appearance.Fill.BorderColor = clGray
+          TabAppearance.Status.Appearance.Fill.Rounding = 0
+          TabAppearance.Status.Appearance.Fill.ShadowOffset = 0
+          TabAppearance.Status.Appearance.Fill.Glow = gmNone
+          TabAppearance.Status.Appearance.Font.Charset = DEFAULT_CHARSET
+          TabAppearance.Status.Appearance.Font.Color = clWhite
+          TabAppearance.Status.Appearance.Font.Height = -11
+          TabAppearance.Status.Appearance.Font.Name = 'Tahoma'
+          TabAppearance.Status.Appearance.Font.Style = []
+          TabAppearance.Bevel = False
+          TabAppearance.BevelColor = clBlack
+          TabAppearance.BevelColorDown = clBlack
+          TabAppearance.BevelColorSelected = clBlack
+          TabAppearance.BevelColorHot = clBlack
+          TabAppearance.BevelColorDisabled = clBlack
+          TabAppearance.ColorDown = clBlack
+          TabAppearance.ColorSelected = clBlack
+          TabAppearance.ColorHot = clSilver
+          TabAppearance.ColorDisabled = 7301478
+          TMSStyle = 0
+          object TabTargetShip: TAdvSmoothTabPager
+            Left = 2
+            Top = 2
+            Width = 775
+            Height = 410
+            Fill.ColorMirror = clNone
+            Fill.ColorMirrorTo = clNone
+            Fill.GradientType = gtVertical
+            Fill.GradientMirrorType = gtSolid
+            Fill.BorderColor = clNone
+            Fill.Rounding = 0
+            Fill.ShadowOffset = 0
+            Fill.Glow = gmNone
+            Transparent = False
+            Align = alClient
+            ActivePage = tsSurface
+            TabPosition = tpBottomLeft
+            TabSettings.LeftMargin = 0
+            TabSettings.RightMargin = 0
+            TabSettings.StartMargin = 4
+            TabSettings.Height = 25
+            TabSettings.Spacing = 0
+            TabSettings.Width = 200
+            TabReorder = False
+            OnChange = TabTargetShipChange
+            TabOrder = 0
+            TMSStyle = 0
+            object tsSurface: TAdvSmoothTabPage
+              Left = 1
+              Top = 2
+              Width = 773
+              Height = 383
+              Caption = 'Surface'
+              PageAppearance.Color = 7301478
+              PageAppearance.ColorTo = clSilver
+              PageAppearance.ColorMirror = clSilver
+              PageAppearance.ColorMirrorTo = 7301478
+              PageAppearance.GradientType = gtVertical
+              PageAppearance.GradientMirrorType = gtVertical
+              PageAppearance.BorderColor = clNone
+              PageAppearance.Rounding = 0
+              PageAppearance.ShadowOffset = 0
+              PageAppearance.Glow = gmNone
+              TabAppearance.Appearance.Font.Charset = DEFAULT_CHARSET
+              TabAppearance.Appearance.Font.Color = clWhite
+              TabAppearance.Appearance.Font.Height = -11
+              TabAppearance.Appearance.Font.Name = 'Tahoma'
+              TabAppearance.Appearance.Font.Style = [fsBold]
+              TabAppearance.Status.Caption = '0'
+              TabAppearance.Status.Appearance.Fill.Color = clRed
+              TabAppearance.Status.Appearance.Fill.ColorMirror = clNone
+              TabAppearance.Status.Appearance.Fill.ColorMirrorTo = clNone
+              TabAppearance.Status.Appearance.Fill.GradientType = gtSolid
+              TabAppearance.Status.Appearance.Fill.GradientMirrorType = gtSolid
+              TabAppearance.Status.Appearance.Fill.BorderColor = clGray
+              TabAppearance.Status.Appearance.Fill.Rounding = 0
+              TabAppearance.Status.Appearance.Fill.ShadowOffset = 0
+              TabAppearance.Status.Appearance.Fill.Glow = gmNone
+              TabAppearance.Status.Appearance.Font.Charset = DEFAULT_CHARSET
+              TabAppearance.Status.Appearance.Font.Color = clWhite
+              TabAppearance.Status.Appearance.Font.Height = -11
+              TabAppearance.Status.Appearance.Font.Name = 'Tahoma'
+              TabAppearance.Status.Appearance.Font.Style = []
+              TabAppearance.Bevel = False
+              TabAppearance.BevelColor = clBlack
+              TabAppearance.BevelColorDown = clBlack
+              TabAppearance.BevelColorSelected = clBlack
+              TabAppearance.BevelColorHot = clBlack
+              TabAppearance.BevelColorDisabled = clBlack
+              TabAppearance.Color = 7301478
+              TabAppearance.ColorDown = clBlack
+              TabAppearance.ColorSelected = clBlack
+              TabAppearance.ColorHot = clSilver
+              TabAppearance.ColorDisabled = 7301478
+              TMSStyle = 0
+              object lvTargetSurfaceAll: TListView
+                Left = 9
+                Top = 16
+                Width = 250
+                Height = 295
+                Columns = <
+                  item
+                    Caption = 'Ship Name'
+                    Width = 200
+                  end>
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -13
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                GridLines = True
+                MultiSelect = True
+                RowSelect = True
+                ParentFont = False
+                SortType = stBoth
+                TabOrder = 0
+                ViewStyle = vsReport
+              end
+              object btnAddTargetSurface: TAdvSmoothButton
+                Left = 274
+                Top = 87
+                Width = 120
+                Height = 50
+                Cursor = crHandPoint
+                Appearance.Font.Charset = DEFAULT_CHARSET
+                Appearance.Font.Color = clWhite
+                Appearance.Font.Height = -13
+                Appearance.Font.Name = 'Tahoma'
+                Appearance.Font.Style = [fsBold]
+                Status.Caption = '0'
+                Status.Appearance.Fill.Color = clRed
+                Status.Appearance.Fill.ColorMirror = clNone
+                Status.Appearance.Fill.ColorMirrorTo = clNone
+                Status.Appearance.Fill.GradientType = gtSolid
+                Status.Appearance.Fill.GradientMirrorType = gtSolid
+                Status.Appearance.Fill.BorderColor = clGray
+                Status.Appearance.Fill.Rounding = 0
+                Status.Appearance.Fill.ShadowOffset = 0
+                Status.Appearance.Fill.Glow = gmNone
+                Status.Appearance.Font.Charset = DEFAULT_CHARSET
+                Status.Appearance.Font.Color = clWhite
+                Status.Appearance.Font.Height = -11
+                Status.Appearance.Font.Name = 'Tahoma'
+                Status.Appearance.Font.Style = []
+                BevelColor = clGray
+                Caption = '>>'
+                Color = clBlack
+                ParentFont = False
+                TabOrder = 1
+                Version = '2.1.3.0'
+                TMSStyle = 0
+              end
+              object btnRemoveTargetSurface: TAdvSmoothButton
+                Left = 275
+                Top = 139
+                Width = 120
+                Height = 50
+                Cursor = crHandPoint
+                Appearance.Font.Charset = DEFAULT_CHARSET
+                Appearance.Font.Color = clWhite
+                Appearance.Font.Height = -13
+                Appearance.Font.Name = 'Tahoma'
+                Appearance.Font.Style = [fsBold]
+                Status.Caption = '0'
+                Status.Appearance.Fill.Color = clRed
+                Status.Appearance.Fill.ColorMirror = clNone
+                Status.Appearance.Fill.ColorMirrorTo = clNone
+                Status.Appearance.Fill.GradientType = gtSolid
+                Status.Appearance.Fill.GradientMirrorType = gtSolid
+                Status.Appearance.Fill.BorderColor = clGray
+                Status.Appearance.Fill.Rounding = 0
+                Status.Appearance.Fill.ShadowOffset = 0
+                Status.Appearance.Fill.Glow = gmNone
+                Status.Appearance.Font.Charset = DEFAULT_CHARSET
+                Status.Appearance.Font.Color = clWhite
+                Status.Appearance.Font.Height = -11
+                Status.Appearance.Font.Name = 'Tahoma'
+                Status.Appearance.Font.Style = []
+                BevelColor = clGray
+                Caption = '<<'
+                Color = clBlack
+                ParentFont = False
+                TabOrder = 2
+                Version = '2.1.3.0'
+                TMSStyle = 0
+              end
+              object lvTargetSurfaceSelect: TListView
+                Left = 399
+                Top = 14
+                Width = 766
+                Height = 299
+                Columns = <
+                  item
+                    Caption = 'Ship Name'
+                    Width = 200
+                  end
+                  item
+                    Caption = 'X Coord'
+                    Width = 100
+                  end
+                  item
+                    Caption = 'Y Coord'
+                    Width = 100
+                  end
+                  item
+                    Caption = 'Z Coord'
+                    Width = 100
+                  end
+                  item
+                    Caption = 'Heading'
+                    Width = 100
+                  end
+                  item
+                    Caption = 'Speed'
+                  end>
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -13
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                GridLines = True
+                MultiSelect = True
+                RowSelect = True
+                ParentFont = False
+                SortType = stBoth
+                TabOrder = 3
+                ViewStyle = vsReport
+              end
+              object btnWeaponListTarget: TAdvSmoothButton
+                Left = 275
+                Top = 254
+                Width = 120
+                Height = 50
+                Cursor = crHandPoint
+                Appearance.Font.Charset = DEFAULT_CHARSET
+                Appearance.Font.Color = clWhite
+                Appearance.Font.Height = -13
+                Appearance.Font.Name = 'Tahoma'
+                Appearance.Font.Style = [fsBold]
+                Status.Caption = '0'
+                Status.Appearance.Fill.Color = clRed
+                Status.Appearance.Fill.ColorMirror = clNone
+                Status.Appearance.Fill.ColorMirrorTo = clNone
+                Status.Appearance.Fill.GradientType = gtSolid
+                Status.Appearance.Fill.GradientMirrorType = gtSolid
+                Status.Appearance.Fill.BorderColor = clGray
+                Status.Appearance.Fill.Rounding = 0
+                Status.Appearance.Fill.ShadowOffset = 0
+                Status.Appearance.Fill.Glow = gmNone
+                Status.Appearance.Font.Charset = DEFAULT_CHARSET
+                Status.Appearance.Font.Color = clWhite
+                Status.Appearance.Font.Height = -11
+                Status.Appearance.Font.Name = 'Tahoma'
+                Status.Appearance.Font.Style = []
+                BevelColor = clGray
+                Caption = 'Ship Editor'
+                Color = clBlack
+                ParentFont = False
+                TabOrder = 4
+                Version = '2.1.3.0'
+                OnClick = btnWeaponListClick
+                TMSStyle = 0
+              end
+            end
+            object tsSubsurface: TAdvSmoothTabPage
+              Left = 1
+              Top = 2
+              Width = 773
+              Height = 383
+              Caption = 'Subsurface'
+              PageAppearance.Color = 7301478
+              PageAppearance.ColorTo = clSilver
+              PageAppearance.ColorMirror = clSilver
+              PageAppearance.ColorMirrorTo = 7301478
+              PageAppearance.GradientType = gtVertical
+              PageAppearance.GradientMirrorType = gtVertical
+              PageAppearance.BorderColor = clNone
+              PageAppearance.Rounding = 0
+              PageAppearance.ShadowOffset = 0
+              PageAppearance.Glow = gmNone
+              TabAppearance.Appearance.Font.Charset = DEFAULT_CHARSET
+              TabAppearance.Appearance.Font.Color = clWhite
+              TabAppearance.Appearance.Font.Height = -11
+              TabAppearance.Appearance.Font.Name = 'Tahoma'
+              TabAppearance.Appearance.Font.Style = [fsBold]
+              TabAppearance.Status.Caption = '0'
+              TabAppearance.Status.Appearance.Fill.Color = clRed
+              TabAppearance.Status.Appearance.Fill.ColorMirror = clNone
+              TabAppearance.Status.Appearance.Fill.ColorMirrorTo = clNone
+              TabAppearance.Status.Appearance.Fill.GradientType = gtSolid
+              TabAppearance.Status.Appearance.Fill.GradientMirrorType = gtSolid
+              TabAppearance.Status.Appearance.Fill.BorderColor = clGray
+              TabAppearance.Status.Appearance.Fill.Rounding = 0
+              TabAppearance.Status.Appearance.Fill.ShadowOffset = 0
+              TabAppearance.Status.Appearance.Fill.Glow = gmNone
+              TabAppearance.Status.Appearance.Font.Charset = DEFAULT_CHARSET
+              TabAppearance.Status.Appearance.Font.Color = clWhite
+              TabAppearance.Status.Appearance.Font.Height = -11
+              TabAppearance.Status.Appearance.Font.Name = 'Tahoma'
+              TabAppearance.Status.Appearance.Font.Style = []
+              TabAppearance.Bevel = False
+              TabAppearance.BevelColor = clBlack
+              TabAppearance.BevelColorDown = clBlack
+              TabAppearance.BevelColorSelected = clBlack
+              TabAppearance.BevelColorHot = clBlack
+              TabAppearance.BevelColorDisabled = clBlack
+              TabAppearance.Color = 7301478
+              TabAppearance.ColorDown = clBlack
+              TabAppearance.ColorSelected = clBlack
+              TabAppearance.ColorDisabled = 7301478
+              TMSStyle = 0
+              object lvTargetSubsurfaceAll: TListView
+                Left = 9
+                Top = 16
+                Width = 250
+                Height = 295
+                Columns = <
+                  item
+                    Caption = 'Ship Name'
+                    Width = 200
+                  end>
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -13
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                GridLines = True
+                MultiSelect = True
+                RowSelect = True
+                ParentFont = False
+                SortType = stBoth
+                TabOrder = 0
+                ViewStyle = vsReport
+              end
+              object btnAddTargetSubsurface: TAdvSmoothButton
+                Left = 272
+                Top = 105
+                Width = 120
+                Height = 50
+                Cursor = crHandPoint
+                Appearance.Font.Charset = DEFAULT_CHARSET
+                Appearance.Font.Color = clWhite
+                Appearance.Font.Height = -13
+                Appearance.Font.Name = 'Tahoma'
+                Appearance.Font.Style = [fsBold]
+                Status.Caption = '0'
+                Status.Appearance.Fill.Color = clRed
+                Status.Appearance.Fill.ColorMirror = clNone
+                Status.Appearance.Fill.ColorMirrorTo = clNone
+                Status.Appearance.Fill.GradientType = gtSolid
+                Status.Appearance.Fill.GradientMirrorType = gtSolid
+                Status.Appearance.Fill.BorderColor = clGray
+                Status.Appearance.Fill.Rounding = 0
+                Status.Appearance.Fill.ShadowOffset = 0
+                Status.Appearance.Fill.Glow = gmNone
+                Status.Appearance.Font.Charset = DEFAULT_CHARSET
+                Status.Appearance.Font.Color = clWhite
+                Status.Appearance.Font.Height = -11
+                Status.Appearance.Font.Name = 'Tahoma'
+                Status.Appearance.Font.Style = []
+                BevelColor = clGray
+                Caption = '>>'
+                Color = clBlack
+                ParentFont = False
+                TabOrder = 1
+                Version = '2.1.3.0'
+                TMSStyle = 0
+              end
+              object btnRemoveTargetSubsurface: TAdvSmoothButton
+                Left = 273
+                Top = 157
+                Width = 120
+                Height = 50
+                Cursor = crHandPoint
+                Appearance.Font.Charset = DEFAULT_CHARSET
+                Appearance.Font.Color = clWhite
+                Appearance.Font.Height = -13
+                Appearance.Font.Name = 'Tahoma'
+                Appearance.Font.Style = [fsBold]
+                Status.Caption = '0'
+                Status.Appearance.Fill.Color = clRed
+                Status.Appearance.Fill.ColorMirror = clNone
+                Status.Appearance.Fill.ColorMirrorTo = clNone
+                Status.Appearance.Fill.GradientType = gtSolid
+                Status.Appearance.Fill.GradientMirrorType = gtSolid
+                Status.Appearance.Fill.BorderColor = clGray
+                Status.Appearance.Fill.Rounding = 0
+                Status.Appearance.Fill.ShadowOffset = 0
+                Status.Appearance.Fill.Glow = gmNone
+                Status.Appearance.Font.Charset = DEFAULT_CHARSET
+                Status.Appearance.Font.Color = clWhite
+                Status.Appearance.Font.Height = -11
+                Status.Appearance.Font.Name = 'Tahoma'
+                Status.Appearance.Font.Style = []
+                BevelColor = clGray
+                Caption = '<<'
+                Color = clBlack
+                ParentFont = False
+                TabOrder = 2
+                Version = '2.1.3.0'
+                TMSStyle = 0
+              end
+              object lvTargetSubsurfaceSelect: TListView
+                Left = 399
+                Top = 14
+                Width = 766
+                Height = 299
+                Columns = <
+                  item
+                    Caption = 'Ship Name'
+                    Width = 200
+                  end
+                  item
+                    Caption = 'X Coord'
+                    Width = 100
+                  end
+                  item
+                    Caption = 'Y Coord'
+                    Width = 100
+                  end
+                  item
+                    Caption = 'Z Coord'
+                    Width = 100
+                  end
+                  item
+                    Caption = 'Heading'
+                    Width = 100
+                  end
+                  item
+                    Caption = 'Speed'
+                  end>
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -13
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                GridLines = True
+                MultiSelect = True
+                RowSelect = True
+                ParentFont = False
+                SortType = stBoth
+                TabOrder = 3
+                ViewStyle = vsReport
+              end
+            end
+            object tsAir: TAdvSmoothTabPage
+              Left = 1
+              Top = 2
+              Width = 773
+              Height = 383
+              Caption = 'Air'
+              PageAppearance.Color = 7301478
+              PageAppearance.ColorTo = clSilver
+              PageAppearance.ColorMirror = clSilver
+              PageAppearance.ColorMirrorTo = 7301478
+              PageAppearance.GradientType = gtVertical
+              PageAppearance.GradientMirrorType = gtVertical
+              PageAppearance.BorderColor = clNone
+              PageAppearance.Rounding = 0
+              PageAppearance.ShadowOffset = 0
+              PageAppearance.Glow = gmNone
+              TabAppearance.Appearance.Font.Charset = DEFAULT_CHARSET
+              TabAppearance.Appearance.Font.Color = clWhite
+              TabAppearance.Appearance.Font.Height = -11
+              TabAppearance.Appearance.Font.Name = 'Tahoma'
+              TabAppearance.Appearance.Font.Style = [fsBold]
+              TabAppearance.Status.Caption = '0'
+              TabAppearance.Status.Appearance.Fill.Color = clRed
+              TabAppearance.Status.Appearance.Fill.ColorMirror = clNone
+              TabAppearance.Status.Appearance.Fill.ColorMirrorTo = clNone
+              TabAppearance.Status.Appearance.Fill.GradientType = gtSolid
+              TabAppearance.Status.Appearance.Fill.GradientMirrorType = gtSolid
+              TabAppearance.Status.Appearance.Fill.BorderColor = clGray
+              TabAppearance.Status.Appearance.Fill.Rounding = 0
+              TabAppearance.Status.Appearance.Fill.ShadowOffset = 0
+              TabAppearance.Status.Appearance.Fill.Glow = gmNone
+              TabAppearance.Status.Appearance.Font.Charset = DEFAULT_CHARSET
+              TabAppearance.Status.Appearance.Font.Color = clWhite
+              TabAppearance.Status.Appearance.Font.Height = -11
+              TabAppearance.Status.Appearance.Font.Name = 'Tahoma'
+              TabAppearance.Status.Appearance.Font.Style = []
+              TabAppearance.Bevel = False
+              TabAppearance.BevelColor = clBlack
+              TabAppearance.BevelColorDown = clBlack
+              TabAppearance.BevelColorSelected = clBlack
+              TabAppearance.BevelColorHot = clBlack
+              TabAppearance.BevelColorDisabled = clBlack
+              TabAppearance.Color = 7301478
+              TabAppearance.ColorDown = clBlack
+              TabAppearance.ColorSelected = clBlack
+              TabAppearance.ColorHot = clSilver
+              TabAppearance.ColorDisabled = 7301478
+              TMSStyle = 0
+              object lvTargetAirAll: TListView
+                Left = 9
+                Top = 16
+                Width = 250
+                Height = 295
+                Columns = <
+                  item
+                    Caption = 'Ship Name'
+                    Width = 200
+                  end>
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -13
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                GridLines = True
+                MultiSelect = True
+                RowSelect = True
+                ParentFont = False
+                SortType = stBoth
+                TabOrder = 0
+                ViewStyle = vsReport
+              end
+              object btnAddTargetAir: TAdvSmoothButton
+                Left = 272
+                Top = 105
+                Width = 120
+                Height = 50
+                Cursor = crHandPoint
+                Appearance.Font.Charset = DEFAULT_CHARSET
+                Appearance.Font.Color = clWhite
+                Appearance.Font.Height = -13
+                Appearance.Font.Name = 'Tahoma'
+                Appearance.Font.Style = [fsBold]
+                Status.Caption = '0'
+                Status.Appearance.Fill.Color = clRed
+                Status.Appearance.Fill.ColorMirror = clNone
+                Status.Appearance.Fill.ColorMirrorTo = clNone
+                Status.Appearance.Fill.GradientType = gtSolid
+                Status.Appearance.Fill.GradientMirrorType = gtSolid
+                Status.Appearance.Fill.BorderColor = clGray
+                Status.Appearance.Fill.Rounding = 0
+                Status.Appearance.Fill.ShadowOffset = 0
+                Status.Appearance.Fill.Glow = gmNone
+                Status.Appearance.Font.Charset = DEFAULT_CHARSET
+                Status.Appearance.Font.Color = clWhite
+                Status.Appearance.Font.Height = -11
+                Status.Appearance.Font.Name = 'Tahoma'
+                Status.Appearance.Font.Style = []
+                BevelColor = clGray
+                Caption = '>>'
+                Color = clBlack
+                ParentFont = False
+                TabOrder = 1
+                Version = '2.1.3.0'
+                TMSStyle = 0
+              end
+              object btnRemoveTargetAir: TAdvSmoothButton
+                Left = 273
+                Top = 157
+                Width = 120
+                Height = 50
+                Cursor = crHandPoint
+                Appearance.Font.Charset = DEFAULT_CHARSET
+                Appearance.Font.Color = clWhite
+                Appearance.Font.Height = -13
+                Appearance.Font.Name = 'Tahoma'
+                Appearance.Font.Style = [fsBold]
+                Status.Caption = '0'
+                Status.Appearance.Fill.Color = clRed
+                Status.Appearance.Fill.ColorMirror = clNone
+                Status.Appearance.Fill.ColorMirrorTo = clNone
+                Status.Appearance.Fill.GradientType = gtSolid
+                Status.Appearance.Fill.GradientMirrorType = gtSolid
+                Status.Appearance.Fill.BorderColor = clGray
+                Status.Appearance.Fill.Rounding = 0
+                Status.Appearance.Fill.ShadowOffset = 0
+                Status.Appearance.Fill.Glow = gmNone
+                Status.Appearance.Font.Charset = DEFAULT_CHARSET
+                Status.Appearance.Font.Color = clWhite
+                Status.Appearance.Font.Height = -11
+                Status.Appearance.Font.Name = 'Tahoma'
+                Status.Appearance.Font.Style = []
+                BevelColor = clGray
+                Caption = '<<'
+                Color = clBlack
+                ParentFont = False
+                TabOrder = 2
+                Version = '2.1.3.0'
+                TMSStyle = 0
+              end
+              object lvTargetAirSelect: TListView
+                Left = 400
+                Top = 16
+                Width = 766
+                Height = 299
+                Columns = <
+                  item
+                    Caption = 'Ship Name'
+                    Width = 200
+                  end
+                  item
+                    Caption = 'X Coord'
+                    Width = 100
+                  end
+                  item
+                    Caption = 'Y Coord'
+                    Width = 100
+                  end
+                  item
+                    Caption = 'Z Coord'
+                    Width = 100
+                  end
+                  item
+                    Caption = 'Heading'
+                    Width = 100
+                  end
+                  item
+                    Caption = 'Speed'
+                  end>
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -13
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                GridLines = True
+                MultiSelect = True
+                RowSelect = True
+                ParentFont = False
+                SortType = stBoth
+                TabOrder = 3
+                ViewStyle = vsReport
+              end
+            end
+          end
+        end
+        object tsShipGeneral: TAdvSmoothTabPage
+          Left = 1
+          Top = 40
+          Width = 779
+          Height = 414
+          Caption = 'General'
+          PageAppearance.Color = 7301478
+          PageAppearance.ColorTo = clSilver
+          PageAppearance.ColorMirror = clSilver
+          PageAppearance.ColorMirrorTo = 7301478
+          PageAppearance.GradientType = gtVertical
+          PageAppearance.GradientMirrorType = gtVertical
+          PageAppearance.BorderColor = clNone
+          PageAppearance.Rounding = 0
+          PageAppearance.ShadowColor = 3355443
+          PageAppearance.ShadowOffset = 0
+          PageAppearance.Glow = gmNone
+          TabAppearance.Appearance.Font.Charset = DEFAULT_CHARSET
+          TabAppearance.Appearance.Font.Color = clWhite
+          TabAppearance.Appearance.Font.Height = -13
+          TabAppearance.Appearance.Font.Name = 'Tahoma'
+          TabAppearance.Appearance.Font.Style = [fsBold]
+          TabAppearance.Status.Caption = '0'
+          TabAppearance.Status.Appearance.Fill.Color = clRed
+          TabAppearance.Status.Appearance.Fill.ColorMirror = clNone
+          TabAppearance.Status.Appearance.Fill.ColorMirrorTo = clNone
+          TabAppearance.Status.Appearance.Fill.GradientType = gtSolid
+          TabAppearance.Status.Appearance.Fill.GradientMirrorType = gtSolid
+          TabAppearance.Status.Appearance.Fill.BorderColor = clGray
+          TabAppearance.Status.Appearance.Fill.Rounding = 0
+          TabAppearance.Status.Appearance.Fill.ShadowOffset = 0
+          TabAppearance.Status.Appearance.Fill.Glow = gmNone
+          TabAppearance.Status.Appearance.Font.Charset = DEFAULT_CHARSET
+          TabAppearance.Status.Appearance.Font.Color = clWhite
+          TabAppearance.Status.Appearance.Font.Height = -11
+          TabAppearance.Status.Appearance.Font.Name = 'Tahoma'
+          TabAppearance.Status.Appearance.Font.Style = []
+          TabAppearance.Bevel = False
+          TabAppearance.BevelColor = clBlack
+          TabAppearance.BevelColorDown = clBlack
+          TabAppearance.BevelColorSelected = clBlack
+          TabAppearance.BevelColorHot = clBlack
+          TabAppearance.BevelColorDisabled = clBlack
+          TabAppearance.ColorDown = clBlack
+          TabAppearance.ColorSelected = clBlack
+          TabAppearance.ColorHot = clSilver
+          TabAppearance.ColorDisabled = 7301478
+          TMSStyle = 0
+          object lvGeneralShipAll: TListView
+            Left = 9
+            Top = 16
+            Width = 250
+            Height = 295
+            Columns = <
+              item
+                Caption = 'Ship Name'
+                Width = 200
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            GridLines = True
+            MultiSelect = True
+            RowSelect = True
+            ParentFont = False
+            SortType = stBoth
+            TabOrder = 0
+            ViewStyle = vsReport
+          end
+          object btnRemoveGnrShip: TAdvSmoothButton
+            Left = 281
+            Top = 157
+            Width = 120
+            Height = 50
+            Cursor = crHandPoint
+            Appearance.Font.Charset = DEFAULT_CHARSET
+            Appearance.Font.Color = clWhite
+            Appearance.Font.Height = -13
+            Appearance.Font.Name = 'Tahoma'
+            Appearance.Font.Style = [fsBold]
+            Status.Caption = '0'
+            Status.Appearance.Fill.Color = clRed
+            Status.Appearance.Fill.ColorMirror = clNone
+            Status.Appearance.Fill.ColorMirrorTo = clNone
+            Status.Appearance.Fill.GradientType = gtSolid
+            Status.Appearance.Fill.GradientMirrorType = gtSolid
+            Status.Appearance.Fill.BorderColor = clGray
+            Status.Appearance.Fill.Rounding = 0
+            Status.Appearance.Fill.ShadowOffset = 0
+            Status.Appearance.Fill.Glow = gmNone
+            Status.Appearance.Font.Charset = DEFAULT_CHARSET
+            Status.Appearance.Font.Color = clWhite
+            Status.Appearance.Font.Height = -11
+            Status.Appearance.Font.Name = 'Tahoma'
+            Status.Appearance.Font.Style = []
+            BevelColor = clGray
+            Caption = '<<'
+            Color = clBlack
+            ParentFont = False
+            TabOrder = 1
+            Version = '2.1.3.0'
+            TMSStyle = 0
+          end
+          object btnAddGnrShip: TAdvSmoothButton
+            Left = 280
+            Top = 105
+            Width = 120
+            Height = 50
+            Cursor = crHandPoint
+            Appearance.Font.Charset = DEFAULT_CHARSET
+            Appearance.Font.Color = clWhite
+            Appearance.Font.Height = -13
+            Appearance.Font.Name = 'Tahoma'
+            Appearance.Font.Style = [fsBold]
+            Status.Caption = '0'
+            Status.Appearance.Fill.Color = clRed
+            Status.Appearance.Fill.ColorMirror = clNone
+            Status.Appearance.Fill.ColorMirrorTo = clNone
+            Status.Appearance.Fill.GradientType = gtSolid
+            Status.Appearance.Fill.GradientMirrorType = gtSolid
+            Status.Appearance.Fill.BorderColor = clGray
+            Status.Appearance.Fill.Rounding = 0
+            Status.Appearance.Fill.ShadowOffset = 0
+            Status.Appearance.Fill.Glow = gmNone
+            Status.Appearance.Font.Charset = DEFAULT_CHARSET
+            Status.Appearance.Font.Color = clWhite
+            Status.Appearance.Font.Height = -11
+            Status.Appearance.Font.Name = 'Tahoma'
+            Status.Appearance.Font.Style = []
+            BevelColor = clGray
+            Caption = '>>'
+            Color = clBlack
+            ParentFont = False
+            TabOrder = 2
+            Version = '2.1.3.0'
+            TMSStyle = 0
+          end
+          object lvGeneralShipSelect: TListView
+            Left = 411
+            Top = 14
+            Width = 766
+            Height = 299
+            Columns = <
+              item
+                Caption = 'Ship Name'
+                Width = 200
+              end
+              item
+                Caption = 'X Coord'
+                Width = 100
+              end
+              item
+                Caption = 'Y Coord'
+                Width = 100
+              end
+              item
+                Caption = 'Z Coord'
+                Width = 100
+              end
+              item
+                Caption = 'Heading'
+                Width = 100
+              end
+              item
+                Caption = 'Speed'
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            GridLines = True
+            MultiSelect = True
+            RowSelect = True
+            ParentFont = False
+            SortType = stBoth
+            TabOrder = 3
+            ViewStyle = vsReport
+          end
+          object btnWeaponListGeneral: TAdvSmoothButton
+            Left = 281
+            Top = 254
+            Width = 120
+            Height = 50
+            Cursor = crHandPoint
+            Appearance.Font.Charset = DEFAULT_CHARSET
+            Appearance.Font.Color = clWhite
+            Appearance.Font.Height = -13
+            Appearance.Font.Name = 'Tahoma'
+            Appearance.Font.Style = [fsBold]
+            Status.Caption = '0'
+            Status.Appearance.Fill.Color = clRed
+            Status.Appearance.Fill.ColorMirror = clNone
+            Status.Appearance.Fill.ColorMirrorTo = clNone
+            Status.Appearance.Fill.GradientType = gtSolid
+            Status.Appearance.Fill.GradientMirrorType = gtSolid
+            Status.Appearance.Fill.BorderColor = clGray
+            Status.Appearance.Fill.Rounding = 0
+            Status.Appearance.Fill.ShadowOffset = 0
+            Status.Appearance.Fill.Glow = gmNone
+            Status.Appearance.Font.Charset = DEFAULT_CHARSET
+            Status.Appearance.Font.Color = clWhite
+            Status.Appearance.Font.Height = -11
+            Status.Appearance.Font.Name = 'Tahoma'
+            Status.Appearance.Font.Style = []
+            BevelColor = clGray
+            Caption = 'Ship Editor'
+            Color = clBlack
+            ParentFont = False
+            TabOrder = 4
+            Version = '2.1.3.0'
+            OnClick = btnWeaponListClick
+            TMSStyle = 0
+          end
+        end
+        object tsMargin: TAdvSmoothTabPage
+          Left = 1
+          Top = 40
+          Width = 779
+          Height = 414
+          Caption = ''
+          PageAppearance.Color = 7301478
+          PageAppearance.ColorTo = clSilver
+          PageAppearance.ColorMirror = clSilver
+          PageAppearance.ColorMirrorTo = 7301478
+          PageAppearance.GradientType = gtVertical
+          PageAppearance.GradientMirrorType = gtVertical
+          PageAppearance.BorderColor = clNone
+          PageAppearance.Rounding = 0
+          PageAppearance.ShadowColor = 3355443
+          PageAppearance.ShadowOffset = 0
+          PageAppearance.Glow = gmNone
+          TabEnabled = False
+          TabAppearance.Appearance.Font.Charset = DEFAULT_CHARSET
+          TabAppearance.Appearance.Font.Color = clWindowText
+          TabAppearance.Appearance.Font.Height = -11
+          TabAppearance.Appearance.Font.Name = 'Tahoma'
+          TabAppearance.Appearance.Font.Style = []
+          TabAppearance.Status.Caption = '0'
+          TabAppearance.Status.Appearance.Fill.Color = clRed
+          TabAppearance.Status.Appearance.Fill.ColorMirror = clNone
+          TabAppearance.Status.Appearance.Fill.ColorMirrorTo = clNone
+          TabAppearance.Status.Appearance.Fill.GradientType = gtSolid
+          TabAppearance.Status.Appearance.Fill.GradientMirrorType = gtSolid
+          TabAppearance.Status.Appearance.Fill.BorderColor = clGray
+          TabAppearance.Status.Appearance.Fill.Rounding = 8
+          TabAppearance.Status.Appearance.Fill.ShadowOffset = 0
+          TabAppearance.Status.Appearance.Fill.Glow = gmNone
+          TabAppearance.Status.Appearance.Font.Charset = DEFAULT_CHARSET
+          TabAppearance.Status.Appearance.Font.Color = clWhite
+          TabAppearance.Status.Appearance.Font.Height = -11
+          TabAppearance.Status.Appearance.Font.Name = 'Tahoma'
+          TabAppearance.Status.Appearance.Font.Style = []
+          TabAppearance.Bevel = False
+          TabAppearance.BevelColor = clBlack
+          TabAppearance.BevelColorDown = clBlack
+          TabAppearance.BevelColorSelected = clBlack
+          TabAppearance.BevelColorHot = clBlack
+          TabAppearance.BevelColorDisabled = clBlack
+          TabAppearance.Color = 7301478
+          TabAppearance.ColorDown = 7301478
+          TabAppearance.ColorSelected = 7301478
+          TabAppearance.ColorHot = 7301478
+          TabAppearance.ColorDisabled = 7301478
+          TMSStyle = 0
+        end
+        object tsConsoleRun: TAdvSmoothTabPage
+          Left = 1
+          Top = 40
+          Width = 779
+          Height = 414
+          Caption = 'Console'
+          PageAppearance.Color = 7301478
+          PageAppearance.ColorTo = clSilver
+          PageAppearance.ColorMirror = clSilver
+          PageAppearance.ColorMirrorTo = 7301478
+          PageAppearance.GradientType = gtVertical
+          PageAppearance.GradientMirrorType = gtVertical
+          PageAppearance.BorderColor = clNone
+          PageAppearance.Rounding = 0
+          PageAppearance.ShadowColor = 3355443
+          PageAppearance.ShadowOffset = 0
+          PageAppearance.Glow = gmNone
+          TabAppearance.Appearance.Font.Charset = DEFAULT_CHARSET
+          TabAppearance.Appearance.Font.Color = clWhite
+          TabAppearance.Appearance.Font.Height = -13
+          TabAppearance.Appearance.Font.Name = 'Tahoma'
+          TabAppearance.Appearance.Font.Style = [fsBold]
+          TabAppearance.Status.Caption = '0'
+          TabAppearance.Status.Appearance.Fill.Color = clRed
+          TabAppearance.Status.Appearance.Fill.ColorMirror = clNone
+          TabAppearance.Status.Appearance.Fill.ColorMirrorTo = clNone
+          TabAppearance.Status.Appearance.Fill.GradientType = gtSolid
+          TabAppearance.Status.Appearance.Fill.GradientMirrorType = gtSolid
+          TabAppearance.Status.Appearance.Fill.BorderColor = clGray
+          TabAppearance.Status.Appearance.Fill.Rounding = 0
+          TabAppearance.Status.Appearance.Fill.ShadowOffset = 0
+          TabAppearance.Status.Appearance.Fill.Glow = gmNone
+          TabAppearance.Status.Appearance.Font.Charset = DEFAULT_CHARSET
+          TabAppearance.Status.Appearance.Font.Color = clWhite
+          TabAppearance.Status.Appearance.Font.Height = -11
+          TabAppearance.Status.Appearance.Font.Name = 'Tahoma'
+          TabAppearance.Status.Appearance.Font.Style = []
+          TabAppearance.Bevel = False
+          TabAppearance.BevelColor = clBlack
+          TabAppearance.BevelColorDown = clBlack
+          TabAppearance.BevelColorSelected = clBlack
+          TabAppearance.BevelColorHot = clBlack
+          TabAppearance.BevelColorDisabled = clBlack
+          TabAppearance.ColorDown = clBlack
+          TabAppearance.ColorSelected = clBlack
+          TabAppearance.ColorHot = clSilver
+          TabAppearance.ColorDisabled = 7301478
+          TMSStyle = 0
+          object lvConsole: TListView
+            Left = 2
+            Top = 2
+            Width = 775
+            Height = 410
+            Align = alClient
+            BevelKind = bkFlat
+            Color = clWhite
+            Columns = <
+              item
+                Caption = 'ID'
+              end
+              item
+                Caption = 'CUBICLE'
+                Width = 150
+              end
+              item
+                Caption = 'CONSOLE'
+                Width = 250
+              end
+              item
+                Caption = 'TYPE'
+              end
+              item
+                Caption = 'IP'
+                Width = 300
+              end
+              item
+                Caption = 'SHIP'
+                Width = 125
+              end
+              item
+                Caption = 'SHIPID'
+                Width = 75
+              end
+              item
+                Caption = 'LAUNCHERID'
+                Width = 100
+              end>
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -13
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            GridLines = True
+            RowSelect = True
+            ParentFont = False
+            TabOrder = 0
+            ViewStyle = vsReport
+            OnDblClick = lvConsoleDblClick
+            OnMouseDown = lvConsoleMouseDown
+          end
+        end
+      end
+    end
+  end
+  object pmConsole: TPopupMenu
+    Left = 607
+    Top = 416
+  end
+  object pmConsole2: TPopupMenu
+    Left = 640
+    Top = 416
+  end
+end

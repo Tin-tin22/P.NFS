@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uBaseDataType">
+  <const name="rd_unknown" type="TRelatifDirection">
+    <value>
+      rd_unknown
+    </value>
+  </const>
+  <const name="rd_left" type="TRelatifDirection">
+    <value>
+      rd_left
+    </value>
+  </const>
+  <const name="rd_right" type="TRelatifDirection">
+    <value>
+      rd_right
+    </value>
+  </const>
+  <const name="rd_up" type="TRelatifDirection">
+    <value>
+      rd_up
+    </value>
+  </const>
+  <const name="rd_down" type="TRelatifDirection">
+    <value>
+      rd_down
+    </value>
+  </const>
+  <const name="rd_infront" type="TRelatifDirection">
+    <value>
+      rd_infront
+    </value>
+  </const>
+  <const name="rd_behind" type="TRelatifDirection">
+    <value>
+      rd_behind
+    </value>
+  </const>
+  <const name="Red" type="TcolorIndikator">
+    <value>
+      Red
+    </value>
+  </const>
+  <const name="Yellow" type="TcolorIndikator">
+    <value>
+      Yellow
+    </value>
+  </const>
+  <const name="Green" type="TcolorIndikator">
+    <value>
+      Green
+    </value>
+  </const>
+  <const name="lmRBL" type="TLaunchMode">
+    <value>
+      lmRBL
+    </value>
+  </const>
+  <const name="lmBOL" type="TLaunchMode">
+    <value>
+      lmBOL
+    </value>
+  </const>
+  <const name="szSmall" type="TLetterSize">
+    <value>
+      szSmall
+    </value>
+  </const>
+  <const name="szMedium" type="TLetterSize">
+    <value>
+      szMedium
+    </value>
+  </const>
+  <const name="szLarge" type="TLetterSize">
+    <value>
+      szLarge
+    </value>
+  </const>
+  <struct name="tDouble2DPoint">
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+  </struct>
+  <array name="tDADouble2DPoint">
+    <element type="tDouble2DPoint" />
+  </array>
+  <struct name="TDoubleRect" packed="true">
+    <field name="Left" type="Double" visibility="public" />
+    <field name="Top" type="Double" visibility="public" />
+    <field name="Right" type="Double" visibility="public" />
+  </struct>
+  <struct name="tDouble3DPoint">
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+    <field name="Z" type="Double" visibility="public" />
+  </struct>
+  <struct name="t2DPoint" alias="uBaseDataType.tDouble2DPoint">
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+  </struct>
+  <struct name="t3DPoint" alias="uBaseDataType.tDouble3DPoint">
+    <field name="X" type="Double" visibility="public" />
+    <field name="Y" type="Double" visibility="public" />
+    <field name="Z" type="Double" visibility="public" />
+  </struct>
+  <struct name="tSingle2DPoint">
+    <field name="x" type="Single" visibility="public" />
+    <field name="y" type="Single" visibility="public" />
+  </struct>
+  <struct name="t2SPoint" alias="uBaseDataType.tSingle2DPoint">
+    <field name="x" type="Single" visibility="public" />
+    <field name="y" type="Single" visibility="public" />
+  </struct>
+  <struct name="t2DComboPoint">
+    <field name="Mx" type="tDouble2DPoint" visibility="public" />
+    <field name="Sc" type="TPoint" visibility="public" />
+  </struct>
+  <struct name="tVect2D">
+    <field name="Speed" type="Double" visibility="public" />
+    <field name="Course" type="Double" visibility="public" />
+  </struct>
+  <struct name="tInterleave">
+    <field name="Counter" type="Word" visibility="public" />
+    <field name="Cycle" type="Word" visibility="public" />
+  </struct>
+  <enum name="TRelatifDirection">
+    <element name="rd_unknown" />
+    <element name="rd_left" />
+    <element name="rd_right" />
+    <element name="rd_up" />
+    <element name="rd_down" />
+    <element name="rd_infront" />
+    <element name="rd_behind" />
+  </enum>
+  <enum name="TcolorIndikator">
+    <element name="Red" />
+    <element name="Yellow" />
+    <element name="Green" />
+  </enum>
+  <enum name="TLaunchMode">
+    <element name="lmRBL" />
+    <element name="lmBOL" />
+  </enum>
+  <enum name="TLetterSize">
+    <element name="szSmall" />
+    <element name="szMedium" />
+    <element name="szLarge" />
+  </enum>
+  <function name="Double2DPoint" visibility="public">
+    <parameters>
+      <parameter name="aX" type="Double" paramflags="const" />
+      <parameter name="aY" type="Double" paramflags="const" />
+      <retval type="tDouble2DPoint" />
+    </parameters>
+  </function>
+  <function name="Double2DPointToDoubleRect" visibility="public">
+    <parameters>
+      <parameter name="aPt" type="tDouble2DPoint" paramflags="const" />
+      <parameter name="aRadius" type="Double" paramflags="const" />
+      <retval type="TDoubleRect" />
+    </parameters>
+  </function>
+  <function name="V2D_to_V2C" visibility="public">
+    <parameters>
+      <parameter name="vd" type="tVect2D" />
+      <retval type="tDouble2DPoint" />
+    </parameters>
+  </function>
+  <function name="V2C_to_V2D" visibility="public">
+    <parameters>
+      <parameter name="vc" type="tDouble2DPoint" />
+      <retval type="tVect2D" />
+    </parameters>
+  </function>
+  <function name="V2D_Add" visibility="public">
+    <parameters>
+      <parameter name="v1" type="tVect2D" />
+      <parameter name="v2" type="tVect2D" />
+      <retval type="tVect2D" />
+    </parameters>
+  </function>
+  <function name="V2D_Sub" visibility="public">
+    <parameters>
+      <parameter name="v1" type="tVect2D" />
+      <parameter name="v2" type="tVect2D" />
+      <retval type="tVect2D" />
+    </parameters>
+  </function>
+</namespace>

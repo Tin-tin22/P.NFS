@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uGraphics">
+  <const name="vaNone" type="TVerticalAlign">
+    <value>
+      vaNone
+    </value>
+  </const>
+  <const name="vaTop" type="TVerticalAlign">
+    <value>
+      vaTop
+    </value>
+  </const>
+  <const name="vaCenter" type="TVerticalAlign">
+    <value>
+      vaCenter
+    </value>
+  </const>
+  <const name="vaBottom" type="TVerticalAlign">
+    <value>
+      vaBottom
+    </value>
+  </const>
+  <const name="haNone" type="THorizontalAlign">
+    <value>
+      haNone
+    </value>
+  </const>
+  <const name="haLeft" type="THorizontalAlign">
+    <value>
+      haLeft
+    </value>
+  </const>
+  <const name="haCenter" type="THorizontalAlign">
+    <value>
+      haCenter
+    </value>
+  </const>
+  <const name="haRight" type="THorizontalAlign">
+    <value>
+      haRight
+    </value>
+  </const>
+  <enum name="TVerticalAlign">
+    <element name="vaNone" />
+    <element name="vaTop" />
+    <element name="vaCenter" />
+    <element name="vaBottom" />
+  </enum>
+  <enum name="THorizontalAlign">
+    <element name="haNone" />
+    <element name="haLeft" />
+    <element name="haCenter" />
+    <element name="haRight" />
+  </enum>
+  <struct name="rRGBPixel" packed="true">
+    <field name="b" type="Byte" visibility="public" />
+    <field name="g" type="Byte" visibility="public" />
+    <field name="r" type="Byte" visibility="public" />
+  </struct>
+  <array name="aRGBPixels" low="0" high="4095">
+    <element type="rRGBPixel" />
+  </array>
+  <pointer name="paRGBPixels" type="aRGBPixels" indircnt="1" />
+  <procedure name="DefPaintBox1Paint" visibility="public">
+    <parameters>
+      <parameter name="pbx" type="TPaintBox" />
+      <parameter name="stColr" type="TColor" />
+    </parameters>
+  </procedure>
+  <procedure name="DrawShading" visibility="public">
+    <parameters>
+      <parameter name="cnv" type="TCanvas" />
+      <parameter name="r" type="TRect" />
+      <parameter name="stColor" type="TColor" />
+    </parameters>
+  </procedure>
+  <procedure name="bmp24_Rotate" visibility="public">
+    <parameters>
+      <parameter name="bmpSrc" type="TBitmap" />
+      <parameter name="bmpDest" type="TBitmap" />
+      <parameter name="aDeg" type="Single" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="bmp24_Fill" visibility="public">
+    <parameters>
+      <parameter name="bmp" type="TBitmap" />
+    </parameters>
+  </procedure>
+</namespace>

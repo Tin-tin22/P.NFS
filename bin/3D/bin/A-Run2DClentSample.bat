@@ -1,0 +1,1 @@
+TDCmini.exe -192.168.3.2 -192.168.3.2 -mysql -dbNSuFs -usrNSuFs -admin -1

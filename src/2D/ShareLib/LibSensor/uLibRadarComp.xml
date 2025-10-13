@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uLibRadarComp">
+  <const name="rspHorizontal" type="TRadarScanPattern">
+    <value>
+      rspHorizontal
+    </value>
+  </const>
+  <const name="rspHelical" type="TRadarScanPattern">
+    <value>
+      rspHelical
+    </value>
+  </const>
+  <class name="TRadarComponent">
+    <ancestor name="TSimulationClass" namespace="uBaseSimulationObject">
+      <methodref name="Create" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="MarkAs_NeedToBeFree" visibility="public" />
+      <methodref name="DeleteAllChildren" visibility="public" />
+      <methodref name="Update" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <propertyref name="PositionX" visibility="public" />
+      <propertyref name="PositionY" visibility="public" />
+      <propertyref name="PositionZ" visibility="public" />
+      <propertyref name="UniqueID" visibility="public" />
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="InitInstance" visibility="public">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public">
+        </methodref>
+        <methodref name="ClassName" visibility="public">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public">
+        </methodref>
+        <methodref name="ClassParent" visibility="public">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodName" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public">
+        </methodref>
+        <methodref name="UnitName" visibility="public">
+        </methodref>
+        <methodref name="Equals" visibility="public">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public">
+        </methodref>
+        <methodref name="ToString" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="Dispatch" visibility="public">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public">
+        </methodref>
+        <methodref name="NewInstance" visibility="public">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+      </ancestor>
+    </ancestor>
+  </class>
+  <enum name="TRadarScanPattern">
+    <element name="rspHorizontal" />
+    <element name="rspHelical" />
+  </enum>
+  <class name="TRadarTimeBase">
+    <ancestor name="TSimulationClass" namespace="uBaseSimulationObject">
+      <methodref name="Create" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="MarkAs_NeedToBeFree" visibility="public" />
+      <methodref name="DeleteAllChildren" visibility="public" />
+      <methodref name="Update" visibility="public" />
+      <methodref name="Run" visibility="public" />
+      <propertyref name="PositionX" visibility="public" />
+      <propertyref name="PositionY" visibility="public" />
+      <propertyref name="PositionZ" visibility="public" />
+      <propertyref name="UniqueID" visibility="public" />
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="InitInstance" visibility="public">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public">
+        </methodref>
+        <methodref name="ClassName" visibility="public">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public">
+        </methodref>
+        <methodref name="ClassParent" visibility="public">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodName" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public">
+        </methodref>
+        <methodref name="UnitName" visibility="public">
+        </methodref>
+        <methodref name="Equals" visibility="public">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public">
+        </methodref>
+        <methodref name="ToString" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="Dispatch" visibility="public">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public">
+        </methodref>
+        <methodref name="NewInstance" visibility="public">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FScanPattern" type="TRadarScanPattern" visibility="private" />
+      <field name="FElevation" type="Double" visibility="private" />
+      <function name="GetCompassDirection" visibility="private">
+        <parameters>
+          <retval type="Double" />
+        </parameters>
+      </function>
+      <procedure name="setDirectionOffset" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetElevation" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="SetAbsDirection" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <field name="FAbsoluteDirection" type="Double" visibility="protected" />
+      <field name="FDirectionOffset" type="Double" visibility="protected" />
+      <field name="FDirection" type="Double" visibility="protected" />
+      <field name="FPrevDirection" type="Double" visibility="protected" />
+      <field name="FRotationSpeed" type="Double" visibility="protected" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <procedure name="Run" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aDeltaMs" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <property name="RotationSpeed" visibility="published" read="FRotationSpeed" write="FRotationSpeed" type="Double" />
+      <property name="CurrentDirection" visibility="published" read="GetCompassDirection" type="Double" />
+      <property name="DirectionOffset" visibility="published" read="FDirectionOffset" write="setDirectionOffset" type="Double" />
+      <property name="ScanPatern" visibility="published" read="FScanPattern" write="FScanPattern" type="TRadarScanPattern" />
+      <property name="Direction" visibility="published" read="FDirection" type="Double" />
+      <property name="AbsDirection" visibility="published" read="FAbsoluteDirection" write="SetAbsDirection" type="Double" />
+      <property name="Elevation" visibility="published" read="FElevation" write="SetElevation" type="Double" />
+    </members>
+  </class>
+</namespace>

@@ -1,0 +1,457 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uTDCmanager">
+  <struct name="TGameSetting">
+    <field name="TargetFile" type="string" visibility="public" />
+  </struct>
+  <class name="TTDCManager">
+    <ancestor name="TSimulationManager" namespace="uSimulationManager">
+      <methodref name="IsRunning" visibility="private" />
+      <methodref name="setRunStatus" visibility="private" />
+      <methodref name="UpdateMember" visibility="public" />
+      <methodref name="MoveMember" visibility="public" />
+      <methodref name="DrawMember" visibility="public" />
+      <methodref name="ShowMemberData" visibility="public" />
+      <methodref name="CleanUpMember" visibility="public" />
+      <methodref name="EventOnMainTimer" visibility="public" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="InitializeSimulation" visibility="public" />
+      <methodref name="FinalizeSimulation" visibility="public" />
+      <methodref name="DrawAllOnMapXCanvas" visibility="public" />
+      <methodref name="LoadScenario" visibility="public" />
+      <methodref name="UnLoadScenario" visibility="public" />
+      <methodref name="LoadScenarioFromIniFile" visibility="public" />
+      <methodref name="StartSimulation" visibility="public" />
+      <methodref name="EndSimulation" visibility="public" />
+      <methodref name="PauseSimulation" visibility="public" />
+      <methodref name="ResumeSimulation" visibility="public" />
+      <methodref name="LoadGeoset" visibility="public" />
+      <methodref name="Get3DMapHeight" visibility="public" />
+      <methodref name="SetMapVisible" visibility="public" />
+      <methodref name="GenerateUniqueID" visibility="public" />
+      <methodref name="AddToMemoLog" visibility="public" />
+      <methodref name="Net_Connect" visibility="public" />
+      <methodref name="Net_DisConnect" visibility="public" />
+      <propertyref name="SpeedMultiplier" visibility="public" />
+      <eventref name="OnFormNeedUpdate" visibility="public" />
+      <propertyref name="Running" visibility="public" />
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="InitInstance" visibility="public">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public">
+        </methodref>
+        <methodref name="ClassName" visibility="public">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public">
+        </methodref>
+        <methodref name="ClassParent" visibility="public">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodName" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public">
+        </methodref>
+        <methodref name="UnitName" visibility="public">
+        </methodref>
+        <methodref name="Equals" visibility="public">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public">
+        </methodref>
+        <methodref name="ToString" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="Dispatch" visibility="public">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public">
+        </methodref>
+        <methodref name="NewInstance" visibility="public">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <field name="FTDC_OffCenter" type="Boolean" visibility="private" />
+      <field name="FShipUpdateIL" type="tInterleave" visibility="private" />
+      <field name="FRadarUpdateIL" type="tInterleave" visibility="private" />
+      <function name="GetRepaintCycle" visibility="private">
+        <parameters>
+          <retval type="Word" />
+        </parameters>
+      </function>
+      <procedure name="SetRepaintCycle" visibility="private">
+        <parameters>
+          <parameter name="Value" type="Word" paramflags="const" />
+        </parameters>
+      </procedure>
+      <field name="UniqueIdFactory" type="Integer" visibility="protected" />
+      <field name="NetHandler" type="TCPT_ARRAY_PROCEDURE" visibility="protected" />
+      <procedure name="EventOnMainTimer" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="dt" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_init_datum" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_FOC_plus" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_FOC_minus" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_Change_Ident" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_select_radar_type" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_start_ICM" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_update_ICM" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_end_ICM" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_assign_tor" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_deassign_tor" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_assign_torpedoSUT" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_deassign_torpedoSUT" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_assign_asrl" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_deassign_asrl" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_WIPE" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_init_ram" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_init_auto" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_init_dr" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_assign_ram" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_assign_FC" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_deassign_FC" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_assign_SSM" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_deassign_SSM" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_init_esm_fix" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_Synch_timebase" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="SendSynchTimeBase" visibility="protected">
+      </procedure>
+      <procedure name="Handle_CorrectRam" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_UpdateTrackPosition" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_assign_gun_WCC" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_deassign_gun_WCC" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_assign_FC_OCC" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Handle_Fire_Torpedo_SUT" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="EventOnReceiveDataPosition" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Event_OrderRecognizer" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Event_AssignHandler" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="EventOnReceiveTechnicalStatus" visibility="protected">
+        <devnotes>
+           <summary>
+           Receive from server to update technical display status
+           </summary>
+           <param name="apRec"></param>
+           <param name="aSize"></param>
+        </devnotes>
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="EventonRecMissilePosAvailable" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Event_RecDBOrderAvailable" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="Event_OnRecv_TorpDetecTarget" visibility="protected">
+        <parameters>
+          <parameter name="apRec" type="PAnsiChar" />
+          <parameter name="aSize" type="Integer" />
+        </parameters>
+      </procedure>
+      <procedure name="CreateShipForms" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="aShipClassID" type="Integer" paramflags="const" />
+          <parameter name="aTDCNumber" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="CreateMinimalForms" visibility="protected">
+      </procedure>
+      <field name="xShip" type="TXShip" visibility="public" />
+      <field name="ShipID" type="Integer" visibility="public" />
+      <field name="ShipClassID" type="Integer" visibility="public" />
+      <field name="Env_Map" type="Integer" visibility="public" />
+      <field name="ShipName" type="string" visibility="public" />
+      <field name="ShipClassName" type="string" visibility="public" />
+      <field name="UseDatabase" type="Boolean" visibility="public" />
+      <field name="OffX_Map" type="Double" visibility="public" />
+      <field name="OffY_Map" type="Double" visibility="public" />
+      <field name="ActiveRadar" type="TClientRadar" visibility="public" />
+      <field name="TheTDC" type="TGenericTDCInterface" visibility="public" />
+      <field name="TDCNumber" type="Integer" visibility="public" />
+      <field name="FTimebaseServer" type="Boolean" visibility="public" />
+      <field name="GameSetting" type="TGameSetting" visibility="public" />
+      <field name="isStandAlone" type="Boolean" visibility="public" />
+      <field name="data_Path" type="string" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="InitializeSimulation" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="FinalizeSimulation" visibility="public" procflags="override">
+      </procedure>
+      <function name="LoadScenarioFromIniFile" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="fIni" type="string" paramflags="const" />
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <procedure name="LoadObjectSetting" visibility="public">
+        <devnotes>
+          LoadGrid(readStr);
+        </devnotes>
+        <parameters>
+          <parameter name="fIni" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="LoadTarget" visibility="public">
+        <parameters>
+          <parameter name="fIni" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="LoadScenario" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="UnLoadScenario" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="UpdateMember" visibility="public" procflags="override">
+        <devnotes>
+          LoadGrid('');
+        </devnotes>
+      </procedure>
+      <procedure name="DrawMember" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="DrawAllOnMapXCanvas" visibility="public" procflags="override">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+      <procedure name="CleanUpMember" visibility="public" procflags="override">
+      </procedure>
+      <function name="GetUniqueId" visibility="public">
+        <parameters>
+          <retval type="string" />
+        </parameters>
+      </function>
+      <procedure name="AddToMemoLog" visibility="public">
+        <parameters>
+          <parameter name="str" type="string" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="TurnOnOffRadar" visibility="public">
+        <parameters>
+          <parameter name="setOn" type="Boolean" paramflags="const" />
+        </parameters>
+      </procedure>
+      <property name="RepaintCycle" visibility="published" read="GetRepaintCycle" write="SetRepaintCycle" type="Word" />
+    </members>
+  </class>
+  <variable name="TDCSimCenter" type="TTDCManager" />
+  <procedure name="BeginSimulation" visibility="public">
+  </procedure>
+  <procedure name="EndSimulation" visibility="public">
+  </procedure>
+</namespace>

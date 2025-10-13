@@ -1,0 +1,1630 @@
+unit uInstrukturObjects;
+
+(*
+  Created       : 15 August 2007
+  Last Modified : 19 August 2007
+
+  Author        : Andy Sucipto
+  Description   : class description untuk client object;
+                  receive synchronization from server.
+*)
+
+
+interface
+
+  uses
+    uBaseSimulationObject, uMapXSim, MapXLib_TLB,
+    uTCPDataType, uInstrukturViews, uObjectView, uMovingObject,
+    uShip, Classes, Dialogs, Graphics, ExtCtrls, uTrajectory;
+
+
+//==============================================================================
+  type
+  TRecMove = record
+    X, Y, Z, Course, Speed: double;
+  end;
+
+  TStatusWeapon = (tsOff, tsLoading, tsLaunch);
+  TTypeMissileAsroc  = (tsEmpty, tsErika, tsNelly);
+
+//==============================================================================
+  TInsObject = class (TSimClassOnMapX)
+  private
+    FObjClassID: integer;
+    FRuderPos: integer;
+    FThrotlePosLeft: integer;
+    FThrotlePosRight: integer;
+    FisShowRangeWeapon: Boolean;
+
+    procedure SetRuderPos(const Value: integer);
+    procedure SetThrotlePosLeft(const Value: integer);
+    procedure SetThrotlePosRight(const Value: integer);
+
+    procedure SetWeaponRange(const Value : Boolean);
+    procedure setHeadingTes(heading : Double);
+  protected
+    FDataPosition,
+    FLastDataPos  :  TRecData3DPosition;
+    FLastUpdate : LongWord;
+
+    FObjClassName: string;
+    FObjName     : string;
+
+    FCourse, FSpeed : double;
+
+    FMover: TMover;
+
+    FCurrentGuidance : Integer;
+
+    procedure SetShipName(index: integer; const Value: string);
+
+    procedure SetPropDouble(index: integer; const Value: double); virtual;
+    function getPropDouble(index: integer): double; virtual;
+
+  public
+    AllowUpdate : boolean;
+    FDataBaseID: word;  // ship ID
+    FInterpolDelay: byte;
+    Tikas : Boolean;
+
+    VSymbol  : TRotateSymbolView;
+    VLabel   : TMoveableLineLabel;
+    //Yogaway
+    VWayPoint : TWayPoint;
+
+    VHistory : THistory;  // ---> base information for trajectory
+
+    FCalc : TShip2D;
+
+    //For guidance;
+    OrderedHeadingStraight : Double;
+    OrderedHeadingHelm : Double;
+    OrderedSpeed   : Double;
+    OrderedZ       : Double;
+    GuidanceMode   : Byte;
+    HookedWeaponID : integer;
+
+    WeaponOnShip_List : TList;
+
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure Run(const aDeltaMs: double);    override;
+
+    procedure UpdateDataPosition(const aRec: TRecData3DPosition;
+                                 const ts: Longword ); virtual;
+
+    // ambil data yg terakhir di set.
+    procedure Get3DDataPosition(var aRec: TRecData3DPosition);
+
+    // untuk dikirim ke 2D client
+//    procedure GetDataPosition(var aRec: TRecData3DPosition);
+
+    procedure CreateDefaultView(const aMap: TMap); override;
+    procedure ConvertViewsPosition(); override;
+    procedure MoveTo(const x, y: double);
+
+    function FindViewByPosition(const x, y: integer; var av: TActiveView): boolean;
+
+  public
+    property ObjName      : string index 1 read FObjName write SetShipName;
+    property ObjClassName : string index 2 read FObjClassName write SetShipName;
+    property ObjClassID : integer read FObjClassID write FOBJClassId;
+
+    property Course: double index 1 read getPropDouble write setPropDouble;
+    property Speed: double  index 2 read getPropDouble write setPropDouble;
+    property Pitch: double index 3 read getPropDouble write setPropDouble;
+    property Roll: double index 4 read getPropDouble write setPropDouble;
+
+    property ThrotlePosLeft   : integer read FThrotlePosLeft write SetThrotlePosLeft;
+    property ThrotlePosRight  : integer read FThrotlePosRight write SetThrotlePosRight;
+    property RuderPos         : integer read FRuderPos write SetRuderPos;
+
+    property ShowWeaponRange : Boolean read FisShowRangeWeapon write SetWeaponRange;
+    property CurrentGuidance : Integer read FCurrentGuidance write FCurrentGuidance;
+  end;
+
+//==============================================================================
+//added by nando for save list weapon on ship
+  TWeaponRangeDetail = class
+  private
+    FIsShowWeaponRange  : Boolean;
+  public
+    WeaponRange : TWeaponRange;
+
+    Detail_Type : integer;
+    Detail_Name : string;
+
+    constructor Create(Const aParent : TInsObject; aColor: TColor; aMap: TMap); virtual;
+    destructor destroy; override;
+
+    procedure SetWeaponRange(const value : boolean);
+    procedure setWeaponHeading(weaponHeading : Double);
+  published
+    property isShowWeaponRange : boolean read FIsShowWeaponRange write SetWeaponRange;
+  end;
+
+  TWeaponOnShip = class
+    private
+      FParent      : TInsObject;
+      FWeapon_Name : string;
+      FWeapon_ID   : Integer;
+      FWeapon_Launcher : Integer;
+      FWeapon_Status  : integer;  //1= on, 2=off
+    public
+      ListDetail : TList;
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); virtual;
+      destructor Destroy; override;
+
+      procedure SetEnvironment;
+      procedure addDetail(aObj : TWeaponRangeDetail);
+
+      property Parent : TInsObject read FParent;
+      property Weapon_Name : string read FWeapon_Name write FWeapon_Name;
+      property Weapon_ID   : Integer read FWeapon_ID write FWeapon_ID;
+      property Weapon_Launcher : Integer read FWeapon_Launcher write FWeapon_Launcher;
+      property Weapon_Status  : integer read FWeapon_Status write FWeapon_Status;
+  end;
+
+  //for SPS115, Torpedo a244
+  TWeaponOn_SPS = class(TWeaponOnShip)
+    private
+
+    public
+      AdviceOn_SPS    : TAdviceSPS;
+
+      SPS_TrackObject : TInsObject;
+      is115V          : Boolean;
+      isNDS           : Boolean;
+      TIU_Port        : Integer;
+      TIU_StarBoard     : Integer;
+      isTemp_Port       : Boolean;
+      isTemp_StarBoard  : Boolean;
+      isDeg45_Port      : Boolean;
+      isDeg45_StarBoard : Boolean;
+      Gyro1,Gyro2,Gyro3,Gyro4,Gyro5,Gyro6              : Integer;
+      Barrel1,Barrel2,Barrel3,Barrel4,Barrel5,Barrel6  : Integer;
+      isSelf          : Boolean;
+
+      isDrawAdvice    : Boolean;
+
+      ps50, ps80, ps90 : Double;
+
+      //Loading
+      LoadingPortMissile2,
+      LoadingPortMissile4,
+      LoadingPortMissile6,
+      LoadingStarboardMissile1,
+      LoadingStarboardMissile3,
+      LoadingStarboardMissile5 : TStatusWeapon;
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    published
+
+  end;
+
+  //for TOCOS, Torpedo SUT
+  TWeaponOn_TOCOS = class(TWeaponOnShip)
+    private
+
+    public
+      //Indikator Failures
+      TempWEC,
+      TempTCC,
+      FuseWEC,
+      FuseTCC,
+      PowerResetWEC,
+      PowerResetTCC,
+      CMPTR,
+      SOFTW,
+      NUG_1,
+      NUG_2,
+      AntiCondensHeating,
+      LOADPROGR : Boolean;
+
+      //TUBE AND WEAPON STATUS PANEL
+      //Port
+    	Port_Indikator_Port,
+      Port_ToSupply,
+      Port_120_BAR,
+      Port_20_BAR,
+      Port_DOOR_Open,
+      Port_TORP_On,
+      Port_Ready_To_Fire : Boolean;
+
+      //Starboard
+      STB_Indikator_Port,
+      STB_ToSupply,
+      STB_120_BAR,
+      STB_20_BAR,
+      STB_DOOR_Open,
+      STB_TORP_On,
+      STB_Ready_To_Fire : Boolean;
+
+      //Stabilization Control Panel
+      EXTSTABAVL,
+      CASSTABAVL : Boolean;
+
+      //Loading
+      LoadingMissile1,
+      LoadingMissile2 : TStatusWeapon;
+
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    published
+  end;
+
+  //for EXOCET
+  TWeaponOn_EXOCET38 = class(TWeaponOnShip)
+    private
+
+    public
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    published
+  end;
+
+  TWeaponOn_EXOCET40 = class(TWeaponOnShip)
+    private
+
+    public
+       EnableExocet40 : Boolean;
+       SafetyFA       : Boolean;
+       ControlFA      : Boolean;
+       Firing         : Boolean;
+       
+       portMissile1,
+       portMissile2,
+       StarboardMissile1,
+       StarboardMissile2    : TStatusWeapon;
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    published
+  end;
+
+  TWeaponOn_Tetral = class(TWeaponOnShip)
+    private
+
+    public
+      TetralFwd,
+      TetralAft: Boolean;
+
+      FWDMissile1,
+      FWDMissile2,
+      FWDMissile3,
+      FWDMissile4,
+      AFTMissile1,
+      AFTMissile2,
+      AFTMissile3,
+      AFTMissile4    : TStatusWeapon;
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    published
+  end;
+
+  TWeaponOn_Mistral = class(TWeaponOnShip)
+    private
+
+    public
+      MistralLaunch1,
+      MistralLaunch2              : Boolean;
+
+      portMissile1,
+      portMissile2,
+      StarboardMissile1,
+      StarboardMissile2           : TStatusWeapon;
+
+      AssignStatusLauncher1,
+      AssignStatusLauncher2       : Boolean;
+
+
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    published
+  end;
+
+  TWeaponOn_Strella = class(TWeaponOnShip)
+    private
+
+    public
+      StrelaLauncer1,
+      StrelaLauncer2,
+      StrelaLauncer3,
+      StrelaLauncer4: Boolean; 
+      portMissile1,
+      portMissile2,
+      portMissile3,
+      portMissile4,
+      StarboardMissile1,
+      StarboardMissile2,
+      StarboardMissile3,
+      StarboardMissile4    : TStatusWeapon;
+
+      AssignStatusLauncher1,
+      AssignStatusLauncher2       : Boolean;
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    published
+  end;
+
+  TWeaponOn_Yakhont = class(TWeaponOnShip)
+    private
+
+    public
+      YAKHONT_TrackObject : TInsObject;
+
+      STAT_YAKHONT_PRINTER      : Boolean;
+      STAT_YAKHONT_CONSOLE_N1   : Boolean;
+      STAT_YAKHONT_CONSOLE_N2   : Boolean;
+      STAT_YAKHONT_RIGHT_1      : Boolean;
+      STAT_YAKHONT_RIGHT_3      : Boolean;
+      STAT_YAKHONT_LEFT_2       : Boolean;
+      STAT_YAKHONT_LEFT_4       : Boolean;
+      STAT_YAKHONT_KR231        : Boolean;
+      STAT_YAKHONT_GYRO         : Boolean;
+      STAT_YAKHONT_INS300V      : Boolean;
+      STAT_YAKHONT_INS27V       : Boolean;
+
+      //Loading
+      LoadingMissile1,
+      LoadingMissile2,
+      LoadingMissile3,
+      LoadingMissile4           : TStatusWeapon;
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    published
+  end;
+
+  TWeaponOn_C802 = class(TWeaponOnShip)
+    private
+
+    public
+      C802_TrackObject                      : TInsObject;
+
+      STAT_C802_PRECHECK_LAUNCHER1          : Boolean;
+      STAT_C802_PRECHECK_LAUNCHER2          : Boolean;
+      STAT_C802_PRECHECK_LAUNCHER3          : Boolean;
+      STAT_C802_PRECHECK_LAUNCHER4          : Boolean;
+
+      STAT_C802_READYCONDITION_LAUNCHER1    : Boolean;
+      STAT_C802_READYCONDITION_LAUNCHER2    : Boolean;
+      STAT_C802_READYCONDITION_LAUNCHER3    : Boolean;
+      STAT_C802_READYCONDITION_LAUNCHER4    : Boolean;
+
+      STAT_C802_LAUNCH_LAUNCHER1            : Boolean;
+      STAT_C802_LAUNCH_LAUNCHER2            : Boolean;
+      STAT_C802_LAUNCH_LAUNCHER3            : Boolean;
+      STAT_C802_LAUNCH_LAUNCHER4            : Boolean;
+
+      //Loading
+      LoadingMissile1,
+      LoadingMissile2,
+      LoadingMissile3,
+      LoadingMissile4 : TStatusWeapon;
+
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    published
+  end;
+
+  //for ASROC
+  TWeaponOn_ASROC = class(TWeaponOnShip)
+    private
+
+    public
+      Asroc_TrackObject   : TInsObject;
+
+      isHydr            : Boolean;
+      isLauncher        : Boolean;
+      isLauncherSync    : Boolean;
+      isRocket1         : Boolean;
+      isRocket2         : Boolean;
+      isAvailable_Erika : Boolean;
+      isSpeed_Erika     : Boolean;
+      isFuze_Erika      : Boolean;
+      isAvailable_Nelly : Boolean;
+      isSpeed_Nelly     : Boolean;
+      isFuze_Nelly      : Boolean;
+
+      LoadingMissile1,
+      LoadingMissile2   : TStatusWeapon;
+
+      MissileType1,
+      MissileType2      : TTypeMissileAsroc;
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    published
+
+  end;
+
+  //for RBU6000
+  TWeaponOn_RBU = class(TWeaponOnShip)
+    private
+
+    public
+      isOtomate       : Boolean;
+      RBU_TrackObject : TInsObject;
+
+      Balistik_12     : Boolean;
+
+      HaluChange      : Boolean;
+      TPODanger       : Boolean;
+      LostContact     : Boolean;
+
+      ShipFlow        : Boolean;
+
+      ShipSignal      : Boolean;
+      Unformer1Left   : Boolean;
+      Unformer2Left   : Boolean;
+      Unformer1Right  : Boolean;
+      Unformer2Right  : Boolean;
+
+      LAUNCHER1_MISSILE1_FAULT : Boolean;
+      LAUNCHER1_MISSILE2_FAULT : Boolean;
+      LAUNCHER1_MISSILE3_FAULT : Boolean;
+      LAUNCHER1_MISSILE4_FAULT : Boolean;
+      LAUNCHER1_MISSILE5_FAULT : Boolean;
+      LAUNCHER1_MISSILE6_FAULT : Boolean;
+      LAUNCHER1_MISSILE7_FAULT : Boolean;
+      LAUNCHER1_MISSILE8_FAULT : Boolean;
+      LAUNCHER1_MISSILE9_FAULT : Boolean;
+      LAUNCHER1_MISSILE10_FAULT: Boolean;
+      LAUNCHER1_MISSILE11_FAULT: Boolean;
+      LAUNCHER1_MISSILE12_FAULT: Boolean;
+
+      LAUNCHER2_MISSILE1_FAULT : Boolean;
+      LAUNCHER2_MISSILE2_FAULT : Boolean;
+      LAUNCHER2_MISSILE3_FAULT : Boolean;
+      LAUNCHER2_MISSILE4_FAULT : Boolean;
+      LAUNCHER2_MISSILE5_FAULT : Boolean;
+      LAUNCHER2_MISSILE6_FAULT : Boolean;
+      LAUNCHER2_MISSILE7_FAULT : Boolean;
+      LAUNCHER2_MISSILE8_FAULT : Boolean;
+      LAUNCHER2_MISSILE9_FAULT : Boolean;
+      LAUNCHER2_MISSILE10_FAULT: Boolean;
+      LAUNCHER2_MISSILE11_FAULT: Boolean;
+      LAUNCHER2_MISSILE12_FAULT: Boolean;
+
+      Launcher1Missile1 ,
+      Launcher1Missile2,
+      Launcher1Missile3,
+      Launcher1Missile4,
+      Launcher1Missile5,
+      Launcher1Missile6,
+      Launcher1Missile7,
+      Launcher1Missile8,
+      Launcher1Missile9,
+      Launcher1Missile10,
+      Launcher1Missile11,
+      Launcher1Missile12,
+
+      Launcher2Missile1,
+      Launcher2Missile2,
+      Launcher2Missile3,
+      Launcher2Missile4,
+      Launcher2Missile5,
+      Launcher2Missile6,
+      Launcher2Missile7,
+      Launcher2Missile8,
+      Launcher2Missile9,
+      Launcher2Missile10,
+      Launcher2Missile11,
+      Launcher2Missile12    : TStatusWeapon;
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    published
+  end;
+
+  //for Cannon
+  TWeaponOn_Cannon40 = class(TWeaponOnShip)
+    private
+
+    public
+      EnableCannon40 : Boolean;
+      AssignStatusLauncher2       : Boolean;
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+  end;
+
+   TWeaponOn_Cannon57 = class(TWeaponOnShip)
+    private
+
+    public
+      EnableCannon57 : Boolean;
+      AssignStatusLauncher2       : Boolean;
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+   end;
+
+   TWeaponOn_Cannon76 = class(TWeaponOnShip)
+    private
+
+    public
+      EnableCannon76 : Boolean;
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+   end;
+
+    TWeaponOn_Cannon120 = class(TWeaponOnShip)
+    private
+
+    public
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    end;
+
+    TWeaponOn_MOC = class(TWeaponOnShip)
+    private
+    
+    public
+      RadarARPA,
+      RadarMW,
+      LirodMK2,
+      SonarKingklip : Boolean;
+
+      constructor Create(Const aParent : TInsObject; aMap: TMap); override;
+      destructor Destroy; override;
+    public
+
+    end;
+
+
+
+//==============================================================================
+  TIShipObject = class (TInsObject)
+
+  end;
+
+//==============================================================================
+  TISubMarineObject = class (TInsObject)
+
+  end;
+
+  TIHeliObject = class (TInsObject)
+
+  end;
+
+  TIAirCraftObject = class(TInsObject)
+
+  end;
+
+  TIMissileObject = class (TInsObject)
+  protected
+    procedure SetPropDouble(index: integer; const Value: double); override;
+
+  public
+    ShipID,
+    WeaponID,
+    LauncherID,
+    MissileID,
+    MissileNumber : Integer;
+
+    procedure UpdateMissileDataPosition(const aRec: TRec3DMissilePos;
+                                         const ts: Longword );
+    procedure GetMissileDataPosition(var aRec: TRec3DMissilePos);
+  end;
+
+  TICannonBlast = class(TIMissileObject)
+  private
+    FTimeLife : Double;
+    FTimer    : TTimer;
+  public
+    constructor create; 
+    destructor destroy; override;
+    procedure OnTimerRun(Sender : TObject);
+    procedure UpdateSplashDataPosition(const aRec: TRecSplashCannon;
+                                         const ts: Longword );
+  end;
+
+implementation
+
+uses
+  SysUtils, ubaseFunction;
+
+{ TInsObject }
+
+
+constructor TInsObject.Create;
+begin
+  inherited;
+  AllowUpdate := TRUE;
+  FMover      := TMover.Create;
+  FLastUpdate  := 0;
+  FInterpolDelay := 1;
+  Tikas := True;
+
+  FRuderPos         := 0;
+  FThrotlePosLeft   := 0;
+  FThrotlePosRight  := 0;                 
+
+  FCalc := TShip2D.Create;
+
+  WeaponOnShip_List := TList.Create;
+
+  GuidanceMode := 2;
+  HookedWeaponID := 0;
+end;
+
+destructor TInsObject.Destroy;
+begin
+  FCalc.Free;
+  
+  inherited;
+end;
+
+procedure TInsObject.Run(const aDeltaMs: double);
+begin
+
+   if AllowUpdate then begin
+     FMover.Move(aDeltaMs);
+     FPosition.X := FMover.X;
+     FPosition.Y := FMover.Y;
+     FCourse   := ConvCartesian_To_Compass(FMover.Direction);
+   end
+
+end;
+
+procedure TInsObject.UpdateDataPosition(const aRec: TRecData3DPosition;
+                                        const ts: Longword );
+var dx, dt: double;
+    i : Integer;
+    WeaponShip : TWeaponOnShip;
+begin
+  if FLastUpdate  = 0 then begin     { first update; }
+     FLastUpdate := ts;
+  end;
+
+  if AllowUpdate then begin
+    FLastDataPos  := FDataPosition;
+    FDataPosition := aRec;
+
+    FPosition.X := aRec.X;
+    FPosition.Y := aRec.Y;
+    FPosition.Z := aRec.Z;
+
+    FMover.X := aRec.X;
+    FMover.Y := aRec.Y;
+    FMover.Z := aRec.Z;
+
+    FMover.Speed := aRec.speed;
+
+    FCourse := aRec.heading;
+    FSpeed  := aRec.speed;
+    Pitch   := aRec.pitch;
+    Roll    := aRec.roll;
+    SetRuderPos(round(aRec.rudder));
+
+    setHeadingTes(FCourse);
+
+    VSymbol.Heading :=  aRec.heading;
+
+    try
+      if (ts > 0) and (FInterpolDelay = 0) then begin
+        { speed dead recon }
+        dt := ts - FLastUpdate;
+        dx := FDataPosition.speed - FLastDataPos.speed;
+        if (dt > 0) and not IsAlmostZero(dx) and not IsAlmostZero(dt) then begin
+          FMover.Acceleration := dx / (dt * 0.001);
+        end;
+
+        FMover.Direction := ConvCompass_To_Cartesian(aRec.heading);
+        dx := FDataPosition.heading - FLastDataPos.heading;
+        if (dt > 0) and not IsAlmostZero(dx) and not IsAlmostZero(dt) then begin
+          FMover.TurnRate := -dx / (dt * 0.001);
+        end;
+      end;
+      if FInterpolDelay > 0 then
+       dec(FInterpolDelay);
+    except
+      
+    end
+  end;
+end;
+
+procedure TInsObject.setHeadingTes(heading : Double);
+var
+  i          : Integer;
+  weaponRD   : TWeaponRangeDetail;
+begin
+//  if WeaponOnShip_List <> nil  then begin
+//    for i := 0 to WeaponOnShip_List.Count - 1 do begin
+//      weaponRD := TWeaponRangeDetail(WeaponOnShip_List.Items[i]);
+//      weaponRD.setWeaponHeading(heading);
+//    end;
+//  end;
+end;
+
+procedure TInsObject.Get3DDataPosition(var aRec: TRecData3DPosition);
+begin
+  aRec := FDataPosition;
+end;
+
+//procedure TInsObject.GetDataPosition(var aRec: TRecData3DPosition);
+//begin
+//    aRec.ShipID := StrToInt(UniqueID);
+//    aRec.x := FPosition.X;
+//    aRec.y := FPosition.Y;
+//    aRec.z := FPosition.Z;
+//
+//    aRec.speed    := FMover.Speed;
+//    aRec.heading  := FCourse;
+//    aRec.speed    := FSpeed;
+//    aRec.pitch    := Pitch;
+//    aRec.roll     := Roll;
+//    aRec.rudder   := RuderPos;   // BAWE-20110706: NEW_POSITION_PACKET_WITH_ROLL
+//
+//    {fuel    : single;
+//    status  : byte;}
+//end;
+//yogaway
+procedure TInsObject.CreateDefaultView(const aMap: TMap);
+begin
+  inherited;
+  VHistory := THistory.CreateOnMapX(self, aMap);
+  VHistory.Visible := true;
+  VHistory.Color := $f00000;
+  VHistory.VisibleCount := -1;
+  ViewContainer.AddObject(VHistory);
+
+  VLabel  :=  TMoveableLineLabel.CreateOnMapX(self, aMap);
+  VLabel.Visible := True;
+  VLabel.Color := $D0FFFF;
+  ViewContainer.AddObject(VLabel);
+
+  VSymbol := TRotateSymbolView.CreateOnMapX(self, aMap);
+  VSymbol.Visible := True;
+  ViewContainer.AddObject(VSymbol);
+
+  VWayPoint := TWayPoint.CreateOnMapX(Self, aMap);
+  VWayPoint.Visible := True;
+  ViewContainer.AddObject(VWayPoint);
+end;
+
+procedure TInsObject.ConvertViewsPosition;
+const C_Degree_To_Feet =  60.0 * 6076.131;
+begin
+  inherited;
+
+  VLabel.Line3 := ' ' + IntToStr(Round(Course));
+  VLabel.Line4 := ' ' + IntToStr(Round(Speed)) + ' knot';
+  //VLabel.Line5 := ' ' + IntToStr(Round(PositionZ * C_Degree_To_Feet))+ ' feet';
+  VLabel.Line5 := ' ' + IntToStr(Round(PositionZ))+ ' meter';
+end;
+
+
+function TInsObject.FindViewByPosition(const x, y: integer;
+  var av: TActiveView): boolean;
+var i: integer;
+    l : TList;
+    s : TSimViewOnMapX;
+begin
+  av := nil;
+  result := false;
+  l := ViewContainer.GetList;
+  i := 0;
+  while not result and (i < l.Count) do begin
+    s := l[i];
+    if s is TActiveView then begin
+      av := TActiveView(s) ;
+      result := av.TestHit(Point(x, y));
+    end;
+    inc(i)
+  end;
+  ViewContainer.ReturnList;
+
+end;
+
+//=============================================================================
+{ TInsObject }
+
+
+//------------------------------------------------------------------------------
+
+function TInsObject.getPropDouble(index: integer): double;
+begin
+  case index of
+    1 : result := FCourse;
+    2 : result := FSpeed;
+    3 : result := FDataPosition.pitch;
+    4 : result := FDataPosition.roll;
+  end;
+end;
+
+procedure TInsObject.SetPropDouble(index: integer; const Value: double);
+var  v: double;
+begin
+  case index of
+    1 : begin
+       v := ValidateDegree(Value);
+       FCourse := v;
+       FMover.Direction := ConvCompass_To_Cartesian(v);
+       VSymbol.Heading  := v;
+
+    end;
+    2 : begin
+      FSpeed       := Value;
+      FMover.Speed := Value;
+    end;
+    3: FDataPosition.pitch := Value;
+    4: FDataPosition.roll  := Value;
+
+  end;
+
+end;
+
+procedure TInsObject.SetShipName(index: integer; const Value: string);
+begin
+  case index of
+  1 : begin
+        FObjName := Value;
+        VLabel.Line1 := Value;
+    end;
+  2 : begin
+       FObjClassName := Value;
+       if Length(Value) > 20 then
+         VLabel.Line2 := Copy(Value, 1, 20)
+       else
+         VLabel.Line2 := Value;
+
+    end;
+  end;
+end;
+
+
+procedure TInsObject.MoveTo(const x, y: double);
+begin
+  FPosition.X := X;
+  FPosition.Y := Y;
+  FMover.X := X;
+  FMover.Y := Y;
+end;
+
+//==============================================================================
+procedure TInsObject.SetRuderPos(const Value: integer);
+begin
+  FRuderPos := Value;
+end;
+
+procedure TInsObject.SetThrotlePosLeft(const Value: integer);
+begin
+  FThrotlePosLeft := Value;
+end;
+
+procedure TInsObject.SetThrotlePosRight(const Value: integer);
+begin
+  FThrotlePosRight := Value;
+end;
+
+procedure TInsObject.SetWeaponRange(const Value: Boolean);
+var
+  i : Integer;
+  WeaponShip : TWeaponOnShip;
+begin
+
+  {
+  for i := 0 to WeaponOnShip_List.Count - 1 do
+  begin
+    WeaponShip := TWeaponOnShip(WeaponOnShip_List[i]);
+    WeaponShip.isShowWeaponRange := Value;
+  end;
+  }
+end;
+
+{ TIMissileObject }
+
+procedure TIMissileObject.GetMissileDataPosition(
+  var aRec: TRec3DMissilePos);
+begin
+
+end;
+
+procedure TIMissileObject.SetPropDouble(index: integer;
+  const Value: double);
+var  v: double;
+begin
+  inherited;
+  case index of
+    1 : begin
+       v := ValidateDegree(Value);
+       FCourse := v;
+       FMover.Direction := ConvCompass_To_Cartesian(v);
+       VSymbol.Heading  := ValidateDegree(Value + 90);
+
+    end;
+{    2 : begin
+      FSpeed       := ConvMach_To_Knot(Value, FPosition.Z);
+      FMover.Speed := FSpeed;
+    end;
+}  end;
+
+end;
+
+///
+
+procedure TIMissileObject.UpdateMissileDataPosition(const aRec: TRec3DMissilePos;
+                                        const ts: Longword );
+var dx, dt: double;
+    vhead : double;
+    Speed : Double;
+    Heading : Double;
+begin
+  if FLastUpdate  = 0 then begin     { first update ;}
+     FLastUpdate := ts;
+  end;
+
+  FLastDataPos  := FDataPosition;
+  vhead         := ValidateDegree(aRec.heading);
+
+  FDataPosition.ShipID  := aRec.shipID;
+  FDataPosition.x       := aRec.X;
+  FDataPosition.Y       := aRec.Y;
+  FDataPosition.Z       := aRec.Z;
+  FDataPosition.heading := aRec.heading;
+  FDataPosition.speed   := aRec.Speed;
+
+  FSpeed      := 1.944 * aRec.speed;
+  FPosition.X := aRec.X;
+  FPosition.Y := aRec.Y;
+  FPosition.Z := aRec.Z;
+  FMover.X    := aRec.X;
+  FMover.Y    := aRec.Y;
+  FMover.Z    := aRec.Z;
+
+  FMover.Speed := aRec.speed;
+
+  try
+    if (ts > 0) and (FInterpolDelay = 0) then begin
+      { speed dead recon }
+      dt := ts - FLastUpdate;
+      dx := FDataPosition.speed - FLastDataPos.speed;
+      if (dt > 0) and not IsAlmostZero(dx) and not IsAlmostZero(dt) then begin
+        FMover.Acceleration := dx / (dt * 0.001);
+      end;
+
+      SetPropDouble(1,aRec.heading);
+    end;
+    if FInterpolDelay > 0 then
+     dec(FInterpolDelay);
+  except
+    
+  end;
+end;
+
+//============================================================================
+{ TWeaponRangeDetail }
+destructor TWeaponRangeDetail.destroy;
+begin
+
+  inherited;
+end;
+
+procedure TWeaponRangeDetail.SetWeaponRange(const value: boolean);
+begin
+  FIsShowWeaponRange  := value;
+  WeaponRange.Visible := value;
+end;
+
+procedure TWeaponRangeDetail.setWeaponHeading(weaponHeading : Double);
+begin
+  WeaponRange.Heading := weaponHeading;
+end;
+
+constructor TWeaponRangeDetail.Create(const aParent: TInsObject;
+  aColor: TColor; aMap: TMap);
+begin
+  WeaponRange := TWeaponRange.CreateOnMapX(aParent, aMap);
+  WeaponRange.Visible := False;
+  WeaponRange.color  := aColor;
+end;
+
+{ TWeaponOnShip }
+
+constructor TWeaponOnShip.Create(Const aParent : TInsObject; aMap: TMap);
+begin
+  FParent        := aParent;
+  FWeapon_Status := 2;
+  ListDetail     := TList.Create;
+end;
+
+destructor TWeaponOnShip.Destroy;
+var
+  i : integer;
+begin
+  for i:= ListDetail.Count -1 downto 0 do
+  begin
+    ListDetail.Delete(i);
+  end;
+  ListDetail.Clear;
+  ListDetail.Free;
+
+  inherited;
+end;
+
+procedure TWeaponOnShip.SetEnvironment;
+begin
+  
+end;
+
+procedure TWeaponOnShip.addDetail(aObj: TWeaponRangeDetail);
+begin
+  ListDetail.Add(aObj);
+end;
+
+
+{ TWeaponOn_SPS }
+
+constructor TWeaponOn_SPS.Create(const aParent: TInsObject; aMap: TMap);
+var
+  i : Integer;
+begin
+  inherited;
+  AdviceOn_SPS := TAdviceSPS.CreateOnMapX(aParent, aMap);
+
+  SPS_TrackObject   := nil;
+
+  is115V            := True;
+  isNDS             := True;
+  TIU_Port          := 0;
+  TIU_StarBoard     := 0;
+  isTemp_Port       := True;
+  isTemp_StarBoard  := True;
+  isDeg45_Port      := True;
+  isDeg45_StarBoard := True;
+  Gyro1             := 1;
+  Gyro2             := 1;
+  Gyro3             := 1;
+  Gyro4             := 1;
+  Gyro5             := 1;
+  Gyro6             := 1;
+  Barrel1           := 1;
+  Barrel2           := 1;
+  Barrel3           := 1;
+  Barrel4           := 1;
+  Barrel5           := 1;
+  Barrel6           := 1;
+  isSelf            := True;
+
+  isDrawAdvice      := False;
+
+  ps50 := 4.84;  //Range in Nauctical Mile
+  ps80 := 3.26;
+  ps90 := 1.63;
+
+  //loading
+  LoadingPortMissile2 := tsOff;
+  LoadingPortMissile4 := tsOff;
+  LoadingPortMissile6 := tsOff;
+
+  LoadingStarboardMissile1 := tsOff;
+  LoadingStarboardMissile3 := tsOff;
+  LoadingStarboardMissile5 := tsOff;
+end;
+
+destructor TWeaponOn_SPS.Destroy;
+begin
+
+  inherited;
+end;
+
+
+{ TWeaponOn_TOCOS }
+
+constructor TWeaponOn_TOCOS.Create(const aParent: TInsObject; aMap: TMap);
+begin
+  inherited;
+
+  //Indikator Failures
+  TempWEC            := True;
+  TempTCC            := True;
+  FuseWEC            := True;
+  FuseTCC            := True;
+  PowerResetWEC      := True;
+  PowerResetTCC      := True;
+  CMPTR              := True;
+  SOFTW              := True;
+  NUG_1              := True;
+  NUG_2              := True;
+  AntiCondensHeating := True;
+  LOADPROGR          := True;
+
+  //TUBE AND WEAPON STATUS PANEL
+  //Port
+  Port_Indikator_Port := True;
+  Port_ToSupply       := True;
+  Port_120_BAR        := True;
+  Port_20_BAR         := True;
+  Port_DOOR_Open      := True;
+  Port_TORP_On        := True;
+  Port_Ready_To_Fire  := True;
+
+  //Starboard
+  STB_Indikator_Port  := True;
+  STB_ToSupply        := True;
+  STB_120_BAR         := True;
+  STB_20_BAR          := True;
+  STB_DOOR_Open       := True;
+  STB_TORP_On         := True;
+  STB_Ready_To_Fire   := True;
+
+  //Stabilization Control Panel
+  EXTSTABAVL  := True;
+  CASSTABAVL  := True;
+
+  //loading
+  LoadingMissile1 := tsOff;
+  LoadingMissile2 := tsOff;
+end;
+
+destructor TWeaponOn_TOCOS.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_EXOCET }
+
+constructor TWeaponOn_EXOCET38.Create(const aParent: TInsObject; aMap: TMap);
+begin
+  inherited;
+
+end;
+
+destructor TWeaponOn_EXOCET38.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_ASROC }
+
+constructor TWeaponOn_ASROC.Create(const aParent: TInsObject; aMap: TMap);
+begin
+  inherited;
+
+  Asroc_TrackObject := nil;
+
+  isHydr          := false;
+  isLauncher      := false;
+  isLauncherSync  := false;
+  isRocket1       := false;
+  isRocket2       := false;
+
+  isAvailable_Erika    := false;
+  isSpeed_Erika        := true;
+  isFuze_Erika         := true;
+
+  isAvailable_Nelly    := false;
+  isSpeed_Nelly        := True;
+  isFuze_Nelly         := True;
+
+  LoadingMissile1   := tsOff;
+  LoadingMissile2   := tsOff;
+
+  MissileType1      := tsEmpty;
+  MissileType1      := tsEmpty;
+
+end;
+
+destructor TWeaponOn_ASROC.Destroy;
+begin
+  inherited;
+end;
+
+{ TWeaponOn_RBU }
+
+constructor TWeaponOn_RBU.Create(const aParent: TInsObject; aMap: TMap);
+begin
+  inherited;
+
+  isOtomate       := False;
+  RBU_TrackObject := nil;
+
+  Balistik_12     := True;
+  HaluChange      := False;
+  TPODanger       := False;
+  LostContact     := False;
+  ShipFlow        := True;
+
+  ShipSignal      := True;
+  Unformer1Left   := True;
+  Unformer2Left   := True;
+  Unformer1Right  := True;
+  Unformer2Right  := True;
+
+  LAUNCHER1_MISSILE1_FAULT := True;
+  LAUNCHER1_MISSILE2_FAULT := True;
+  LAUNCHER1_MISSILE3_FAULT := True;
+  LAUNCHER1_MISSILE4_FAULT := True;
+  LAUNCHER1_MISSILE5_FAULT := True;
+  LAUNCHER1_MISSILE6_FAULT := True;
+  LAUNCHER1_MISSILE7_FAULT := True;
+  LAUNCHER1_MISSILE8_FAULT := True;
+  LAUNCHER1_MISSILE9_FAULT := True;
+  LAUNCHER1_MISSILE10_FAULT:= True;
+  LAUNCHER1_MISSILE11_FAULT:= True;
+  LAUNCHER1_MISSILE12_FAULT:= True;
+
+  LAUNCHER2_MISSILE1_FAULT := True;
+  LAUNCHER2_MISSILE2_FAULT := True;
+  LAUNCHER2_MISSILE3_FAULT := True;
+  LAUNCHER2_MISSILE4_FAULT := True;
+  LAUNCHER2_MISSILE5_FAULT := True;
+  LAUNCHER2_MISSILE6_FAULT := True;
+  LAUNCHER2_MISSILE7_FAULT := True;
+  LAUNCHER2_MISSILE8_FAULT := True;
+  LAUNCHER2_MISSILE9_FAULT := True;
+  LAUNCHER2_MISSILE10_FAULT:= True;
+  LAUNCHER2_MISSILE11_FAULT:= True;
+  LAUNCHER2_MISSILE12_FAULT:= True;
+
+  Launcher1Missile1   := tsOff;
+  Launcher1Missile2   := tsOff;
+  Launcher1Missile3   := tsOff;
+  Launcher1Missile4   := tsOff;
+  Launcher1Missile5   := tsOff;
+  Launcher1Missile6   := tsOff;
+  Launcher1Missile7   := tsOff;
+  Launcher1Missile8   := tsOff;
+  Launcher1Missile9   := tsOff;
+  Launcher1Missile10  := tsOff;
+  Launcher1Missile11  := tsOff;
+  Launcher1Missile12  := tsOff;
+
+  Launcher2Missile1   := tsOff;
+  Launcher2Missile2   := tsOff;
+  Launcher2Missile3   := tsOff;
+  Launcher2Missile4   := tsOff;
+  Launcher2Missile5   := tsOff;
+  Launcher2Missile6   := tsOff;
+  Launcher2Missile7   := tsOff;
+  Launcher2Missile8   := tsOff;
+  Launcher2Missile9   := tsOff;
+  Launcher2Missile10  := tsOff;
+  Launcher2Missile11  := tsOff;
+  Launcher2Missile12  := tsOff;
+
+  
+end;
+
+destructor TWeaponOn_RBU.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_WCC_Cannon }
+
+constructor TWeaponOn_Cannon40.Create(const aParent: TInsObject; aMap: TMap);
+begin
+  AssignStatusLauncher2 := True;
+  inherited;
+
+end;
+
+destructor TWeaponOn_Cannon40.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_Cannon120 }
+
+constructor TWeaponOn_Cannon120.Create(const aParent: TInsObject;
+  aMap: TMap);
+begin
+  inherited;
+
+end;
+
+destructor TWeaponOn_Cannon120.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_Cannon76 }
+
+constructor TWeaponOn_Cannon76.Create(const aParent: TInsObject;
+  aMap: TMap);
+begin
+  inherited;
+  EnableCannon76 := false;
+end;
+
+destructor TWeaponOn_Cannon76.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_Cannon57 }
+
+constructor TWeaponOn_Cannon57.Create(const aParent: TInsObject;
+  aMap: TMap);
+begin
+  AssignStatusLauncher2 := True;
+  inherited;
+
+end;
+
+destructor TWeaponOn_Cannon57.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_EXOCET40 }
+
+constructor TWeaponOn_EXOCET40.Create(const aParent: TInsObject;
+  aMap: TMap);
+begin
+  inherited;
+  EnableExocet40 := false;
+  Firing := True;
+
+  portMissile1 := tsOff;
+  portMissile2 := tsOff;
+
+  StarboardMissile1 := tsOff;
+  StarboardMissile2 := tsOff;
+
+end;
+
+destructor TWeaponOn_EXOCET40.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_C802 }
+
+constructor TWeaponOn_C802.Create(const aParent: TInsObject; aMap: TMap);
+begin
+  inherited;
+
+  C802_TrackObject := nil;
+
+  STAT_C802_PRECHECK_LAUNCHER1           := True;
+  STAT_C802_PRECHECK_LAUNCHER2           := True;
+  STAT_C802_PRECHECK_LAUNCHER3           := True;
+  STAT_C802_PRECHECK_LAUNCHER4           := True;
+
+  STAT_C802_READYCONDITION_LAUNCHER1     := True;
+  STAT_C802_READYCONDITION_LAUNCHER2     := True;
+  STAT_C802_READYCONDITION_LAUNCHER3     := True;
+  STAT_C802_READYCONDITION_LAUNCHER4     := True;
+      
+  STAT_C802_LAUNCH_LAUNCHER1             := True;
+  STAT_C802_LAUNCH_LAUNCHER2             := True;
+  STAT_C802_LAUNCH_LAUNCHER3             := True;
+  STAT_C802_LAUNCH_LAUNCHER4             := True;
+
+  LoadingMissile1 := tsOff;
+  LoadingMissile2 := tsOff;
+  LoadingMissile3 := tsOff;
+  LoadingMissile4 := tsOff;
+
+end;
+
+destructor TWeaponOn_C802.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_Yahkont }
+
+constructor TWeaponOn_Yakhont.Create(const aParent: TInsObject;
+  aMap: TMap);
+begin
+  inherited;
+
+  YAKHONT_TrackObject := nil;
+
+  STAT_YAKHONT_PRINTER     := True;
+  STAT_YAKHONT_CONSOLE_N1  := True;
+  STAT_YAKHONT_CONSOLE_N2  := True;
+  STAT_YAKHONT_RIGHT_1     := True;
+  STAT_YAKHONT_RIGHT_3     := True;
+  STAT_YAKHONT_LEFT_2      := True;
+  STAT_YAKHONT_LEFT_4      := True;
+  STAT_YAKHONT_KR231       := True;
+  STAT_YAKHONT_GYRO        := True;
+  STAT_YAKHONT_INS300V     := True;
+  STAT_YAKHONT_INS27V      := True;
+
+  LoadingMissile1          := tsOff;
+  LoadingMissile2          := tsOff;
+  LoadingMissile3          := tsOff;
+  LoadingMissile4          := tsOff;
+end;
+
+destructor TWeaponOn_Yakhont.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_Strella }
+
+constructor TWeaponOn_Strella.Create(const aParent: TInsObject;
+  aMap: TMap);
+begin
+  inherited;
+
+  portMissile1 := tsOff;
+  portMissile2 := tsOff;
+  portMissile3 := tsOff;
+  portMissile4 := tsOff;
+
+  StarboardMissile1 := tsOff;
+  StarboardMissile2 := tsOff;
+  StarboardMissile3 := tsOff;
+  StarboardMissile4 := tsOff;
+
+  AssignStatusLauncher1 := True;
+  AssignStatusLauncher2 := True;
+end;
+
+destructor TWeaponOn_Strella.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_Mistral }
+
+constructor TWeaponOn_Mistral.Create(const aParent: TInsObject;
+  aMap: TMap);
+begin
+  inherited;
+
+  portMissile1 := tsOff;
+  portMissile2 := tsOff;
+  StarboardMissile1 := tsOff;
+  StarboardMissile2 := tsOff;
+
+  AssignStatusLauncher1 := True;
+  AssignStatusLauncher2 := True;
+
+
+end;
+
+destructor TWeaponOn_Mistral.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_Tetral }
+
+constructor TWeaponOn_Tetral.Create(const aParent: TInsObject; aMap: TMap);
+begin
+  inherited;
+
+  TetralFwd := false;
+  TetralAft := false;
+
+  FWDMissile1 := tsOff;
+  FWDMissile2 := tsOff;
+  FWDMissile3 := tsOff;
+  FWDMissile4 := tsOff;
+
+  AFTMissile1 := tsOff;
+  AFTMissile2 := tsOff;
+  AFTMissile3 := tsOff;
+  AFTMissile4 := tsOff;
+
+
+
+end;
+
+destructor TWeaponOn_Tetral.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TWeaponOn_MOC }
+
+constructor TWeaponOn_MOC.Create(const aParent: TInsObject; aMap: TMap);
+begin
+  inherited;
+
+  RadarARPA     := false;
+  RadarMW       := false;
+  LirodMK2      := false;
+  SonarKingklip := false;
+end;
+
+destructor TWeaponOn_MOC.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TICannonBlast }
+
+constructor TICannonBlast.create;
+begin
+  inherited;
+
+  FTimeLife := 0;
+  FTimer := TTimer.Create(nil);
+  FTimer.Enabled := True;
+  FTimer.OnTimer := OnTimerRun;
+  FTimer.Interval := 1000;
+end;
+                      
+destructor TICannonBlast.destroy;
+begin
+  FTimer.Free;
+  inherited;
+end;
+
+procedure TICannonBlast.OnTimerRun(Sender: TObject);
+begin
+  FTimeLife := FTimeLife + 1;
+  if FTimeLife > 10 then
+  begin
+    FTimer.Enabled := false;
+    MarkAs_NeedToBeFree;
+  end;
+end;
+
+procedure TICannonBlast.UpdateSplashDataPosition(
+  const aRec: TRecSplashCannon; const ts: Longword);
+var
+  dx, dt: double;
+begin
+  if FLastUpdate  = 0 then begin     { first update ;}
+     FLastUpdate := ts;
+  end;
+  FLastDataPos  := FDataPosition;
+
+  FDataPosition.ShipID := aRec.ShipID;
+  FDataPosition.x := aRec.PosX;
+  FDataPosition.Y := aRec.PosY;
+  FDataPosition.Z := aRec.PosZ;
+  FPosition.X := aRec.PosX;
+  FPosition.Y := aRec.PosY;
+  FPosition.Z := aRec.PosZ;
+  FMover.X := aRec.PosX;
+  FMover.Y := aRec.PosY;
+  FMover.Z := aRec.PosZ;
+
+  try
+    if (ts > 0) and (FInterpolDelay = 0) then begin
+      { speed dead recon }
+      dt := ts - FLastUpdate;
+      dx := FDataPosition.speed - FLastDataPos.speed;
+      if (dt > 0) and not IsAlmostZero(dx) and not IsAlmostZero(dt) then begin
+        FMover.Acceleration := dx / (dt * 0.001);
+      end;
+
+      SetPropDouble(1,0);
+    end;
+    if FInterpolDelay > 0 then
+     dec(FInterpolDelay);
+  except
+    
+  end;
+end;
+
+end.
+
+
+
+

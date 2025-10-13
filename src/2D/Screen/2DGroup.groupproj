@@ -1,0 +1,120 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{B0B90DCF-FD97-4E92-9E59-FD417A57DC7E}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="TDC.src\Emu_TDC.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="WCC2D_New\WCC2D_New.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="SPS115\SPS115.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="RBU.src\RBU6000.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="TOCOS\SingaTorpedo.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="launcher\did3DClient.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="C802\C802.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="C802\C802_Archos.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="Emu_TDC">
+			<MSBuild Projects="TDC.src\Emu_TDC.dproj"/>
+		</Target>
+		<Target Name="Emu_TDC:Clean">
+			<MSBuild Targets="Clean" Projects="TDC.src\Emu_TDC.dproj"/>
+		</Target>
+		<Target Name="Emu_TDC:Make">
+			<MSBuild Targets="Make" Projects="TDC.src\Emu_TDC.dproj"/>
+		</Target>
+		<Target Name="WCC2D_New">
+			<MSBuild Projects="WCC2D_New\WCC2D_New.dproj"/>
+		</Target>
+		<Target Name="WCC2D_New:Clean">
+			<MSBuild Targets="Clean" Projects="WCC2D_New\WCC2D_New.dproj"/>
+		</Target>
+		<Target Name="WCC2D_New:Make">
+			<MSBuild Targets="Make" Projects="WCC2D_New\WCC2D_New.dproj"/>
+		</Target>
+		<Target Name="SPS115">
+			<MSBuild Projects="SPS115\SPS115.dproj"/>
+		</Target>
+		<Target Name="SPS115:Clean">
+			<MSBuild Targets="Clean" Projects="SPS115\SPS115.dproj"/>
+		</Target>
+		<Target Name="SPS115:Make">
+			<MSBuild Targets="Make" Projects="SPS115\SPS115.dproj"/>
+		</Target>
+		<Target Name="RBU6000">
+			<MSBuild Projects="RBU.src\RBU6000.dproj"/>
+		</Target>
+		<Target Name="RBU6000:Clean">
+			<MSBuild Targets="Clean" Projects="RBU.src\RBU6000.dproj"/>
+		</Target>
+		<Target Name="RBU6000:Make">
+			<MSBuild Targets="Make" Projects="RBU.src\RBU6000.dproj"/>
+		</Target>
+		<Target Name="SingaTorpedo">
+			<MSBuild Projects="TOCOS\SingaTorpedo.dproj"/>
+		</Target>
+		<Target Name="SingaTorpedo:Clean">
+			<MSBuild Targets="Clean" Projects="TOCOS\SingaTorpedo.dproj"/>
+		</Target>
+		<Target Name="SingaTorpedo:Make">
+			<MSBuild Targets="Make" Projects="TOCOS\SingaTorpedo.dproj"/>
+		</Target>
+		<Target Name="did3DClient">
+			<MSBuild Projects="launcher\did3DClient.dproj"/>
+		</Target>
+		<Target Name="did3DClient:Clean">
+			<MSBuild Targets="Clean" Projects="launcher\did3DClient.dproj"/>
+		</Target>
+		<Target Name="did3DClient:Make">
+			<MSBuild Targets="Make" Projects="launcher\did3DClient.dproj"/>
+		</Target>
+		<Target Name="C802">
+			<MSBuild Projects="C802\C802.dproj"/>
+		</Target>
+		<Target Name="C802:Clean">
+			<MSBuild Targets="Clean" Projects="C802\C802.dproj"/>
+		</Target>
+		<Target Name="C802:Make">
+			<MSBuild Targets="Make" Projects="C802\C802.dproj"/>
+		</Target>
+		<Target Name="C802_Archos">
+			<MSBuild Projects="C802\C802_Archos.dproj"/>
+		</Target>
+		<Target Name="C802_Archos:Clean">
+			<MSBuild Targets="Clean" Projects="C802\C802_Archos.dproj"/>
+		</Target>
+		<Target Name="C802_Archos:Make">
+			<MSBuild Targets="Make" Projects="C802\C802_Archos.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="Emu_TDC;WCC2D_New;SPS115;RBU6000;SingaTorpedo;did3DClient;C802;C802_Archos"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="Emu_TDC:Clean;WCC2D_New:Clean;SPS115:Clean;RBU6000:Clean;SingaTorpedo:Clean;did3DClient:Clean;C802:Clean;C802_Archos:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="Emu_TDC:Make;WCC2D_New:Make;SPS115:Make;RBU6000:Make;SingaTorpedo:Make;did3DClient:Make;C802:Make;C802_Archos:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>

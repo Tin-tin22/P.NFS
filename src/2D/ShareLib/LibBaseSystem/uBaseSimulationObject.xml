@@ -1,0 +1,563 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uBaseSimulationObject">
+  <class name="TSimulationContainer">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <function name="getItemCount" visibility="private">
+        <parameters>
+          <retval type="Integer" />
+        </parameters>
+      </function>
+      <field name="FListItem" type="TThreadList" visibility="protected" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="AddObject" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="aObj" type="TObject" />
+        </parameters>
+      </procedure>
+      <procedure name="RemoveObject" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="aObj" type="TObject" />
+        </parameters>
+      </procedure>
+      <procedure name="RemoveObjectIndex" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="Index" type="Integer" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="ClearObject" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="MarkMember_NeedFree" visibility="public" procflags="abstract virtual">
+      </procedure>
+      <procedure name="CleanUpObject" visibility="public" procflags="abstract virtual">
+      </procedure>
+      <function name="getObject" visibility="public">
+        <parameters>
+          <parameter name="Index" type="Integer" paramflags="const" />
+          <retval type="TObject" />
+        </parameters>
+      </function>
+      <function name="popObject" visibility="public">
+        <parameters>
+          <parameter name="Index" type="Integer" paramflags="const" />
+          <retval type="TObject" />
+        </parameters>
+      </function>
+      <procedure name="ReturnList" visibility="public">
+      </procedure>
+      <function name="GetList" visibility="public">
+        <parameters>
+          <retval type="TList" />
+        </parameters>
+      </function>
+      <property name="ItemCount" visibility="public" read="getItemCount" type="Integer" />
+    </members>
+  </class>
+  <class name="TViewContainer">
+    <ancestor name="TSimulationContainer" namespace="uBaseSimulationObject">
+      <methodref name="getItemCount" visibility="private" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="AddObject" visibility="public" />
+      <methodref name="RemoveObject" visibility="public" />
+      <methodref name="RemoveObjectIndex" visibility="public" />
+      <methodref name="ClearObject" visibility="public" />
+      <methodref name="MarkMember_NeedFree" visibility="public" />
+      <methodref name="CleanUpObject" visibility="public" />
+      <methodref name="getObject" visibility="public" />
+      <methodref name="popObject" visibility="public" />
+      <methodref name="ReturnList" visibility="public" />
+      <methodref name="GetList" visibility="public" />
+      <propertyref name="ItemCount" visibility="public" />
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="InitInstance" visibility="public">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public">
+        </methodref>
+        <methodref name="ClassName" visibility="public">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public">
+        </methodref>
+        <methodref name="ClassParent" visibility="public">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodName" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public">
+        </methodref>
+        <methodref name="UnitName" visibility="public">
+        </methodref>
+        <methodref name="Equals" visibility="public">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public">
+        </methodref>
+        <methodref name="ToString" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="Dispatch" visibility="public">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public">
+        </methodref>
+        <methodref name="NewInstance" visibility="public">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="MarkMember_NeedFree" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="CleanUpObject" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="ClearObjectByParent" visibility="public">
+        <parameters>
+          <parameter name="aParent" type="TSimulationClass" />
+        </parameters>
+      </procedure>
+      <procedure name="ConvertAllDataPosition" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="DrawAllView" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="TObjectContainer">
+    <ancestor name="TSimulationContainer" namespace="uBaseSimulationObject">
+      <methodref name="getItemCount" visibility="private" />
+      <methodref name="Create" visibility="public" />
+      <methodref name="Destroy" visibility="public" />
+      <methodref name="AddObject" visibility="public" />
+      <methodref name="RemoveObject" visibility="public" />
+      <methodref name="RemoveObjectIndex" visibility="public" />
+      <methodref name="ClearObject" visibility="public" />
+      <methodref name="MarkMember_NeedFree" visibility="public" />
+      <methodref name="CleanUpObject" visibility="public" />
+      <methodref name="getObject" visibility="public" />
+      <methodref name="popObject" visibility="public" />
+      <methodref name="ReturnList" visibility="public" />
+      <methodref name="GetList" visibility="public" />
+      <propertyref name="ItemCount" visibility="public" />
+      <ancestor name="TObject" namespace="System">
+        <methodref name="Create" visibility="public">
+        </methodref>
+        <methodref name="Free" visibility="public">
+        </methodref>
+        <methodref name="InitInstance" visibility="public">
+        </methodref>
+        <methodref name="CleanupInstance" visibility="public">
+        </methodref>
+        <methodref name="ClassType" visibility="public">
+        </methodref>
+        <methodref name="ClassName" visibility="public">
+        </methodref>
+        <methodref name="ClassNameIs" visibility="public">
+        </methodref>
+        <methodref name="ClassParent" visibility="public">
+        </methodref>
+        <methodref name="ClassInfo" visibility="public">
+        </methodref>
+        <methodref name="InstanceSize" visibility="public">
+        </methodref>
+        <methodref name="InheritsFrom" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodAddress" visibility="public">
+        </methodref>
+        <methodref name="MethodName" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="FieldAddress" visibility="public">
+        </methodref>
+        <methodref name="GetInterface" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceEntry" visibility="public">
+        </methodref>
+        <methodref name="GetInterfaceTable" visibility="public">
+        </methodref>
+        <methodref name="UnitName" visibility="public">
+        </methodref>
+        <methodref name="Equals" visibility="public">
+        </methodref>
+        <methodref name="GetHashCode" visibility="public">
+        </methodref>
+        <methodref name="ToString" visibility="public">
+        </methodref>
+        <methodref name="SafeCallException" visibility="public">
+        </methodref>
+        <methodref name="AfterConstruction" visibility="public">
+        </methodref>
+        <methodref name="BeforeDestruction" visibility="public">
+        </methodref>
+        <methodref name="Dispatch" visibility="public">
+        </methodref>
+        <methodref name="DefaultHandler" visibility="public">
+        </methodref>
+        <methodref name="NewInstance" visibility="public">
+        </methodref>
+        <methodref name="FreeInstance" visibility="public">
+        </methodref>
+        <methodref name="Destroy" visibility="public">
+        </methodref>
+      </ancestor>
+    </ancestor>
+    <members>
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="MarkMember_NeedFree" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="CleanUpObject" visibility="public" procflags="override">
+      </procedure>
+      <procedure name="RunAllMemberObject" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="aDeltaMs" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <procedure name="UpdateAllMemberObject" visibility="public" procflags="virtual">
+      </procedure>
+      <function name="FindObjectByUid" visibility="public">
+        <parameters>
+          <parameter name="aUid" type="string" paramflags="const" />
+          <retval type="TSimulationClass" />
+        </parameters>
+      </function>
+      <procedure name="GetUIDSnapshot" visibility="public">
+        <parameters>
+          <parameter name="ss" type="TStrings" paramflags="var" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="TSimulationView">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <field name="FParent" type="TSimulationClass" visibility="protected" />
+      <field name="FNeedToBeFree" type="Boolean" visibility="protected" />
+      <field name="CenterCoord" type="TPoint" visibility="public" />
+      <field name="Visible" type="Boolean" visibility="public" />
+      <field name="Size" type="Integer" visibility="public" />
+      <field name="Color" type="TColor" visibility="public" />
+      <field name="Text" type="string" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+          <parameter name="aParent" type="TSimulationClass" />
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="MarkAs_NeedToBeFree" visibility="public">
+      </procedure>
+      <procedure name="ConvertDataPosition" visibility="public" procflags="abstract virtual">
+      </procedure>
+      <procedure name="DrawView" visibility="public" procflags="abstract virtual">
+        <parameters>
+          <parameter name="aCnv" type="TCanvas" />
+        </parameters>
+      </procedure>
+    </members>
+  </class>
+  <class name="TSimulationClass">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <field name="FParent" type="TObject" visibility="protected" />
+      <field name="FUniqueID" type="string" visibility="protected" />
+      <field name="FLastExecute" type="Cardinal" visibility="protected" />
+      <field name="FLastDelay" type="Cardinal" visibility="protected" />
+      <field name="FPosition" type="tDouble3DPoint" visibility="protected" />
+      <field name="FRunInterleave" type="tInterleave" visibility="protected" />
+      <field name="FUpdateInterleave" type="tInterleave" visibility="protected" />
+      <field name="FNeedToBeFree" type="Boolean" visibility="protected" />
+      <field name="ViewContainer" type="TViewContainer" visibility="public" />
+      <field name="ObjectContainer" type="TObjectContainer" visibility="public" />
+      <field name="Enabled" type="Boolean" visibility="public" />
+      <field name="Selected" type="Boolean" visibility="public" />
+      <field name="isRulerStart" type="Boolean" visibility="public" />
+      <field name="isRulerEnd" type="Boolean" visibility="public" />
+      <constructor name="Create" visibility="public">
+        <parameters>
+        </parameters>
+      </constructor>
+      <destructor name="Destroy" visibility="public">
+        <parameters>
+        </parameters>
+      </destructor>
+      <procedure name="MarkAs_NeedToBeFree" visibility="public">
+      </procedure>
+      <procedure name="DeleteAllChildren" visibility="public">
+      </procedure>
+      <procedure name="Update" visibility="public" procflags="virtual">
+      </procedure>
+      <procedure name="Run" visibility="public" procflags="virtual">
+        <parameters>
+          <parameter name="aDeltaMs" type="Double" paramflags="const" />
+        </parameters>
+      </procedure>
+      <field type="Double" visibility="private" />
+      <field type="Double" visibility="private" />
+      <property name="PositionX" visibility="public" type="Double" />
+      <field type="Double" visibility="private" />
+      <field type="Double" visibility="private" />
+      <property name="PositionY" visibility="public" type="Double" />
+      <field type="Double" visibility="private" />
+      <field type="Double" visibility="private" />
+      <property name="PositionZ" visibility="public" type="Double" />
+      <property name="UniqueID" visibility="public" read="FUniqueID" write="FUniqueID" type="string" />
+    </members>
+  </class>
+  <procedure name="ConvertMembersViewsPosition" visibility="public">
+    <parameters>
+      <parameter name="aObjList" type="TObjectContainer" />
+    </parameters>
+  </procedure>
+  <procedure name="DrawMembersView" visibility="public">
+    <parameters>
+      <parameter name="aObjList" type="TObjectContainer" />
+      <parameter name="aCnv" type="TCanvas" />
+    </parameters>
+  </procedure>
+</namespace>

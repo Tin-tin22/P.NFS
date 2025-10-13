@@ -1,0 +1,522 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<namespace name="uBridgeSet">
+  <const name="c_idx_prm_2DServerIP" type="Integer">
+    <value>
+      $1
+    </value>
+  </const>
+  <const name="c_idx_prm_2DServerPort" type="Integer">
+    <value>
+      $2
+    </value>
+  </const>
+  <const name="c_idx_prm_DBServer" type="Integer">
+    <value>
+      $3
+    </value>
+  </const>
+  <const name="c_idx_prm_DBProto" type="Integer">
+    <value>
+      $4
+    </value>
+  </const>
+  <const name="c_idx_prm_DBName" type="Integer">
+    <value>
+      $5
+    </value>
+  </const>
+  <const name="c_idx_prm_DBUser" type="Integer">
+    <value>
+      $6
+    </value>
+  </const>
+  <const name="c_idx_prm_DBPass" type="Integer">
+    <value>
+      $7
+    </value>
+  </const>
+  <const name="c_idx_prm_CurrentShipID" type="Integer">
+    <value>
+      $8
+    </value>
+  </const>
+  <const name="c_idx_prm_CurrentScenID" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="c_idx_prm_CurrentLauncID" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <const name="max_param" type="Integer">
+    <value>
+      $9
+    </value>
+  </const>
+  <const name="max_param_TDS" type="Integer">
+    <value>
+      $A
+    </value>
+  </const>
+  <struct name="TRecBridgeDB">
+    <field name="mDBServer" type="string" visibility="public" />
+    <field name="mDBProto" type="string" visibility="public" />
+    <field name="mDBName" type="string" visibility="public" />
+    <field name="mDBUser" type="string" visibility="public" />
+    <field name="mDBPass" type="string" visibility="public" />
+  </struct>
+  <struct name="TRecBridgeServer">
+    <field name="m2D_IP" type="string" visibility="public" />
+    <field name="m2D_Port" type="string" visibility="public" />
+    <field name="m3D_IP" type="string" visibility="public" />
+    <field name="m3D_Port" type="string" visibility="public" />
+    <field name="mCtrl_IP" type="string" visibility="public" />
+    <field name="mCtrl_port" type="string" visibility="public" />
+  </struct>
+  <struct name="TRecBridgeShip">
+    <field name="mShipID" type="Integer" visibility="public" />
+    <field name="mClassID" type="Integer" visibility="public" />
+    <field name="mShipName" type="string" visibility="public" />
+    <field name="mClassName" type="string" visibility="public" />
+    <field name="mScenario" type="Integer" visibility="public" />
+  </struct>
+  <struct name="TRecBridgeSet">
+    <field name="mDB" type="TRecBridgeDB" visibility="public" />
+    <field name="mServer" type="TRecBridgeServer" visibility="public" />
+    <field name="mShip" type="TRecBridgeShip" visibility="public" />
+  </struct>
+  <class name="TInsUtil">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+    <members>
+      <field name="CameraMode" type="Boolean" visibility="public" />
+      <field name="MapMode" type="Boolean" visibility="public" />
+      <field name="MapID" type="Integer" visibility="public" />
+      <field name="InsID" type="Integer" visibility="public" />
+      <field name="DenahMode" type="Integer" visibility="public" />
+    </members>
+  </class>
+  <class name="THelpIni">
+    <ancestor name="TObject" namespace="System">
+      <methodref name="Create" visibility="public">
+      </methodref>
+      <methodref name="Free" visibility="public">
+      </methodref>
+      <methodref name="InitInstance" visibility="public">
+      </methodref>
+      <methodref name="CleanupInstance" visibility="public">
+      </methodref>
+      <methodref name="ClassType" visibility="public">
+      </methodref>
+      <methodref name="ClassName" visibility="public">
+      </methodref>
+      <methodref name="ClassNameIs" visibility="public">
+      </methodref>
+      <methodref name="ClassParent" visibility="public">
+      </methodref>
+      <methodref name="ClassInfo" visibility="public">
+      </methodref>
+      <methodref name="InstanceSize" visibility="public">
+      </methodref>
+      <methodref name="InheritsFrom" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodAddress" visibility="public">
+      </methodref>
+      <methodref name="MethodName" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="FieldAddress" visibility="public">
+      </methodref>
+      <methodref name="GetInterface" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceEntry" visibility="public">
+      </methodref>
+      <methodref name="GetInterfaceTable" visibility="public">
+      </methodref>
+      <methodref name="UnitName" visibility="public">
+      </methodref>
+      <methodref name="Equals" visibility="public">
+      </methodref>
+      <methodref name="GetHashCode" visibility="public">
+      </methodref>
+      <methodref name="ToString" visibility="public">
+      </methodref>
+      <methodref name="SafeCallException" visibility="public">
+      </methodref>
+      <methodref name="AfterConstruction" visibility="public">
+      </methodref>
+      <methodref name="BeforeDestruction" visibility="public">
+      </methodref>
+      <methodref name="Dispatch" visibility="public">
+      </methodref>
+      <methodref name="DefaultHandler" visibility="public">
+      </methodref>
+      <methodref name="NewInstance" visibility="public">
+      </methodref>
+      <methodref name="FreeInstance" visibility="public">
+      </methodref>
+      <methodref name="Destroy" visibility="public">
+      </methodref>
+    </ancestor>
+  </class>
+  <const name="iniBridgeSet" type="string">
+    <value>
+      BridgeSet.ini
+    </value>
+  </const>
+  <const name="defaultServer" type="string">
+    <value>
+      localhost
+    </value>
+  </const>
+  <const name="default3DServer" type="string">
+    <value>
+      192.168.0.82
+    </value>
+  </const>
+  <const name="defaultServerPort" type="string">
+    <value>
+      2120
+    </value>
+  </const>
+  <const name="default3DServerPort" type="string">
+    <value>
+      5001
+    </value>
+  </const>
+  <const name="defaultDBServer" type="string">
+    <value>
+      192.168.1.141
+    </value>
+  </const>
+  <const name="defaultDBProto" type="string">
+    <value>
+      mysql
+    </value>
+  </const>
+  <const name="defaultDBName" type="string">
+    <value>
+      dbNSuFs
+    </value>
+  </const>
+  <const name="defaultDBUser" type="string">
+    <value>
+      usrNSUFS
+    </value>
+  </const>
+  <const name="defaultDBPassword" type="string">
+    <value>
+      admin
+    </value>
+  </const>
+  <const name="defaultShipID" type="Integer">
+    <value>
+      $27
+    </value>
+  </const>
+  <const name="defaultShipName" type="string">
+    <value>
+      KRI Nala
+    </value>
+  </const>
+  <const name="defaultClassID" type="Integer">
+    <value>
+      $1F
+    </value>
+  </const>
+  <const name="defaultClassName" type="string">
+    <value>
+      Fatahillah Class
+    </value>
+  </const>
+  <const name="iniSectConfig" type="string">
+    <value>
+      CONFIG
+    </value>
+  </const>
+  <const name="iniValServer" type="string">
+    <value>
+      SERVER
+    </value>
+  </const>
+  <const name="iniVal3DServer" type="string">
+    <value>
+      3DSERVER
+    </value>
+  </const>
+  <const name="iniValServerPort" type="string">
+    <value>
+      SERVERPORT
+    </value>
+  </const>
+  <const name="iniVal3DServerPort" type="string">
+    <value>
+      3DSERVERPORT
+    </value>
+  </const>
+  <const name="iniSectDBConfig" type="string">
+    <value>
+      DBCONFIG
+    </value>
+  </const>
+  <const name="iniValDBServer" type="string">
+    <value>
+      DBSERVER
+    </value>
+  </const>
+  <const name="iniValDBProto" type="string">
+    <value>
+      DBPROTO
+    </value>
+  </const>
+  <const name="iniValDBName" type="string">
+    <value>
+      DBNAME
+    </value>
+  </const>
+  <const name="iniValDBUser" type="string">
+    <value>
+      DBUSER
+    </value>
+  </const>
+  <const name="iniValDBpass" type="string">
+    <value>
+      DBPASS
+    </value>
+  </const>
+  <const name="iniSectShips" type="string">
+    <value>
+      SHIPS
+    </value>
+  </const>
+  <const name="iniValShip" type="string">
+    <value>
+      SHIPID
+    </value>
+  </const>
+  <const name="iniValShipName" type="string">
+    <value>
+      SHIPNAME
+    </value>
+  </const>
+  <const name="iniValClassID" type="string">
+    <value>
+      SHIPCLASSID
+    </value>
+  </const>
+  <const name="iniValClassName" type="string">
+    <value>
+      SHIPCLASSNAME
+    </value>
+  </const>
+  <const name="cRecsExt" type="string">
+    <value>
+      .recs
+    </value>
+  </const>
+  <function name="GetRecordsPath" visibility="public">
+    <parameters>
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetDataPath" visibility="public">
+    <parameters>
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetFullNameRecsFileFromName" visibility="public">
+    <parameters>
+      <parameter name="s" type="string" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetSettingDirectory" visibility="public">
+    <parameters>
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="GetEmulatorSettingDirectory" visibility="public">
+    <parameters>
+      <retval type="string" />
+    </parameters>
+  </function>
+  <function name="UniqueID_To_dbID" visibility="public">
+    <parameters>
+      <parameter name="uid" type="string" paramflags="const" />
+      <retval type="Integer" />
+    </parameters>
+  </function>
+  <function name="dbID_to_UniqueID" visibility="public">
+    <parameters>
+      <parameter name="id" type="Integer" paramflags="const" />
+      <retval type="string" />
+    </parameters>
+  </function>
+  <procedure name="InitInsUtil" visibility="public">
+    <parameters>
+      <parameter name="Path" type="string" paramflags="const" />
+      <parameter name="MapMode" type="Boolean" paramflags="var" />
+      <parameter name="CameraMode" type="Boolean" paramflags="var" />
+      <parameter name="MapID" type="Integer" paramflags="var" />
+      <parameter name="InsID" type="Integer" paramflags="var" />
+      <parameter name="DenahMode" type="Integer" paramflags="var" />
+    </parameters>
+  </procedure>
+  <procedure name="InitDefault_AllConfigFromInstruktur_TDS" visibility="public">
+    <parameters>
+      <parameter name="m2DServerIP" type="string" paramflags="var" />
+      <parameter name="m2DServerPort" type="string" paramflags="var" />
+      <parameter name="mDBServer" type="string" paramflags="var" />
+      <parameter name="mDBProto" type="string" paramflags="var" />
+      <parameter name="mDBName" type="string" paramflags="var" />
+      <parameter name="mDBUser" type="string" paramflags="var" />
+      <parameter name="mDBPass" type="string" paramflags="var" />
+      <parameter name="mCurrentShipID" type="Integer" paramflags="var" />
+      <parameter name="mCurrentScenID" type="Integer" paramflags="var" />
+      <parameter name="mLauncherID" type="Integer" paramflags="var" />
+    </parameters>
+  </procedure>
+  <procedure name="InitDefault_AllConfigFromInstruktur" visibility="public">
+    <parameters>
+      <parameter name="m2DServerIP" type="string" paramflags="var" />
+      <parameter name="m2DServerPort" type="string" paramflags="var" />
+      <parameter name="mDBServer" type="string" paramflags="var" />
+      <parameter name="mDBProto" type="string" paramflags="var" />
+      <parameter name="mDBName" type="string" paramflags="var" />
+      <parameter name="mDBUser" type="string" paramflags="var" />
+      <parameter name="mDBPass" type="string" paramflags="var" />
+      <parameter name="mCurrentShipID" type="Integer" paramflags="var" />
+      <parameter name="mCurrentScenID" type="Integer" paramflags="var" />
+    </parameters>
+  </procedure>
+  <procedure name="InitDefault_DBConfig" visibility="public">
+    <parameters>
+      <parameter name="Path" type="string" paramflags="const" />
+      <parameter name="mDBServer" type="string" paramflags="var" />
+      <parameter name="mDBProto" type="string" paramflags="var" />
+      <parameter name="mDBName" type="string" paramflags="var" />
+      <parameter name="mDBUser" type="string" paramflags="var" />
+      <parameter name="mDBPass" type="string" paramflags="var" />
+    </parameters>
+  </procedure>
+  <procedure name="SaveDefault_DBConfig" visibility="public">
+    <parameters>
+      <parameter name="Path" type="string" paramflags="const" />
+      <parameter name="mDBServer" type="string" paramflags="const" />
+      <parameter name="mDBProto" type="string" paramflags="const" />
+      <parameter name="mDBName" type="string" paramflags="const" />
+      <parameter name="mDBUser" type="string" paramflags="const" />
+      <parameter name="mDBPass" type="string" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="InitDefault_CtrlServerConfig" visibility="public">
+    <parameters>
+      <parameter name="Path" type="string" paramflags="const" />
+      <parameter name="mCtrlServerIP" type="string" paramflags="var" />
+      <parameter name="mCtrlServerPort" type="string" paramflags="var" />
+    </parameters>
+  </procedure>
+  <procedure name="InitDefault_GameServerConfig" visibility="public">
+    <parameters>
+      <parameter name="Path" type="string" paramflags="const" />
+      <parameter name="m2DServerIP" type="string" paramflags="var" />
+      <parameter name="m2DServerPort" type="string" paramflags="var" />
+      <parameter name="m3DServerIP" type="string" paramflags="var" />
+      <parameter name="m3DServerPort" type="string" paramflags="var" />
+    </parameters>
+  </procedure>
+  <procedure name="SaveDefault_GameServerConfig" visibility="public">
+    <parameters>
+      <parameter name="Path" type="string" paramflags="const" />
+      <parameter name="m2DServerIP" type="string" paramflags="const" />
+      <parameter name="m2DServerPort" type="string" paramflags="const" />
+      <parameter name="m3DServerIP" type="string" paramflags="const" />
+      <parameter name="m3DServerPort" type="string" paramflags="const" />
+    </parameters>
+  </procedure>
+  <procedure name="InitDefault_ShipConfig" visibility="public">
+    <parameters>
+      <parameter name="Path" type="string" paramflags="const" />
+      <parameter name="mShipID" type="Integer" paramflags="var" />
+      <parameter name="mClassID" type="Integer" paramflags="var" />
+      <parameter name="mShipName" type="string" paramflags="var" />
+      <parameter name="mClassName" type="string" paramflags="var" />
+    </parameters>
+  </procedure>
+  <procedure name="SaveDefault_ShipConfig" visibility="public">
+    <parameters>
+      <parameter name="Path" type="string" paramflags="const" />
+      <parameter name="mShipID" type="Integer" paramflags="const" />
+      <parameter name="mClassID" type="Integer" paramflags="const" />
+      <parameter name="mShipName" type="string" paramflags="const" />
+      <parameter name="mClassName" type="string" paramflags="const" />
+    </parameters>
+  </procedure>
+</namespace>
