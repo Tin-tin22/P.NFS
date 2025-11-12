@@ -33,7 +33,7 @@ var
 implementation
 
 uses
-  uManualInput, uMainMM;
+  uManualInput, uMainMM, uYakhontManager;
 
 {$R *.dfm}
 

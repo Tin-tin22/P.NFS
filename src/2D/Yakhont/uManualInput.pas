@@ -120,6 +120,7 @@ type
     Label33: TLabel;
     Label35: TLabel;
     lblErrorLong: TLabel;
+    btnCheat: TButton;
     procedure edtMemberOfTIVariantKeyPress(Sender: TObject; var Key: Char);
     procedure edtNumberOfTIVariantKeyPress(Sender: TObject; var Key: Char);
     procedure edtMovingCompOfTargetInputAttributeKeyPress(Sender: TObject;
@@ -146,10 +147,11 @@ type
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure StrGridShowResultSelectCell(Sender: TObject; ACol, ARow: Integer;
       var CanSelect: Boolean);
+    procedure btnCheatClick(Sender: TObject);
 
   private
     { Private declarations }
-    isCompletelyInsert : Boolean;
+//    isCompletelyInsert : Boolean;
 
     procedure setStringGrid;
     procedure setSGColumn1_Title;
@@ -160,7 +162,7 @@ type
     procedure Normalisasi;
   public
     { Public declarations }
-//    isCompletelyInsert : Boolean;
+    isCompletelyInsert : Boolean;
     typeOfVariant : Integer;
 
     Rec_TIVar1 : TRecTIVariant1;
@@ -1399,6 +1401,45 @@ begin
   Grid.ColWidths[Column] := WMax + 50;
 end;
 
+procedure TfrmManualInput.btnCheatClick(Sender: TObject);
+begin
+  typeOfVariant := 1;
+  Rec_TIVar1.MovingCompTI              := 1;
+  Rec_TIVar1.DistTarget                := 250*1000;
+  YakhontManager.isTargetInRange := True;
+
+  Rec_TIVar1.BearingTarget             := 180;
+  Rec_TIVar1.HeadingTarget             := 200;
+  Rec_TIVar1.SpeedTarget               := 54;
+  Rec_TIVar1.MRSE_distTarget           := 15*1000;
+  Rec_TIVar1.MRSE_bearingTarget        := 35;
+  Rec_TIVar1.MRSE_headingTarget        := 15;
+  Rec_TIVar1.MRSE_speedTarget          := 8;
+  Rec_TIVar1.AgeingTimeDataTarget      := 1500;
+  YakhontManager.isTimeAgeStart := True;
+  fmMainMM.StartAgingTime := Now;
+
+  YakhontManager.TimeAgeCount := 1500;
+  Rec_TIVar1.TypeTarget                := 1;
+  Rec_TIVar1.CoreRadius                := 10000;
+  Rec_TIVar1.QuantityOfShipInCore      := 25;
+  StrGridShowResult.Visible := False;
+
+  Rec_TIVar1.QuantityOfShipInFormation := 25;
+  setStringGrid;
+  StrGridShowResult.Visible := True;
+
+  with fmMainMM do
+  begin
+    pnlRTP.Caption   := 'RTP';
+    pnlNext.Caption  := 'TI Accepted';
+    lblType.Caption  := 'SSS';
+
+    isCompletelyInsert := true;
+    checkerButtonProcedure[1] := 1;
+  end;
+end;
+
 procedure TfrmManualInput.btnExitClick(Sender: TObject);
 var
   range : Double;
@@ -1427,14 +1468,46 @@ begin
         end;
 
       end;
-
-
       StrGridShowResult.Visible := false;
 
       pnlNext.Caption  := 'SD';
       btnSD.Font.Color := clBlack;
 
       btnTI.Enabled := false;
+    end
+    else if frmSelectionTI.currentSelectionTI = 1 then
+    begin
+      typeOfVariant := 1;
+      Rec_TIVar1.MRSE_distTarget           := 15*1000;
+      Rec_TIVar1.MRSE_bearingTarget        := 35;
+      Rec_TIVar1.MRSE_headingTarget        := 15;
+      Rec_TIVar1.MRSE_speedTarget          := 8;
+      Rec_TIVar1.AgeingTimeDataTarget      := 1500;
+      YakhontManager.isTimeAgeStart        := True;
+      fmMainMM.StartAgingTime              := Now;
+      YakhontManager.TimeAgeCount          := 1500;
+      Rec_TIVar1.TypeTarget                := 1;
+      Rec_TIVar1.CoreRadius                := 10000;
+      Rec_TIVar1.QuantityOfShipInCore      := 25;
+      StrGridShowResult.Visible            := False;
+
+      Rec_TIVar1.QuantityOfShipInFormation := 25;
+
+
+      with fmMainMM do
+      begin
+        pnlRTP.Caption   := 'RTP';
+        pnlNext.Caption  := 'TI Accepted';
+        lblType.Caption  := 'SSS';
+
+        isCompletelyInsert := true;
+        checkerButtonProcedure[1] := 1;
+
+        pnlNext.Caption  := 'SD';
+        btnSD.Font.Color := clBlack;
+
+        btnTI.Enabled := false;
+      end;
     end;
   end;
   Close;

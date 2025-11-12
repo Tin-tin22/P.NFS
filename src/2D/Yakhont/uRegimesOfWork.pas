@@ -55,7 +55,7 @@ type
     { Public declarations }
     MainMode : Integer;
 
-    _statePrinter,
+    _statePrinter, _stateNode1, _stateNode2,
     _stateKR231, checkKR231,
     _stateLauncher1, checkLauncher1,
     _stateLauncher2, checklauncher2,

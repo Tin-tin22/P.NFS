@@ -377,7 +377,7 @@ object fmMainMM: TfmMainMM
           8FCE119DE300AA004BB851010000009001DC7C010005417269616C000352E30B
           918FCE119DE300AA004BB851010200009001A42C02000B4D61702053796D626F
           6C730000000000000001000100FFFFFF000200FFFFFF00000000000001000000
-          0100011801000030C1230701000000000000001C000000000000000000000000
+          01000118010000C848820F010000006C9015771C000000000000000000000000
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000000000000002
           0000000000000000000000000000000000000000000000000000000000000000
@@ -386,15 +386,15 @@ object fmMainMM: TfmMainMM
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000000000000000
           8076C000000000008056C0000000000080764000000000008056400100000018
-          01000030C1230701000000E40400001C00000000000000000000000000000000
+          010000C848820F01000000880300C01C00000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000000200000000
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000000000000000
           0000000000000000000000000000000000000000000000000000000000000000
-          0000000000000000000000000000000000000000000000F40A85020100000060
-          0B8502E8E922008368D6764F0901923100000005000000000000000000000000
+          0000000000000000000000000000000000000000000000B0E49700DD865B761F
+          00000000000000C0865B7660FA930F78215605F0E49700000000000000000000
           000088B3400000000000408F400001000001}
       end
       object Panel32: TPanel
@@ -3602,6 +3602,8 @@ object fmMainMM: TfmMainMM
           Appearance.BackGroundFill.ColorTo = clSilver
           Appearance.BackGroundFill.ColorMirror = clNone
           Appearance.BackGroundFill.ColorMirrorTo = clNone
+          Appearance.BackGroundFill.GradientType = gtVertical
+          Appearance.BackGroundFill.GradientMirrorType = gtSolid
           Appearance.BackGroundFill.BorderColor = clSilver
           Appearance.BackGroundFill.Rounding = 0
           Appearance.BackGroundFill.ShadowOffset = 0
@@ -3610,6 +3612,7 @@ object fmMainMM: TfmMainMM
           Appearance.ProgressFill.ColorTo = 16737843
           Appearance.ProgressFill.ColorMirror = 16737843
           Appearance.ProgressFill.ColorMirrorTo = 16737843
+          Appearance.ProgressFill.GradientType = gtVertical
           Appearance.ProgressFill.GradientMirrorType = gtVertical
           Appearance.ProgressFill.BorderColor = 16765357
           Appearance.ProgressFill.Rounding = 0
@@ -3627,9 +3630,10 @@ object fmMainMM: TfmMainMM
           Appearance.ProgressFont.Style = [fsBold]
           Appearance.ValueFormat = '%.0f s'
           Appearance.ValueVisible = True
-          Version = '1.5.1.0'
+          Version = '1.9.1.0'
           MarqueeInterval = 30
           Visible = False
+          TMSStyle = 0
         end
         object progBarPrePLP: TAdvSmoothProgressBar
           Left = 40
@@ -3642,6 +3646,8 @@ object fmMainMM: TfmMainMM
           Appearance.BackGroundFill.ColorTo = clSilver
           Appearance.BackGroundFill.ColorMirror = clNone
           Appearance.BackGroundFill.ColorMirrorTo = clNone
+          Appearance.BackGroundFill.GradientType = gtVertical
+          Appearance.BackGroundFill.GradientMirrorType = gtSolid
           Appearance.BackGroundFill.BorderColor = clSilver
           Appearance.BackGroundFill.Rounding = 0
           Appearance.BackGroundFill.ShadowOffset = 0
@@ -3650,6 +3656,7 @@ object fmMainMM: TfmMainMM
           Appearance.ProgressFill.ColorTo = 16737843
           Appearance.ProgressFill.ColorMirror = 16737843
           Appearance.ProgressFill.ColorMirrorTo = 16737843
+          Appearance.ProgressFill.GradientType = gtVertical
           Appearance.ProgressFill.GradientMirrorType = gtVertical
           Appearance.ProgressFill.BorderColor = 16765357
           Appearance.ProgressFill.Rounding = 0
@@ -3667,7 +3674,8 @@ object fmMainMM: TfmMainMM
           Appearance.ProgressFont.Style = [fsBold]
           Appearance.ValueFormat = '%.0f s'
           Appearance.ValueVisible = True
-          Version = '1.5.1.0'
+          Version = '1.9.1.0'
+          TMSStyle = 0
         end
         object pnlMainPLP: TPanel
           Left = 40

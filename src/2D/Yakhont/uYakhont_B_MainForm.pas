@@ -5,37 +5,38 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, Buttons, SpeedButtonImage, ImgList, StdCtrls,
-  uTCPDatatype, Menus, IniFiles;
+  uTCPDatatype, Menus, IniFiles, Vcl.Imaging.jpeg, System.ImageList;
 
 type
   TfrmYakh_B_MainForm = class(TForm)
+    ilBacklight: TImageList;
+    ilCancel: TImageList;
+    ilOnOff: TImageList;
+    ilKey: TImageList;
+    ilStart: TImageList;
+    pmShowSocket: TPopupMenu;
+    ShowConnector1: TMenuItem;
+    HideConnector1: TMenuItem;
+    N1: TMenuItem;
+    Exit1: TMenuItem;
     pnlYakh_B_MainForm: TPanel;
     imgYakh_B_MainForm: TImage;
     btnKey: TSpeedButtonImage;
     btnBackLight: TSpeedButtonImage;
     btnCancel: TSpeedButtonImage;
-    ilBacklight: TImageList;
-    ilCancel: TImageList;
     btnStart: TSpeedButtonImage;
     imgTechnologicalSelection: TImage;
     Label1: TLabel;
-    ilOnOff: TImageList;
     Label2: TLabel;
     Label3: TLabel;
-    ilKey: TImageList;
-    ilStart: TImageList;
-    Edit1: TEdit;
     imgOff: TImage;
     imgOn: TImage;
     btnExit: TSpeedButton;
-    pmShowSocket: TPopupMenu;
-    ShowConnector1: TMenuItem;
-    HideConnector1: TMenuItem;
-    pnlConnector: TPanel;
-    N1: TMenuItem;
-    Exit1: TMenuItem;
     KeyClosed: TImage;
     btnStartClosed: TImage;
+    imgONSC: TImage;
+    Edit1: TEdit;
+    pnlConnector: TPanel;
     procedure btnCancelClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
@@ -46,6 +47,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure LoadSettingForm(filepath : string);
+    procedure btnKeyClick(Sender: TObject);
+    procedure btnStartClosedClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -122,6 +125,24 @@ begin
     Key_Yakhont.cmd := CMD_Yakhont_Backlight;
   end;
 
+  Yakhont_B_Manager.NetCommLocalClient.sendDataEx(REC_CMD_Yakhont, @Key_Yakhont);
+end;
+
+procedure TfrmYakh_B_MainForm.btnExitClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmYakh_B_MainForm.btnKeyClick(Sender: TObject);
+begin
+  with Yakhont_B_Manager do
+  begin
+    if NetCommLocalClient.State <> wsConnected then
+    begin
+      Net_Connect;
+    end;
+  end;
+
   if Sender = btnKey then
   begin
      case btnKey.ImageIndex of
@@ -141,6 +162,7 @@ begin
             tempConf := true;
             btnStart.Visible       := True;
             btnStartClosed.Visible := False;
+            imgONSC.Visible := True;
          end
          else begin
 //            ShowMessage('Start circuit is not ready');
@@ -148,6 +170,19 @@ begin
          end;
         end;
      end;
+  end;
+
+  Yakhont_B_Manager.NetCommLocalClient.sendDataEx(REC_CMD_Yakhont, @Key_Yakhont);
+end;
+
+procedure TfrmYakh_B_MainForm.btnStartClosedClick(Sender: TObject);
+begin
+  with Yakhont_B_Manager do
+  begin
+    if NetCommLocalClient.State <> wsConnected then
+    begin
+      Net_Connect;
+    end;
   end;
 
   if Sender = btnStart then
@@ -185,22 +220,20 @@ begin
   Yakhont_B_Manager.NetCommLocalClient.sendDataEx(REC_CMD_Yakhont, @Key_Yakhont);
 end;
 
-procedure TfrmYakh_B_MainForm.btnExitClick(Sender: TObject);
-begin
-  Close;
-end;
-
 procedure TfrmYakh_B_MainForm.FormCreate(Sender: TObject);
 begin
-  LoadSettingForm('..\bin\SettingYakhontToMonitor.ini');
+//  LoadSettingForm('..\bin\SettingYakhontToMonitor.ini');
 
   TimerTerminate := TTimer.Create(nil);
   TimerTerminate.Enabled  := false;
   TimerTerminate.Interval := 200;
   TimerTerminate.OnTimer  := OnTimerTerminate;
-//  Yakhont_B_Manager := TYakhont_B_Manager.Create();
+  Yakhont_B_Manager := TYakhont_B_Manager.Create();
+  Yakhont_B_Manager.Initialize;
+  Yakhont_B_Manager.BeginSimulation;
 
-  Yakhont_B_Manager.OnConnected := OnConnectedToMainDisplay;
+
+//  Yakhont_B_Manager.OnConnected := OnConnectedToMainDisplay;
 end;
 
 procedure TfrmYakh_B_MainForm.FormDestroy(Sender: TObject);
@@ -255,7 +288,7 @@ begin
 
    fIndikatorRed := picture_Path + 'data\images\yakhont\AB_Indikator_On_Merah.bmp';
 
-   imgOn.Picture.LoadFromFile(fIndikatorOff);
+//   imgOn.Picture.LoadFromFile(fIndikatorOff);
    imgOff.Picture.LoadFromFile(fIndikatorOn);
 end;
 

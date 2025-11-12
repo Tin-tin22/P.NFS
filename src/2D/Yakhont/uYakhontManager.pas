@@ -30,6 +30,9 @@ type
     LaunchInterval : Integer;
     TimerLaunch : TTimer;
 
+    // Tambahan
+    CurrentLaunchIndex : Integer;
+
     /// <summary>
     /// Untuk koneksi local ke Archos
     /// </summary>
@@ -85,6 +88,8 @@ type
     idCRData, idLock, idManualInput, idSelectionTI, idTargetDest,
     idEmergencyRelease, idTest, idDoc : Integer;
 
+    idFormYakhontB, offX, offY : Integer;
+
     ConnectInterval : Integer;
     timerConnect    : TTimer;
 
@@ -114,6 +119,9 @@ type
     procedure AddToMemoLog(const str: string);
 
     procedure EventOnReceiveCommand(apRec: PAnsiChar; aSize: integer; Sender: TWSocketClient);
+
+    procedure EventOnReceiveCommandTes(apRec: PAnsiChar; aSize: integer; Sender: TWSocketClient);
+
     procedure EventOnMainTimer(const dt: double); override;
     procedure EventOnReceiveDataPosition(apRec: PAnsiChar; aSize: integer);
     procedure EventonRecMissilePosAvailable(apRec: PAnsiChar; aSize: integer);
@@ -165,7 +173,7 @@ uses
   uBridgeSet, SysUtils, Forms, Windows, uMainMM, Graphics,
   uCertificateData, uCRData, uManualInput, uRegimesOfWork, uBaseSimulationObject,
   uLibClientObject, uBaseFunction, IniFiles, uBaseConstan, uFormUtil,
-  uYakhont_A_1_MainForm, uYakhont_A_2_MainForm, uDataModule,
+  uYakhont_A_1_MainForm, uYakhont_A_2_MainForm, uYakhont_B_MainForm, uDataModule,
   uBaseDataType, uTrackFunction ,  uLoadingScreen, uEventForm, uCirculationASM,
   uLock, uSelectionTI, uTargetDestination, uEmergencyRelease, uBlankScreen,
   uDoc, uTest, uAppointmentASM, uAcknowledgement;
@@ -386,11 +394,10 @@ begin
         if isTargetInRange or frmAcknowledgement.checkEmergencyButton then
         begin
           PLPState := OnIdle;
-
           MissileHaveLaunch := 0;
 
           for i := 0 to 3 do
-            MissileLaunch[i] := false;
+            MissileLaunch[i] := False;
 
           if Missile1.isReady then MissileLaunch[0] := True;
           if Missile2.isReady then MissileLaunch[1] := True;
@@ -423,6 +430,7 @@ begin
                dtRec.mLauncherID    := i + 1;
                dtRec.mMissileID     := 1;
                dtRec.mMissileNumber := 1;
+               dtRec.mTargetID      := tempAssignTarget;      // Tambahan TargetID
 
                if Missile1.isReady then
                  dtRec.mMissile1 := 1
@@ -586,8 +594,291 @@ begin
           pnlSC.Caption := 'OFF';
           pnlSC.Color   := RGB(15, 69, 69);
         end;
+
+        with frmYakh_B_MainForm do
+        begin
+          imgONSC.Visible := False;
+        end;
       end;
   end;
+end;
+
+procedure TYakhontManager.EventOnReceiveCommandTes(apRec: PAnsiChar; aSize: integer; Sender: TWSocketClient);
+//var
+//aRec     : ^TRecData_Yakhont;
+//aRecSend : TRecData_Yakhont;
+////dtRec    : TRecData_Yakhont;
+//
+//dis, brg : Double;
+//I, J     : Integer;
+//launchedNumb, designatedNumb : Integer;
+
+begin
+//  aRec := @apRec^;
+//
+//  fmMain.edit1.Text := IntToStr(aRec.cmd);
+//
+//  case aRec. of
+//    CMD_Yakhont_Cancel:
+//      begin
+//
+//      end;
+//    CMD_Yakhont_Backlight:
+//      begin
+//
+//      end;
+//    CMD_Yakhont_Key:
+//      begin
+//        designatedNumb := 0;
+//
+//        fmMainMM.btnAWR.Enabled := False;
+//        fmMainMM.btnCWR.Enabled := False;
+//        fmMainMM.btnER.Enabled := False;
+//
+//        if Missile1.isReady and (fmMainMM.pnlPLP1.Color = clLime) then begin
+//          fmMainMM.pnlPLP1.Color    := clAqua;
+//          fmMainMM.readyToLaunch[1] := 4;
+//        end;
+//
+//        if Missile2.isReady and (fmMainMM.pnlPLP2.Color = clLime)then begin
+//          fmMainMM.pnlPLP2.Color    := clAqua;
+//          fmMainMM.readyToLaunch[2] := 4;
+//        end;
+//
+//        if Missile3.isReady and (fmMainMM.pnlPLP3.Color = clLime) then begin
+//          fmMainMM.pnlPLP3.Color    := clAqua;
+//          fmMainMM.readyToLaunch[3] := 4;
+//        end;
+//
+//        if Missile4.isReady and (fmMainMM.pnlPLP4.Color = clLime) then begin
+//          fmMainMM.pnlPLP4.Color    := clAqua;
+//          fmMainMM.readyToLaunch[4] := 4;
+//        end;
+//
+//        if Missile1.isReady or Missile2.isReady or Missile3.isReady or Missile4.isReady then
+//        begin
+//          for I := 1 to 4 do
+//          begin
+//            if fmMainMM.readyToLaunch[I] = 4 then
+//            begin
+//               designatedNumb := designatedNumb + 1;
+//            end;
+//
+//          end;
+//        end;
+//
+//        fmMainMM.countDesignated       := designatedNumb;
+//        fmMainMM.pnlDesignated.Caption := IntToStr(fmMainMM.countDesignated);
+//
+//
+//      end;
+//    CMD_Yakhont_Start:
+//      begin
+//        if isTargetInRange or frmAcknowledgement.checkEmergencyButton then
+//        begin
+//          PLPState := OnIdle;
+//
+//          MissileHaveLaunch := 0;
+//
+//          for i := 0 to 3 do
+//            MissileLaunch[i] := false;
+//
+//          if Missile1.isReady then MissileLaunch[0] := True;
+//          if Missile2.isReady then MissileLaunch[1] := True;
+//          if Missile3.isReady then MissileLaunch[2] := True;
+//          if Missile4.isReady then MissileLaunch[3] := True;
+//
+//          if (not Missile1.isReady) and (not Missile2.isReady) and
+//             (not Missile3.isReady) and (not Missile4.isReady) then
+//          Exit;
+//
+//          for i := 0 to 3 do
+//          begin
+//            if MissileLaunch[i] then
+//            begin
+//               MissileHaveLaunch := MissileHaveLaunch + 1;
+//
+//               fmMainMM.countAvailable  := fmMainMM.countAvailable  - 1;
+//               fmMainMM.countOprational := fmMainMM.countOprational - 1;
+//               fmMainMM.countDesignated := fmMainMM.countDesignated - 1;
+//
+//               fmMainMM.pnlAvailable.Caption   := IntToStr(fmMainMM.countAvailable);
+//               fmMainMM.pnlOperational.Caption := IntToStr(fmMainMM.countOprational);
+//               fmMainMM.pnlDesignated.Caption  := IntToStr(fmMainMM.countDesignated);
+//               fmMainMM.pnlLaunched.Caption    := IntToStr(MissileHaveLaunch);
+//
+//               MissileLaunch[i]     := false;
+//
+//               dtRec.ShipID         := UniqueID_To_dbID(xShip.UniqueID);
+//               dtRec.mWeaponID      := C_DBID_YAKHONT;
+//               dtRec.mLauncherID    := i + 1;
+//               dtRec.mMissileID     := 1;
+//               dtRec.mMissileNumber := 1;
+//
+//               if Missile1.isReady then
+//                 dtRec.mMissile1 := 1
+//               else
+//                 dtRec.mMissile1 := 0;
+//
+//               if Missile2.isReady then
+//                 dtRec.mMissile2 := 1
+//               else
+//                 dtRec.mMissile2 := 0;
+//
+//               if Missile3.isReady then
+//                 dtRec.mMissile3 := 1
+//               else
+//                 dtRec.mMissile3 := 0;
+//
+//               if Missile4.isReady then
+//                 dtRec.mMissile4 := 1
+//               else
+//                 dtRec.mMissile4 := 0;
+//
+//               case i of
+//                 0 :
+//                 begin
+//                   if frmManualInput.typeOfVariant = 1 then
+//                   begin
+//                      Missile1.Dis := frmManualInput.Rec_TIVar1.DistTarget;
+//                      Missile1.Brg := frmManualInput.Rec_TIVar1.BearingTarget;
+//                   end
+//                   else if frmManualInput.typeOfVariant = 2 then
+//                   begin
+//                      PredictDistanceCourse(frmManualInput.Rec_TIVar2, dis, brg);
+//                      Missile1.Dis := dis;
+//                      Missile1.Brg := brg;
+//                   end;
+//
+//                   dtRec.mTargetRange   := Missile1.Dis;
+//                   dtRec.mTargetBearing := Missile1.Brg;
+//
+//                   dtRec.OrderID        := 1;
+//
+//                   NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
+//
+//                   fmMainMM.pnlPLP1.Color := clGray;
+//                 end;
+//
+//                 1 :
+//                 begin
+//                   if frmManualInput.typeOfVariant = 1 then
+//                   begin
+//                      Missile2.Dis := frmManualInput.Rec_TIVar1.DistTarget;
+//                      Missile2.Brg := frmManualInput.Rec_TIVar1.BearingTarget;
+//                   end
+//                   else if frmManualInput.typeOfVariant = 2 then
+//                   begin
+//                      PredictDistanceCourse(frmManualInput.Rec_TIVar2, dis, brg);
+//                      Missile2.Dis := dis;
+//                      Missile2.Brg := brg;
+//                   end;
+//
+//                   dtRec.mTargetRange   := Missile2.Dis;
+//                   dtRec.mTargetBearing := Missile2.Brg;
+//
+//                   dtRec.OrderID        := 1;
+//
+//                   NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
+//
+//                   fmMainMM.pnlPLP2.Color := clGray;
+//                 end;
+//
+//                 2 :
+//                 begin
+//                   if frmManualInput.typeOfVariant = 1 then
+//                   begin
+//                      Missile3.Dis := frmManualInput.Rec_TIVar1.DistTarget;
+//                      Missile3.Brg := frmManualInput.Rec_TIVar1.BearingTarget;
+//                   end
+//                   else if frmManualInput.typeOfVariant = 2 then
+//                   begin
+//                      PredictDistanceCourse(frmManualInput.Rec_TIVar2, dis, brg);
+//                      Missile3.Dis := dis;
+//                      Missile3.Brg := brg;
+//                   end;
+//
+//                   dtRec.mTargetRange   := Missile3.Dis;
+//                   dtRec.mTargetBearing := Missile3.Brg;
+//
+//                   dtRec.OrderID        := 1;
+//
+//                   NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
+//
+//                   fmMainMM.pnlPLP3.Color := clGray;
+//                 end;
+//
+//                 3 :
+//                 begin
+//                   if frmManualInput.typeOfVariant = 1 then
+//                   begin
+//                      Missile4.Dis := frmManualInput.Rec_TIVar1.DistTarget;
+//                      Missile4.Brg := frmManualInput.Rec_TIVar1.BearingTarget;
+//                   end
+//                   else if frmManualInput.typeOfVariant = 2 then
+//                   begin
+//                      PredictDistanceCourse(frmManualInput.Rec_TIVar2, dis, brg);
+//                      Missile4.Dis := dis;
+//                      Missile4.Brg := brg;
+//                   end;
+//
+//                   dtRec.mTargetRange   := Missile4.Dis;
+//                   dtRec.mTargetBearing := Missile4.Brg;
+//
+//                   dtRec.OrderID        := 1;
+//
+//                   NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
+//
+//                   fmMainMM.pnlPLP4.Color := clGray;
+//                 end;
+//               end;
+//
+//               for j := 0 to 3 do
+//               begin
+//                 if MissileLaunch[j] then
+//                   TimerLaunch.Enabled := True;
+//               end;
+//
+//               { apabila sudah penembakan, maka start circuit menjadi off }
+//               aRecSend.cmd := CMD_Yakhont_SCOff;
+//               YakhontManager.NetLocalCommServer.SendDataEx(REC_CMD_Yakhont, @aRecSend, nil);
+////
+//               Break;
+//            end;
+//          end;
+//        end
+//        else
+//        begin
+//          { apabila sudah penembakan, maka start circuit menjadi off }
+//               aRecSend.cmd := CMD_Yakhont_SCOff;
+//               YakhontManager.NetLocalCommServer.SendDataEx(REC_CMD_Yakhont, @aRecSend, nil);
+//        end;
+//
+//      end;
+//    CMD_Yakhont_SCOn:
+//      begin
+//        with fmMainMM do
+//        begin
+//          C__isSC_On := True;
+//          pnlSC.Caption   := 'On';
+//          pnlSC.Color     := clRed;
+//          pnlNow.Caption  := 'Salvo ready';
+//          pnlNext.Caption := 'Eng SC';
+//
+//          { apabila salvo ready, boleh menekan tombol start pada archos }
+//          arec.cmd := CMD_Yakhont_ReadyToFire;
+//          YakhontManager.NetLocalCommServer.SendDataEx(REC_CMD_Yakhont, @arec, nil);
+//        end;
+//      end;
+//    CMD_Yakhont_SCOff:
+//      begin
+//        with fmMainMM do
+//        begin
+//          pnlSC.Caption := 'OFF';
+//          pnlSC.Color   := RGB(15, 69, 69);
+//        end;
+//      end;
+//  end;
 end;
 
 procedure TYakhontManager.EndSimulation;
@@ -610,7 +901,7 @@ end;
 
 procedure TYakhontManager.SetLayOutForm;
 begin
-  frmBlankScreen.Show;
+//  frmBlankScreen.Show;
 
   frmYakh_A_1_MainForm.Show;
   frmYakh_A_2_MainForm.Show;
@@ -624,9 +915,13 @@ begin
     1 :
       begin
         AlignFormToMonitor(idMainFormA1, apLeftTop, 0, 0, TForm(frmYakh_A_1_MainForm));
+        frmYakh_A_1_MainForm.Show;
         AlignFormToMonitor(idMainFormA2, apRightTop, 0, 0, TForm(frmYakh_A_2_MainForm));
+        frmYakh_A_2_MainForm.Show;
         AlignFormToMonitor(idBlankScreen, apRightTop{apCenterBottom}, 0, 0, TForm(frmBlankScreen));
+        frmBlankScreen.Show;
         AlignFormToMonitor(idLoadingScreen, apCenterBottom, 0, 0, TForm(frmLoadingScreen));
+        frmLoadingScreen.Show;
         AlignFormToMonitor(idMain, apCenterBottom, 0, 0, TForm(fmMain));
         AlignFormToMonitor(idMainMM, {apRightTop}  apCenterBottom, 0, 0, TForm(fmMainMM));
         AlignFormToMonitor(idCertificateData, apCenter, 0, 0, TForm(frmCertificateData));
@@ -640,13 +935,20 @@ begin
 
         AlignFormToMonitor(idTest, apRightTop {apCenterBottom}, 0, 0, TForm(frmTest));
         AlignFormToMonitor(idDoc, apRightTop {apCenterBottom}, 0, 0, TForm(frmDoc));
+
+        AlignFormToMonitor(idFormYakhontB, apLeftBottom, 0, 0, TForm(frmYakh_B_MainForm));
+        frmYakh_B_MainForm.Show;
       end;
     2 :
       begin
         AlignFormToMonitor(idMainFormA1, apLeftTop, 0, 0, TForm(frmYakh_A_1_MainForm));
+        frmYakh_A_1_MainForm.Show;
         AlignFormToMonitor(idMainFormA2, apRightTop, 0, 0, TForm(frmYakh_A_2_MainForm));
+        frmYakh_A_2_MainForm.Show;
         AlignFormToMonitor(idBlankScreen, apCenterBottom, 0, 0, TForm(frmBlankScreen));
+        frmBlankScreen.Show;
         AlignFormToMonitor(idLoadingScreen, apCenterBottom, 0, 0, TForm(frmLoadingScreen));
+//        frmLoadingScreen.Show;
         AlignFormToMonitor(idMain, apCenterBottom, 0, 0, TForm(fmMain));
         AlignFormToMonitor(idMainMM, apCenterBottom, 0, 0, TForm(fmMainMM));
         AlignFormToMonitor(idCertificateData, apCenter, 0, 0, TForm(frmCertificateData));
@@ -660,13 +962,20 @@ begin
 
         AlignFormToMonitor(idTest, apCenterBottom, 0, 0, TForm(frmTest));
         AlignFormToMonitor(idDoc, apCenterBottom, 0, 0, TForm(frmDoc));
+
+        AlignFormToMonitor(idFormYakhontB, apLeftBottom, 0, 0, TForm(frmYakh_B_MainForm));
+        frmYakh_B_MainForm.Show;
       end;
     3:
       begin
         AlignFormToMonitor(idMainFormA1, apLeftTop, 0, 0, TForm(frmYakh_A_1_MainForm));
+        frmYakh_A_1_MainForm.Show;
         AlignFormToMonitor(idMainFormA2, apRightTop, 0, 0, TForm(frmYakh_A_2_MainForm));
+        frmYakh_A_2_MainForm.Show;
         AlignFormToMonitor(idBlankScreen, apCenterBottom, 0, 0, TForm(frmBlankScreen));
+        frmBlankScreen.Show;
         AlignFormToMonitor(idLoadingScreen, apCenterBottom, 0, 0, TForm(frmLoadingScreen));
+//        frmLoadingScreen.Show;
         AlignFormToMonitor(idMain, apCenterBottom, 0, 0, TForm(fmMain));
         AlignFormToMonitor(idMainMM, apCenterBottom, 0, 0, TForm(fmMainMM));
         AlignFormToMonitor(idCertificateData, apCenter, 0, 0, TForm(frmCertificateData));
@@ -680,6 +989,9 @@ begin
 
         AlignFormToMonitor(idTest, apCenterBottom, 0, 0, TForm(frmTest));
         AlignFormToMonitor(idDoc, apCenterBottom, 0, 0, TForm(frmDoc));
+
+        AlignFormToMonitor(idFormYakhontB, apLeftBottom, 0, 0, TForm(frmYakh_B_MainForm));
+        frmYakh_B_MainForm.Show;
       end;
     4,5 :
       begin
@@ -700,6 +1012,8 @@ begin
 
         AlignFormToMonitor(idTest, apCenterBottom, 0, 0, TForm(frmTest));
         AlignFormToMonitor(idDoc, apCenterBottom, 0, 0, TForm(frmDoc));
+
+        AlignFormToMonitor(idFormYakhontB, apLeftBottom, 0, 0, TForm(frmYakh_B_MainForm));
       end;
   end;
 end;
@@ -820,7 +1134,7 @@ begin
 
 //             NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
 
-             //fmMainMM.pnlPLP1.Color := clGray;
+//             fmMainMM.pnlPLP1.Color := clGray;
            end;
 
            1 :
@@ -842,7 +1156,7 @@ begin
 
 //             NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
 
-             //fmMainMM.pnlPLP2.Color := clGray;
+//             fmMainMM.pnlPLP2.Color := clGray;
            end;
 
            2 :
@@ -864,7 +1178,7 @@ begin
 
 //             NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
 
-             //fmMainMM.pnlPLP3.Color := clGray;
+//             fmMainMM.pnlPLP3.Color := clGray;
            end;
 
            3 :
@@ -887,7 +1201,7 @@ begin
 //             NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
 
 
-             //fmMainMM.pnlPLP4.Color := clGray;
+//             fmMainMM.pnlPLP4.Color := clGray;
            end;
 
          end;
@@ -1240,8 +1554,8 @@ begin
   aRec := @apRec^;
 
   {Conver to 3D to map}
-  aRec^.x := aRec^.x + mapoffsetX;
-  aRec^.y := aRec^.y + mapoffsetY;
+//  aRec^.x := aRec^.x + mapoffsetX;
+//  aRec^.y := aRec^.y + mapoffsetY;
 
   AddToMemoLog(' _pos: ' + IntToStr(aRec^.ShipID) + Format('%2.6f, %2.6f',[aRec^.X, aRec^.Y]));
 
@@ -1470,7 +1784,7 @@ begin
               fmMainMM.pnlTmax3.Caption := FloatToStr(fmMainMM.value_TMax);
               fmMainMM.pnltmaxs3.Caption:= FloatToStr(fmMainMM.value_TmaxS);
             end;
-            fmMain.missileLoaded3:=True;
+            fmMain.missileLoaded3:=False;        //True
 
 
 //            qOprational := qOprational + 1;
@@ -1532,7 +1846,7 @@ begin
               fmMainMM.pnltmaxs4.Caption:= FloatToStr(fmMainMM.value_TmaxS);
             end;
 
-            fmMain.missileLoaded4:=True;
+            fmMain.missileLoaded4:=False;   // True
             Missile4.state := Missile4.C_noState;
 
 
@@ -1619,7 +1933,6 @@ procedure TYakhontManager.eventReceiveTarget(apRec: PAnsiChar; aSize: integer);
 var
   aRec : ^TRecObjectAssigned;
 begin
-  aRec := @apRec^;
   aRec := @apRec^;
 
   if aRec.mode = 0 then
@@ -1779,12 +2092,34 @@ begin
 
     if aRec.ErrorID = __STAT_YAKHONT_CONSOLE_N1 then
     begin
-
+      if aRec.ParamError = __YAKHONT_STATUS_OFF then
+      begin
+        fmMain._stateNode1 := True;
+        fmMain.imgMainNode1.Picture.LoadFromFile(fSilang);
+        fmMainMM.pnlFault.Color   := clRed;
+        fmMainMM.pnlFault.Caption := 'NODE 1';
+      end
+      else if aRec.ParamError = __YAKHONT_STATUS_ON then
+      begin
+        fmMain._stateNode1 := False;
+        fmMain.imgMainNode1.Picture.LoadFromFile(fCentang);
+      end;
     end;
 
     if aRec.ErrorID = __STAT_YAKHONT_CONSOLE_N2 then
     begin
-
+      if aRec.ParamError = __YAKHONT_STATUS_OFF then
+      begin
+        fmMain._stateNode2 := True;
+        fmMain.imgMainNode2.Picture.LoadFromFile(fSilang);
+        fmMainMM.pnlFault.Color   := clRed;
+        fmMainMM.pnlFault.Caption := 'NODE 2';
+      end
+      else if aRec.ParamError = __YAKHONT_STATUS_ON then
+      begin
+        fmMain._stateNode2 := False;
+        fmMain.imgMainNode2.Picture.LoadFromFile(fCentang);
+      end;
     end;
 
     if aRec.ErrorID = __STAT_YAKHONT_RIGHT_1 then
@@ -2487,10 +2822,10 @@ var
   fName : string;
 
   pCurrentScenID : integer;
-  pServer_Ip,pServer_Port, //TriD_IP, TriD_Port,
-  pDBServer, pDBProto, pDBName, pDBUser, pDBPass,
-  pShipName, pClassName : string;
-  pShipID, pClassID : Integer;
+//  pServer_Ip,pServer_Port, //TriD_IP, TriD_Port,
+//  pDBServer, pDBProto, pDBName, pDBUser, pDBPass,
+//  pShipName, pClassName : string;
+//  pShipID, pClassID : Integer;
 
 begin // di sini CreateForm dan Load Map
   // sebaiknya diubah, load setting aja simpan ke variabel GameSetting,
@@ -2583,30 +2918,32 @@ var
   inifile : TIniFile;
   tempstring : TStringList;
 begin
+  if not FileExists(filepath) then
+    Exit;
+
   inifile := TIniFile.Create(filepath);
-  tempstring := TStringList.Create;
+  try
+    idMainFormA1       := inifile.ReadInteger('Form A', 'idMainFormA1', 0);
+    idMainFormA2       := inifile.ReadInteger('Form A', 'idMainFormA2', 0);
+    idBlankScreen      := inifile.ReadInteger('Form A', 'idBlankScreen', 0);
+    idLoadingScreen    := inifile.ReadInteger('Form A', 'idLoadingScreen', 0);
+    idMain             := inifile.ReadInteger('Form A', 'idMain', 0);
+    idMainMM           := inifile.ReadInteger('Form A', 'idMainMM', 0);
+    idCertificateData  := inifile.ReadInteger('Form A', 'idCertificateData', 0);
+    idCirculationASM   := inifile.ReadInteger('Form A', 'idCirculationASM', 0);
+    idCRData           := inifile.ReadInteger('Form A', 'idCRData', 0);
+    idLock             := inifile.ReadInteger('Form A', 'idLock', 0);
+    idManualInput      := inifile.ReadInteger('Form A', 'idManualInput', 0);
+    idSelectionTI      := inifile.ReadInteger('Form A', 'idSelectionTI', 0);
+    idTargetDest       := inifile.ReadInteger('Form A', 'idTargetDest', 0);
+    idEmergencyRelease := inifile.ReadInteger('Form A', 'idEmergencyRelease', 0);
+    idTest             := inifile.ReadInteger('Form A', 'idTest', 0);
+    idDoc              := inifile.ReadInteger('Form A', 'idDoc', 0);
 
-  inifile.ReadSection('Form A', tempstring);
-
-  idMainFormA1 := StrToInt(inifile.ReadString('Form A', tempstring[0],'Default'));
-  idMainFormA2 := StrToInt(inifile.ReadString('Form A', tempstring[1],'Default'));
-  idBlankScreen := StrToInt(inifile.ReadString('Form A', tempstring[2],'Default'));
-  idLoadingScreen := StrToInt(inifile.ReadString('Form A', tempstring[3],'Default'));
-  idMain := StrToInt(inifile.ReadString('Form A', tempstring[4],'Default'));
-  idMainMM := StrToInt(inifile.ReadString('Form A', tempstring[5],'Default'));
-  idCertificateData := StrToInt(inifile.ReadString('Form A', tempstring[6],'Default'));
-  idCirculationASM := StrToInt(inifile.ReadString('Form A', tempstring[7],'Default'));
-  idCRData := StrToInt(inifile.ReadString('Form A', tempstring[8],'Default'));
-  idLock := StrToInt(inifile.ReadString('Form A', tempstring[9],'Default'));
-  idManualInput := StrToInt(inifile.ReadString('Form A', tempstring[10],'Default'));
-  idSelectionTI := StrToInt(inifile.ReadString('Form A', tempstring[11],'Default'));
-  idTargetDest := StrToInt(inifile.ReadString('Form A', tempstring[12],'Default'));
-  idEmergencyRelease := StrToInt(inifile.ReadString('Form A', tempstring[13],'Default'));
-  idTest := StrToInt(inifile.ReadString('Form A',tempstring[14],'Default'));
-  idDoc := StrToInt(inifile.ReadString('Form A', tempstring[15],'Default'));
-
-  inifile.Free;
-  tempstring.Free;
+    idFormYakhontB     := inifile.ReadInteger('Form B', 'idFormYakhontB', 0);
+  finally
+    inifile.Free;
+  end;
 end;
 
 //procedure TYakhontManager.PredictDistanceCourse({target : TRecTIVariant1; }var Distance, Bearing: Double);

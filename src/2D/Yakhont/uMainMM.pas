@@ -152,8 +152,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure fMapDrawUserLayer(ASender: TObject; const Layer: IDispatch;
-      hOutputDC, hAttributeDC: Cardinal; const RectFull,
-      RectInvalid: IDispatch);
+  hOutputDC, hAttributeDC: Integer; const RectFull, RectInvalid: IDispatch);
     procedure btnEXITClick(Sender: TObject);
     procedure btnTIClick(Sender: TObject);
     procedure timerStartTimer(Sender: TObject);
@@ -291,9 +290,22 @@ implementation
 
 uses
   uRegimesOfWork, uYakhontManager, uLogTCP, uBaseConstan, uBaseDataType, uBaseFunction,
-  uNetral, uAppointmentASM, uCirculationASM, uHeating;
+  uNetral, uAppointmentASM, uCirculationASM, uHeating, uData, uManualInput;
 
 {$R *.dfm}
+
+procedure EnableComposited(WinControl:TWinControl);
+var
+  i:Integer;
+  NewExStyle:DWORD;
+begin
+  NewExStyle := GetWindowLong(WinControl.Handle, GWL_EXSTYLE) or WS_EX_COMPOSITED;
+  SetWindowLong(WinControl.Handle, GWL_EXSTYLE, NewExStyle);
+
+  for I := 0 to WinControl.ControlCount - 1 do
+    if WinControl.Controls[i] is TWinControl then
+      EnableComposited(TWinControl(WinControl.Controls[i]));
+end;
 
 procedure TfmMainMM.btnFireClick(Sender: TObject);
 var
@@ -451,7 +463,7 @@ begin
 end;
 
 procedure TfmMainMM.fMapDrawUserLayer(ASender: TObject; const Layer: IDispatch;
-  hOutputDC, hAttributeDC: Cardinal; const RectFull, RectInvalid: IDispatch);
+  hOutputDC, hAttributeDC: Integer; const RectFull, RectInvalid: IDispatch);
   var
     point_rad, point_ctr : t2DPoint;
   X, Y : Single;
@@ -482,7 +494,10 @@ procedure TfmMainMM.FormCreate(Sender: TObject);
 begin
   DataYakhont := TYakhont_Object.Create;
 
-  fMap.DoubleBuffered := true;
+  DoubleBuffered := False;
+  fMap.DoubleBuffered := False;
+
+  EnableComposited(pnlMainMM);
 
   FCanvas := TCanvas.Create;
   ManageLoadDraw := TManageLoadDraw.Create;
@@ -491,7 +506,7 @@ begin
   progBarPLP.Minimum := 0;
   progBarPLP.Maximum := 120;
   progBarPrePLP.Minimum := 0;
-  progBarPrePLP.Maximum := 1000;
+  progBarPrePLP.Maximum := 120;
 
   C__isSendKey := False;
 end;

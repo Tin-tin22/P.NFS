@@ -14,6 +14,7 @@ type
     timerLoadingScreen: TTimer;
     procedure timerLoadingScreenTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
 
   private
     { Private declarations }
@@ -42,29 +43,45 @@ var
 	 C_Time: TDateTime;
 	 E_Time: double;
 begin
-   C_Time := now;
-   E_Time := C_Time - Start_Time;
-   Set_Time(E_Time);
+//   C_Time := now;
+//   E_Time := C_Time - Start_Time;
+//   Set_Time(E_Time);
+//
+//   if this_Second = 0 then
+//   begin
+//     pbLoadingScreen.Position := 0;
+//     temp_Counter := 0;
+//   end;
+//
+//   if this_Second > 0 then
+//   begin
+//     inc(temp_Counter);
+//     pbLoadingScreen.Position := temp_Counter;
+//   end;
+//
+//   if (pbLoadingScreen.Position >= pbLoadingScreen.Max) then
+//   begin
+//     timerLoadingScreen.Enabled := False;
+//     frmLoadingScreen.Close;
+//
+//     fmMain.ShowModal;
+//   end;
 
-   if this_Second = 0 then
-   begin
-     pbLoadingScreen.Position := 0;
-     temp_Counter := 0;
-   end;
+  pbLoadingScreen.Position := pbLoadingScreen.Position + 1;
 
-   if this_Second > 0 then
-   begin
-     inc(temp_Counter);
-     pbLoadingScreen.Position := temp_Counter;
-   end;
+  if pbLoadingScreen.Position >= 10 then
+  begin
+    timerLoadingScreen.Enabled := False;
+    Close;
 
-   if (pbLoadingScreen.Position >= pbLoadingScreen.Max) then
-   begin
-     timerLoadingScreen.Enabled := False;
-     frmLoadingScreen.Close;
+    fmMain.Show;
+  end;
+end;
 
-     fmMain.ShowModal;
-   end;
+procedure TfrmLoadingScreen.FormCreate(Sender: TObject);
+begin
+  pbLoadingScreen.Position   := 0;
+//  timerLoadingScreen.Enabled := True;
 end;
 
 procedure TfrmLoadingScreen.FormShow(Sender: TObject);

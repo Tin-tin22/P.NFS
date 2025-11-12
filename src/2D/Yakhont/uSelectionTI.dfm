@@ -79,7 +79,6 @@ object frmSelectionTI: TfrmSelectionTI
         Width = 113
         Height = 33
         Caption = 'TI 1'
-        Enabled = False
         OnClick = btnTI1Click
       end
       object btnTI2: TSpeedButton
@@ -88,7 +87,6 @@ object frmSelectionTI: TfrmSelectionTI
         Width = 113
         Height = 33
         Caption = 'TI 2'
-        Enabled = False
         OnClick = btnTI2Click
       end
       object btnMI: TSpeedButton

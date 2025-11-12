@@ -486,7 +486,7 @@ begin
 end;
 
 procedure TEventForm.DrawRotatedEllipse(Fcanvas: TCanvas; rec: TRect; degrees: integer);
-const offset: single = 0.27614237;
+const offsett: single = 0.27614237;
 var
   midx, midy, offx, offy: integer;
   pts: array [0..12] of TPoint;
@@ -507,8 +507,8 @@ begin
       dec(right); dec(bottom); //empirically this seems better
       midx := (right + left) div 2;
       midy := (bottom + top) div 2;
-      offx := round((right - left) * offset);
-      offy := round((bottom - top) * offset);
+      offx := round((right - left) * offsett);
+      offy := round((bottom - top) * offsett);
       pts[0]  := Point(left, midy);
       pts[1]  := Point(left, midy - offy);
       pts[2]  := Point(midx - offx, top);
