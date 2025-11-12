@@ -941,7 +941,8 @@ begin
 //  PntBxElevasi.Canvas.FillRect(PntBxElevasi.ClientRect);
 //
 //  PntBxElevasi.Canvas.Draw(0, 0, FBufferElevasi);
-  BitBlt(PntBxElevasi.Canvas.Handle, 0, 0, FBufferElevasi.Width, FBufferElevasi.Height,
+  if Assigned(FBufferElevasi) then
+    BitBlt(PntBxElevasi.Canvas.Handle, 0, 0, FBufferElevasi.Width, FBufferElevasi.Height,
        FBufferElevasi.Canvas.Handle, 0, 0, SRCCOPY);
 end;
 
@@ -952,7 +953,8 @@ begin
 //
 //  PntBxKolonka.Canvas.Draw(0, 0, FBufferKolonka);
 
-  BitBlt(PntBxKolonka.Canvas.Handle, 0, 0, FBufferKolonka.Width, FBufferKolonka.Height,
+  if Assigned(FBufferKolonka) then
+    BitBlt(PntBxKolonka.Canvas.Handle, 0, 0, FBufferKolonka.Width, FBufferKolonka.Height,
        FBufferKolonka.Canvas.Handle, 0, 0, SRCCOPY);
 end;
 

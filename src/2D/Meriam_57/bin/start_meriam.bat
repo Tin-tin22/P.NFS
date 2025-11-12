@@ -1,0 +1,1 @@
+Meriam_57.exe -192.168.5.230 -2120 -127.0.0.1 -mysql -dbNSuFs -root -admin -14 -10

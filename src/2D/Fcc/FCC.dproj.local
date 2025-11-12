@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/03/10 11:28:35.000.349,D:\MyProject\TechnoIT\newNFS\Fcc\AppForm\frmMainMap.pas=D:\MyProject\TechnoIT\newNFS\Fcc\Unit1.pas</Transaction>
+    <Transaction>2025/03/10 11:28:35.000.349,D:\MyProject\TechnoIT\newNFS\Fcc\AppForm\frmMainMap.dfm=D:\MyProject\TechnoIT\newNFS\Fcc\Unit1.dfm</Transaction>
+    <Transaction>2025/03/10 11:28:49.000.810,D:\MyProject\TechnoIT\newNFS\Fcc\AppForm\ufrmMainMap.dfm=D:\MyProject\TechnoIT\newNFS\Fcc\AppForm\frmMainMap.dfm</Transaction>
+    <Transaction>2025/03/10 13:47:25.000.573,D:\MyProject\TechnoIT\newNFS\Fcc\uBaseConst.pas=D:\MyProject\TechnoIT\newNFS\Fcc\Unit1.pas</Transaction>
+    <Transaction>2025/03/11 10:03:17.000.295,D:\MyProject\TechnoIT\newNFS\Fcc\LibCustomComponent\TCustomPanel.pas=D:\MyProject\TechnoIT\newNFS\Fcc\LibCustomComponent\uTCustomPanel.pas</Transaction>
+    <Transaction>2025/03/13 11:49:31.000.025,D:\MyProject\TechnoIT\newNFS\Fcc\LibVisual\uLibVisual.pas=D:\MyProject\TechnoIT\newNFS\Fcc\Unit1.pas</Transaction>
+    <Transaction>2025/03/13 12:10:03.000.896,D:\MyProject\TechnoIT\newNFS\Fcc\LibVisual\uSimVisual.pas=D:\MyProject\TechnoIT\newNFS\Fcc\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
