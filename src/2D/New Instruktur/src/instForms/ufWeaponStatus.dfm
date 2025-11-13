@@ -22,9 +22,9 @@ object fWeaponStatus: TfWeaponStatus
       BorderShadow = 7301478
       GradientColorStart = 7301478
       GradientColorStop = 7301478
-      GroupBorderSize = 0
       FlatColor = 7301478
       Style = gbsOutlook
+      GroupBorderSize = 0
       Color = clBtnShadow
       ParentColor = False
       TabOrder = 0
@@ -210,7 +210,6 @@ object fWeaponStatus: TfWeaponStatus
                 Font.Height = -11
                 Font.Name = 'MS Sans Serif'
                 Font.Style = [fsBold]
-                ItemHeight = 13
                 ParentFont = False
                 TabOrder = 1
                 Text = '1'
@@ -341,7 +340,6 @@ object fWeaponStatus: TfWeaponStatus
                 Font.Height = -11
                 Font.Name = 'MS Sans Serif'
                 Font.Style = [fsBold]
-                ItemHeight = 13
                 ParentFont = False
                 TabOrder = 1
                 Text = '1'
@@ -736,7 +734,6 @@ object fWeaponStatus: TfWeaponStatus
                 Font.Height = -11
                 Font.Name = 'MS Sans Serif'
                 Font.Style = [fsBold]
-                ItemHeight = 13
                 ParentFont = False
                 TabOrder = 1
                 Text = '1'
@@ -867,7 +864,6 @@ object fWeaponStatus: TfWeaponStatus
                 Font.Height = -11
                 Font.Name = 'MS Sans Serif'
                 Font.Style = [fsBold]
-                ItemHeight = 13
                 ParentFont = False
                 TabOrder = 1
                 Text = '1'
@@ -1604,7 +1600,7 @@ object fWeaponStatus: TfWeaponStatus
         Color = clGray
         ColorDefault = False
         Items = <>
-        Opened = False
+        Opened = True
         OpenedHeight = 842
         DividerVisible = False
         Caption = 'YAKHONT'
@@ -1614,11 +1610,12 @@ object fWeaponStatus: TfWeaponStatus
           Left = 0
           Top = 20
           Width = 397
-          Height = 0
+          Height = 943
           Align = alClient
           Color = clGray
           ParentColor = False
           TabOrder = 0
+          ExplicitHeight = 0
           object lblYakhontStatus: TLabel
             Left = 151
             Top = 11
@@ -1645,7 +1642,6 @@ object fWeaponStatus: TfWeaponStatus
             Height = 105
             Caption = 'AssignYahkont'
             TabOrder = 0
-            Visible = False
             object btnYAKHONTTrack: TSpeedButton
               Tag = 2
               Left = 198
@@ -1863,7 +1859,6 @@ object fWeaponStatus: TfWeaponStatus
               Font.Height = -11
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
-              ItemHeight = 13
               ParentFont = False
               TabOrder = 1
               Text = '1'
@@ -2394,7 +2389,6 @@ object fWeaponStatus: TfWeaponStatus
               Font.Height = -11
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
-              ItemHeight = 13
               ParentFont = False
               TabOrder = 1
               Text = '1'
@@ -3188,7 +3182,6 @@ object fWeaponStatus: TfWeaponStatus
               Font.Height = -11
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
-              ItemHeight = 16
               ItemIndex = 0
               ParentFont = False
               TabOrder = 2
@@ -3544,7 +3537,7 @@ object fWeaponStatus: TfWeaponStatus
           Left = 0
           Top = 20
           Width = 397
-          Height = 0
+          Height = 943
           Align = alClient
           Color = clGray
           ParentColor = False
@@ -4225,7 +4218,7 @@ object fWeaponStatus: TfWeaponStatus
         Color = clGray
         ColorDefault = False
         Items = <>
-        Opened = True
+        Opened = False
         OpenedHeight = 842
         DividerVisible = False
         Caption = 'SPS115'
@@ -4235,7 +4228,7 @@ object fWeaponStatus: TfWeaponStatus
           Left = 0
           Top = 20
           Width = 397
-          Height = 943
+          Height = 30
           Align = alClient
           Color = clGray
           ParentColor = False
@@ -4410,7 +4403,6 @@ object fWeaponStatus: TfWeaponStatus
               Font.Height = -11
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
-              ItemHeight = 13
               ItemIndex = 0
               ParentFont = False
               TabOrder = 3
@@ -4576,7 +4568,6 @@ object fWeaponStatus: TfWeaponStatus
               Font.Height = -11
               Font.Name = 'MS Sans Serif'
               Font.Style = [fsBold]
-              ItemHeight = 13
               ParentFont = False
               TabOrder = 1
               Text = '1'
@@ -5384,7 +5375,6 @@ object fWeaponStatus: TfWeaponStatus
                 Font.Height = -11
                 Font.Name = 'MS Sans Serif'
                 Font.Style = [fsBold]
-                ItemHeight = 13
                 ItemIndex = 0
                 ParentFont = False
                 TabOrder = 1
@@ -5475,7 +5465,6 @@ object fWeaponStatus: TfWeaponStatus
                 Font.Height = -11
                 Font.Name = 'MS Sans Serif'
                 Font.Style = [fsBold]
-                ItemHeight = 13
                 ItemIndex = 0
                 ParentFont = False
                 TabOrder = 1

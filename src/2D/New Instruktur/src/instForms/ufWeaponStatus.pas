@@ -1640,9 +1640,6 @@ var
 begin
   if not Assigned(SimManager.TrackObject) then Exit;
 
-
-  if not Assigned(SimManager.TrackObject) then Exit;
-
   if TComponent(Sender).Tag = 3 then
   begin
     for i := 0 to SimManager.TrackObject.WeaponOnShip_List.Count - 1 do
@@ -1661,6 +1658,7 @@ begin
         RecSendYakhont.mTargetBearing := 0;
         RecSendYakhont.mTargetRange   := 0;
         RecSendYakhont.mWeaponID      := WeaponYAKHONT.Weapon_ID;
+        RecSendYakhont.mTargetID      := 0;           // Tambahan TargetID
 
         if cbbLoadYakhont.Text = 'All' then
         begin
@@ -2150,6 +2148,7 @@ begin
        recSentTMAsroc.LauncherID := WeaponASROC.Weapon_Launcher;
        recSentTMAsroc.MissileType     := cbbMissileType.ItemIndex+5;
         listWeaponSce := TList.Create;
+        try
         DataModule1.GetListWeaponOnShipBySceID(0, SimManager.TrackObject.FDataBaseID , listWeaponSce);
         for k := 0 to listWeaponSce.Count-1 do
         begin
@@ -2172,9 +2171,11 @@ begin
              end;
             end;
           end;
-
+          sceWeapon.Free;
         end;
-
+        finally
+          listWeaponSce.Free
+        end;
 
 
       end;
