@@ -30,6 +30,10 @@ type
     LaunchInterval : Integer;
     TimerLaunch : TTimer;
 
+    // Tambahan
+    CurrentLaunchIndex   : Integer;
+    TotalMissileToLaunch : Integer;
+
     /// <summary>
     /// Untuk koneksi local ke Archos
     /// </summary>
