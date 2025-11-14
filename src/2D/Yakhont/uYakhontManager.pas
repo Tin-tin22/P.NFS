@@ -209,7 +209,7 @@ begin
 
   TimerLaunch          := TTimer.Create(nil);
   TimerLaunch.Enabled  := False;
-  TimerLaunch.Interval := 5000;
+  TimerLaunch.Interval := 3000;
   TimerLaunch.OnTimer  := OnTimerlaunch;
   MissileHaveLaunch    := 0;
 
@@ -2527,6 +2527,12 @@ begin
         fmMain._stateLauncher4 := True;
         fmMain.imgLauncher4.Picture.LoadFromFile(fSilang);
 
+        fmMain._stateKR231 := True;
+        fmMain.imgKR321.Picture.LoadFromFile(fSilang);
+
+        frmYakh_A_1_MainForm.imgFaultblokKR231.Visible := True;
+        frmYakh_A_1_MainForm.imgONblokKR231.Visible    := False;
+
         Missile1.isReady := False;
         Missile2.isReady := False;
         Missile3.isReady := False;
@@ -2715,6 +2721,12 @@ begin
           end;
         end;
 
+        fmMain._stateKR231 := False;
+        fmMain.imgKR321.Picture.LoadFromFile(fCentang);
+
+        frmYakh_A_1_MainForm.imgONblokKR231.Visible    := True;
+        frmYakh_A_1_MainForm.imgFaultblokKR231.Visible := False;
+
       end;
        for I := 1 to 4 do
          begin
@@ -2757,7 +2769,9 @@ begin
         frmYakh_A_1_MainForm.isChecked  := False;
         frmYakh_A_1_MainForm.imgPS.Picture.LoadFromFile(fIndikatorOff);
         frmYakh_A_1_MainForm.imgSB.Picture.LoadFromFile(fIndikatorOff);
-        frmYakh_A_1_MainForm.img300v.Picture.LoadFromFile(fIndikatorFault);
+//        frmYakh_A_1_MainForm.img300v.Picture.LoadFromFile(fIndikatorFault);
+
+        frmYakh_A_1_MainForm.img300v.Visible := False;
       end
       else if aRec.ParamError = __YAKHONT_STATUS_ON then
       begin
@@ -2765,7 +2779,9 @@ begin
         frmYakh_A_1_MainForm.isChecked  := True;
         frmYakh_A_1_MainForm.imgPS.Picture.LoadFromFile(fIndikatorOn);
         frmYakh_A_1_MainForm.imgSB.Picture.LoadFromFile(fIndikatorOn);
-        frmYakh_A_1_MainForm.img300v.Picture.LoadFromFile(fIndikatorOff);
+//        frmYakh_A_1_MainForm.img300v.Picture.LoadFromFile(fIndikatorOff);
+
+        frmYakh_A_1_MainForm.img300v.Visible := True;
       end;
     end;
     if aRec.ErrorID = __STAT_YAKHONT_INS27V then
@@ -2773,12 +2789,14 @@ begin
       if aRec.ParamError = __YAKHONT_STATUS_OFF then
       begin
         frmYakh_A_2_MainForm._state27v := True;
-        frmYakh_A_2_MainForm.img27v.Picture.LoadFromFile(fIndikatorFault);
+//        frmYakh_A_2_MainForm.img27v.Picture.LoadFromFile(fIndikatorFault);
+        frmYakh_A_2_MainForm.img27v.Visible := True;
       end
       else if aRec.ParamError = __YAKHONT_STATUS_ON then
       begin
         frmYakh_A_2_MainForm._state27v := False;
-        frmYakh_A_2_MainForm.img27v.Picture.LoadFromFile(fIndikatorOff);
+//        frmYakh_A_2_MainForm.img27v.Picture.LoadFromFile(fIndikatorOff);
+        frmYakh_A_2_MainForm.img27v.Visible := False;
       end;
     end;
 

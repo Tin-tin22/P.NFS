@@ -6,22 +6,29 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, ImgList, Buttons, SpeedButtonImage, IniFiles, acPNG;
+  Dialogs, ExtCtrls, ImgList, Buttons, SpeedButtonImage, IniFiles,
+  System.ImageList{, acPNG};
 
 type
   TfrmYakh_A_1_MainForm = class(TForm)
-    pnlYakh_A_1_MainForm: TPanel;
-    imgYakh_A_1_MainForm: TImage;
-    btnOn: TSpeedButtonImage;
     ilOn: TImageList;
-    btnCHCK: TSpeedButtonImage;
     ilChck: TImageList;
-    imgEP: TImage;
     timerA: TTimer;
+    pnlYakh_A_1_MainForm: TPanel;
+    imgBackground: TImage;
     imgPS: TImage;
-    imgSB: TImage;
-    imgOnKR231: TImage;
     img300v: TImage;
+    imgSB: TImage;
+    imgEP: TImage;
+    imgFaultRCU: TImage;
+    imgONblokKR231: TImage;
+    imgFaultblokKR231: TImage;
+    imgLedAV: TImage;
+    imgFaultCHCK: TImage;
+    btnOn: TSpeedButtonImage;
+    btnCHCK: TSpeedButtonImage;
+    imgOnKR231: TImage;
+    imgCHCK: TImage;
     procedure timerATimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnOnClick(Sender: TObject);
@@ -59,6 +66,19 @@ implementation
 uses
    uBlankScreen, uLoadingScreen, {uRegimesOfWork,} uYakhont_A_2_MainForm, uYakhontManager;
 
+procedure EnableComposited(WinControl:TWinControl);
+var
+  i:Integer;
+  NewExStyle:DWORD;
+begin
+  NewExStyle := GetWindowLong(WinControl.Handle, GWL_EXSTYLE) or WS_EX_COMPOSITED;
+  SetWindowLong(WinControl.Handle, GWL_EXSTYLE, NewExStyle);
+
+  for I := 0 to WinControl.ControlCount - 1 do
+    if WinControl.Controls[i] is TWinControl then
+      EnableComposited(TWinControl(WinControl.Controls[i]));
+end;
+
 procedure TfrmYakh_A_1_MainForm.FormCreate(Sender: TObject);
 begin
 //  LoadSettingForm('..\bin\SettingYakhontToMonitor.ini');
@@ -84,6 +104,8 @@ begin
    { starting timer }
    timerA.Enabled := True;
    setTime(0.0);
+
+   EnableComposited(pnlYakh_A_1_MainForm);
 end;
 
 procedure TfrmYakh_A_1_MainForm.LoadSettingForm(filepath: string);
@@ -145,6 +167,8 @@ begin
      end;
    end;
 
+   imgPS.Visible      := True;
+   imgSB.Visible      := True;
 end;
 
 procedure TfrmYakh_A_1_MainForm.timerATimer(Sender: TObject);

@@ -7,23 +7,29 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, ImgList, Buttons, SpeedButtonImage, VrControls, VrLcd, IniFiles,
-  acPNG;
+  System.ImageList{,
+  acPNG};
 
 type
   TfrmYakh_A_2_MainForm = class(TForm)
+    ilOn: TImageList;
     pnlYakh_A_2_MainForm: TPanel;
     imgYakh_A_2_MainForm: TImage;
     btnSACS: TSpeedButtonImage;
-    ilOn: TImageList;
     VrClock1: TVrClock;
     img27v: TImage;
     img1: TImage;
+    imgLedBlockUnit: TImage;
+    imgLedMonitor: TImage;
+    imgLedFrontPanels: TImage;
+    imgSACSon: TImage;
     procedure btnSACSClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnSACSMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure LoadSettingForm(filepath : string);
     procedure FormCreate(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -48,12 +54,30 @@ implementation
 uses
    uYakhont_A_1_MainForm, uYakhontManager, uLoadingScreen;
 
+procedure EnableComposited(WinControl:TWinControl);
+var
+  i:Integer;
+  NewExStyle:DWORD;
+begin
+  NewExStyle := GetWindowLong(WinControl.Handle, GWL_EXSTYLE) or WS_EX_COMPOSITED;
+  SetWindowLong(WinControl.Handle, GWL_EXSTYLE, NewExStyle);
+
+  for I := 0 to WinControl.ControlCount - 1 do
+    if WinControl.Controls[i] is TWinControl then
+      EnableComposited(TWinControl(WinControl.Controls[i]));
+end;
+
 procedure TfrmYakh_A_2_MainForm.btnSACSMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
    //if frmYakh_A_1_MainForm.StateOn = True then
     //isSACS := True;
 
+end;
+
+procedure TfrmYakh_A_2_MainForm.FormActivate(Sender: TObject);
+begin
+  VrClock1.Active := True;
 end;
 
 procedure TfrmYakh_A_2_MainForm.FormCreate(Sender: TObject);
@@ -71,6 +95,8 @@ begin
 //
 //  Left := Screen.Monitors[i].Left + offX;
 //  Top := Screen.Monitors[i].Top + offY;
+
+   EnableComposited(pnlYakh_A_2_MainForm);
 
    isSACS    := false;
    _state27v := false;
@@ -120,6 +146,10 @@ begin
 
      end;
    end;
+
+    frmLoadingScreen.Show;
+    frmLoadingScreen.timerLoadingScreen.Enabled := True;
+    imgSACSon.Visible := True;
 
 end;
 end.
