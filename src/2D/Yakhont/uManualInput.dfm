@@ -40,73 +40,6 @@ object frmManualInput: TfrmManualInput
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object pnlPosLatTarget: TPanel
-      Left = 24
-      Top = 50
-      Width = 547
-      Height = 175
-      Color = clSilver
-      ParentBackground = False
-      TabOrder = 15
-      object Label39: TLabel
-        Left = 186
-        Top = 10
-        Width = 156
-        Height = 16
-        Caption = 'Target Latitude Position'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Label40: TLabel
-        Left = 480
-        Top = 10
-        Width = 16
-        Height = 16
-        Caption = 'N1'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object lblErrorLat: TLabel
-        Left = 182
-        Top = 80
-        Width = 3
-        Height = 13
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clRed
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Label33: TLabel
-        Left = 180
-        Top = 57
-        Width = 3
-        Height = 13
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clRed
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object edtLatTarget: TEdit
-        Left = 180
-        Top = 30
-        Width = 169
-        Height = 21
-        TabOrder = 0
-        OnKeyPress = edtLatTargetKeyPress
-      end
-    end
     object pnlMemberOfTIVariant: TPanel
       Left = 24
       Top = 50
@@ -286,74 +219,8 @@ object frmManualInput: TfrmManualInput
         Height = 25
         Caption = 'Cheat'
         TabOrder = 1
+        Visible = False
         OnClick = btnCheatClick
-      end
-    end
-    object pnlPosLongTarget: TPanel
-      Left = 24
-      Top = 50
-      Width = 547
-      Height = 175
-      Color = clSilver
-      ParentBackground = False
-      TabOrder = 14
-      object Label36: TLabel
-        Left = 182
-        Top = 10
-        Width = 166
-        Height = 16
-        Caption = 'Target Longitude Position'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Label38: TLabel
-        Left = 480
-        Top = 10
-        Width = 16
-        Height = 16
-        Caption = 'N1'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object Label35: TLabel
-        Left = 180
-        Top = 57
-        Width = 3
-        Height = 13
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clRed
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object lblErrorLong: TLabel
-        Left = 182
-        Top = 80
-        Width = 3
-        Height = 13
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clRed
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = [fsBold]
-        ParentFont = False
-      end
-      object edtLongTarget: TEdit
-        Left = 180
-        Top = 30
-        Width = 169
-        Height = 21
-        TabOrder = 0
-        OnKeyPress = edtLongTargetKeyPress
       end
     end
     object pnlMovingCompOfTargetInputAttribute: TPanel
@@ -1298,6 +1165,140 @@ object frmManualInput: TfrmManualInput
         TabOrder = 0
         Text = '0'
         OnKeyPress = edtNumberOfTIVariantKeyPress
+      end
+    end
+    object pnlPosLatTarget: TPanel
+      Left = 24
+      Top = 50
+      Width = 547
+      Height = 175
+      Color = clSilver
+      ParentBackground = False
+      TabOrder = 15
+      object Label39: TLabel
+        Left = 186
+        Top = 10
+        Width = 156
+        Height = 16
+        Caption = 'Target Latitude Position'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label40: TLabel
+        Left = 480
+        Top = 10
+        Width = 16
+        Height = 16
+        Caption = 'N1'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lblErrorLat: TLabel
+        Left = 182
+        Top = 80
+        Width = 3
+        Height = 13
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label33: TLabel
+        Left = 180
+        Top = 57
+        Width = 3
+        Height = 13
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object edtLatTarget: TEdit
+        Left = 180
+        Top = 30
+        Width = 169
+        Height = 21
+        TabOrder = 0
+        OnKeyPress = edtLatTargetKeyPress
+      end
+    end
+    object pnlPosLongTarget: TPanel
+      Left = 24
+      Top = 50
+      Width = 547
+      Height = 175
+      Color = clSilver
+      ParentBackground = False
+      TabOrder = 14
+      object Label36: TLabel
+        Left = 182
+        Top = 10
+        Width = 166
+        Height = 16
+        Caption = 'Target Longitude Position'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label38: TLabel
+        Left = 480
+        Top = 10
+        Width = 16
+        Height = 16
+        Caption = 'N1'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label35: TLabel
+        Left = 180
+        Top = 57
+        Width = 3
+        Height = 13
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lblErrorLong: TLabel
+        Left = 182
+        Top = 80
+        Width = 3
+        Height = 13
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object edtLongTarget: TEdit
+        Left = 180
+        Top = 30
+        Width = 169
+        Height = 21
+        TabOrder = 0
+        OnKeyPress = edtLongTargetKeyPress
       end
     end
   end

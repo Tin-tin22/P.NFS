@@ -319,6 +319,17 @@ begin
           flag := True;
       end;
 
+//        TryStrToFloat(edtLatTarget.Text, initLat);         // opsi untuk nilai double
+//        initLat := dmToLatitude(edtLatTarget.Text);
+//        if (initLat >= 0) and (initLat <= 10000) then
+//        begin
+//          Label33.Caption := '';
+//          Rec_TIVar2.LattTarget := initLat;
+//          pnlPosLongTarget.BringToFront;
+//          edtLongTarget.SetFocus;
+//        end;
+
+
 //      repeat
 //        pnlPosLatTarget.BringToFront;
 //        initLat := dmToLatitude(edtLatTarget.Text);
@@ -451,6 +462,17 @@ begin
         if (initLong <> 0) and (initLong <> -1) and (initLong <> -2) then
           flag := True;
       end;
+
+//      TryStrToFloat(edtLongTarget.Text, initLong);             // opsi untuk double
+//      initLong := dmToLongitude(edtLongTarget.Text);
+//      if (initLong >= 0) and (initLong <= 10000) then
+//      begin
+//        Label35.Caption := '';
+//        Rec_TIVar2.LongTarget := initLong;
+//        pnlMRSEOfTargetPos.BringToFront;
+//        edtMRSEOfTargetPos.SetFocus;
+//      end;
+
 
       if flag then
       begin
@@ -1037,6 +1059,7 @@ begin
    edtNumberOfTIVariant.SetFocus;
 end;
 
+
 procedure TfrmManualInput.Normalisasi;
 var
    I : Integer;
@@ -1406,7 +1429,7 @@ begin
   typeOfVariant := 1;
   Rec_TIVar1.MovingCompTI              := 1;
   Rec_TIVar1.DistTarget                := 250*1000;
-  YakhontManager.isTargetInRange := True;
+  YakhontManager.isTargetInRange       := True;
 
   Rec_TIVar1.BearingTarget             := 180;
   Rec_TIVar1.HeadingTarget             := 200;
@@ -1416,14 +1439,14 @@ begin
   Rec_TIVar1.MRSE_headingTarget        := 15;
   Rec_TIVar1.MRSE_speedTarget          := 8;
   Rec_TIVar1.AgeingTimeDataTarget      := 1500;
-  YakhontManager.isTimeAgeStart := True;
-  fmMainMM.StartAgingTime := Now;
+  YakhontManager.isTimeAgeStart        := True;
+  fmMainMM.StartAgingTime              := Now;
 
-  YakhontManager.TimeAgeCount := 1500;
+  YakhontManager.TimeAgeCount          := 1500;
   Rec_TIVar1.TypeTarget                := 1;
   Rec_TIVar1.CoreRadius                := 10000;
   Rec_TIVar1.QuantityOfShipInCore      := 25;
-  StrGridShowResult.Visible := False;
+  StrGridShowResult.Visible            := False;
 
   Rec_TIVar1.QuantityOfShipInFormation := 25;
   setStringGrid;
@@ -1488,10 +1511,10 @@ begin
       YakhontManager.TimeAgeCount          := 1500;
       Rec_TIVar1.TypeTarget                := 1;
       Rec_TIVar1.CoreRadius                := 10000;
-      Rec_TIVar1.QuantityOfShipInCore      := 25;
+      Rec_TIVar1.QuantityOfShipInCore      := 2;
       StrGridShowResult.Visible            := False;
 
-      Rec_TIVar1.QuantityOfShipInFormation := 25;
+      Rec_TIVar1.QuantityOfShipInFormation := 1;
 
 
       with fmMainMM do
@@ -1508,7 +1531,42 @@ begin
 
         btnTI.Enabled := false;
       end;
+    end
+    else if frmSelectionTI.currentSelectionTI = 2 then
+    begin
+      typeOfVariant := 2;
+      Rec_TIVar2.LongTarget                 := 113.4306;
+      Rec_TIVar2.LattTarget                 := 7.2838;
+      Rec_TIVar2.HeadingTarget              := 90;
+      Rec_TIVar2.Speedtarget                := 5;
+      Rec_TIVar2.MRSE_posTarget             := 5000;
+      Rec_TIVar2.MRSE_headingTarget         := 90;
+      Rec_TIVar2.MRSE_speedTarget           := 5;
+      Rec_TIVar2.AgeingTimeDataTarget       := 1500;
+      YakhontManager.isTimeAgeStart         := True;
+      fmMainMM.StartAgingTime               := Now;
+      Rec_TIVar2.TypeTarget                 := 1;
+      Rec_TIVar2.CoreRadius                 := 10000;
+      Rec_TIVar2.QuantityOfShipInCore       := 2;
+      StrGridShowResult.Visible             := False;
+      Rec_TIVar2.QuantityOfShipInFormation  := 1;
+
+      with fmMainMM do
+      begin
+        pnlRTP.Caption   := 'RTP';
+        pnlNext.Caption  := 'TI Accepted';
+        lblType.Caption  := 'SSS';
+
+        isCompletelyInsert := true;
+        checkerButtonProcedure[1] := 1;
+
+        pnlNext.Caption  := 'SD';
+        btnSD.Font.Color := clBlack;
+
+        btnTI.Enabled := false;
+      end;
     end;
+
   end;
   Close;
 end;

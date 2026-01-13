@@ -15762,7 +15762,6 @@ object frmYakh_B_MainForm: TfrmYakh_B_MainForm
       ParentBackground = False
       ParentFont = False
       TabOrder = 1
-      Visible = False
     end
   end
   object ilBacklight: TImageList

@@ -180037,7 +180037,7 @@ object fmMain: TfmMain
         E174}
     end
     object imgPrinter: TImage
-      Left = 484
+      Left = 500
       Top = 144
       Width = 75
       Height = 80
@@ -182936,7 +182936,7 @@ object fmMain: TfmMain
         1F51511F51511F51511F51511F51511F51511F51511F51511F51511F51511F73
         796E}
     end
-    object Image4: TImage
+    object imgKR321: TImage
       Left = 1315
       Top = 148
       Width = 75

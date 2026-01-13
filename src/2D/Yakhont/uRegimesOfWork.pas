@@ -30,7 +30,7 @@ type
     imgMainNode1: TImage;
     imgLauncher4: TImage;
     imgLauncher2: TImage;
-    Image4: TImage;
+    imgKR321: TImage;
     imgMainNode2: TImage;
     imgLauncher1: TImage;
     imgLauncher3: TImage;
@@ -202,44 +202,60 @@ begin
   fCentang        := picture_Path + 'data\images\yakhont\YakhontCentang.bmp';
   fSilang         := picture_Path + 'data\images\yakhont\YakhontSilang.bmp';
 
+  imgPrinter.Picture.LoadFromFile(fSilang);
+  imgEthernet.Picture.LoadFromFile(fCentang);
+  imgMainNode1.Picture.LoadFromFile(fSilang);
+  imgMainNode2.Picture.LoadFromFile(fSilang);
+  imgLauncher1.Picture.LoadFromFile(fSilang);
+  imgLauncher2.Picture.LoadFromFile(fSilang);
+  imgLauncher3.Picture.LoadFromFile(fSilang);
+  imgLauncher4.Picture.LoadFromFile(fSilang);
+  imgKR321.Picture.LoadFromFile(fSilang);
+
   { printer }
-  if _statePrinter then
-    imgPrinter.Picture.LoadFromFile(fSilang)
-  else
-    imgPrinter.Picture.LoadFromFile(fCentang);
+//  if _statePrinter then
+//    imgPrinter.Picture.LoadFromFile(fSilang)
+//  else
+//    imgPrinter.Picture.LoadFromFile(fCentang);
 
   { launcher 1 }
-  if _stateLauncher1 then
-    imgLauncher1.Picture.LoadFromFile(fSilang)
-  else
-    imgLauncher1.Picture.LoadFromFile(fCentang);
-
-  { launcher 2 }
-  if _stateLauncher2 then
-    imgLauncher2.Picture.LoadFromFile(fSilang)
-  else
-    imgLauncher2.Picture.LoadFromFile(fCentang);
-
-  { launcher 3 }
-  if _stateLauncher3 then
-    imgLauncher3.Picture.LoadFromFile(fSilang)
-  else
-    imgLauncher3.Picture.LoadFromFile(fCentang);
-
-  { launcher 4 }
-  if _stateLauncher4 then
-    imgLauncher4.Picture.LoadFromFile(fSilang)
-  else
-    imgLauncher4.Picture.LoadFromFile(fCentang);
-
-  { KR231 }
-  if _stateKR231 then
-  begin
-    imgLauncher1.Picture.LoadFromFile(fSilang);
-    imgLauncher2.Picture.LoadFromFile(fSilang);
-    imgLauncher3.Picture.LoadFromFile(fSilang);
-    imgLauncher4.Picture.LoadFromFile(fSilang);
-  end;
+//  if _stateLauncher1 then
+//    imgLauncher1.Picture.LoadFromFile(fSilang)
+//  else
+//    imgLauncher1.Picture.LoadFromFile(fCentang);
+//
+//  { launcher 2 }
+//  if _stateLauncher2 then
+//    imgLauncher2.Picture.LoadFromFile(fSilang)
+//  else
+//    imgLauncher2.Picture.LoadFromFile(fCentang);
+//
+//  { launcher 3 }
+//  if _stateLauncher3 then
+//    imgLauncher3.Picture.LoadFromFile(fSilang)
+//  else
+//    imgLauncher3.Picture.LoadFromFile(fCentang);
+//
+//  { launcher 4 }
+//  if _stateLauncher4 then
+//    imgLauncher4.Picture.LoadFromFile(fSilang)
+//  else
+//    imgLauncher4.Picture.LoadFromFile(fCentang);
+//
+//  { KR231 }
+//  if _stateKR231 then
+//  begin
+//    imgLauncher1.Picture.LoadFromFile(fSilang);
+//    imgLauncher2.Picture.LoadFromFile(fSilang);
+//    imgLauncher3.Picture.LoadFromFile(fSilang);
+//    imgLauncher4.Picture.LoadFromFile(fSilang);
+//
+//    imgKR321.Picture.LoadFromFile(fSilang);
+//  end
+//  else
+//  begin
+//    imgKR321.Picture.LoadFromFile(fCentang);
+//  end;
 
   with frmEmergencyRelease do
   begin

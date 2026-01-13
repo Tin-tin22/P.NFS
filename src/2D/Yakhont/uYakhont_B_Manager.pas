@@ -67,6 +67,7 @@ uses
 
 procedure TYakhont_B_Manager.ConnectToMainDisplay;
 begin
+//  timerConnect          := TTimer.Create(nil);
   timerConnect.Enabled := True;
 end;
 
@@ -123,7 +124,7 @@ begin
       normalisasi;
     end;
   end
-  else
+  else             // kalo connect
   begin
     timerConnect.Enabled := false;
 
@@ -215,9 +216,6 @@ begin
           imgOn.Picture.LoadFromFile(fIndikatorOff);
           imgOff.Picture.LoadFromFile(fIndikatorOn);
 
-          btnKey.ImageIndex := 0;
-          btnStart.ImageIndex := 0;
-
           normalisasi;
 
           Key_Yakhont.cmd := CMD_Yakhont_SCOff;
@@ -299,9 +297,10 @@ procedure TYakhont_B_Manager.Net_Connect;
 var
   p : Integer;
 begin
+
   p := StrToInt(pServer_Port) + 1;
 
-  NetCommLocalClient.Connect(pServer_Ip,  IntToStr(p));
+  NetCommLocalClient.Connect('127.0.0.1',  IntToStr(p));
   if NetCommLocalClient.State = wsConnected then ShouldConnect := true;
 end;
 

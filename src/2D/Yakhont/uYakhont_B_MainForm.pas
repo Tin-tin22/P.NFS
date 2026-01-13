@@ -81,9 +81,22 @@ var
 implementation
 
 uses
-  uYakhont_B_Manager, overbyteicsWSocket;
+  uYakhont_B_Manager, overbyteicsWSocket, uMainMM;
 
 {$R *.dfm}
+
+procedure EnableComposited(WinControl:TWinControl);
+var
+  i:Integer;
+  NewExStyle:DWORD;
+begin
+  NewExStyle := GetWindowLong(WinControl.Handle, GWL_EXSTYLE) or WS_EX_COMPOSITED;
+  SetWindowLong(WinControl.Handle, GWL_EXSTYLE, NewExStyle);
+
+  for I := 0 to WinControl.ControlCount - 1 do
+    if WinControl.Controls[i] is TWinControl then
+      EnableComposited(TWinControl(WinControl.Controls[i]));
+end;
 
 procedure TfrmYakh_B_MainForm.btnCancelClick(Sender: TObject);
 begin
@@ -233,7 +246,7 @@ begin
   Yakhont_B_Manager.BeginSimulation;
 
 
-//  Yakhont_B_Manager.OnConnected := OnConnectedToMainDisplay;
+  Yakhont_B_Manager.OnConnected := OnConnectedToMainDisplay;
 end;
 
 procedure TfrmYakh_B_MainForm.FormDestroy(Sender: TObject);
@@ -290,9 +303,16 @@ begin
 
 //   imgOn.Picture.LoadFromFile(fIndikatorOff);
    imgOff.Picture.LoadFromFile(fIndikatorOn);
+
+   KeyClosed.BringToFront;
+   btnStartClosed.BringToFront;
+
+   EnableComposited(pnlYakh_B_MainForm);
 end;
 
 procedure TfrmYakh_B_MainForm.normalisasi;
+var
+  aRec : ^TRecCMD_Yakhont;
 begin
     C__mayIOpenKey        := False; //Tes Kunci //Edit Iqbal
     C__mayIPressStartFire := False;
@@ -308,7 +328,7 @@ begin
   if cmd then
   begin
     pnlConnector.Color    := clGreen;
-    pnlConnector.Visible  := false;
+    pnlConnector.Visible  := False;
     pnlConnector.Caption  := 'Connected';
   end
   else

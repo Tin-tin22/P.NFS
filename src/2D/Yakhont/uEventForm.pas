@@ -273,30 +273,36 @@ begin
 end;
 
 procedure TEventForm.drawTextOut(FCanvas: TCanvas); // Teks Koordinat Derajat
+var
+  wCross, widthCross, hCross, heightCross: Integer;
+  margin: Integer;
 begin
   with FCanvas do
   begin
     Font.Color  := clBlack;
+    Font.Style  := [];
     Brush.Style := bsClear;
     Font.Size   := 10;
 
-    wCross      := round(cos(DegToRad(30)) * radius);
-    widthCross  := round(cos(DegToRad(60)) * radius);
-    hCross      := round(sin(DegToRad(30)) * radius);
-    heightCross := round(sin(DegToRad(60)) * radius);
+    margin := 6;
 
-    TextOut(Pt.X, pt.Y - radius, '0');
-    TextOut(pt.X + widthCross, Pt.Y - heightCross, '30');
-    TextOut(pt.X + wCross, Pt.Y - hCross, '60');
-    TextOut(Pt.X + radius, pt.Y, '90');
-    TextOut(pt.X + wCross, Pt.Y + hCross, '120');
-    TextOut(pt.X + widthCross, Pt.Y + heightCross, '150');
-    TextOut(Pt.X, pt.Y + radius, '180');
-    TextOut(pt.X - widthCross, Pt.Y + heightCross, '210');
-    TextOut(pt.X - wCross, Pt.Y + hCross, '240');
-    TextOut(Pt.X - radius, pt.Y, '270');
-    TextOut(pt.X - wCross, Pt.Y - hCross, '300');
-    TextOut(pt.X - widthCross, Pt.Y - heightCross, '330');
+    wCross      := Round(Cos(DegToRad(30)) * (radius + margin));
+    widthCross  := Round(Cos(DegToRad(60)) * (radius + margin));
+    hCross      := Round(Sin(DegToRad(30)) * (radius + margin));
+    heightCross := Round(Sin(DegToRad(60)) * (radius + margin));
+
+    TextOut(Pt.X - TextWidth('0') div 2, Pt.Y - radius - margin - TextHeight('0'), '0');
+    TextOut(Pt.X + widthCross, Pt.Y - heightCross - TextHeight('30'), '30');
+    TextOut(Pt.X + wCross, Pt.Y - hCross - TextHeight('60'), '60');
+    TextOut(Pt.X + radius + margin, Pt.Y - TextHeight('90') div 2, '90');
+    TextOut(Pt.X + wCross, Pt.Y + hCross, '120');
+    TextOut(Pt.X + widthCross, Pt.Y + heightCross, '150');
+    TextOut(Pt.X - TextWidth('180') div 2, Pt.Y + radius + margin, '180');
+    TextOut(Pt.X - widthCross - TextWidth('210'), Pt.Y + heightCross, '210');
+    TextOut(Pt.X - wCross - TextWidth('240'), Pt.Y + hCross, '240');
+    TextOut(Pt.X - radius - margin - TextWidth('270'), Pt.Y - TextHeight('270') div 2, '270');
+    TextOut(Pt.X - wCross - TextWidth('300'), Pt.Y - hCross - TextHeight('300'), '300');
+    TextOut(Pt.X - widthCross - TextWidth('330'), Pt.Y - heightCross - TextHeight('330'), '330');
   end;
 end;
 //

@@ -114,7 +114,7 @@ var
 begin
   p := StrToInt(pServer_Port) + 1;
 
-  NetCommLocalClient.Connect(pServer_Ip,  IntToStr(p));
+  NetCommLocalClient.Connect('127.0.0.1',  IntToStr(p));
   if NetCommLocalClient.State = wsConnected then
     ShouldConnect := true;
 end;

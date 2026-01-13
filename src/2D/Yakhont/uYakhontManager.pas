@@ -64,6 +64,7 @@ type
     shipTarget1, shipTarget2 : Integer;
     tempAssignTarget : Integer;
 
+
     accumulation : Integer;
 
     { if distance > 19 km }
@@ -467,8 +468,6 @@ begin
                    dtRec.mTargetRange   := Missile1.Dis;
                    dtRec.mTargetBearing := Missile1.Brg;
 
-                   dtRec.OrderID        := 1;
-
                    NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
 
                    fmMainMM.pnlPLP1.Color := clGray;
@@ -490,8 +489,6 @@ begin
 
                    dtRec.mTargetRange   := Missile2.Dis;
                    dtRec.mTargetBearing := Missile2.Brg;
-
-                   dtRec.OrderID        := 1;
 
                    NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
 
@@ -599,6 +596,7 @@ begin
       end;
   end;
 end;
+
 
 procedure TYakhontManager.EventOnReceiveCommandTes(apRec: PAnsiChar; aSize: integer; Sender: TWSocketClient);
 //var
@@ -1110,6 +1108,7 @@ begin
          dtRec.mMissileNumber := 1;
          dtRec.mWeaponID      := C_DBID_YAKHONT;
          dtRec.OrderID        := 1;
+         dtRec.mTargetID      := tempAssignTarget;
 
          case i of
            0 :
@@ -1173,9 +1172,9 @@ begin
              dtRec.mTargetRange   := Missile3.Dis;
              dtRec.mTargetBearing := Missile3.Brg;
 
-//             NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
+             NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
 
-//             fmMainMM.pnlPLP3.Color := clGray;
+             fmMainMM.pnlPLP3.Color := clGray;
            end;
 
            3 :
@@ -1195,10 +1194,9 @@ begin
              dtRec.mTargetRange   := Missile4.Dis;
              dtRec.mTargetBearing := Missile4.Brg;
 
-//             NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
+             NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
 
-
-//             fmMainMM.pnlPLP4.Color := clGray;
+             fmMainMM.pnlPLP4.Color := clGray;
            end;
 
          end;
@@ -1770,7 +1768,7 @@ begin
               frmAppointmentASM.checkAppointmentASM_3:=True;
               frmEmergencyRelease.checkEmergency_3:=True;
 
-              Missile3.isReady:=False;
+              Missile3.isReady:=True;
               Missile3.state := Missile3.C_noState;
 
               fmMainMM.readyToLaunch[3] := 3;
@@ -1782,7 +1780,7 @@ begin
 //              fmMainMM.pnlTmax3.Caption := FloatToStr(fmMainMM.value_TMax);
 //              fmMainMM.pnltmaxs3.Caption:= FloatToStr(fmMainMM.value_TmaxS);
             end;
-            fmMain.missileLoaded3:=False;        //True
+            fmMain.missileLoaded3:=True;        //True
 
 
 //            qOprational := qOprational + 1;
@@ -1833,7 +1831,7 @@ begin
               frmAppointmentASM.checkAppointmentASM_4:=True;
               frmEmergencyRelease.checkEmergency_4:=True;
 
-              Missile4.isReady:=False;
+              Missile4.isReady:=True;
               Missile4.state := Missile4.C_noState;
 
               fmMainMM.readyToLaunch[4] := 3;
@@ -1845,7 +1843,7 @@ begin
 //              fmMainMM.pnltmaxs4.Caption:= FloatToStr(fmMainMM.value_TmaxS);
             end;
 
-            fmMain.missileLoaded4:=False;   // True
+            fmMain.missileLoaded4:=True;   // True, jika yang loaded hanya 2 maka False
 
 //            qOprational := qOprational + 1;
 //            qPassed := qPassed - 1;
@@ -2079,6 +2077,8 @@ begin
       begin
         fmMain._statePrinter := False;
         fmMain.imgPrinter.Picture.LoadFromFile(fCentang);
+        fmMainMM.pnlFault.Color   := clTeal;
+        fmMainMM.pnlFault.Caption := '';
       end;
     end;
 
@@ -2095,6 +2095,8 @@ begin
       begin
         fmMain._stateNode1 := False;
         fmMain.imgMainNode1.Picture.LoadFromFile(fCentang);
+        fmMainMM.pnlFault.Color   := clTeal;
+        fmMainMM.pnlFault.Caption := '';
       end;
     end;
 
@@ -2111,6 +2113,8 @@ begin
       begin
         fmMain._stateNode2 := False;
         fmMain.imgMainNode2.Picture.LoadFromFile(fCentang);
+        fmMainMM.pnlFault.Color   := clTeal;
+        fmMainMM.pnlFault.Caption := '';
       end;
     end;
 
@@ -2183,6 +2187,8 @@ begin
           end;
         end;
 
+        fmMainMM.pnlFault.Color   := clTeal;
+        fmMainMM.pnlFault.Caption := '';
       end;
       for I := 1 to 4 do
          begin
@@ -2280,7 +2286,8 @@ begin
             fmMainMM.readyToLaunch[2] := 3;
           end;
         end;
-
+        fmMainMM.pnlFault.Color   := clTeal;
+        fmMainMM.pnlFault.Caption := '';
       end;
       for I := 1 to 4 do
          begin
@@ -2378,7 +2385,8 @@ begin
             fmMainMM.readyToLaunch[3] := 3;
           end;
         end;
-
+        fmMainMM.pnlFault.Color   := clTeal;
+        fmMainMM.pnlFault.Caption := '';
       end;
       for I := 1 to 4 do
          begin
@@ -2476,7 +2484,8 @@ begin
             fmMainMM.readyToLaunch[4] := 3;
           end;
         end;
-
+        fmMainMM.pnlFault.Color   := clTeal;
+        fmMainMM.pnlFault.Caption := '';
       end;
       for I := 1 to 4 do
          begin
@@ -2512,6 +2521,7 @@ begin
       if aRec.ParamError = __YAKHONT_STATUS_OFF then
       begin
         fmMain._stateKR231 := True;
+        fmMain.imgKR321.Picture.LoadFromFile(fSilang);
 
         fmMain.checkKR231 := True;
 
@@ -2526,12 +2536,6 @@ begin
 
         fmMain._stateLauncher4 := True;
         fmMain.imgLauncher4.Picture.LoadFromFile(fSilang);
-
-        fmMain._stateKR231 := True;
-        fmMain.imgKR321.Picture.LoadFromFile(fSilang);
-
-        frmYakh_A_1_MainForm.imgFaultblokKR231.Visible := True;
-        frmYakh_A_1_MainForm.imgONblokKR231.Visible    := False;
 
         Missile1.isReady := False;
         Missile2.isReady := False;
@@ -2591,6 +2595,7 @@ begin
       else if aRec.ParamError = __YAKHONT_STATUS_ON then
       begin
         fmMain._stateKR231 := False;
+        fmMain.imgKR321.Picture.LoadFromFile(fCentang);
 
         fmMain.checkKR231 := False;
         if fmMain.checkLauncher1 = False then
@@ -2720,13 +2725,8 @@ begin
             fmMainMM.readyToLaunch[4] := 3;
           end;
         end;
-
-        fmMain._stateKR231 := False;
-        fmMain.imgKR321.Picture.LoadFromFile(fCentang);
-
-        frmYakh_A_1_MainForm.imgONblokKR231.Visible    := True;
-        frmYakh_A_1_MainForm.imgFaultblokKR231.Visible := False;
-
+        fmMainMM.pnlFault.Color   := clTeal;
+        fmMainMM.pnlFault.Caption := '';
       end;
        for I := 1 to 4 do
          begin
@@ -2771,7 +2771,7 @@ begin
         frmYakh_A_1_MainForm.imgSB.Picture.LoadFromFile(fIndikatorOff);
 //        frmYakh_A_1_MainForm.img300v.Picture.LoadFromFile(fIndikatorFault);
 
-        frmYakh_A_1_MainForm.img300v.Visible := False;
+        frmYakh_A_1_MainForm.img300v.Visible := True;
       end
       else if aRec.ParamError = __YAKHONT_STATUS_ON then
       begin
@@ -2781,7 +2781,7 @@ begin
         frmYakh_A_1_MainForm.imgSB.Picture.LoadFromFile(fIndikatorOn);
 //        frmYakh_A_1_MainForm.img300v.Picture.LoadFromFile(fIndikatorOff);
 
-        frmYakh_A_1_MainForm.img300v.Visible := True;
+        frmYakh_A_1_MainForm.img300v.Visible := False;
       end;
     end;
     if aRec.ErrorID = __STAT_YAKHONT_INS27V then
