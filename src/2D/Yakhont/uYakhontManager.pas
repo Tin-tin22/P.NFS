@@ -468,6 +468,8 @@ begin
                    dtRec.mTargetRange   := Missile1.Dis;
                    dtRec.mTargetBearing := Missile1.Brg;
 
+                   dtRec.OrderID        := 1;
+
                    NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
 
                    fmMainMM.pnlPLP1.Color := clGray;
@@ -489,6 +491,8 @@ begin
 
                    dtRec.mTargetRange   := Missile2.Dis;
                    dtRec.mTargetBearing := Missile2.Brg;
+
+                   dtRec.OrderID        := 1;
 
                    NetComm.sendDataEx(REC_DATA_Yakhont, @dtRec);
 
@@ -553,7 +557,7 @@ begin
                { apabila sudah penembakan, maka start circuit menjadi off }
                aRecSend.cmd := CMD_Yakhont_SCOff;
                YakhontManager.NetLocalCommServer.SendDataEx(REC_CMD_Yakhont, @aRecSend, nil);
-//
+
                Break;
             end;
           end;
@@ -1100,7 +1104,7 @@ begin
          fmMainMM.pnlDesignated.Caption  := IntToStr(fmMainMM.countDesignated);
          fmMainMM.pnlLaunched.Caption    := IntToStr(MissileHaveLaunch);
 
-         MissileLaunch[i]     := false;
+         MissileLaunch[i]     := False;
 
          dtRec.ShipID         := UniqueID_To_dbID(xShip.UniqueID);
          dtRec.mLauncherID    := i + 1;
@@ -1207,7 +1211,7 @@ begin
              TimerLaunch.Enabled := True;
          end;
 
-//         Break;
+         Break;
       end;
     end;
   end;

@@ -319,17 +319,6 @@ begin
           flag := True;
       end;
 
-//        TryStrToFloat(edtLatTarget.Text, initLat);         // opsi untuk nilai double
-//        initLat := dmToLatitude(edtLatTarget.Text);
-//        if (initLat >= 0) and (initLat <= 10000) then
-//        begin
-//          Label33.Caption := '';
-//          Rec_TIVar2.LattTarget := initLat;
-//          pnlPosLongTarget.BringToFront;
-//          edtLongTarget.SetFocus;
-//        end;
-
-
 //      repeat
 //        pnlPosLatTarget.BringToFront;
 //        initLat := dmToLatitude(edtLatTarget.Text);
@@ -462,17 +451,6 @@ begin
         if (initLong <> 0) and (initLong <> -1) and (initLong <> -2) then
           flag := True;
       end;
-
-//      TryStrToFloat(edtLongTarget.Text, initLong);             // opsi untuk double
-//      initLong := dmToLongitude(edtLongTarget.Text);
-//      if (initLong >= 0) and (initLong <= 10000) then
-//      begin
-//        Label35.Caption := '';
-//        Rec_TIVar2.LongTarget := initLong;
-//        pnlMRSEOfTargetPos.BringToFront;
-//        edtMRSEOfTargetPos.SetFocus;
-//      end;
-
 
       if flag then
       begin
