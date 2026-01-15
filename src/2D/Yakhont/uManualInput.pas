@@ -293,7 +293,8 @@ begin
 //      initLat := 0;
       try
       begin
-        initLat := dmToLatitude(edtLatTarget.Text);
+//        initLat := dmToLatitude(edtLatTarget.Text);
+        initLat := dmsToLatitude(edtLatTarget.Text);
         flag := False;
         if (initLat = 0) then
         begin
@@ -311,7 +312,8 @@ begin
           edtLatTarget.Text := '';
         end;
 
-        Label33.Caption := 'Format should be: ' + '000.00.00 (Degree.Minute.Second)';
+//        Label33.Caption := 'Format should be: ' + '000.00.00 (Degree.Minute.Second)';
+        Label33.Caption := 'Format should be: 000.00.00N or 000.00.00S';
         edtLatTarget.Text := '';
       end;
       finally
@@ -429,7 +431,8 @@ begin
 
       try
       begin
-        initLong := dmToLongitude(edtLongTarget.Text);
+//        initLong := dmToLongitude(edtLongTarget.Text);
+        initLong := dmsToLongitude(edtLongTarget.Text);
         flag := False;
         if (initLong = 0) then
         begin
@@ -444,7 +447,8 @@ begin
           lblErrorLong.Caption := 'ERROR: Second Input Not Allowed';
         end;
 
-        Label35.Caption := 'Format should be: ' + '000.00.00 (Degree.Minute.Second)';
+//        Label35.Caption := 'Format should be: ' + '000.00.00 (Degree.Minute.Second)';
+        Label35.Caption := 'Format should be: 000.00.00W or 000.00.00E';
         edtLongTarget.Text := '';
       end;
       finally
